@@ -1,9 +1,35 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor() { }
+  constructor(
+    private _httpClient: HttpClient
+  ) { }
+
+  get(pUrl) {
+    return this._httpClient.get(environment.baseUrl + '/' + pUrl).toPromise();
+  }
+
+  post(pUrl, pData) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._httpClient.post(environment.baseUrl + '/' + pUrl, JSON.stringify(pData), { headers }).toPromise();
+  }
+
+  delete(pUrl, pData) {
+    return this._httpClient.delete(environment.baseUrl + '/' + pUrl + '/' + pData).toPromise();
+  }
+
+  update(pUrl, pId, pData) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._httpClient.put(environment.baseUrl + '/' + pUrl + '/' + pId, JSON.stringify(pData), { headers }).toPromise();
+  }
 }
