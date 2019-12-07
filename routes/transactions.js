@@ -88,19 +88,47 @@ router.get('/' + _singleUrl + '/:id', function (req, res, next) {
 // create record
 router.post('/' + _singleUrl, function (req, res, next) {
     var newRecord = req.body;
-    if (!newRecord.title || !(newRecord.isDone + '')) {
-        res.status(400);
-        res.json({
-            "error": "bad data"
-        });
-    } else {
-        db.transactions.save(newRecord, function (err, pResults) {
-            if (err) {
-                res.send(err);
+    db.transactions.find({
+        date1: newRecord.date1
+    }, {}, function (err, pResults) {
+        if (err) {
+            res.send(err);
+        }
+        const _exists = pResults.find(pRecord => {
+            if (newRecord.account == pRecord.account) {
+                if (newRecord.amount && !newRecord.amountOut) {
+                    if (pRecord.amount == newRecord.amount) {
+                        return pRecord;
+                    }
+                } else if (!newRecord.amount && newRecord.amountOut) {
+                    if (pRecord.amountOut == newRecord.amountOut) {
+                        return pRecord;
+                    }
+                } else if (!newRecord.amount && !newRecord.amountOut && newRecord.balance) {
+                    if (pRecord.balance == newRecord.balance) {
+                        return pRecord;
+                    }
+                }
+            } else {
+                return [];
             }
-            res.json(pResults);
         });
-    }
+        if (!_exists || _exists.length == 0) {
+            console.log('Record added: ' + newRecord.date1 + ', ' + newRecord.amount + ', ' + newRecord.amountOut);
+            db.transactions.save(newRecord, function (err, pResults) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(pResults);
+            });
+        } else {
+            console.log('Exists');
+            res.json({
+                errors: 'Record exists',
+                data: newRecord
+            });
+        }
+    });
 });
 
 // delete record
