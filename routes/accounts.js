@@ -10,101 +10,99 @@ var _response = {
     errors: null
 };
 
-var _singleUrl = 'account';
-var _multiUrl = 'accounts';
+var _errors = [];
 
-// fetch all records
-router.get('/' + _multiUrl, function (req, res, next) {
-    var body = req.body;
-    var page = ((body.page) ? body.page : 1);
-    var records = ((body.records) ? body.records : 20);
-    var _errors = [];
-    var filter = {};
+// fetch records
+router.post('/accounts/view/:id?', function (req, res, next) {
+    if (!req.params.id) {
+        var body = req.body;
+        var page = ((body.page) ? body.page : 1);
+        var records = ((body.records) ? body.records : 20);
+        var filter = {};
 
-    if (body.filter) {
-        filter = body.filter;
+        if (body.filter) {
+            filter = body.filter;
+        } else {
+            filter = {};
+        }
+        db.accounts.count(filter, function (err, pCount) {
+            if (err) {
+                _errors.push("Can't count");
+            }
+            _response.totalRecords = pCount;
+            db.accounts.find({}, filter, {
+                skip: ((page * records) - records),
+                limit: records
+            }, function (err, pResults) {
+                if (err) {
+                    _errors.push("Can't fetch data")
+                }
+                if (_errors.length > 0) {
+                    _response.status = '01';
+                }
+                _response.errors = _errors;
+                _response.data = pResults;
+                res.json(_response);
+            });
+        });
     } else {
-        filter = {};
-    }
-    db.accounts.find(function (err, pResults) {
-        if (err) {
-            _errors.push("Can't fetch data")
-        }
-        if (_errors.length > 0) {
-            _response.status = '01';
-        }
-        _response.errors = _errors;
-        _response.data = pResults;
-        res.json(_response);
-    });
-});
-
-router.post('/' + _multiUrl, function (req, res, next) {
-    var body = req.body;
-    var page = ((body.page) ? body.page : 1);
-    var records = ((body.records) ? body.records : 20);
-    var _errors = [];
-    var filter = {};
-
-    if (body.filter) {
-        filter = body.filter;
-    } else {
-        filter = {};
-    }
-    db.accounts.count(filter, function (err, pCount) {
-        if (err) {
-            _errors.push("Can't count");
-        }
-        _response.totalRecords = pCount;
-        db.accounts.find({}, filter, {
-            skip: ((page * records) - records),
-            limit: records
+        db.accounts.findOne({
+            _id: mongojs.ObjectId(req.params.id)
         }, function (err, pResults) {
             if (err) {
-                _errors.push("Can't fetch data")
+                res.send(err);
+            }
+            _response.status = '00';
+            _response.data = pResults;
+            res.json(_response);
+        });
+    }
+});
+
+// create record
+router.put('/accounts/add', function (req, res, next) {
+    var newRecord = req.body;
+    if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
+        res.status(400);
+        res.json({
+            "error": "bad data"
+        });
+    } else {
+        db.accounts.find({
+            accountNumber: req.body.accountNumber
+        }, {}, {}, function (err, pResults) {
+            if (err) {
+                _errors.push("Can't fetch data");
             }
             if (_errors.length > 0) {
                 _response.status = '01';
             }
             _response.errors = _errors;
             _response.data = pResults;
-            res.json(_response);
-        });
-    });
-});
-
-// fetch single record
-router.get('/' + _singleUrl + '/:id', function (req, res, next) {
-    db.accounts.findOne({
-        _id: mongojs.ObjectId(req.params.id)
-    }, function (err, pResults) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(pResults);
-    })
-});
-
-// create record
-router.post('/' + _singleUrl, function (req, res, next) {
-    var newRecord = req.body;
-    if (!newRecord.title || !(newRecord.isDone + '')) {
-        res.status(400);
-        res.json({
-            "error": "bad data"
-        });
-    } else {
-        db.accounts.save(newRecord, function (err, pResults) {
-            if (err) {
-                res.send(err);
+            if (pResults.length == 0) {
+                db.accounts.save(newRecord, function (err, pResults) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    res.json({
+                        status: '00',
+                        data: pResults,
+                        message: 'Record added'
+                    });
+                });
+            } else {
+                // record exists
+                res.json({
+                    status: '02',
+                    errors: ['Record exists']
+                });
             }
-            res.json(pResults);
         });
     }
 });
 
 // delete record
-router.delete('/' + _singleUrl + '/:id', function (req, res, next) {
+router.delete('/accounts/delete/:id', function (req, res, next) {
     db.accounts.remove({
         _id: mongojs.ObjectId(req.params.id)
     }, function (err, pResults) {
@@ -116,18 +114,13 @@ router.delete('/' + _singleUrl + '/:id', function (req, res, next) {
 });
 
 // update record
-router.put('/' + _singleUrl + '/:id', function (req, res, next) {
+router.put('/accounts/update/:id', function (req, res, next) {
     var newRecord = req.body;
-    var updRecord = {};
-
-    if (newRecord.isDone) {
-        updRecord.isDone = newRecord.isDone;
+    if (newRecord._id) {
+        delete(newRecord._id);
     }
-    if (newRecord.title) {
-        updRecord.title = newRecord.title;
-    }
-
-    if (!updRecord) {
+    console.log(newRecord);
+    if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
         res.status(400);
         res.json({
             "error": "bad data"
@@ -135,11 +128,19 @@ router.put('/' + _singleUrl + '/:id', function (req, res, next) {
     } else {
         db.accounts.update({
             _id: mongojs.ObjectId(req.params.id)
-        }, updRecord, {}, function (err, pResults) {
+        }, {
+            $set: newRecord
+        }, {}, function (err, pResults) {
             if (err) {
                 res.send(err);
             }
-            res.json(pResults);
+            if (pResults.ok) {
+                _response.status = '00';
+                _response.message = 'Record updated';
+                _response.data = pResults;
+                res.json(_response);
+            }
+            1
         });
     }
 });

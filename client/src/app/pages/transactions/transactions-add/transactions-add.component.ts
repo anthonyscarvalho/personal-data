@@ -7,11 +7,11 @@ import { TransactionsInterface } from '../../../interfaces/transactions';
 import { HttpService } from '../../../services/http.service';
 
 @Component({
-  selector: 'app-accounts-add',
-  templateUrl: './accounts-add.component.html',
-  styleUrls: ['./accounts-add.component.scss']
+  selector: 'app-transactions-add',
+  templateUrl: './transactions-add.component.html',
+  styleUrls: ['./transactions-add.component.scss']
 })
-export class AccountsAddComponent implements OnInit {
+export class TransactionsAddComponent implements OnInit {
   @ViewChild('file', { static: false }) _file;
 
   accountType: number = 1;
@@ -21,6 +21,53 @@ export class AccountsAddComponent implements OnInit {
   addedRecords: number = 0;
   existingRecords: number = 0;
   removedRecords: number = 0;
+  csvData: string;
+  results: any = {
+    description: '',
+    accounts: [
+      {
+        name: 'eBucks',
+        number: '80370958098',
+        status: 'active'
+      },
+      {
+        name: 'FNBCheque',
+        number: '62775028030',
+        status: 'active'
+      },
+      {
+        name: 'FNB Credit Card',
+        number: '4901150916185000',
+        status: 'deactivated'
+      },
+      {
+        name: 'FNB Credit Card 2',
+        number: '4901360672929000',
+        status: 'active'
+      },
+      {
+        name: 'FNB Revolving Loan',
+        number: '4000087102032',
+        status: 'active'
+      },
+      {
+        name: 'FNB Savings',
+        number: '62775028121',
+        status: 'active'
+      },
+      {
+        name: 'eBucks',
+        number: '80370958098',
+        status: 'active'
+      },
+      {
+        name: 'eBucks',
+        number: '80370958098',
+        status: 'active'
+      },
+
+    ]
+  };
 
   constructor(
     private _httpService: HttpService
@@ -30,7 +77,7 @@ export class AccountsAddComponent implements OnInit {
 
   }
 
-  process(pEvent) {
+  oldProcess(pEvent) {
     const files: { [key: string]: File } = this._file.nativeElement.files;
     const _totalFiles = Number(files.length);
     this.transactions = [];
@@ -148,4 +195,5 @@ export class AccountsAddComponent implements OnInit {
       };
     }
   }
+
 }

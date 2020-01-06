@@ -1,0 +1,87 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+// interfaces
+import { AccountsInterface } from '../../../interfaces/accounts';
+// services
+import { GeneralService } from '../../../services/general.service';
+import { HttpService } from '../../../services/http.service';
+import { NotificationsService } from '../../../services/notifications.service';
+
+@Component({
+  selector: 'app-accounts',
+  templateUrl: './accounts.component.html',
+  styleUrls: ['./accounts.component.scss']
+})
+export class AccountsComponent implements OnInit {
+
+  results: AccountsInterface;
+  parentId: string;
+  public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+
+  constructor(
+    private route: ActivatedRoute,
+    private _generalService: GeneralService,
+    private _httpService: HttpService,
+    private _notificationsService: NotificationsService
+  ) {
+    if (this.route.snapshot.paramMap.get('id')) {
+      this.parentId = this.route.snapshot.paramMap.get('id');
+    } else {
+      this.parentId = null;
+    }
+    this.bsConfig.containerClass = 'theme-dark-blue';
+    this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
+  }
+
+  ngOnInit() {
+    if (!this.parentId) {
+      this.results = new AccountsInterface();
+    } else {
+      this.load();
+    }
+  }
+
+  submit() {
+    if (!this.parentId) {
+      if (this.results.accountNumber != '' && this.results.accountDescription != '') {
+        this._httpService.post('accounts/add', this.results).then((pResult: any) => {
+          if (pResult.status == '00') {
+            this.results = new AccountsInterface();
+            this._notificationsService.success(pResult.message);
+          }
+          else {
+            if (pResult.errors) {
+              pResult.errors.forEach(pError => {
+                this._notificationsService.warn(pError);
+              });
+            }
+          }
+        });
+      }
+    } else {
+      this._httpService.update('accounts/update', this.parentId, this.results).then((pResult: any) => {
+        if (pResult.status == '00') {
+          this.load();
+          this._notificationsService.success(pResult.message);
+        }
+        else {
+          if (pResult.errors) {
+            pResult.errors.forEach(pError => {
+              this._notificationsService.warn(pError);
+            });
+          }
+        }
+      });
+    }
+  }
+
+  load() {
+    this._httpService.post('accounts/view/' + this.parentId, {}).then((results: any) => {
+      if (results.status === '00') {
+        this.results = new AccountsInterface(results.data);
+        this._generalService.setTitle('Edit Account: ');
+      }
+    });
+  }
+}

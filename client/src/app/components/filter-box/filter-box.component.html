@@ -1,0 +1,73 @@
+<div class="filter-box">
+  <div class="card" *ngIf="showStatusFilter">
+    <div class="card-body">
+      <legend>Status Filter</legend>
+      <div class="btn-group btn-group-sm" data-toggle="buttons">
+        <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="state" btnRadio="all" name="state">All</label>
+        <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="state" btnRadio="false" name="state">Active</label>
+        <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="state" btnRadio="true" name="state">Canceled</label>
+      </div>
+    </div>
+  </div>
+  <!-- close card -->
+  <div class="card" *ngIf="generalService.state=='due'">
+    <div class="card-body">
+      <label>Date for due products:</label>
+      <input type="text" class="form-control" [(ngModel)]="date" name="date" bsDatepicker [bsConfig]="bsConfig" (ngModelChange)="updateDate()"> </div>
+  </div>
+  <!-- close card -->
+  <div class="card" *ngIf="showSort">
+    <div class="card-body">
+      <legend>Sort Direction:</legend>
+      <div class="btn-group btn-group-sm" data-toggle="buttons">
+        <label class="btn btn-secondary" (click)="updateDir()" [(ngModel)]="sortDir" btnRadio="ASC" name="sortDir">A - Z</label>
+        <label class="btn btn-secondary" (click)="updateDir()" [(ngModel)]="sortDir" btnRadio="DESC" name="sortDir">Z - A</label>
+      </div>
+    </div>
+  </div>
+  <!-- close card -->
+  <div class="card" *ngIf="showSearch && !showDue">
+    <div class="card-body">
+      <form (ngSubmit)="updateSearch()">
+        <legend>Search</legend>
+        <div class="input-group input-group-sm">
+          <input class="form-control" type="text" [(ngModel)]="searchPhrase" name="searchPhrase" id="searchPhrase">
+          <div class="input-group-append">
+            <button type="button" (click)="resetSearch()" class="btn btn-secondary">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card" *ngIf="generalService.state!='due' && showPager">
+    <div class="card-body">
+      <legend>Pager</legend>
+      <p>Total Records: {{pagerTotal}}</p>
+      <div class="form-group">
+        <label>Records Per Page</label>
+        <select [(ngModel)]="pagerRecords" (ngModelChange)="updateRecords()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+        <div class="clearfix">&nbsp;</div>
+        <div *ngIf="pagerTotal">
+          <pagination [totalItems]="pagerTotal" [(ngModel)]="currentPage" (pageChanged)="updatePage($event)" [maxSize]="maxSize" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="pagerRecords"></pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <legend>Controls</legend>
+      <div class="form-group text-center">
+        <button type="button" (click)="refreshRecords()" class="btn btn-default btn-sm">
+          <span class="fa fa-refresh"></span> Refresh List </button>
+        <button type="button" (click)="addRecord()" class="btn btn-primary btn-sm">
+          <span class="fa fa-plus"></span> Record </button>
+      </div>
+    </div>
+  </div>
+</div>

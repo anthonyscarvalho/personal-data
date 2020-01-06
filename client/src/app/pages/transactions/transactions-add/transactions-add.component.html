@@ -1,0 +1,77 @@
+<div class="clearfix">&nbsp;</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      {{results|json}}
+      <div class="form-group">
+        <label>Account Number</label>
+        <input type="text" name="account-number" [(ngModel)]="results.number" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Account Description</label>
+        <input type="text" name="account-description" [(ngModel)]="results.description" class="form-control" />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-success" name="submit" type="button" (click)="process()">Process</button>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group"> Total Rows: <br>{{totalCount}} </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group"> Data Rows: <br>{{dataRows}} </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group"> Removed Records: <br>{{(removedRecords)}} </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group"> Recorded Records: <br>{{addedRecords}} </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group"> Existing Records: <br>{{existingRecords}} </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <textarea name="csvData" [(ngModel)]="csvData" rows="10" class="form-control"></textarea>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-striped table-condensed">
+        <thead>
+          <tr>
+            <th style="width: 70px;"></th>
+            <th>Statement ID</th>
+            <th>Account Description</th>
+            <th>Account</th>
+            <th>Date 1</th>
+            <th>Date 2</th>
+            <th>Description</th>
+            <th>Amount Out</th>
+            <th>Amount In</th>
+            <th>Balance</th>
+            <th>Service Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of transactions; let loopIndex = index">
+            <td>{{loopIndex}}</td>
+            <td>{{item.statementId}}</td>
+            <td>{{item.accountDescription}}</td>
+            <td>{{item.account}}</td>
+            <td>{{item.date1}}</td>
+            <td>{{item.date2}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.amountOut}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.balance}}</td>
+            <td>{{item.serviceFee}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

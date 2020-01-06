@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -13,13 +13,8 @@ export class HttpService {
     private _httpClient: HttpClient
   ) { }
 
-  get(pUrl) {
-    return this._httpClient.get(environment.baseUrl + '/' + pUrl).toPromise();
-  }
-
   post(pUrl, pData) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     return this._httpClient.post(environment.baseUrl + '/' + pUrl, JSON.stringify(pData), { headers }).toPromise();
   }
 
@@ -29,7 +24,6 @@ export class HttpService {
 
   update(pUrl, pId, pData) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     return this._httpClient.put(environment.baseUrl + '/' + pUrl + '/' + pId, JSON.stringify(pData), { headers }).toPromise();
   }
 }
