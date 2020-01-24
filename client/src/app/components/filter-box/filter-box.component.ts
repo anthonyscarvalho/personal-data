@@ -1,9 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GeneralService } from '../../services/general.service';
-import { NgForm } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-
-import { HttpService } from '../../services/http.service';
 
 @Component({
   selector: 'app-filter-box',
@@ -11,53 +8,31 @@ import { HttpService } from '../../services/http.service';
   styleUrls: ['./filter-box.component.scss']
 })
 export class FilterBoxComponent implements OnInit {
-  @Input() showStatusFilter: Boolean = true;
-  @Input() showPaid: Boolean = false;
-  @Input() showSort: Boolean = true;
-  @Input() showCompanies: Boolean = false;
-  @Input() showUsers: Boolean = false;
-  @Input() showSearch: Boolean = true;
-  @Input() showPager: Boolean = true;
-  @Input() showDue: Boolean = false;
-  @Input() pagerTotal: Number = 0;
-  @Input() updateControls = false;
-  @Input() backLink = '';
+  @Input() filterBoxConfig;
+  @Input() filterBoxOptions;
 
   @Output('updater') _updater = new EventEmitter<any>();
-
-  state: string = 'all';
-  date: Date = new Date();
-  invoiceFilter: string = 'all';
-  sortDir: string = 'ASC';
-  company: string;
-  user: string;
-  searchPhrase: string;
-  pagerRecords: string;
-  currentPage: Number;
-
-  maxSize = 5;
 
   public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
   constructor(
-    private generalService: GeneralService,
-    private http: HttpService,
+    private _generalService: GeneralService,
   ) {
-    this.state = this.generalService.getActiveFilter();
-    this.date.setMonth(this.date.getMonth() + 1);
-    this.generalService.setDate(this.date);
-    this.invoiceFilter = this.generalService.getInvFilter();
-    this.sortDir = this.generalService.getSortDir();
-    this.user = this.generalService.getUser();
-    this.searchPhrase = this.generalService.getSearchPhrase();
-    this.pagerRecords = this.generalService.getRecords();
-    this.currentPage = this.generalService.getPage();
-
     this.bsConfig.containerClass = 'theme-dark-blue';
     this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
   }
+
   ngOnInit() {
+    this._generalService.setDate(this.filterBoxOptions.date);
+    this.filterBoxOptions.state = this._generalService.getActiveFilter();
+    this.filterBoxOptions.invoiceFilter = this._generalService.getInvFilter();
+    this.filterBoxOptions.dir = this._generalService.getSortDir();
+    this.filterBoxOptions.user = this._generalService.getUser();
+    this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
+    this.filterBoxOptions.pagerRecords = this._generalService.getRecords();
+    this.filterBoxOptions.page = this._generalService.getPage();
   }
+
   refreshRecords() {
     this._updater.emit('load');
   }
@@ -67,85 +42,45 @@ export class FilterBoxComponent implements OnInit {
   }
 
   updateFilter() {
-    this.generalService.setActiveFilter(this.state);
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._generalService.setActiveFilter(this.filterBoxOptions.state);
+    this._updater.emit('changed');
   }
   updateInvFilter() {
-    this.generalService.setInvFilter(this.invoiceFilter);
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._generalService.setInvFilter(this.filterBoxOptions.invoiceFilter);
+    this._updater.emit('changed');
   }
   updateDir() {
-    this.generalService.setActiveDir(this.sortDir);
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._generalService.setActiveDir(this.filterBoxOptions.dir);
+    this._updater.emit('changed');
   }
   updateRecords() {
-    this.generalService.setRecords(this.pagerRecords);
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
-  }
-  updatePage(event: any) {
-    this.generalService.setPage(event.page);
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._generalService.setRecords(this.filterBoxOptions.pagerRecords);
+    this._updater.emit('changed');
   }
   updateDate() {
-    this.generalService.setDate(this.date);
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._generalService.setDate(this.filterBoxOptions.date);
+    this._updater.emit('changed');
   }
   updateSearch() {
-    if (this.searchPhrase === '') {
-      this.generalService.setSearch(null);
+    if (this.filterBoxOptions.searchPhrase === '') {
+      this._generalService.setSearch(null);
     } else {
-      this.generalService.setSearch(this.searchPhrase);
+      this._generalService.setSearch(this.filterBoxOptions.searchPhrase);
     }
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._updater.emit('changed');
   }
   updateUser() {
-    if (this.user === '0') {
-      this.generalService.setUser(null);
+    if (this.filterBoxOptions.user === '0') {
+      this._generalService.setUser(null);
     } else {
-      this.generalService.setUser(this.user);
+      this._generalService.setUser(this.filterBoxOptions.user);
     }
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._updater.emit('changed');
   }
   resetSearch() {
-    this.generalService.setSearch('');
-    this.searchPhrase = this.generalService.getSearchPhrase();
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
+    this._generalService.setSearch('');
+    this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
+    this._updater.emit('changed');
   }
   updateForm() {
     this._updater.emit('save');

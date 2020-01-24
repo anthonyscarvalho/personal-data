@@ -17,33 +17,48 @@ router.post('/accounts/view/:id?', function (req, res, next) {
     if (!req.params.id) {
         var body = req.body;
         var page = ((body.page) ? body.page : 1);
-        var records = ((body.records) ? body.records : 20);
+        var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+        var orderBy = ((body.column) ? body.column : '');
+        var orderDir = ((body.dir === 'ASC') ? 1 : -1);
+        var searchPhrase = ((body.searchPhrase) ? body.searchPhrase : '');
         var filter = {};
+        var query = {};
+        _errors = [];
 
-        if (body.filter) {
-            filter = body.filter;
+        if (searchPhrase != '') {
+            query = {
+                accountDescription: searchPhrase,
+                accountNumber: searchPhrase
+            };
+        }
+
+        if (orderBy) {
+            filter[orderBy] = orderDir;
         } else {
             filter = {};
         }
-        db.accounts.count(filter, function (err, pCount) {
+        db.accounts.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accounts.find({}, filter, {
-                skip: ((page * records) - records),
-                limit: records
-            }, function (err, pResults) {
-                if (err) {
-                    _errors.push("Can't fetch data")
-                }
-                if (_errors.length > 0) {
-                    _response.status = '01';
-                }
-                _response.errors = _errors;
-                _response.data = pResults;
-                res.json(_response);
-            });
+            db.accounts.find(query)
+                .skip(((page * records) - records))
+                .limit(records)
+                .sort(filter)
+                .toArray(function (err, pResults) {
+                    if (err) {
+                        _errors.push(err)
+                        console.log(err);
+                    }
+                    if (_errors.length > 0) {
+                        _response.status = '01';
+                    }
+                    _response.errors = _errors;
+                    _response.data = pResults;
+                    res.json(_response);
+                });
+
         });
     } else {
         db.accounts.findOne({
@@ -101,18 +116,6 @@ router.put('/accounts/add', function (req, res, next) {
     }
 });
 
-// delete record
-router.delete('/accounts/delete/:id', function (req, res, next) {
-    db.accounts.remove({
-        _id: mongojs.ObjectId(req.params.id)
-    }, function (err, pResults) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(pResults);
-    })
-});
-
 // update record
 router.put('/accounts/update/:id', function (req, res, next) {
     var newRecord = req.body;
@@ -121,6 +124,89 @@ router.put('/accounts/update/:id', function (req, res, next) {
     }
     console.log(newRecord);
     if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
+        res.status(400);
+        res.json({
+            "error": "bad data"
+        });
+    } else {
+        db.accounts.update({
+            _id: mongojs.ObjectId(req.params.id)
+        }, {
+            $set: newRecord
+        }, {}, function (err, pResults) {
+            if (err) {
+                res.send(err);
+            }
+            if (pResults.ok) {
+                _response.status = '00';
+                _response.message = 'Record updated';
+                _response.data = pResults;
+                res.json(_response);
+            }
+            1
+        });
+    }
+});
+
+// delete record
+router.delete('/accounts/delete/:id', function (req, res, next) {
+    if (!req.params.id) {
+        res.status(400);
+        res.json({
+            "error": "bad data"
+        });
+    } else {
+        db.accounts.remove({
+            _id: mongojs.ObjectId(req.params.id)
+        }, function (err, pResults) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(pResults);
+        })
+    }
+});
+
+// cancel record
+router.put('/accounts/cancel/:id', function (req, res, next) {
+    var newRecord = {
+        canceled: 'true',
+        canceledDate: new Date()
+    };
+    console.log(newRecord);
+    if (!req.params.id) {
+        res.status(400);
+        res.json({
+            "error": "bad data"
+        });
+    } else {
+        db.accounts.update({
+            _id: mongojs.ObjectId(req.params.id)
+        }, {
+            $set: newRecord
+        }, {}, function (err, pResults) {
+            if (err) {
+                res.send(err);
+            }
+            if (pResults.ok) {
+                _response.status = '00';
+                _response.message = 'Record updated';
+                _response.data = pResults;
+                res.json(_response);
+            }
+            1
+        });
+    }
+});
+
+// enable record
+router.put('/accounts/enable/:id', function (req, res, next) {
+    var newRecord = {
+        canceled: 'false',
+        canceledDate: ''
+    };
+    console.log(newRecord);
+    if (!req.params.id) {
         res.status(400);
         res.json({
             "error": "bad data"

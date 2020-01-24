@@ -7,7 +7,7 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 // interfaces
-import { SortOptionsInterface } from '../../../interfaces/sortOptions';
+import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 import { AccountRecordsInterface } from '../../../interfaces/accountRecords';
 
 @Component({
@@ -16,9 +16,32 @@ import { AccountRecordsInterface } from '../../../interfaces/accountRecords';
   styleUrls: ['./account-records-view.component.scss']
 })
 export class AccountRecordsViewComponent implements OnInit {
-
-  private results: AccountRecordsInterface[];
-  private sortOptions: SortOptionsInterface;
+  tableHead = [
+    {
+      text: 'ID',
+      data: '_id'
+    }, {
+      text: 'Account Number',
+      data: 'accountNumber'
+    }, {
+      text: 'Account Description',
+      data: 'accountDescription'
+    }, {
+      text: 'Account Status',
+      data: 'status'
+    }, {
+      text: 'Date Opened',
+      data: 'dateOpened'
+    }, {
+      text: 'Date Closed',
+      data: 'dateClosed'
+    }
+  ];
+  // tableBody: AccountsViewInterface[];
+  tableBody;
+  results: AccountRecordsInterface[];
+  private filterBoxOptions: FilterBoxOptionsInterface;
+  private filterBoxConfig: FilterBoxConfigInterface;
   totalRecords: string;
 
   constructor(
@@ -28,6 +51,7 @@ export class AccountRecordsViewComponent implements OnInit {
     private _notificationService: NotificationsService
   ) {
     this._generalService.setTitle('Account Records: View All');
+    this.filterBoxConfig = new FilterBoxConfigInterface();
   }
 
   ngOnInit() {
@@ -36,15 +60,15 @@ export class AccountRecordsViewComponent implements OnInit {
   }
 
   load() {
-    this.sortOptions = new SortOptionsInterface();
-    this.sortOptions.state = this._generalService.getActiveFilter();
-    this.sortOptions.searchPhrase = this._generalService.getSearchPhrase();
-    this.sortOptions.column = this._generalService.getSortColumn();
-    this.sortOptions.dir = this._generalService.getSortDir();
-    this.sortOptions.page = this._generalService.getPage();
-    this.sortOptions.pagerRecords = this._generalService.getRecords();
+    this.filterBoxOptions = new FilterBoxOptionsInterface();
+    this.filterBoxOptions.state = this._generalService.getActiveFilter();
+    this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
+    this.filterBoxOptions.column = this._generalService.getSortColumn();
+    this.filterBoxOptions.dir = this._generalService.getSortDir();
+    this.filterBoxOptions.page = this._generalService.getPage();
+    this.filterBoxOptions.pagerRecords = this._generalService.getRecords();
 
-    this._httpService.post('accountRecords/view', this.sortOptions).then((results: any) => {
+    this._httpService.post('accountRecords/view', this.filterBoxOptions).then((results: any) => {
       if (results.status === '00') {
         this.results = results.data;
         this.totalRecords = results.records;
@@ -52,12 +76,18 @@ export class AccountRecordsViewComponent implements OnInit {
     });
   }
 
-  getActiveColumn(currentColumn: string) {
-    const activeColumn = this._generalService.getSortColumn();
-    if (currentColumn === activeColumn) {
-      return 'active pointer';
-    } else {
-      return 'pointer';
+
+  filterUpdater(pEvent) {
+    if (!Array.isArray(pEvent)) {
+      switch (pEvent) {
+        case 'load':
+        case 'changed':
+          this.load();
+          break;
+        case 'add':
+          this._generalService.redirect('account-records/add');
+          break;
+      }
     }
   }
 

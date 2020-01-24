@@ -2,7 +2,8 @@
   <table>
     <thead>
       <tr>
-        <th *ngFor="let item of tableHead" (click)="changeColumn(item.data)" [class]="getActiveColumn(item.data)">{{item.text}}</th>
+        <th *ngFor="let item of tableHead" (click)="changeColumn(item.data)">{{item.text}} <fa *ngIf="filterBoxOptions && getActiveColumn(item.data)" class="pull-right" name="{{(filterBoxOptions.dir ==='ASC')?'chevron-up':'chevron-down'}}"></fa>
+        </th>
         <th style="width: 120px;"></th>
       </tr>
     </thead>
@@ -11,20 +12,20 @@
         <td *ngFor="let column of tableHead">{{rows[column.data]}}</td>
         <td class="table-component__controls">
           <span ng-if="userRoles.edit == 'true'">
-            <a class="btn btn-info btn-sm" routerLink="/accounts/edit/{{rows._id}}">
+            <a class="btn btn-info btn-sm" routerLink="/{{editModule}}/edit/{{rows._id}}">
               <span class="fa fa-fw fa-pencil"></span>
             </a>
           </span>
           <span ng-if="userRoles.status == 'true'">
-            <a class="btn btn-danger btn-sm" (click)="enable( rows.id )" *ngIf="rows.canceled == 'true'">
+            <a class="btn btn-danger btn-sm" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
               <span class="fa fa-fw fa-square-o"></span>
             </a>
-            <a class="btn btn-success btn-sm" (click)="cancel( rows.id)" *ngIf="rows.canceled == 'false'">
+            <a class="btn btn-success btn-sm" (click)="cancel( rows._id)" *ngIf="rows.canceled == 'false'">
               <span class="fa fa-fw fa-square"></span>
             </a>
           </span>
           <span ng-if="userRoles.delete == 'true'">
-            <a class="btn btn-warning btn-sm" (click)="delete( rows.id )">
+            <a class="btn btn-warning btn-sm" (click)="delete( rows._id )">
               <span class="fa fa-fw fa-trash"></span>
             </a>
           </span>
@@ -32,4 +33,8 @@
       </tr>
     </tbody>
   </table>
+  <div class="clearfix">&nbsp;</div>
+  <div class="form-group d-flex justify-content-center" *ngIf="filterBoxOptions.totalRecords">
+    <pagination [totalItems]="filterBoxOptions.totalRecords" [(ngModel)]="filterBoxOptions.page" (pageChanged)="updatePage($event)" [maxSize]="10" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="filterBoxOptions.pagerRecords"></pagination>
+  </div>
 </div>

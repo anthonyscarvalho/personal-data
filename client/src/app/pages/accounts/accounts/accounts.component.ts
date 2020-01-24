@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 // interfaces
 import { AccountsAddInterface } from '../../../interfaces/accounts';
+import { FilterBoxConfigInterface } from '../../../interfaces/filterBoxOptions';
 // services
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
@@ -20,6 +21,7 @@ export class AccountsComponent implements OnInit {
   results: AccountsAddInterface;
   parentId: string;
   public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  private filterBoxConfig: FilterBoxConfigInterface;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +37,9 @@ export class AccountsComponent implements OnInit {
     this.bsConfig.containerClass = 'theme-dark-blue';
     this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
     this._generalService.setTitle('Accounts: Add New');
+    this.filterBoxConfig = new FilterBoxConfigInterface();
+    this.filterBoxConfig.backLink = '/accounts/view';
+    this.filterBoxConfig.updateControls = true;
   }
 
   ngOnInit() {

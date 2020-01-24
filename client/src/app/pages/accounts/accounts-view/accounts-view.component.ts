@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // service
@@ -7,7 +7,7 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 // interfaces
-import { SortOptionsInterface } from '../../../interfaces/sortOptions';
+import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 import { AccountsViewInterface } from '../../../interfaces/accounts';
 
 @Component({
@@ -40,7 +40,8 @@ export class AccountsViewComponent implements OnInit {
   ];
   tableBody: AccountsViewInterface[];
   results: AccountsViewInterface[];
-  private sortOptions: SortOptionsInterface;
+  private filterBoxOptions: FilterBoxOptionsInterface;
+  private filterBoxConfig: FilterBoxConfigInterface;
   totalRecords: string;
 
   constructor(
@@ -50,110 +51,99 @@ export class AccountsViewComponent implements OnInit {
     private _notificationService: NotificationsService
   ) {
     _generalService.setTitle('Accounts: View All');
+    this.filterBoxConfig = new FilterBoxConfigInterface();
   }
 
   ngOnInit() {
     localStorage.setItem('activeMenu', 'accounts');
+    this.filterBoxOptions = new FilterBoxOptionsInterface();
+    this.filterBoxOptions.state = this._generalService.getActiveFilter();
+    this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
+    this.filterBoxOptions.column = this._generalService.getSortColumn();
+    this.filterBoxOptions.dir = this._generalService.getSortDir();
+    this.filterBoxOptions.page = this._generalService.getPage();
+    this.filterBoxOptions.pagerRecords = this._generalService.getRecords();
     this.load();
   }
 
-  filterUpdater(pEvent) {
-    if (!Array(pEvent)) {
-      if (pEvent == 'load') {
-        this.load();
-      } else if (pEvent == 'add') {
-        this._generalService.redirect('accounts/add');
+  filterUpdater(pEvent: any) {
+    if (typeof pEvent !== 'object') {
+      switch (pEvent) {
+        case 'load':
+        case 'changed':
+          this.load();
+          break;
+        case 'add':
+          this._generalService.redirect('accounts/add');
+          break;
+      }
+    } else {
+      switch (pEvent.action) {
+        case 'enable':
+          this.enable(pEvent.record);
+          break;
+        case 'cancel':
+          this.cancel(pEvent.record);
+          break;
+        case 'delete':
+          this.delete(pEvent.record);
+          break;
       }
     }
   }
 
-  changeColumn(newColumn: string) {
-    const activeColumn = this._generalService.getSortColumn();
-    if (newColumn !== activeColumn) {
-      this._generalService.setActiveColumn(newColumn);
-      this.load();
-    }
-  }
-
-  getActiveColumn(currentColumn: string) {
-    const activeColumn = this._generalService.getSortColumn();
-    if (currentColumn === activeColumn) {
-      return 'active pointer';
-    } else {
-      return 'pointer';
-    }
-  }
-
   load() {
-    this.sortOptions = new SortOptionsInterface();
-    this.sortOptions.state = this._generalService.getActiveFilter();
-    this.sortOptions.searchPhrase = this._generalService.getSearchPhrase();
-    this.sortOptions.column = this._generalService.getSortColumn();
-    this.sortOptions.dir = this._generalService.getSortDir();
-    this.sortOptions.page = this._generalService.getPage();
-    this.sortOptions.pagerRecords = this._generalService.getRecords();
-
-    this._httpService.post('accounts/view', this.sortOptions).then((results: any) => {
+    this._httpService.post('accounts/view', this.filterBoxOptions).then((results: any) => {
       if (results.status === '00') {
         this.results = results.data;
         this.tableBody = results.data;
-        this.totalRecords = results.records;
+        this.filterBoxOptions.totalRecords = results.totalRecords;
       }
     });
   }
 
   enable(pId) {
-    if (confirm('Are you sure you want to enable this record?')) {
-      this._httpService.post('accounts/enable', {
-        id: pId
-      }).then((results: any) => {
-        if (results.status === '00') {
-          this.load();
-          this._notificationService.success(results.message);
-        } else {
-          if (results.errors) {
-            results.errors.forEach(pError => {
-              this._notificationService.warn(pError);
-            });
-          }
+    this._httpService.update('accounts/enable', pId, {}).then((results: any) => {
+      if (results.status === '00') {
+        this.load();
+        this._notificationService.success(results.message);
+      } else {
+        if (results.errors) {
+          results.errors.forEach(pError => {
+            this._notificationService.warn(pError);
+          });
         }
-      });
-    }
+      }
+    });
   }
 
   cancel(pId) {
-    if (confirm('Are you sure you want to cancel this record?')) {
-      this._httpService.post('accounts/cancel', {
-        id: pId
-      }).then((results: any) => {
-        if (results.status === '00') {
-          this.load();
-          this._notificationService.success(results.message);
-        } else {
-          if (results.errors) {
-            results.errors.forEach(pError => {
-              this._notificationService.warn(pError);
-            });
-          }
+    this._httpService.update('accounts/cancel', pId, {}).then((results: any) => {
+      if (results.status === '00') {
+        this.load();
+        this._notificationService.success(results.message);
+      } else {
+        if (results.errors) {
+          results.errors.forEach(pError => {
+            this._notificationService.warn(pError);
+          });
         }
-      });
-    }
+      }
+    });
   }
 
   delete(pId) {
-    if (confirm('Are you sure you want to delete this record?')) {
-      this._httpService.delete('accounts/delete', pId).then((results: any) => {
-        if (results.status === '00') {
-          this.load();
-          this._notificationService.success(results.message);
-        } else {
-          if (results.errors) {
-            results.errors.forEach(pError => {
-              this._notificationService.warn(pError);
-            });
-          }
+    this._httpService.delete('accounts/delete', pId).then((results: any) => {
+      if (results.status === '00') {
+        this.load();
+        this._notificationService.success(results.message);
+      } else {
+        if (results.errors) {
+          results.errors.forEach(pError => {
+            this._notificationService.warn(pError);
+          });
         }
-      });
-    }
+      }
+    });
   }
 }

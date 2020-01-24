@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition, group } from '@angular/animations';
 
 import { NavigationInterface } from '../../interfaces/navigation';
-import { Z_BLOCK } from 'zlib';
 
 @Component({
   selector: 'app-navigation',

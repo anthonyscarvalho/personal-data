@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
-
 @Injectable()
 export class GeneralService {
 
@@ -82,11 +81,11 @@ export class GeneralService {
     return this.column;
   }
   setActiveColumn(pColumn: string) {
-    if (pColumn === 'id') {
+    if (pColumn === '_id') {
       this.router.navigate([], { queryParams: { column: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([], { queryParams: { column: pColumn }, relativeTo: this.route, queryParamsHandling: 'merge' });
     }
+    this.router.navigate([], { queryParams: { column: pColumn }, relativeTo: this.route, queryParamsHandling: 'merge' });
     this.column = pColumn;
   }
 

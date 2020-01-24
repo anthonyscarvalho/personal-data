@@ -1,38 +1,28 @@
-<div class="filter-box">
-  <div *ngIf="!updateControls">
-    <div class="card" *ngIf="showStatusFilter">
+<div class="filter-box" *ngIf="filterBoxOptions">
+  <div *ngIf="!filterBoxConfig.updateControls">
+    <div class="card" *ngIf="filterBoxConfig.showStatusFilter">
       <div class="card-body">
         <legend>Status Filter</legend>
         <div class="btn-group btn-group-sm" data-toggle="buttons">
-          <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="state" btnRadio="all" name="state">All</label>
-          <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="state" btnRadio="false" name="state">Active</label>
-          <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="state" btnRadio="true" name="state">Canceled</label>
+          <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="filterBoxOptions.state" btnRadio="'all'" name="state">All</label>
+          <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="filterBoxOptions.state" btnRadio="'false'" name="state">Active</label>
+          <label class="btn btn-secondary" (click)="updateFilter()" [(ngModel)]="filterBoxOptions.state" btnRadio="'true'" name="state">Canceled</label>
         </div>
       </div>
     </div>
     <!-- close card -->
-    <div class="card" *ngIf="generalService.state=='due'">
+    <div class="card" *ngIf="filterBoxOptions.state=='due'">
       <div class="card-body">
         <label>Date for due products:</label>
-        <input type="text" class="form-control" [(ngModel)]="date" name="date" bsDatepicker [bsConfig]="bsConfig" (ngModelChange)="updateDate()"> </div>
+        <input type="text" class="form-control" [(ngModel)]="filterBoxOptions.date" name="date" bsDatepicker [bsConfig]="bsConfig" (ngModelChange)="updateDate()"> </div>
     </div>
     <!-- close card -->
-    <div class="card" *ngIf="showSort">
-      <div class="card-body">
-        <legend>Sort Direction:</legend>
-        <div class="btn-group btn-group-sm" data-toggle="buttons">
-          <label class="btn btn-secondary" (click)="updateDir()" [(ngModel)]="sortDir" btnRadio="ASC" name="sortDir">A - Z</label>
-          <label class="btn btn-secondary" (click)="updateDir()" [(ngModel)]="sortDir" btnRadio="DESC" name="sortDir">Z - A</label>
-        </div>
-      </div>
-    </div>
-    <!-- close card -->
-    <div class="card" *ngIf="showSearch && !showDue">
+    <div class="card" *ngIf="filterBoxConfig.showSearch">
       <div class="card-body">
         <form (ngSubmit)="updateSearch()">
           <legend>Search</legend>
           <div class="input-group input-group-sm">
-            <input class="form-control" type="text" [(ngModel)]="searchPhrase" name="searchPhrase" id="searchPhrase">
+            <input class="form-control" type="text" [(ngModel)]="filterBoxOptions.searchPhrase" name="searchPhrase" id="searchPhrase">
             <div class="input-group-append">
               <button type="button" (click)="resetSearch()" class="btn btn-secondary">Reset</button>
             </div>
@@ -40,23 +30,19 @@
         </form>
       </div>
     </div>
-    <div class="card" *ngIf="generalService.state!='due' && showPager">
+    <div class="card" *ngIf="filterBoxConfig.showPager">
       <div class="card-body">
         <legend>Pager</legend>
-        <p>Total Records: {{pagerTotal}}</p>
+        <p>Total Records: {{filterBoxOptions.totalRecords}}</p>
         <div class="form-group">
           <label>Records Per Page</label>
-          <select [(ngModel)]="pagerRecords" (ngModelChange)="updateRecords()">
+          <select [(ngModel)]="filterBoxOptions.pagerRecords" (ngModelChange)="updateRecords()">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
             <option value="40">40</option>
             <option value="50">50</option>
           </select>
-          <div class="clearfix">&nbsp;</div>
-          <div *ngIf="pagerTotal">
-            <pagination [totalItems]="pagerTotal" [(ngModel)]="currentPage" (pageChanged)="updatePage($event)" [maxSize]="maxSize" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="pagerRecords"></pagination>
-          </div>
         </div>
       </div>
     </div>
@@ -72,7 +58,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="updateControls">
+  <div *ngIf="filterBoxConfig.updateControls">
     <div class="card">
       <div class="card-body" *ngIf="!submitted">
         <div class="form-group text-center">
@@ -83,7 +69,7 @@
         </div>
         <div class="clearfix">&nbsp;</div>
         <div class="form-group text-center">
-          <a routerLink="{{backLink}}" class="btn btn-info btn-block shadow"><span class="fa fa-chevron-left"></span> Back </a>
+          <a routerLink="{{filterBoxConfig.backLink}}" class="btn btn-info btn-block shadow"><span class="fa fa-chevron-left"></span> Back </a>
         </div>
       </div>
     </div>
