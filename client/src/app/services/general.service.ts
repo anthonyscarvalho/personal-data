@@ -1,31 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 
 @Injectable()
 export class GeneralService {
-  title: String = '';
-  mainNav: Boolean = false;
-  subNav: Boolean = false;
-  subNavView: String = 'main';
-  parentId: String = '';
-  jobView: String = 'list';
-  authKey: String = '';
-  // Sort filters
-  sortDir: String = 'ASC';
-  date: Date = new Date();
-  column: String = '';
-  state: String = '';
-  searchPhrase: String = '';
-  invFilter: String = '';
-  page: Number = 1;
-  pagerRecords: String = '1';
-  company: String = '0';
-  user: String = '0';
-
-  private loadingStatusSource = new BehaviorSubject<boolean>(false);
 
   constructor(
     private router: Router,
@@ -33,178 +13,163 @@ export class GeneralService {
     private datepipe: DatePipe
   ) {
     this.route.queryParams.subscribe(params => {
-      this.state = ((params['state']) ? params['state'] : 'false');
-      this.sortDir = ((params['dir']) ? params['dir'] : 'ASC');
-      this.column = ((params['column']) ? params['column'] : 'id');
-      this.searchPhrase = ((params['searchPhrase']) ? params['searchPhrase'] : '');
-      this.invFilter = ((params['invFilter']) ? params['invFilter'] : 'false');
-      this.page = Number((params['page']) ? params['page'] : 1);
-      this.pagerRecords = ((params['records']) ? params['records'] : '10');
-      this.company = ((params['company']) ? params['company'] : '0');
-      this.user = ((params['user']) ? params['user'] : '0');
+      this.state = ((params.state) ? params.state : 'false');
+      this.sortDir = ((params.dir) ? params.dir : 'ASC');
+      this.column = ((params.column) ? params.column : 'id');
+      this.searchPhrase = ((params.searchPhrase) ? params.searchPhrase : '');
+      this.invFilter = ((params.invFilter) ? params.invFilter : 'false');
+      this.page = Number((params.page) ? params.page : 1);
+      this.pagerRecords = ((params.records) ? params.records : '10');
+      this.user = ((params.user) ? params.user : '0');
     });
     this.authKey = localStorage.getItem('authKey');
   }
+
   // Title
-  setTitle(message: String) {
-    this.title = message;
+  title = new BehaviorSubject<string>('');
+  setTitle(pTitle: string) {
+    this.title.next(pTitle);
   }
-
-  // Main Navigation
-  setMainNav(newMain: Boolean) {
-    this.mainNav = newMain;
-  }
-
-
-  // Sub Navigation
-  setSubNav(newSub: Boolean, navView: String = '') {
-    this.subNav = newSub;
-    if (navView !== '') {
-      this.subNavView = navView;
-    } else {
-      this.subNavView = 'main';
-    }
+  getTitle() {
+    return this.title.asObservable();
   }
 
   // Parent ID
+  parentId: string = '';
   getParentId() {
     return this.parentId;
   }
-  setParentId(id: String) {
+  setParentId(id: string) {
     this.parentId = id;
   }
 
-  // Scheduler view
-  setJobView(view: String) {
-    this.jobView = view;
-  }
-
   // Authorisation Key
+  authKey: string = '';
   getAuthkey() {
     return this.authKey;
   }
-  setAuthkey(key: String) {
-    this.authKey = key;
+  setAuthkey(pAuthKey: string) {
+    this.authKey = pAuthKey;
     // localStorage.setItem('authKey', key);
   }
 
   // Set the sort Direction
+  sortDir: string = 'ASC';
   getSortDir() {
     return this.sortDir;
   }
-  setActiveDir(dir: String) {
-    if (dir === 'ASC') {
+  setActiveDir(pDirection: string) {
+    if (pDirection === 'ASC') {
       this.router.navigate([], { queryParams: { dir: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([], { queryParams: { dir: dir }, relativeTo: this.route, queryParamsHandling: 'merge' });
+      this.router.navigate([], { queryParams: { dir: pDirection }, relativeTo: this.route, queryParamsHandling: 'merge' });
     }
-    this.sortDir = dir;
+    this.sortDir = pDirection;
   }
 
   // Set the date used for due products
+  date: Date = new Date();
   getDate() {
     return this.datepipe.transform(this.date, 'yyyy-MM-dd');
   }
-  setDate(date: Date) {
-    this.date = date;
+  setDate(pDate: Date) {
+    this.date = pDate;
   }
 
   // Get the column used to sort by
+  column: string = '';
   getSortColumn() {
     return this.column;
   }
-  setActiveColumn(column: String) {
-    if (column === 'id') {
+  setActiveColumn(pColumn: string) {
+    if (pColumn === 'id') {
       this.router.navigate([], { queryParams: { column: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([], { queryParams: { column: column }, relativeTo: this.route, queryParamsHandling: 'merge' });
+      this.router.navigate([], { queryParams: { column: pColumn }, relativeTo: this.route, queryParamsHandling: 'merge' });
     }
-    this.column = column;
+    this.column = pColumn;
   }
 
   // Get the items state used to filter results
+  state: string = '';
   getActiveFilter() {
     return this.state;
   }
-  setActiveFilter(state: String) {
-    if (state === 'false') {
+  setActiveFilter(pState: string) {
+    if (pState === 'false') {
       this.router.navigate([], { queryParams: { state: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([], { queryParams: { state: state }, relativeTo: this.route, queryParamsHandling: 'merge' });
+      this.router.navigate([], { queryParams: { state: pState }, relativeTo: this.route, queryParamsHandling: 'merge' });
     }
-    this.state = state;
+    this.state = pState;
   }
 
   // Set the search phrase used to filter results
+  searchPhrase: string = '';
   getSearchPhrase() {
     return this.searchPhrase;
   }
-  setSearch(searchPhrase: String) {
-    this.router.navigate([], { queryParams: { searchPhrase: searchPhrase }, relativeTo: this.route, queryParamsHandling: 'merge' });
-    this.searchPhrase = searchPhrase;
+  setSearch(pSearchPhrase: string) {
+    this.router.navigate([], { queryParams: { searchPhrase: pSearchPhrase }, relativeTo: this.route, queryParamsHandling: 'merge' });
+    this.searchPhrase = pSearchPhrase;
   }
 
   // Set whether to show the invoice filter or not
+  invFilter: string = '';
   getInvFilter() {
     return this.invFilter;
   }
-  setInvFilter(invFilter: String) {
-    this.router.navigate([], { queryParams: { invFilter: invFilter }, relativeTo: this.route, queryParamsHandling: 'merge' });
-    this.invFilter = invFilter;
+  setInvFilter(pInvoiceFilter: string) {
+    this.router.navigate([], { queryParams: { invFilter: pInvoiceFilter }, relativeTo: this.route, queryParamsHandling: 'merge' });
+    this.invFilter = pInvoiceFilter;
   }
 
-  // Update the ecurrent page used to filter reuslts
+  // Update the current page used to filter results
+  page: number = 1;
   getPage() {
     return this.page;
   }
-  setPage(page: number) {
-    if (page === 1) {
+  setPage(pPage: number) {
+    if (pPage === 1) {
       this.router.navigate([], { queryParams: { page: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([], { queryParams: { page: page }, relativeTo: this.route, queryParamsHandling: 'merge' });
+      this.router.navigate([], { queryParams: { page: pPage }, relativeTo: this.route, queryParamsHandling: 'merge' });
     }
-    this.page = page;
+    this.page = pPage;
   }
 
   // Update the amount of records to show
+  pagerRecords: string = '1';
   getRecords() {
     return this.pagerRecords;
   }
-  setRecords(records: String) {
-    if (records === '10') {
+  setRecords(pRecords: string) {
+    if (pRecords === '10') {
       this.router.navigate([], { queryParams: { records: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([], { queryParams: { records: records }, relativeTo: this.route, queryParamsHandling: 'merge' });
+      this.router.navigate([], { queryParams: { records: pRecords }, relativeTo: this.route, queryParamsHandling: 'merge' });
     }
-    this.pagerRecords = records;
-  }
-
-
-  // Update the company used to filter results
-  getCompany() {
-    return this.company;
-  }
-  setCompany(company: String) {
-    this.router.navigate([], { queryParams: { company: company }, relativeTo: this.route, queryParamsHandling: 'merge' });
-    this.company = company;
+    this.pagerRecords = pRecords;
   }
 
   // Update the selected user, used to filter results
+  user: string = '0';
   getUser() {
     return this.user;
   }
-  setUser(user: String) {
-    this.router.navigate([], { queryParams: { user: user }, relativeTo: this.route, queryParamsHandling: 'merge' });
-    this.user = user;
+  setUser(pUser: string) {
+    this.router.navigate([], { queryParams: { user: pUser }, relativeTo: this.route, queryParamsHandling: 'merge' });
+    this.user = pUser;
   }
 
   // Loading Status
+  private loadingStatusSource = new BehaviorSubject<boolean>(false);
   getLoadingStatus() {
     return this.loadingStatusSource.asObservable();
   }
 
-  setLoadingStatus(_newStatus) {
-    this.loadingStatusSource.next(_newStatus);
+  setLoadingStatus(pNewStatus) {
+    this.loadingStatusSource.next(pNewStatus);
   }
 
   // redirect to page

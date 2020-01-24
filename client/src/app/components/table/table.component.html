@@ -1,0 +1,35 @@
+<div class="table-component">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let item of tableHead" (click)="changeColumn(item.data)" [class]="getActiveColumn(item.data)">{{item.text}}</th>
+        <th style="width: 120px;"></th>
+      </tr>
+    </thead>
+    <tbody *ngIf="tableBody">
+      <tr *ngFor="let rows of tableBody">
+        <td *ngFor="let column of tableHead">{{rows[column.data]}}</td>
+        <td class="table-component__controls">
+          <span ng-if="userRoles.edit == 'true'">
+            <a class="btn btn-info btn-sm" routerLink="/accounts/edit/{{rows._id}}">
+              <span class="fa fa-fw fa-pencil"></span>
+            </a>
+          </span>
+          <span ng-if="userRoles.status == 'true'">
+            <a class="btn btn-danger btn-sm" (click)="enable( rows.id )" *ngIf="rows.canceled == 'true'">
+              <span class="fa fa-fw fa-square-o"></span>
+            </a>
+            <a class="btn btn-success btn-sm" (click)="cancel( rows.id)" *ngIf="rows.canceled == 'false'">
+              <span class="fa fa-fw fa-square"></span>
+            </a>
+          </span>
+          <span ng-if="userRoles.delete == 'true'">
+            <a class="btn btn-warning btn-sm" (click)="delete( rows.id )">
+              <span class="fa fa-fw fa-trash"></span>
+            </a>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,54 +1,52 @@
-<div class="container" *ngIf="results">
-  <form name="form" (submit)="submit()" id="form">
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label>Account Number</label>
-          <input type="text" name="accountNumber" [(ngModel)]="results.accountNumber" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label>Account Description</label>
-          <input type="text" name="accountDescription" [(ngModel)]="results.accountDescription" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label>Date Opened</label>
-          <input type="text" class="form-control" [(ngModel)]="results.dateOpened" name="results.dateOpened" bsDatepicker [bsConfig]="bsConfig">
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label>Date Closed</label>
-          <input type="text" class="form-control" [(ngModel)]="results.dateClosed" name="results.dateClosed" bsDatepicker [bsConfig]="bsConfig">
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label>Status</label>
-          <select name="status" [(ngModel)]="results.status" class="form-control">
-            <option value="">Select</option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
-          </select>
-        </div>
-      </div>
+<div class="container-fluid" *ngIf="results">
+  <div class="row">
+    <div class="col-md-10">
+      <tabset>
+        <tab heading="Account Information" id="account-info">
+          <form name="form" id="form" #form="ngForm" (ngSubmit)="submit()">
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Account Number</label>
+                  <input type="text" name="accountNumber" [(ngModel)]="results.accountNumber" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Account Description</label>
+                  <input type="text" name="accountDescription" [(ngModel)]="results.accountDescription" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Date Opened</label>
+                  <input type="text" class="form-control" [(ngModel)]="results.dateOpened" name="results.dateOpened" bsDatepicker [bsConfig]="bsConfig">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Date Closed</label>
+                  <input type="text" class="form-control" [(ngModel)]="results.dateClosed" name="results.dateClosed" bsDatepicker [bsConfig]="bsConfig">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label>Status</label>
+                  <select name="status" [(ngModel)]="results.status" class="form-control">
+                    <option value="">Select</option>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </tab>
+        <tab heading="Account Records" id="account-records">Basic content 1</tab>
+      </tabset>
     </div>
-  </form>
-</div>
-<nav class="navbar fixed-bottom bg-dark">
-  <div class="container">
-    <div *ngIf="submitted">
-      <a class="btn btn-info">
-        <span class="fa fa-refresh fa-spin"></span> Saving! </a>
-    </div>
-    <div *ngIf="!submitted">
-      <a routerLink="/accounts/view" class="btn btn-light">
-        <span class="fa fa-chevron-left"></span> Back </a>
-      <button type="submit" name="submit" value="insert" class="btn btn-success" form="form">
-        <span class="fa fa-save"></span> Create </button>
+    <div class="col-md-2">
+      <app-filter-box [updateControls]="true" [backLink]="'/accounts/view'" (updater)="submitForm()"></app-filter-box>
     </div>
   </div>
-</nav>
+</div>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 // interfaces
-import { AccountsInterface } from '../../../interfaces/accounts';
+import { AccountsAddInterface } from '../../../interfaces/accounts';
 // services
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
@@ -14,8 +15,9 @@ import { NotificationsService } from '../../../services/notifications.service';
   styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent implements OnInit {
+  @ViewChild('form', { static: false }) form: NgForm;
 
-  results: AccountsInterface;
+  results: AccountsAddInterface;
   parentId: string;
   public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
@@ -32,11 +34,14 @@ export class AccountsComponent implements OnInit {
     }
     this.bsConfig.containerClass = 'theme-dark-blue';
     this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
+    this._generalService.setTitle('Accounts: Add New');
   }
 
   ngOnInit() {
+    localStorage.setItem('activeMenu', 'accounts');
+
     if (!this.parentId) {
-      this.results = new AccountsInterface();
+      this.results = new AccountsAddInterface();
     } else {
       this.load();
     }
@@ -44,13 +49,12 @@ export class AccountsComponent implements OnInit {
 
   submit() {
     if (!this.parentId) {
-      if (this.results.accountNumber != '' && this.results.accountDescription != '') {
+      if (this.results.accountNumber !== '' && this.results.accountDescription !== '') {
         this._httpService.post('accounts/add', this.results).then((pResult: any) => {
-          if (pResult.status == '00') {
-            this.results = new AccountsInterface();
+          if (pResult.status === '00') {
+            this.results = new AccountsAddInterface();
             this._notificationsService.success(pResult.message);
-          }
-          else {
+          } else {
             if (pResult.errors) {
               pResult.errors.forEach(pError => {
                 this._notificationsService.warn(pError);
@@ -61,11 +65,10 @@ export class AccountsComponent implements OnInit {
       }
     } else {
       this._httpService.update('accounts/update', this.parentId, this.results).then((pResult: any) => {
-        if (pResult.status == '00') {
+        if (pResult.status === '00') {
           this.load();
           this._notificationsService.success(pResult.message);
-        }
-        else {
+        } else {
           if (pResult.errors) {
             pResult.errors.forEach(pError => {
               this._notificationsService.warn(pError);
@@ -76,11 +79,15 @@ export class AccountsComponent implements OnInit {
     }
   }
 
+  submitForm() {
+    this.form.ngSubmit.emit();
+  }
+
   load() {
     this._httpService.post('accounts/view/' + this.parentId, {}).then((results: any) => {
       if (results.status === '00') {
-        this.results = new AccountsInterface(results.data);
-        this._generalService.setTitle('Edit Account: ');
+        this.results = new AccountsAddInterface(results.data);
+        this._generalService.setTitle('Accounts Edit: ' + results.data.accountDescription);
       }
     });
   }

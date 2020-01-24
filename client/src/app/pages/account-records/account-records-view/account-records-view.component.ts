@@ -8,38 +8,16 @@ import { NotificationsService } from '../../../services/notifications.service';
 
 // interfaces
 import { SortOptionsInterface } from '../../../interfaces/sortOptions';
-import { AccountsViewInterface } from '../../../interfaces/accounts';
+import { AccountRecordsInterface } from '../../../interfaces/accountRecords';
 
 @Component({
-  selector: 'app-accounts-view',
-  templateUrl: './accounts-view.component.html',
-  styleUrls: ['./accounts-view.component.scss']
+  selector: 'app-account-records-view',
+  templateUrl: './account-records-view.component.html',
+  styleUrls: ['./account-records-view.component.scss']
 })
-export class AccountsViewComponent implements OnInit {
+export class AccountRecordsViewComponent implements OnInit {
 
-  tableHead = [
-    {
-      text: 'ID',
-      data: '_id'
-    }, {
-      text: 'Account Number',
-      data: 'accountNumber'
-    }, {
-      text: 'Account Description',
-      data: 'accountDescription'
-    }, {
-      text: 'Account Status',
-      data: 'status'
-    }, {
-      text: 'Date Opened',
-      data: 'dateOpened'
-    }, {
-      text: 'Date Closed',
-      data: 'dateClosed'
-    }
-  ];
-  tableBody: AccountsViewInterface[];
-  results: AccountsViewInterface[];
+  private results: AccountRecordsInterface[];
   private sortOptions: SortOptionsInterface;
   totalRecords: string;
 
@@ -49,39 +27,12 @@ export class AccountsViewComponent implements OnInit {
     private _httpService: HttpService,
     private _notificationService: NotificationsService
   ) {
-    _generalService.setTitle('Accounts: View All');
+    this._generalService.setTitle('Account Records: View All');
   }
 
   ngOnInit() {
-    localStorage.setItem('activeMenu', 'accounts');
+    localStorage.setItem('activeMenu', 'account-records');
     this.load();
-  }
-
-  filterUpdater(pEvent) {
-    if (!Array(pEvent)) {
-      if (pEvent == 'load') {
-        this.load();
-      } else if (pEvent == 'add') {
-        this._generalService.redirect('accounts/add');
-      }
-    }
-  }
-
-  changeColumn(newColumn: string) {
-    const activeColumn = this._generalService.getSortColumn();
-    if (newColumn !== activeColumn) {
-      this._generalService.setActiveColumn(newColumn);
-      this.load();
-    }
-  }
-
-  getActiveColumn(currentColumn: string) {
-    const activeColumn = this._generalService.getSortColumn();
-    if (currentColumn === activeColumn) {
-      return 'active pointer';
-    } else {
-      return 'pointer';
-    }
   }
 
   load() {
@@ -93,13 +44,21 @@ export class AccountsViewComponent implements OnInit {
     this.sortOptions.page = this._generalService.getPage();
     this.sortOptions.pagerRecords = this._generalService.getRecords();
 
-    this._httpService.post('accounts/view', this.sortOptions).then((results: any) => {
+    this._httpService.post('accountRecords/view', this.sortOptions).then((results: any) => {
       if (results.status === '00') {
         this.results = results.data;
-        this.tableBody = results.data;
         this.totalRecords = results.records;
       }
     });
+  }
+
+  getActiveColumn(currentColumn: string) {
+    const activeColumn = this._generalService.getSortColumn();
+    if (currentColumn === activeColumn) {
+      return 'active pointer';
+    } else {
+      return 'pointer';
+    }
   }
 
   enable(pId) {
@@ -156,4 +115,5 @@ export class AccountsViewComponent implements OnInit {
       });
     }
   }
+
 }

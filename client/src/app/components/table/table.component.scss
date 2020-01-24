@@ -1,0 +1,32 @@
+.table-component {
+  & table {
+    width: 100%;
+
+    & thead {
+      background-color: #000;
+      color: #fff;
+
+      & th {
+        cursor: pointer;
+        padding: 5px;
+      }
+    }
+
+    & tbody {
+      & tr {
+        &:nth-child(2n) {
+          background-color: #f3f3f3;
+        }
+      }
+
+      & td {
+        padding: 5px;
+
+      }
+    }
+  }
+
+  &__controls {
+    text-align: right;
+  }
+}

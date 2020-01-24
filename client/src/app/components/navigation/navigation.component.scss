@@ -1,0 +1,53 @@
+.navigation {
+  background-color: #f8f5f5;
+  height: 100%;
+
+  & a {
+    color: #333;
+    padding: 10px 15px;
+    margin: 0;
+    display: block;
+    text-align: left;
+  }
+
+  &__main {
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 6px #333;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    & a {
+      cursor: pointer;
+      text-decoration: none;
+      background-color: #fff;
+    }
+
+    &--open {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+
+  &__sub {
+    background-color: #efefef;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    & a {
+      text-decoration: none;
+      background-color: transparent;
+    }
+  }
+
+  & ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__hide {
+    display: none;
+  }
+}

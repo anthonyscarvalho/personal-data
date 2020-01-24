@@ -1,3 +1,12 @@
-<app-navigation></app-navigation>
-<router-outlet></router-outlet>
+<div class="appHeader">
+  <app-header [headerTitle]="appTitle"></app-header>
+</div>
+<div class="appBody">
+  <div class="appBody--menu">
+    <app-navigation></app-navigation>
+  </div>
+  <div class="appBody--content appBody--padding">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 <ng2-toasty></ng2-toasty>

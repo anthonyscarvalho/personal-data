@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <app-filter-box (updater)="filterUpdater($event)"></app-filter-box>
+    </div>
+    <div class="col-10">
+      <table class="table table-sm table-hover table-striped click">
+        <thead>
+          <tr>
+            <th (click)="changeColumn('_id')" [class]="getActiveColumn('_id')" style="width:50px">ID</th>
+            <th (click)="changeColumn('accountNumber')" [class]="getActiveColumn('accountNumber')">Account Number</th>
+            <th (click)="changeColumn('accountDescription')" [class]="getActiveColumn('accountDescription')">Account Description</th>
+            <th (click)="changeColumn('status')" [class]="getActiveColumn('status')">Account Status</th>
+            <th (click)="changeColumn('dateOpened')" [class]="getActiveColumn('dateOpened')" style="width:250px">Date Opened</th>
+            <th (click)="changeColumn('dateClosed')" [class]="getActiveColumn('dateClosed')" style="width:250px">Date Closed</th>
+            <th style="width: 180px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let res of results">
+            <td>{{res._id}}</td>
+            <td>{{res.accountNumber}}</td>
+            <td>{{res.accountDescription}}</td>
+            <td>{{res.status}}</td>
+            <td>{{res.dateOpened | date:'yyyy-MM-dd'}}</td>
+            <td>{{res.dateClosed | date:'yyyy-MM-dd'}}</td>
+            <td>
+              <span ng-if="userRoles.edit == 'true'">
+                <a class="btn btn-info btn-sm" routerLink="/accounts/edit/{{res._id}}">
+                  <span class="fa fa-fw fa-pencil"></span>
+                </a>
+              </span>
+              <span ng-if="userRoles.status == 'true'">
+                <a class="btn btn-danger btn-sm" (click)="enable( res.id )" *ngIf="res.canceled == 'true'">
+                  <span class="fa fa-fw fa-square-o"></span>
+                </a>
+                <a class="btn btn-success btn-sm" (click)="cancel( res.id)" *ngIf="res.canceled == 'false'">
+                  <span class="fa fa-fw fa-square"></span>
+                </a>
+              </span>
+              <span ng-if="userRoles.delete == 'true'">
+                <a class="btn btn-warning btn-sm" (click)="delete( res.id )">
+                  <span class="fa fa-fw fa-trash"></span>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

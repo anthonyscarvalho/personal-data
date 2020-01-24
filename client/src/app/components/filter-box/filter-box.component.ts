@@ -20,17 +20,19 @@ export class FilterBoxComponent implements OnInit {
   @Input() showPager: Boolean = true;
   @Input() showDue: Boolean = false;
   @Input() pagerTotal: Number = 0;
+  @Input() updateControls = false;
+  @Input() backLink = '';
 
   @Output('updater') _updater = new EventEmitter<any>();
 
-  state: String = 'all';
+  state: string = 'all';
   date: Date = new Date();
-  invoiceFilter: String = 'all';
-  sortDir: String = 'ASC';
-  company: String;
-  user: String;
-  searchPhrase: String;
-  pagerRecords: String;
+  invoiceFilter: string = 'all';
+  sortDir: string = 'ASC';
+  company: string;
+  user: string;
+  searchPhrase: string;
+  pagerRecords: string;
   currentPage: Number;
 
   maxSize = 5;
@@ -46,7 +48,6 @@ export class FilterBoxComponent implements OnInit {
     this.generalService.setDate(this.date);
     this.invoiceFilter = this.generalService.getInvFilter();
     this.sortDir = this.generalService.getSortDir();
-    this.company = this.generalService.getCompany();
     this.user = this.generalService.getUser();
     this.searchPhrase = this.generalService.getSearchPhrase();
     this.pagerRecords = this.generalService.getRecords();
@@ -55,7 +56,8 @@ export class FilterBoxComponent implements OnInit {
     this.bsConfig.containerClass = 'theme-dark-blue';
     this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
   }
-
+  ngOnInit() {
+  }
   refreshRecords() {
     this._updater.emit('load');
   }
@@ -124,18 +126,6 @@ export class FilterBoxComponent implements OnInit {
       }
     );
   }
-  updateCompany() {
-    if (this.company === '0') {
-      this.generalService.setCompany(null);
-    } else {
-      this.generalService.setCompany(this.company);
-    }
-    this._updater.emit(
-      {
-        changed: 'true'
-      }
-    );
-  }
   updateUser() {
     if (this.user === '0') {
       this.generalService.setUser(null);
@@ -157,6 +147,8 @@ export class FilterBoxComponent implements OnInit {
       }
     );
   }
-  ngOnInit() {
+  updateForm() {
+    this._updater.emit('save');
   }
+
 }

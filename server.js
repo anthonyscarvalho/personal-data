@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var accounts = require('./routes/accounts');
+var accountRecords = require('./routes/accountsRecords');
 var logs = require('./routes/logs');
 var transactions = require('./routes/transactions');
 var users = require('./routes/users');
@@ -40,6 +41,7 @@ app.use(bodyParser.json());
 
 app.use('/', index);
 app.use('/api', accounts);
+app.use('/api', accountRecords);
 app.use('/api', logs);
 app.use('/api', transactions);
 app.use('/api', users);

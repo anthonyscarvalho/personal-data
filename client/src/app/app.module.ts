@@ -13,6 +13,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MyDatePickerModule } from 'mydatepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastyModule } from 'ng2-toasty';
 
 // Services
@@ -30,6 +31,11 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AccountsViewComponent } from './pages/accounts/accounts-view/accounts-view.component';
 import { AccountsComponent } from './pages/accounts/accounts/accounts.component';
 import { TransactionsEditComponent } from './pages/transactions/transactions-edit/transactions-edit.component';
+import { AccountRecordsComponent } from './pages/account-records/account-records/account-records.component';
+import { AccountRecordsViewComponent } from './pages/account-records/account-records-view/account-records-view.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +48,11 @@ import { TransactionsEditComponent } from './pages/transactions/transactions-edi
     AccountsComponent,
     DashboardComponent,
     TransactionsEditComponent,
+    AccountRecordsComponent,
+    AccountRecordsViewComponent,
+    HeaderComponent,
+    FooterComponent,
+    TableComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -57,6 +68,7 @@ import { TransactionsEditComponent } from './pages/transactions/transactions-edi
     ModalModule.forRoot(),
     MyDatePickerModule,
     PaginationModule.forRoot(),
+    TabsModule.forRoot(),
     ToastyModule.forRoot(),
   ],
   exports: [

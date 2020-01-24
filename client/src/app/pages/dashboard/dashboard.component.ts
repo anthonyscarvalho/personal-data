@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _generalService: GeneralService
+  ) {
+    this._generalService.setTitle('Dashboard');
+  }
 
   ngOnInit() {
+    localStorage.removeItem('activeMenu');
   }
 
 }

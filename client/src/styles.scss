@@ -11,11 +11,24 @@ body {
   width: 100%;
 }
 
-body {
-  padding-top: 70px;
-}
-
 .btn-sm {
   margin: 4px;
   padding: 3px !important;
+}
+
+.tab-content {
+  padding-top: 30px;
+}
+
+.appBody--padding {
+  padding: 20px;
+}
+
+div.buttons {
+  margin-bottom: 10px;
+}
+
+.buttons_space {
+  margin-left: 10px;
+  margin-right: 10px;
 }
