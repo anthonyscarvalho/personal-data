@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 // interfaces
 import { AccountsAddInterface } from '../../../interfaces/accounts';
-import { FilterBoxConfigInterface } from '../../../interfaces/filterBoxOptions';
+import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 // services
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
@@ -21,6 +21,7 @@ export class AccountsComponent implements OnInit {
   results: AccountsAddInterface;
   parentId: string;
   public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  private filterBoxOptions: FilterBoxOptionsInterface;
   private filterBoxConfig: FilterBoxConfigInterface;
 
   constructor(
@@ -43,6 +44,7 @@ export class AccountsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterBoxOptions = new FilterBoxOptionsInterface();
     localStorage.setItem('activeMenu', 'accounts');
 
     if (!this.parentId) {

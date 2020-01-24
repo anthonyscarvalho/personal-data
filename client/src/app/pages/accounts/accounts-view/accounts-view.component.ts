@@ -1,11 +1,9 @@
-import { Component,Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 // service
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
-
 // interfaces
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 import { AccountsViewInterface } from '../../../interfaces/accounts';
@@ -16,7 +14,6 @@ import { AccountsViewInterface } from '../../../interfaces/accounts';
   styleUrls: ['./accounts-view.component.scss']
 })
 export class AccountsViewComponent implements OnInit {
-
   tableHead = [
     {
       text: 'ID',

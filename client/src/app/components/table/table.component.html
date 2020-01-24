@@ -34,7 +34,7 @@
     </tbody>
   </table>
   <div class="clearfix">&nbsp;</div>
-  <div class="form-group d-flex justify-content-center" *ngIf="filterBoxOptions.totalRecords">
+  <div class="form-group d-flex justify-content-center fixed-bottom" *ngIf="filterBoxOptions.totalRecords">
     <pagination [totalItems]="filterBoxOptions.totalRecords" [(ngModel)]="filterBoxOptions.page" (pageChanged)="updatePage($event)" [maxSize]="10" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="filterBoxOptions.pagerRecords"></pagination>
   </div>
 </div>

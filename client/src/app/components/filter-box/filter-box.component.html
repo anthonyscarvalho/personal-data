@@ -1,5 +1,5 @@
-<div class="filter-box" *ngIf="filterBoxOptions">
-  <div *ngIf="!filterBoxConfig.updateControls">
+<div class="filter-box" *ngIf="filterBoxConfig">
+  <div *ngIf="!filterBoxConfig.updateControls && filterBoxOptions">
     <div class="card" *ngIf="filterBoxConfig.showStatusFilter">
       <div class="card-body">
         <legend>Status Filter</legend>
