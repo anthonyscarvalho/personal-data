@@ -58,7 +58,27 @@ router.post('/accounts/view/:id?', function (req, res, next) {
                     _response.data = pResults;
                     res.json(_response);
                 });
-
+        });
+    } else if (req.params.id == 'all') {
+        db.accounts.count(query, function (err, pCount) {
+            if (err) {
+                _errors.push("Can't count");
+            }
+            _response.totalRecords = pCount;
+            db.accounts.find(query)
+                .sort({'accountDescription':1})
+                .toArray(function (err, pResults) {
+                    if (err) {
+                        _errors.push(err)
+                        console.log(err);
+                    }
+                    if (_errors.length > 0) {
+                        _response.status = '01';
+                    }
+                    _response.errors = _errors;
+                    _response.data = pResults;
+                    res.json(_response);
+                });
         });
     } else {
         db.accounts.findOne({
