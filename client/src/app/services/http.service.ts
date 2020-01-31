@@ -5,25 +5,25 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(
-    private _httpClient: HttpClient
-  ) { }
+	constructor(
+		private _httpClient: HttpClient
+	) { }
 
-  post(pUrl, pData) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._httpClient.post(environment.baseUrl + '/' + pUrl, JSON.stringify(pData), { headers }).toPromise();
-  }
+	post(pUrl, pData) {
+		const headers = new HttpHeaders().set('Content-Type', 'application/json');
+		return this._httpClient.post(environment.baseUrl + '/' + pUrl, JSON.stringify(pData), { headers }).toPromise();
+	}
 
-  delete(pUrl, pData) {
-    return this._httpClient.delete(environment.baseUrl + '/' + pUrl + '/' + pData).toPromise();
-  }
+	delete(pUrl, pData) {
+		return this._httpClient.delete(environment.baseUrl + '/' + pUrl + '/' + pData).toPromise();
+	}
 
-  update(pUrl, pId, pData) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._httpClient.put(environment.baseUrl + '/' + pUrl + '/' + pId, JSON.stringify(pData), { headers }).toPromise();
-  }
+	update(pUrl, pId, pData) {
+		const headers = new HttpHeaders().set('Content-Type', 'application/json');
+		return this._httpClient.put(environment.baseUrl + '/' + pUrl + '/' + pId, JSON.stringify(pData), { headers }).toPromise();
+	}
 }

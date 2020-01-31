@@ -215,14 +215,14 @@ export class AccountRecordsComponent implements OnInit {
 					}
 					if (_tmp.date1 && !_tmp.date1.includes('Date')) {
 						const csvRecord: AccountRecordsInterface = new AccountRecordsInterface(_tmp);
-						// this._httpService.post('api/transaction', csvRecord).then((pResponse: any) => {
-						// if (!pResponse.errors) {
-						this.addedRecords++;
-						this.accountRecords.push(csvRecord);
-						// } else {
-						// this.existingRecords++;
-						// }
-						// });
+						this._httpService.post('accountRecords/add', csvRecord).then((pResponse: any) => {
+							if (!pResponse.errors) {
+								this.addedRecords++;
+								this.accountRecords.push(csvRecord);
+							} else {
+								this.existingRecords++;
+							}
+						});
 					} else {
 						this.removedRecords++;
 					}

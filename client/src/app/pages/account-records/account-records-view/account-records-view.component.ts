@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 // service
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
-
 // interfaces
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 import { AccountRecordsInterface } from '../../../interfaces/accountRecords';
@@ -22,23 +20,19 @@ export class AccountRecordsViewComponent implements OnInit {
 			data: '_id'
 		}, {
 			text: 'Account Number',
-			data: 'accountNumber'
+			data: 'accountsId'
 		}, {
-			text: 'Account Description',
-			data: 'accountDescription'
+			text: 'Credit',
+			data: 'credit'
 		}, {
-			text: 'Account Status',
-			data: 'status'
+			text: 'Debit',
+			data: 'debit'
 		}, {
-			text: 'Date Opened',
-			data: 'dateOpened'
-		}, {
-			text: 'Date Closed',
-			data: 'dateClosed'
+			text: 'Journal',
+			data: 'journal'
 		}
 	];
-	// tableBody: AccountsViewInterface[];
-	tableBody;
+	tableBody: AccountRecordsInterface[];
 	results: AccountRecordsInterface[];
 	private filterBoxOptions: FilterBoxOptionsInterface;
 	private filterBoxConfig: FilterBoxConfigInterface;
@@ -56,10 +50,6 @@ export class AccountRecordsViewComponent implements OnInit {
 
 	ngOnInit() {
 		localStorage.setItem('activeMenu', 'account-records');
-		this.load();
-	}
-
-	load() {
 		this.filterBoxOptions = new FilterBoxOptionsInterface();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
@@ -67,18 +57,11 @@ export class AccountRecordsViewComponent implements OnInit {
 		this.filterBoxOptions.dir = this._generalService.getSortDir();
 		this.filterBoxOptions.page = this._generalService.getPage();
 		this.filterBoxOptions.pagerRecords = this._generalService.getRecords();
-
-		this._httpService.post('accountRecords/view', this.filterBoxOptions).then((results: any) => {
-			if (results.status === '00') {
-				this.results = results.data;
-				this.totalRecords = results.records;
-			}
-		});
+		this.load();
 	}
 
-
-	filterUpdater(pEvent) {
-		if (!Array.isArray(pEvent)) {
+	filterUpdater(pEvent: any) {
+		if (typeof pEvent !== 'object') {
 			switch (pEvent) {
 				case 'load':
 				case 'changed':
@@ -88,62 +71,74 @@ export class AccountRecordsViewComponent implements OnInit {
 					this._generalService.redirect('account-records/add');
 					break;
 			}
+		} else {
+			switch (pEvent.action) {
+				case 'enable':
+					this.enable(pEvent.record);
+					break;
+				case 'cancel':
+					this.cancel(pEvent.record);
+					break;
+				case 'delete':
+					this.delete(pEvent.record);
+					break;
+			}
 		}
+	}
+
+	load() {
+		this._httpService.post('accountRecords/view', this.filterBoxOptions).then((results: any) => {
+			if (results.status === '00') {
+				this.results = results.data;
+				this.tableBody = results.data;
+				this.filterBoxOptions.totalRecords = results.totalRecords;
+			}
+		});
 	}
 
 	enable(pId) {
-		if (confirm('Are you sure you want to enable this record?')) {
-			this._httpService.post('accounts/enable', {
-				id: pId
-			}).then((results: any) => {
-				if (results.status === '00') {
-					this.load();
-					this._notificationService.success(results.message);
-				} else {
-					if (results.errors) {
-						results.errors.forEach(pError => {
-							this._notificationService.warn(pError);
-						});
-					}
+		this._httpService.update('accountRecords/enable', pId, {}).then((results: any) => {
+			if (results.status === '00') {
+				this.load();
+				this._notificationService.success(results.message);
+			} else {
+				if (results.errors) {
+					results.errors.forEach(pError => {
+						this._notificationService.warn(pError);
+					});
 				}
-			});
-		}
+			}
+		});
 	}
 
 	cancel(pId) {
-		if (confirm('Are you sure you want to cancel this record?')) {
-			this._httpService.post('accounts/cancel', {
-				id: pId
-			}).then((results: any) => {
-				if (results.status === '00') {
-					this.load();
-					this._notificationService.success(results.message);
-				} else {
-					if (results.errors) {
-						results.errors.forEach(pError => {
-							this._notificationService.warn(pError);
-						});
-					}
+		this._httpService.update('accountRecords/cancel', pId, {}).then((results: any) => {
+			if (results.status === '00') {
+				this.load();
+				this._notificationService.success(results.message);
+			} else {
+				if (results.errors) {
+					results.errors.forEach(pError => {
+						this._notificationService.warn(pError);
+					});
 				}
-			});
-		}
+			}
+		});
 	}
 
 	delete(pId) {
-		if (confirm('Are you sure you want to delete this record?')) {
-			this._httpService.delete('accounts/delete', pId).then((results: any) => {
-				if (results.status === '00') {
-					this.load();
-					this._notificationService.success(results.message);
-				} else {
-					if (results.errors) {
-						results.errors.forEach(pError => {
-							this._notificationService.warn(pError);
-						});
-					}
+		this._httpService.delete('accountRecords/delete', pId).then((results: any) => {
+			if (results.status === '00') {
+				this.load();
+				this._notificationService.success(results.message);
+			} else {
+				if (results.errors) {
+					results.errors.forEach(pError => {
+						this._notificationService.warn(pError);
+					});
 				}
-			});
-		}
+			}
+		});
 	}
 
 }

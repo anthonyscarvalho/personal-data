@@ -17,33 +17,71 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
     if (!req.params.id) {
         var body = req.body;
         var page = ((body.page) ? body.page : 1);
-        var records = ((body.records) ? body.records : 20);
+        var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+        var orderBy = ((body.column) ? body.column : '');
+        var orderDir = ((body.dir === 'ASC') ? 1 : -1);
+        var searchPhrase = ((body.searchPhrase) ? body.searchPhrase : '');
         var filter = {};
+        var query = {};
+        _errors = [];
 
-        if (body.filter) {
-            filter = body.filter;
+        if (searchPhrase != '') {
+            query = {
+                accountDescription: searchPhrase,
+                accountNumber: searchPhrase
+            };
+        }
+
+        if (orderBy) {
+            filter[orderBy] = orderDir;
         } else {
             filter = {};
         }
-        db.accountRecords.count(filter, function (err, pCount) {
+        db.accountRecords.count(query, function (err, pCount) {
+            if (err) {
+                _errors.push("Can't count");
+            }
+            console.log(pCount);
+            _response.totalRecords = pCount;
+            db.accountRecords.find(query)
+                .skip(((page * records) - records))
+                .limit(records)
+                .sort(filter)
+                .toArray(function (err, pResults) {
+                    if (err) {
+                        _errors.push(err)
+                        console.log(err);
+                    }
+                    if (_errors.length > 0) {
+                        _response.status = '01';
+                    }
+                    _response.errors = _errors;
+                    _response.data = pResults;
+                    res.json(_response);
+                });
+        });
+    } else if (req.params.id == 'all') {
+        db.accounts.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accountRecords.find({}, filter, {
-                skip: ((page * records) - records),
-                limit: records
-            }, function (err, pResults) {
-                if (err) {
-                    _errors.push("Can't fetch data")
-                }
-                if (_errors.length > 0) {
-                    _response.status = '01';
-                }
-                _response.errors = _errors;
-                _response.data = pResults;
-                res.json(_response);
-            });
+            db.accounts.find(query)
+                .sort({
+                    'accountDescription': 1
+                })
+                .toArray(function (err, pResults) {
+                    if (err) {
+                        _errors.push(err)
+                        console.log(err);
+                    }
+                    if (_errors.length > 0) {
+                        _response.status = '01';
+                    }
+                    _response.errors = _errors;
+                    _response.data = pResults;
+                    res.json(_response);
+                });
         });
     } else {
         db.accountRecords.findOne({
@@ -60,16 +98,19 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
 });
 
 // create record
-router.put('/accountRecords/add', function (req, res, next) {
+router.post('/accountRecords/add', function (req, res, next) {
     var newRecord = req.body;
-    if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
+    if (!newRecord.accountsId || !newRecord.date1) {
         res.status(400);
         res.json({
             "error": "bad data"
         });
     } else {
         db.accountRecords.find({
-            accountNumber: req.body.accountNumber
+            accountsId: req.body.accountsId,
+            date1: newRecord.date1,
+            credit: newRecord.credit,
+            debit: newRecord.debit
         }, {}, {}, function (err, pResults) {
             if (err) {
                 _errors.push("Can't fetch data");

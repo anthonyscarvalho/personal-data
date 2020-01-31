@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var accounts = require('./routes/accounts');
-var accountRecords = require('./routes/accountsRecords');
+var accountRecords = require('./routes/accountRecords');
 var logs = require('./routes/logs');
 var transactions = require('./routes/transactions');
 var users = require('./routes/users');
