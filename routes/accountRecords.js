@@ -41,7 +41,6 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
             if (err) {
                 _errors.push("Can't count");
             }
-            console.log(pCount);
             _response.totalRecords = pCount;
             db.accountRecords.find(query)
                 .skip(((page * records) - records))
@@ -49,8 +48,7 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
                 .sort(filter)
                 .toArray(function (err, pResults) {
                     if (err) {
-                        _errors.push(err)
-                        console.log(err);
+                        _errors.push(err);
                     }
                     if (_errors.length > 0) {
                         _response.status = '01';
@@ -72,8 +70,7 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
                 })
                 .toArray(function (err, pResults) {
                     if (err) {
-                        _errors.push(err)
-                        console.log(err);
+                        _errors.push(err);
                     }
                     if (_errors.length > 0) {
                         _response.status = '01';
@@ -160,7 +157,6 @@ router.put('/accountRecords/update/:id', function (req, res, next) {
     if (newRecord._id) {
         delete(newRecord._id);
     }
-    console.log(newRecord);
     if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
         res.status(400);
         res.json({

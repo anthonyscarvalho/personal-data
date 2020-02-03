@@ -22,6 +22,12 @@ export class AccountRecordsViewComponent implements OnInit {
 			text: 'Account Number',
 			data: 'accountsId'
 		}, {
+			text: 'Date 1',
+			data: 'date1'
+		}, {
+			text: 'Date 2',
+			data: 'date2'
+		}, {
 			text: 'Credit',
 			data: 'credit'
 		}, {

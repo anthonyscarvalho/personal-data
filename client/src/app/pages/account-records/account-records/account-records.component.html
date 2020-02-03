@@ -48,28 +48,24 @@
 									<tr>
 										<th style="width: 70px;"></th>
 										<th>Statement ID</th>
-										<th>Account</th>
 										<th>Date 1</th>
 										<th>Date 2</th>
 										<th>Description</th>
-										<th>Amount Out</th>
-										<th>Amount In</th>
+										<th>Credit</th>
+										<th>Debit</th>
 										<th>Balance</th>
-										<th>Service Fee</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr *ngFor="let item of accountRecords; let loopIndex = index">
 										<td>{{loopIndex}}</td>
 										<td>{{item.statementId}}</td>
-										<td>{{item.accountsId}}</td>
 										<td>{{item.date1}}</td>
 										<td>{{item.date2}}</td>
 										<td>{{item.description}}</td>
 										<td>{{item.credit}}</td>
 										<td>{{item.debit}}</td>
 										<td>{{item.balance}}</td>
-										<td>{{item.serviceFee}}</td>
 									</tr>
 								</tbody>
 							</table>

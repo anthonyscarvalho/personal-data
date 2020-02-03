@@ -48,8 +48,7 @@ router.post('/accounts/view/:id?', function (req, res, next) {
                 .sort(filter)
                 .toArray(function (err, pResults) {
                     if (err) {
-                        _errors.push(err)
-                        console.log(err);
+                        _errors.push(err);
                     }
                     if (_errors.length > 0) {
                         _response.status = '01';
@@ -69,8 +68,7 @@ router.post('/accounts/view/:id?', function (req, res, next) {
                 .sort({'accountDescription':1})
                 .toArray(function (err, pResults) {
                     if (err) {
-                        _errors.push(err)
-                        console.log(err);
+                        _errors.push(err);
                     }
                     if (_errors.length > 0) {
                         _response.status = '01';
@@ -142,7 +140,6 @@ router.put('/accounts/update/:id', function (req, res, next) {
     if (newRecord._id) {
         delete(newRecord._id);
     }
-    console.log(newRecord);
     if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
         res.status(400);
         res.json({
@@ -193,7 +190,6 @@ router.put('/accounts/cancel/:id', function (req, res, next) {
         canceled: 'true',
         canceledDate: new Date()
     };
-    console.log(newRecord);
     if (!req.params.id) {
         res.status(400);
         res.json({
@@ -225,7 +221,6 @@ router.put('/accounts/enable/:id', function (req, res, next) {
         canceled: 'false',
         canceledDate: ''
     };
-    console.log(newRecord);
     if (!req.params.id) {
         res.status(400);
         res.json({
