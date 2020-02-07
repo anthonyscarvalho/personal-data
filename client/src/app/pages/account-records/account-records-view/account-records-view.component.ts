@@ -20,7 +20,7 @@ export class AccountRecordsViewComponent implements OnInit {
 			data: '_id'
 		}, {
 			text: 'Account Number',
-			data: 'accountsId'
+			data: 'accountNumber'
 		}, {
 			text: 'Date 1',
 			data: 'date1'

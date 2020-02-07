@@ -65,7 +65,9 @@ router.post('/accounts/view/:id?', function (req, res, next) {
             }
             _response.totalRecords = pCount;
             db.accounts.find(query)
-                .sort({'accountDescription':1})
+                .sort({
+                    'accountDescription': 1
+                })
                 .toArray(function (err, pResults) {
                     if (err) {
                         _errors.push(err);

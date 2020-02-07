@@ -30,7 +30,6 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AccountsViewComponent } from './pages/accounts/accounts-view/accounts-view.component';
 import { AccountsComponent } from './pages/accounts/accounts/accounts.component';
-import { TransactionsEditComponent } from './pages/transactions/transactions-edit/transactions-edit.component';
 import { AccountRecordsComponent } from './pages/account-records/account-records/account-records.component';
 import { AccountRecordsViewComponent } from './pages/account-records/account-records-view/account-records-view.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -38,51 +37,50 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TableComponent } from './components/table/table.component';
 
 @NgModule({
-  declarations: [
-    // components
-    AppComponent,
-    FilterBoxComponent,
-    NavigationComponent,
-    // pages
-    AccountsViewComponent,
-    AccountsComponent,
-    DashboardComponent,
-    TransactionsEditComponent,
-    AccountRecordsComponent,
-    AccountRecordsViewComponent,
-    HeaderComponent,
-    FooterComponent,
-    TableComponent,
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    // routing
-    AppRoutingModule,
-    // 3rd party scripts
-    AngularFontAwesomeModule,
-    BsDatepickerModule.forRoot(),
-    ButtonsModule.forRoot(),
-    ModalModule.forRoot(),
-    MyDatePickerModule,
-    PaginationModule.forRoot(),
-    TabsModule.forRoot(),
-    ToastyModule.forRoot(),
-  ],
-  exports: [
-    ToastyModule,
-  ],
-  providers: [
-    // services
-    DatePipe,
-    GeneralService,
-    HttpService, ,
-    NotificationsService,
-  ],
-  bootstrap: [
-    AppComponent
-  ]
+	declarations: [
+		// components
+		AppComponent,
+		FilterBoxComponent,
+		NavigationComponent,
+		// pages
+		AccountsViewComponent,
+		AccountsComponent,
+		DashboardComponent,
+		AccountRecordsComponent,
+		AccountRecordsViewComponent,
+		HeaderComponent,
+		FooterComponent,
+		TableComponent,
+	],
+	imports: [
+		BrowserAnimationsModule,
+		BrowserModule,
+		FormsModule,
+		HttpClientModule,
+		// routing
+		AppRoutingModule,
+		// 3rd party scripts
+		AngularFontAwesomeModule,
+		BsDatepickerModule.forRoot(),
+		ButtonsModule.forRoot(),
+		ModalModule.forRoot(),
+		MyDatePickerModule,
+		PaginationModule.forRoot(),
+		TabsModule.forRoot(),
+		ToastyModule.forRoot(),
+	],
+	exports: [
+		ToastyModule,
+	],
+	providers: [
+		// services
+		DatePipe,
+		GeneralService,
+		HttpService, ,
+		NotificationsService,
+	],
+	bootstrap: [
+		AppComponent
+	]
 })
 export class AppModule { }

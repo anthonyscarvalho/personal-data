@@ -222,6 +222,7 @@ export class AccountRecordsComponent implements OnInit {
 							} else {
 								this.existingRecords++;
 							}
+							this.csvTextData = '';
 						});
 					} else {
 						this.removedRecords++;
