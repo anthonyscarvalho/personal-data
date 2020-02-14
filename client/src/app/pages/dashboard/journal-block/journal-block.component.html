@@ -1,5 +1,5 @@
 <div class="journal-block" *ngIf="journal">
-	<div class="journal-block__title">{{journal.accountDescription}}</div>
+	<div class="journal-block__title">{{journal.accountName}}</div>
 	<div class="journal-block__status" [ngClass]="checkClass(journal.status)"></div>
 	<div class="journal-block__currency">
 		<div class="journal-block__currency--credit"><span class="journal-block__currency--fw">Credits</span>: R {{formatNumbers(journal.totalCredit)}}</div>

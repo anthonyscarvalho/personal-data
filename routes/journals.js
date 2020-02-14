@@ -49,7 +49,9 @@ router.post('/journals/view/:id?', function (req, res, next) {
             }, {
                 $project: {
                     _id: 1,
-                    accountName: 1
+                    accountName: 1,
+                    accountNumber: 1,
+                    canceled: 1
                 }
             }, {
                 $sort: filter
@@ -100,7 +102,7 @@ router.post('/journals/view/:id?', function (req, res, next) {
             db.journals.find(query, {
                     _id: 1,
                     accountName: 1,
-                    status: 1
+                    canceled: 1
                 })
                 .sort({
                     'accountDescription': 1
@@ -202,14 +204,16 @@ router.post('/journals/sum/:id?', function (req, res, next) {
 // create record
 router.post('/journals/add', function (req, res, next) {
     var newRecord = req.body;
-    if (!newRecord.accountName || !newRecord.status) {
+    if (!newRecord.accountName || !newRecord.status || !newRecord.accountNumber) {
         res.status(400);
         res.json({
-            "error": "bad data"
+            status: '01',
+            error: "bad data"
         });
     } else {
         db.journals.find({
             accountName: newRecord.accountName,
+            accountNumber: newRecord.accountNumber,
         }, {}, {}, function (err, pResults) {
             if (err) {
                 _errors.push("Can't fetch data");
@@ -262,25 +266,51 @@ router.put('/journals/update/:id', function (req, res, next) {
     if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
         res.status(400);
         res.json({
-            "error": "bad data"
+            status: '01',
+            error: ["bad data"]
         });
     } else {
-        db.journals.update({
-            _id: mongojs.ObjectId(req.params.id)
-        }, {
-            $set: newRecord
-        }, {}, function (err, pResults) {
+        db.journals.find({
+            $or: [{
+                accountName: newRecord.accountName
+            }, {
+                accountNumber: newRecord.accountNumber
+            }]
+        }, {}, {}, function (err, pResults) {
             if (err) {
-                res.send(err);
+                _errors.push("Can't fetch data");
             }
-            if (pResults.ok) {
-                _response.status = '00';
-                _response.message = 'Record updated';
-                _response.data = pResults;
-                res.json(_response);
+            if (_errors.length > 0) {
+                _response.status = '01';
             }
-            1
+            _response.errors = _errors;
+            _response.data = pResults;
+            if ((pResults.length === 1) && (pResults[0]._id == req.params.id) ) {
+                db.journals.update({
+                    _id: mongojs.ObjectId(req.params.id)
+                }, {
+                    $set: newRecord
+                }, {}, function (err, pResults) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    if (pResults.ok) {
+                        _response.status = '00';
+                        _response.message = 'Record updated';
+                        _response.data = pResults;
+                        res.json(_response);
+                    }
+                    1
+                });
+            } else {
+                // record exists
+                res.json({
+                    status: '02',
+                    errors: ['Record exists']
+                });
+            }
         });
+
     }
 });
 

@@ -39,6 +39,8 @@ import { JournalsComponent } from './pages/journals/journals/journals.component'
 import { JournalsViewComponent } from './pages/journals/journals-view/journals-view.component';
 import { AccountBlockComponent } from './pages/dashboard/account-block/account-block.component';
 import { JournalBlockComponent } from './pages/dashboard/journal-block/journal-block.component';
+import { JournalRecordsComponent } from './pages/journal-records/journal-records/journal-records.component';
+import { JournalRecordsViewComponent } from './pages/journal-records/journal-records-view/journal-records-view.component';
 
 @NgModule({
 	declarations: [
@@ -59,6 +61,8 @@ import { JournalBlockComponent } from './pages/dashboard/journal-block/journal-b
 		JournalsViewComponent,
 		AccountBlockComponent,
 		JournalBlockComponent,
+		JournalRecordsComponent,
+		JournalRecordsViewComponent,
 	],
 	imports: [
 		BrowserAnimationsModule,

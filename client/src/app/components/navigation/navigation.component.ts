@@ -100,6 +100,22 @@ export class NavigationComponent implements OnInit {
 					link: `add`,
 				}
 			]
+		}, {
+			icon: ``,
+			name: `Journal Records`,
+			link: `journal-records`,
+			showChildren: false,
+			children: [
+				{
+					icon: `search`,
+					name: `View`,
+					link: `view`,
+				}, {
+					icon: `plus`,
+					name: `Add`,
+					link: `add`,
+				}
+			]
 		}
 	];
 
