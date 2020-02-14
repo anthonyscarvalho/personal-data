@@ -1,28 +1,14 @@
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Number</th>
-						<th>Status</th>
-						<th>Credits</th>
-						<th>Debits</th>
-						<th>Balance</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let account of accounts">
-						<td>{{account.accountDescription}}</td>
-						<td>{{account.accountNumber}}</td>
-						<td>{{account.status}}</td>
-						<td>{{account.totalCredit | currency : 'R '}}</td>
-						<td>{{account.totalDebit | currency : 'R '}}</td>
-						<td>{{account.balance | currency : 'R '}}</td>
-					</tr>
-				</tbody>
-			</table>
+	<h1>Accounts</h1>
+	<div class="row" *ngIf="accounts">
+		<div class="col-md-2 col-sm-4" *ngFor="let account of accounts">
+			<app-account-block [account]="account"></app-account-block>
+		</div>
+	</div>
+	<h1>Journal Entries</h1>
+	<div class="row" *ngIf="journalEntries">
+		<div class="col-md-2 col-sm-4" *ngFor="let journal of journalEntries">
+			<app-journal-block [journal]="journal"></app-journal-block>
 		</div>
 	</div>
 </div>

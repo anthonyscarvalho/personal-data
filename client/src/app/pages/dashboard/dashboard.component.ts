@@ -11,7 +11,8 @@ import { AccountsDashboardInterface } from '../../interfaces/accounts';
 })
 export class DashboardComponent implements OnInit {
 
-	accounts: AccountsDashboardInterface[];
+	accounts;
+	journalEntries;
 
 	constructor(
 		private _generalService: GeneralService,
@@ -29,19 +30,14 @@ export class DashboardComponent implements OnInit {
 	}
 
 	loadAccounts() {
-		this._httpService.post('accounts/view/all', {}).then((pResults: any) => {
+		this._httpService.post('accounts/view/dash', {}).then((pResults: any) => {
 			if (pResults.status === '00') {
-				pResults.data.map((pAccount: any) => {
-					const _account = new AccountsDashboardInterface(pAccount);
-					this._httpService.post('accountRecords/sum/' + pAccount._id, {}).then((pRes: any) => {
-						if (pRes.status === '00') {
-							_account.balance = pRes.data.balance;
-							_account.totalCredit = pRes.data.totalCredit;
-							_account.totalDebit = pRes.data.totalDebit;
-						}
-					});
-					this.accounts.push(_account);
-				});
+				this.accounts = pResults.data;
+			}
+			return this._httpService.post('journals/view/dash', {});
+		}).then((pResults: any) => {
+			if (pResults.status === '00') {
+				this.journalEntries = pResults.data;
 			}
 		});
 	}

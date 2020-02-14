@@ -35,6 +35,10 @@ import { AccountRecordsViewComponent } from './pages/account-records/account-rec
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TableComponent } from './components/table/table.component';
+import { JournalsComponent } from './pages/journals/journals/journals.component';
+import { JournalsViewComponent } from './pages/journals/journals-view/journals-view.component';
+import { AccountBlockComponent } from './pages/dashboard/account-block/account-block.component';
+import { JournalBlockComponent } from './pages/dashboard/journal-block/journal-block.component';
 
 @NgModule({
 	declarations: [
@@ -51,6 +55,10 @@ import { TableComponent } from './components/table/table.component';
 		HeaderComponent,
 		FooterComponent,
 		TableComponent,
+		JournalsComponent,
+		JournalsViewComponent,
+		AccountBlockComponent,
+		JournalBlockComponent,
 	],
 	imports: [
 		BrowserAnimationsModule,

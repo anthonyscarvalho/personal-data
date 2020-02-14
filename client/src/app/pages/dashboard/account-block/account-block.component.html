@@ -1,0 +1,9 @@
+<div class="account-block" *ngIf="accountDetails">
+	<div class="account-block__title">{{accountDetails.accountDescription}}</div>
+	<div class="account-block__status" [ngClass]="checkClass(accountDetails.status)"></div>
+	<div class="account-block__currency">
+		<div class="account-block__currency--credit"><span class="account-block__currency--fw">Credits</span>: R {{formatNumbers(accountDetails.totalCredit)}}</div>
+		<div class="account-block__currency--debit"><span class="account-block__currency--fw">Debits</span>: R {{formatNumbers(accountDetails.totalDebit)}}</div>
+		<div class="account-block__currency--balance"><span class="account-block__currency--fw">Balance</span>: R {{formatNumbers(accountDetails.balance)}}</div>
+	</div>
+</div>

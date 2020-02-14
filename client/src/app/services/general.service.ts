@@ -177,4 +177,26 @@ export class GeneralService {
 			this.router.navigate(['/' + pUrl]);
 		}
 	}
+
+	formatNumbers(value: any, fixed: number = 0) {
+		let _tmp: any = (Math.round(value * 100) / 100);
+		if (fixed > 0) {
+			_tmp.toFixed(fixed);
+		}
+		_tmp += '';
+		let x = _tmp.split('.');
+		let x1 = x[0];
+		let x2 = '';
+		if (parseFloat(x[1]) < 10) {
+			x2 = x.length > 1 ? '.' + x[1] + '0' : '';
+		} else {
+			x2 = x.length > 1 ? '.' + x[1] : '';
+		}
+		let rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ' ' + '$2');
+		}
+		const total: any = x1 + x2;
+		return total;
+	}
 }

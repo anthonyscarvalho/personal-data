@@ -9,27 +9,36 @@ import { AccountsComponent } from './pages/accounts/accounts/accounts.component'
 import { AccountRecordsViewComponent } from './pages/account-records/account-records-view/account-records-view.component';
 import { AccountRecordsComponent } from './pages/account-records/account-records/account-records.component';
 
+import { JournalsComponent } from './pages/journals/journals/journals.component';
+import { JournalsViewComponent } from './pages/journals/journals-view/journals-view.component';
+
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
-  {
-    path: 'accounts', children: [
-      { path: 'view', component: AccountsViewComponent, data: { title: 'View Accounts' }, },
-      { path: 'add', component: AccountsComponent, data: { title: 'Add Account' }, },
-      { path: 'edit/:id', component: AccountsComponent, data: { title: 'Edit Account' }, }
-    ]
-  },
-  {
-    path: 'account-records', children: [
-      { path: 'view', component: AccountRecordsViewComponent, data: { title: 'View AccountRecords' }, },
-      { path: 'add', component: AccountRecordsComponent, data: { title: 'Add Account Records' }, },
-      { path: 'edit/:id', component: AccountRecordsComponent, data: { title: 'Edit Account Record' }, }
-    ],
-  },
+	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+	{ path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
+	{
+		path: 'accounts', children: [
+			{ path: 'view', component: AccountsViewComponent, data: { title: 'View Accounts' }, },
+			{ path: 'add', component: AccountsComponent, data: { title: 'Add Account' }, },
+			{ path: 'edit/:id', component: AccountsComponent, data: { title: 'Edit Account' }, }
+		]
+	},
+	{
+		path: 'account-records', children: [
+			{ path: 'view', component: AccountRecordsViewComponent, data: { title: 'View AccountRecords' }, },
+			{ path: 'add', component: AccountRecordsComponent, data: { title: 'Add Account Records' }, },
+			{ path: 'edit/:id', component: AccountRecordsComponent, data: { title: 'Edit Account Record' }, }
+		],
+	}, {
+		path: 'journals', children: [
+			{ path: 'view', component: JournalsViewComponent, data: { title: 'View AccountRecords' }, },
+			{ path: 'add', component: JournalsComponent, data: { title: 'Add Account Records' }, },
+			{ path: 'edit/:id', component: JournalsComponent, data: { title: 'Edit Account Record' }, }
+		],
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }

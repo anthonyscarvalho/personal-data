@@ -17,7 +17,8 @@ export class AccountRecordsViewComponent implements OnInit {
 	tableHead = [
 		{
 			text: 'ID',
-			data: '_id'
+			data: '_id',
+			width: '250px'
 		}, {
 			text: 'Account Number',
 			data: 'accountNumber'

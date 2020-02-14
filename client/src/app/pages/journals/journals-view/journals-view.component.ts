@@ -6,38 +6,26 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 // interfaces
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
-import { AccountsViewInterface } from '../../../interfaces/accounts';
+import { JournalsViewInterface } from '../../../interfaces/journals';
 
 @Component({
-	selector: 'app-accounts-view',
-	templateUrl: './accounts-view.component.html',
-	styleUrls: ['./accounts-view.component.scss']
+	selector: 'app-journals-view',
+	templateUrl: './journals-view.component.html',
+	styleUrls: ['./journals-view.component.scss']
 })
-export class AccountsViewComponent implements OnInit {
+export class JournalsViewComponent implements OnInit {
 	tableHead = [
 		{
 			text: 'ID',
 			data: '_id',
 			width: '250px'
 		}, {
-			text: 'Account Number',
-			data: 'accountNumber'
-		}, {
-			text: 'Account Description',
-			data: 'accountDescription'
-		}, {
-			text: 'Account Status',
-			data: 'status'
-		}, {
-			text: 'Date Opened',
-			data: 'dateOpened'
-		}, {
-			text: 'Date Closed',
-			data: 'dateClosed'
+			text: 'Account Name',
+			data: 'accountName'
 		}
 	];
-	tableBody: AccountsViewInterface[];
-	results: AccountsViewInterface[];
+	tableBody: JournalsViewInterface[];
+	results: JournalsViewInterface[];
 	private filterBoxOptions: FilterBoxOptionsInterface;
 	private filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;
@@ -48,12 +36,12 @@ export class AccountsViewComponent implements OnInit {
 		private _httpService: HttpService,
 		private _notificationService: NotificationsService
 	) {
-		_generalService.setTitle('Accounts: View All');
+		_generalService.setTitle('Journals: View All');
 		this.filterBoxConfig = new FilterBoxConfigInterface();
 	}
 
 	ngOnInit() {
-		localStorage.setItem('activeMenu', 'accounts');
+		localStorage.setItem('activeMenu', 'journals');
 		this.filterBoxOptions = new FilterBoxOptionsInterface();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
@@ -72,7 +60,7 @@ export class AccountsViewComponent implements OnInit {
 					this.load();
 					break;
 				case 'add':
-					this._generalService.redirect('accounts/add');
+					this._generalService.redirect('journals/add');
 					break;
 			}
 		} else {
@@ -91,7 +79,7 @@ export class AccountsViewComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('accounts/view', this.filterBoxOptions).then((results: any) => {
+		this._httpService.post('journals/view', this.filterBoxOptions).then((results: any) => {
 			if (results.status === '00') {
 				this.results = results.data;
 				this.tableBody = results.data;
@@ -101,7 +89,7 @@ export class AccountsViewComponent implements OnInit {
 	}
 
 	enable(pId) {
-		this._httpService.update('accounts/enable', pId, {}).then((results: any) => {
+		this._httpService.update('journals/enable', pId, {}).then((results: any) => {
 			if (results.status === '00') {
 				this.load();
 				this._notificationService.success(results.message);
@@ -116,7 +104,7 @@ export class AccountsViewComponent implements OnInit {
 	}
 
 	cancel(pId) {
-		this._httpService.update('accounts/cancel', pId, {}).then((results: any) => {
+		this._httpService.update('journals/cancel', pId, {}).then((results: any) => {
 			if (results.status === '00') {
 				this.load();
 				this._notificationService.success(results.message);
@@ -131,7 +119,7 @@ export class AccountsViewComponent implements OnInit {
 	}
 
 	delete(pId) {
-		this._httpService.delete('accounts/delete', pId).then((results: any) => {
+		this._httpService.delete('journals/delete', pId).then((results: any) => {
 			if (results.status === '00') {
 				this.load();
 				this._notificationService.success(results.message);

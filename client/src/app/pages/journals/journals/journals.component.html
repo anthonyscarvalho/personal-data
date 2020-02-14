@@ -1,0 +1,35 @@
+<div class="container-fluid" *ngIf="results">
+	<div class="row">
+		<div class="col-md-10">
+			<form name="form" id="form" #form="ngForm" (ngSubmit)="submit()">
+				<div class="row">
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Account Name</label>
+							<input type="text" name="accountName" [(ngModel)]="results.accountName" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Status</label>
+							<select name="status" [(ngModel)]="results.status" class="form-control">
+								<option value="">Select</option>
+								<option value="open">Open</option>
+								<option value="closed">Closed</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Search Params</label>
+							<textarea class="form-control" rows="4" name="searchParams" [(ngModel)]="results.searchParams" data-role="tagsinput"></textarea>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-2">
+			<app-filter-box [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig" (updater)="submitForm()"></app-filter-box>
+		</div>
+	</div>
+</div>
