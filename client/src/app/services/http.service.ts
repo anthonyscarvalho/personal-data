@@ -13,9 +13,9 @@ export class HttpService {
 		private _httpClient: HttpClient
 	) { }
 
-	post(pUrl, pData) {
+	async post(pUrl, pData) {
 		const headers = new HttpHeaders().set('Content-Type', 'application/json');
-		return this._httpClient.post(environment.baseUrl + '/' + pUrl, JSON.stringify(pData), { headers }).toPromise();
+		return await this._httpClient.post(environment.baseUrl + '/' + pUrl, JSON.stringify(pData), { headers }).toPromise();
 	}
 
 	delete(pUrl, pData) {

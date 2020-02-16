@@ -1,10 +1,10 @@
 <div class="account-records">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<form name="form" id="form" #form="ngForm" (ngSubmit)="submit()">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group">
 								<select class="form-control" [(ngModel)]="selectedAccount" name="accountsId">
 									<option value="">Select</option>
@@ -12,9 +12,20 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
+							<div class="input-group">
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" #filePicker multiple id="filePicker" aria-describedby="inputGroupFileAddon04">
+									<label class="custom-file-label" for="filePicker">Choose file</label>
+								</div>
+								<div class="input-group-append">
+									<button class="btn btn-outline-info" type="button" id="inputGroupFileAddon04" (click)="processRecords()">Process</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
 							<div class="form-group">
-								<button type="button" class="btn btn-info" (click)="processRecords()">Process</button>
+								<button type="button" class="btn btn-info" (click)="uploadRecords()">Upload Records</button>
 							</div>
 						</div>
 					</div>
@@ -25,12 +36,6 @@
 									<div class="form-group"> Total Rows: <br>{{totalCount}} </div>
 								</div>
 								<div class="col-2">
-									<div class="form-group"> Data Rows: <br>{{dataRows}} </div>
-								</div>
-								<div class="col-2">
-									<div class="form-group"> Removed Records: <br>{{(removedRecords)}} </div>
-								</div>
-								<div class="col-2">
 									<div class="form-group"> Recorded Records: <br>{{addedRecords}} </div>
 								</div>
 								<div class="col-2">
@@ -38,7 +43,7 @@
 								</div>
 								<div class="col-2"></div>
 							</div>
-							<textarea name="csvTextData" [(ngModel)]="csvTextData" rows="10" class="form-control"></textarea>
+							<!-- <textarea name="csvTextData" [(ngModel)]="csvTextData" rows="10" class="form-control"></textarea> -->
 						</div>
 					</div>
 					<div class="row">
@@ -54,11 +59,12 @@
 										<th>Credit</th>
 										<th>Debit</th>
 										<th>Balance</th>
+										<th style="width: 40px;"></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr *ngFor="let item of accountRecords; let loopIndex = index">
-										<td>{{loopIndex}}</td>
+										<td>{{loopIndex + 1}}</td>
 										<td>{{item.statementId}}</td>
 										<td>{{item.date1}}</td>
 										<td>{{item.date2}}</td>
@@ -66,15 +72,17 @@
 										<td>{{item.credit}}</td>
 										<td>{{item.debit}}</td>
 										<td>{{item.balance}}</td>
+										<td>
+											<span class="badge badge-danger" *ngIf="item.processed == 'false'">&nbsp;</span>
+											<span class="badge badge-success" *ngIf="item.processed == 'true'">&nbsp;</span>
+											<span class="badge badge-info" *ngIf="item.processed == 'exists'">&nbsp;</span>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</form>
-			</div>
-			<div class="col-md-2">
-				<app-filter-box [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig" (updater)="submitForm()"></app-filter-box>
 			</div>
 		</div>
 	</div>

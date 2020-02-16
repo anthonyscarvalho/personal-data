@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['accountRecords']);
+var db = mongojs('mongodb://localhost:27017/accounts', ['journalRecords']);
 
 var _response = {
     status: '00',
@@ -13,7 +13,7 @@ var _response = {
 var _errors = [];
 
 // fetch records
-router.post('/accountRecords/view/:id?', function (req, res, next) {
+router.post('/journalRecords/view/:id?', function (req, res, next) {
     var body = req.body;
     var page = ((body.page) ? body.page : 1);
     var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
@@ -39,12 +39,12 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
         };
     }
     if (!req.params.id) {
-        db.accountRecords.count(query, function (err, pCount) {
+        db.journalRecords.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accountRecords.aggregate([{
+            db.journalRecords.aggregate([{
                 $match: query
             }, {
                 $project: {
@@ -106,12 +106,12 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
             });
         });
     } else if (req.params.id == 'all') {
-        db.accountRecords.count(query, function (err, pCount) {
+        db.journalRecords.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accountRecords.find(query)
+            db.journalRecords.find(query)
                 .sort({
                     'accountDescription': 1
                 })
@@ -128,7 +128,7 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
                 });
         });
     } else {
-        db.accountRecords.findOne({
+        db.journalRecords.findOne({
             _id: mongojs.ObjectId(req.params.id)
         }, function (err, pResults) {
             if (err) {
@@ -142,7 +142,7 @@ router.post('/accountRecords/view/:id?', function (req, res, next) {
 });
 
 // sum records for given account
-router.post('/accountRecords/sum/:id?', function (req, res, next) {
+router.post('/journalRecords/sum/:id?', function (req, res, next) {
     _errors = [];
     var query = {};
     if (!req.params.id) {
@@ -152,12 +152,12 @@ router.post('/accountRecords/sum/:id?', function (req, res, next) {
         _response.data = [];
         res.json(_response);
     } else if (req.params.id) {
-        db.accountRecords.count(query, function (err, pCount) {
+        db.journalRecords.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accountRecords.aggregate([{
+            db.journalRecords.aggregate([{
                 $match: {
                     accountsId: req.params.id
                 }
@@ -210,7 +210,7 @@ router.post('/accountRecords/sum/:id?', function (req, res, next) {
 });
 
 // create record
-router.post('/accountRecords/add', function (req, res, next) {
+router.post('/journalRecords/add', function (req, res, next) {
     var newRecord = req.body;
     if (!newRecord.accountsId || !newRecord.date1) {
         res.status(400);
@@ -218,12 +218,11 @@ router.post('/accountRecords/add', function (req, res, next) {
             "error": "bad data"
         });
     } else {
-        db.accountRecords.find({
+        db.journalRecords.find({
             accountsId: req.body.accountsId,
             date1: newRecord.date1,
             credit: newRecord.credit,
-            debit: newRecord.debit,
-            accountDescription: newRecord.accountDescription
+            debit: newRecord.debit
         }, {}, {}, function (err, pResults) {
             if (err) {
                 _errors.push("Can't fetch data");
@@ -234,7 +233,7 @@ router.post('/accountRecords/add', function (req, res, next) {
             _response.errors = _errors;
             _response.data = pResults;
             if (pResults.length == 0) {
-                db.accountRecords.save(newRecord, function (err, pResults) {
+                db.journalRecords.save(newRecord, function (err, pResults) {
                     if (err) {
                         res.send(err);
                     }
@@ -256,8 +255,8 @@ router.post('/accountRecords/add', function (req, res, next) {
 });
 
 // delete record
-router.delete('/accountRecords/delete/:id', function (req, res, next) {
-    db.accountRecords.remove({
+router.delete('/journalRecords/delete/:id', function (req, res, next) {
+    db.journalRecords.remove({
         _id: mongojs.ObjectId(req.params.id)
     }, function (err, pResults) {
         if (err) {
@@ -268,7 +267,7 @@ router.delete('/accountRecords/delete/:id', function (req, res, next) {
 });
 
 // update record
-router.put('/accountRecords/update/:id', function (req, res, next) {
+router.put('/journalRecords/update/:id', function (req, res, next) {
     var newRecord = req.body;
     if (newRecord._id) {
         delete(newRecord._id);
@@ -279,7 +278,7 @@ router.put('/accountRecords/update/:id', function (req, res, next) {
             "error": "bad data"
         });
     } else {
-        db.accountRecords.update({
+        db.journalRecords.update({
             _id: mongojs.ObjectId(req.params.id)
         }, {
             $set: newRecord
@@ -298,59 +297,28 @@ router.put('/accountRecords/update/:id', function (req, res, next) {
     }
 });
 
-
-router.get('/accountRecords/updateDate', function (req, res, next) {
+// update record
+router.get('/journalRecords/retrieve/', function (req, res, next) {
     var newRecord = req.body;
     if (newRecord._id) {
         delete(newRecord._id);
     }
-
-    db.accountRecords.find({}, {}, {}, function (err, pResults) {
+    db.journalRecords.update({
+        _id: mongojs.ObjectId(req.params.id)
+    }, {
+        $set: newRecord
+    }, {}, function (err, pResults) {
         if (err) {
-            _errors.push("Can't fetch data");
+            res.send(err);
         }
-        if (_errors.length > 0) {
-            _response.status = '01';
-        }
-        _response.errors = _errors;
-        let counter = 0;
-        if (pResults.length > 0) {
-            pResults.map(pRecord => {
-                if (pRecord.debit== '') {
-                    debit = null;
-
-                    db.accountRecords.update({
-                        _id: mongojs.ObjectId(pRecord._id)
-                    }, {
-                        $set: {
-                            debit: debit
-                        }
-                    }, {}, function (err, pResult) {
-                        if (err) {
-                            res.send(err);
-                        }
-                        if (pResult.ok) {
-                            counter++;
-                        }
-                    });
-                }
-                
-            });
+        if (pResults.ok) {
             _response.status = '00';
-            _response.message = 'Records updated: ' + counter;
-            // _response.data = pResults;
+            _response.message = 'Record updated';
+            _response.data = pResults;
             res.json(_response);
-
-        } else {
-            // record exists
-            res.json({
-                status: '02',
-                errors: ['Record exists']
-            });
         }
+        1
     });
-
-
 });
 
 module.exports = router;

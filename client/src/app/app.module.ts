@@ -17,8 +17,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastyModule } from 'ng2-toasty';
 
 // Services
-import { HttpService } from './services/http.service';
 import { GeneralService } from './services/general.service';
+import { HttpService } from './services/http.service';
 import { NotificationsService } from './services/notifications.service';
 
 // Components
@@ -88,7 +88,7 @@ import { JournalRecordsViewComponent } from './pages/journal-records/journal-rec
 		// services
 		DatePipe,
 		GeneralService,
-		HttpService, ,
+		HttpService,
 		NotificationsService,
 	],
 	bootstrap: [
