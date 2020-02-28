@@ -105,9 +105,7 @@ export class JournalsComponent implements OnInit {
 	findJournalEntries() {
 		this._httpService.post('journalRecords/search/' + this.parentId, {}).then((results: any) => {
 			if (results.status === '00') {
-				if (!this.journalEntries) {
-					this.journalEntries = [];
-				}
+				this.journalEntries = [];
 				results.data.map((pRecord: any) => {
 					const _record = new JournalRecordsProcessInterface(pRecord);
 					_record.journalId = this.results._id;

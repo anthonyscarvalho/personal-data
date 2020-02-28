@@ -212,7 +212,7 @@ router.post('/journalRecords/sum/:id?', function (req, res, next) {
 // create record
 router.post('/journalRecords/add', function (req, res, next) {
     var newRecord = req.body;
-    if (!newRecord.journalId || !newRecord.accountRecordId || !newRecord.date) {
+    if (!newRecord.journalId || !newRecord.date) {
         res.status(400);
         res.json({
             "error": "bad data"
@@ -313,24 +313,63 @@ router.post('/journalRecords/search/:id', function (req, res, next) {
                 res.send(err);
             }
             if (pResults.searchParams) {
+                // look for records in accounts table that match search criteria
                 db.accountRecords.find({
                     description: {
                         $regex: pResults.searchParams,
                         $options: 'i'
                     }
-                }, function (err, pRecords) {
+                }, function (err, pAccountRecords) {
                     if (err) {
                         res.send(err);
                     }
+                    // console.log(foundRecords.length);
+                    // find all records journalRecords table associated with user
 
-                    _response.status = '00';
-                    _response.message = 'Records retrieved';
-                    _response.data = pRecords;
-                    res.json(_response);
+                    var records = [];
+                    // let _records = new Array(pAccountRecords);
+                    // _records.forEach(pRecord => {
+                    //     // console.log(pRecord);
+                    //     db.journalRecords.find({
+                    //         accountRecordId: pRecord._id
+                    //     }, (err2, pJournalRecords) => {
+                    //         if (err2) {
+                    //             res.send(err2);
+                    //         }
+                    //         if (pJournalRecords.length == 0) {
+                    //             records.push(pJournalRecords);
+                    //         }
+                    //     });
+                    // });
+                    const promiseArray = pAccountRecords.map((pAccountRecord) => {
+                        return new Promise((resolve, reject) => {
+                            db.journalRecords.find({
+                                accountRecordId: pAccountRecord._id.toString()
+                            }, (err2, pJournalRecords) => {
+                                if (err2) {
+                                    res.send(err2);
+                                }
+                                if (pJournalRecords.length == 0) {
+                                    records.push(pAccountRecord);
+                                }
+                                return resolve(pAccountRecord);
+                            });
+                        });
+                    });
+
+                    Promise.all(promiseArray).then(function (channelIds) {
+                        // console.log(records);
+                        _response.status = '00';
+                        _response.message = 'Record updated';
+                        _response.data = records;
+                        _response.totalRecords = records.length
+                        res.json(_response);
+                    });
                 });
             }
         });
     }
 });
+
 
 module.exports = router;

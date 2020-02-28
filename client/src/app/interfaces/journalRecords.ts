@@ -13,8 +13,8 @@ export class JournalRecordsInterface {
 		this.accountRecordId = (pModel ? (pModel.accountRecordId ? pModel.accountRecordId : ``) : ``);
 		this.date = (pModel ? (pModel.date ? pModel.date : ``) : ``);
 		this.description = (pModel ? (pModel.description ? pModel.description : `false`) : `false`);
-		this.credit = (pModel ? (pModel.credit ? pModel.credit : ``) : ``);
-		this.debit = (pModel ? (pModel.debit ? pModel.debit : ``) : ``);
+		this.credit = (pModel ? (pModel.credit ? pModel.credit : null) : null);
+		this.debit = (pModel ? (pModel.debit ? pModel.debit : null) : null);
 	}
 }
 
@@ -31,7 +31,7 @@ export class JournalRecordsProcessInterface {
 		this.accountRecordId = (pModel ? (pModel._id ? pModel._id : ``) : ``);
 		this.date = (pModel ? (pModel.date1 ? pModel.date1 : ``) : ``);
 		this.description = (pModel ? (pModel.description ? pModel.description : `false`) : `false`);
-		this.credit = (pModel ? (pModel.credit ? pModel.credit : ``) : ``);
-		this.debit = (pModel ? (pModel.debit ? pModel.debit : ``) : ``);
+		this.credit = (pModel ? (pModel.credit ? pModel.credit : null) : null);
+		this.debit = (pModel ? (pModel.debit ? pModel.debit : null) : null);
 	}
 }
