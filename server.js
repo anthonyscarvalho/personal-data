@@ -7,9 +7,15 @@ var index = require('./routes/index');
 var accounts = require('./routes/accounts');
 var accountRecords = require('./routes/accountRecords');
 var journals = require('./routes/journals');
+var journalRecords = require('./routes/journalRecords');
 var logs = require('./routes/logs');
 var transactions = require('./routes/transactions');
 var users = require('./routes/users');
+var logger = require('./services/logger');
+
+const _logger = logger({
+    apiKey: "XYZ"
+});
 
 var port = 3000;
 
@@ -21,6 +27,8 @@ app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
     res.header("Access-Control-Allow-Methods", "OPTIONS,GET,HEAD,DELETE,PUT,POST");
+    // Logging
+    _logger(req,res);
     next();
 });
 
@@ -41,17 +49,17 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use('/', index);
-app.use('/api', accounts);
-app.use('/api', accountRecords);
-app.use('/api', journals);
-app.use('/api', logs);
-app.use('/api', transactions);
-app.use('/api', users);
+app.use('/', accounts);
+app.use('/', accountRecords);
+app.use('/', journals);
+app.use('/', journalRecords);
+app.use('/', logs);
+app.use('/', transactions);
+app.use('/', users);
 
 app.listen(port, function () {
     console.log('server started on ' + port);
 });
-
 
 // Error Codes
 // 00 - Success
