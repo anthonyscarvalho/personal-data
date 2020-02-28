@@ -63,8 +63,9 @@
       <div class="card-body" *ngIf="!submitted">
         <div class="form-group text-center">
           <button type="button" name="submit" value="submit" class="btn btn-success btn-block shadow" (click)="updateForm()">
-            <span class="fa fa-save"></span>&nbsp; <span *ngIf="!parentId">Create</span>
-            <span *ngIf="parentId">Save</span>
+			<span class="fa fa-save"></span>&nbsp;
+			<span *ngIf="filterBoxConfig.create">Create</span>
+            <span *ngIf="!filterBoxConfig.create">Save</span>
           </button>
         </div>
         <div class="clearfix">&nbsp;</div>

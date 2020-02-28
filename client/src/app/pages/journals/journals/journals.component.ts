@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 // interfaces
 import { JournalsAddInterface } from '../../../interfaces/journals';
+import { JournalRecordsProcessInterface } from '../../../interfaces/journalRecords';
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 // services
 import { GeneralService } from '../../../services/general.service';
@@ -19,6 +20,7 @@ export class JournalsComponent implements OnInit {
 	@ViewChild('form', { static: false }) form: NgForm;
 
 	results: JournalsAddInterface;
+	journalEntries: JournalRecordsProcessInterface[];
 	parentId: string;
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 	private filterBoxOptions: FilterBoxOptionsInterface;
@@ -49,6 +51,7 @@ export class JournalsComponent implements OnInit {
 
 		if (!this.parentId) {
 			this.results = new JournalsAddInterface();
+			this.filterBoxConfig.create = true;
 		} else {
 			this.load();
 		}
@@ -97,5 +100,37 @@ export class JournalsComponent implements OnInit {
 				this._generalService.setTitle('Journal Edit: ' + results.data.accountDescription);
 			}
 		});
+	}
+
+	findJournalEntries() {
+		this._httpService.post('journalRecords/search/' + this.parentId, {}).then((results: any) => {
+			if (results.status === '00') {
+				if (!this.journalEntries) {
+					this.journalEntries = [];
+				}
+				results.data.map((pRecord: any) => {
+					const _record = new JournalRecordsProcessInterface(pRecord);
+					_record.journalId = this.results._id;
+					this.journalEntries.push(_record);
+				});
+			}
+		});
+	}
+
+	saveJournalEntries() {
+		this.journalEntries.map((pEntry: any) => {
+			this._httpService.post('journalRecords/add/', pEntry).then((pResults: any) => {
+				if (pResults.status === '00') {
+					this._notificationsService.success(pResults.message);
+				} else {
+					if (pResults.errors) {
+						pResults.errors.forEach(pError => {
+							this._notificationsService.warn(pError);
+						});
+					}
+				}
+			});
+		});
+
 	}
 }

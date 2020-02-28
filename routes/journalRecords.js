@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['journalRecords']);
+var db = mongojs('mongodb://localhost:27017/accounts', ['journals', 'journalRecords', 'accountRecords']);
 
 var _response = {
     status: '00',
@@ -212,15 +212,16 @@ router.post('/journalRecords/sum/:id?', function (req, res, next) {
 // create record
 router.post('/journalRecords/add', function (req, res, next) {
     var newRecord = req.body;
-    if (!newRecord.accountsId || !newRecord.date1) {
+    if (!newRecord.journalId || !newRecord.accountRecordId || !newRecord.date) {
         res.status(400);
         res.json({
             "error": "bad data"
         });
     } else {
         db.journalRecords.find({
-            accountsId: req.body.accountsId,
-            date1: newRecord.date1,
+            journalId: req.body.journalId,
+            accountRecordId: newRecord.accountRecordId,
+            date: newRecord.date,
             credit: newRecord.credit,
             debit: newRecord.debit
         }, {}, {}, function (err, pResults) {
@@ -297,28 +298,39 @@ router.put('/journalRecords/update/:id', function (req, res, next) {
     }
 });
 
-// update record
-router.get('/journalRecords/retrieve/', function (req, res, next) {
-    var newRecord = req.body;
-    if (newRecord._id) {
-        delete(newRecord._id);
+// find records
+router.post('/journalRecords/search/:id', function (req, res, next) {
+    if (!req.params.id) {
+        res.status(400);
+        res.json({
+            "error": "bad data"
+        });
+    } else {
+        db.journals.findOne({
+            _id: mongojs.ObjectId(req.params.id)
+        }, function (err, pResults) {
+            if (err) {
+                res.send(err);
+            }
+            if (pResults.searchParams) {
+                db.accountRecords.find({
+                    description: {
+                        $regex: pResults.searchParams,
+                        $options: 'i'
+                    }
+                }, function (err, pRecords) {
+                    if (err) {
+                        res.send(err);
+                    }
+
+                    _response.status = '00';
+                    _response.message = 'Records retrieved';
+                    _response.data = pRecords;
+                    res.json(_response);
+                });
+            }
+        });
     }
-    db.journalRecords.update({
-        _id: mongojs.ObjectId(req.params.id)
-    }, {
-        $set: newRecord
-    }, {}, function (err, pResults) {
-        if (err) {
-            res.send(err);
-        }
-        if (pResults.ok) {
-            _response.status = '00';
-            _response.message = 'Record updated';
-            _response.data = pResults;
-            res.json(_response);
-        }
-        1
-    });
 });
 
 module.exports = router;

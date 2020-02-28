@@ -49,6 +49,7 @@ export class AccountsComponent implements OnInit {
 
 		if (!this.parentId) {
 			this.results = new AccountsAddInterface();
+			this.filterBoxConfig.create = true;
 		} else {
 			this.load();
 		}
