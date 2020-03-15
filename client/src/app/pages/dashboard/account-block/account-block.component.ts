@@ -5,7 +5,7 @@ import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 
 // interfaces
-import { AccountsDashboardInterface } from '../../../interfaces/accounts';
+import { BankAccountsDashboardInterface } from '../../../interfaces/dashboard';
 @Component({
 	selector: 'app-account-block',
 	templateUrl: './account-block.component.html',
@@ -14,7 +14,7 @@ import { AccountsDashboardInterface } from '../../../interfaces/accounts';
 export class AccountBlockComponent implements OnInit {
 	@Input() account;
 
-	accountDetails: AccountsDashboardInterface;
+	accountDetails: BankAccountsDashboardInterface;
 
 	constructor(
 		private _generalService: GeneralService,
@@ -30,7 +30,7 @@ export class AccountBlockComponent implements OnInit {
 	load() {
 		this._httpService.post('accountRecords/sum/' + this.account._id, {}).then((pRes: any) => {
 			if (pRes.status === '00') {
-				this.accountDetails = new AccountsDashboardInterface(pRes.data);
+				this.accountDetails = new BankAccountsDashboardInterface(pRes.data);
 				this.accountDetails.accountDescription = this.account.accountDescription;
 				this.accountDetails.accountNumber = this.account.accountNumber;
 				this.accountDetails.status = this.account.status;

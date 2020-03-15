@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { MenuComponent } from './pages/menu/menu.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
-import { AccountsViewComponent } from './pages/accounts/accounts-view/accounts-view.component';
-import { AccountsComponent } from './pages/accounts/accounts/accounts.component';
-
-import { AccountRecordsViewComponent } from './pages/account-records/account-records-view/account-records-view.component';
-import { AccountRecordsComponent } from './pages/account-records/account-records/account-records.component';
+// **Bank accounts
+import { BankAccountsAddComponent } from './pages/bank-accounts/bank-accounts-add/bank-accounts-add.component';
+import { BankAccountsViewComponent } from './pages/bank-accounts/bank-accounts-view/bank-accounts-view.component';
+import { BankAccountsEditComponent } from './pages/bank-accounts/bank-accounts-edit/bank-accounts-edit.component';
 
 import { JournalsComponent } from './pages/journals/journals/journals.component';
 import { JournalsViewComponent } from './pages/journals/journals-view/journals-view.component';
@@ -17,29 +17,23 @@ import { JournalRecordsViewComponent } from './pages/journal-records/journal-rec
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+	{ path: 'menu', component: MenuComponent },
 	{ path: 'dashboard', component: DashboardComponent },
 	{
-		path: 'accounts', children: [
-			{ path: 'view', component: AccountsViewComponent },
-			{ path: 'add', component: AccountsComponent },
-			{ path: 'edit/:id', component: AccountsComponent }
-		]
-	},
-	{
-		path: 'account-records', children: [
-			{ path: 'view', component: AccountRecordsViewComponent },
-			{ path: 'add', component: AccountRecordsComponent },
-			{ path: 'edit/:id', component: AccountRecordsComponent }
+		path: 'bank-accounts', children: [
+			{ path: '', component: BankAccountsViewComponent },
+			{ path: 'add', component: BankAccountsAddComponent },
+			{ path: 'edit/:id', component: BankAccountsEditComponent }
 		]
 	}, {
 		path: 'journals', children: [
-			{ path: 'view', component: JournalsViewComponent },
+			{ path: '', component: JournalsViewComponent },
 			{ path: 'add', component: JournalsComponent },
 			{ path: 'edit/:id', component: JournalsComponent }
 		]
 	}, {
 		path: 'journal-records', children: [
-			{ path: 'view', component: JournalRecordsViewComponent },
+			{ path: '', component: JournalRecordsViewComponent },
 			{ path: 'add', component: JournalRecordsComponent },
 			{ path: 'edit/:id', component: JournalRecordsComponent }
 		]

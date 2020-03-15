@@ -1,6 +1,5 @@
 .header {
   color: #fff;
-  background-color: #000;
   max-height: 60px;
 
   &__brand {
@@ -24,7 +23,8 @@
       & a {
         display: block;
         padding: 12px;
-        cursor: pointer;
+		cursor: pointer;
+		color: #fff;
       }
     }
   }

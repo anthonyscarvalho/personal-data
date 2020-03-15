@@ -5,7 +5,7 @@ import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 
 // interfaces
-import { AccountsDashboardInterface } from '../../../interfaces/accounts';
+import { JournalsDashboardInterface } from '../../../interfaces/dashboard';
 
 @Component({
 	selector: 'app-journal-block',
@@ -15,7 +15,7 @@ import { AccountsDashboardInterface } from '../../../interfaces/accounts';
 export class JournalBlockComponent implements OnInit {
 	@Input() journal;
 
-	accountDetails: AccountsDashboardInterface;
+	accountDetails: JournalsDashboardInterface;
 
 	constructor(
 		private _generalService: GeneralService,
@@ -29,14 +29,13 @@ export class JournalBlockComponent implements OnInit {
 	}
 
 	load() {
-		// this._httpService.post('journal/search/' + this.journal._id, {}).then((pRes: any) => {
-		// 	if (pRes.status === '00') {
-		// 		this.accountDetails = new AccountsDashboardInterface(pRes.data);
-		// 		this.accountDetails.accountDescription = this.journal.accountDescription;
-		// 		this.accountDetails.accountNumber = this.journal.accountNumber;
-		// 		this.accountDetails.status = this.journal.status;
-		// 	}
-		// });
+		this._httpService.post('journalRecords/sum/' + this.journal._id, {}).then((pRes: any) => {
+			if (pRes.status === '00') {
+				this.accountDetails = new JournalsDashboardInterface(pRes.data);
+				this.accountDetails.accountName = this.journal.accountName;
+				this.accountDetails.status = this.journal.canceled;
+			}
+		});
 	}
 
 	checkClass(pStatus) {

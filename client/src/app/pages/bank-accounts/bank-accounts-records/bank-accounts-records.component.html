@@ -1,0 +1,36 @@
+<div class="modal-header">
+	<h4 class="modal-title pull-left">Bank Accounts: Add New</h4>
+	<button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-12">
+			<form [formGroup]="bankAccountsRecordsForm" name="bankAccountsRecordsForm" id="bankAccountsRecordsForm" (ngSubmit)="submit()">
+				<h1>Add New Records</h1>
+				<div class="input-group">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" #filePicker multiple id="filePicker" aria-describedby="inputGroupFileAddon04">
+						<label class="custom-file-label" for="filePicker">Choose file</label>
+					</div>
+					<div class="input-group-append">
+						<button class="btn btn-outline-info" type="button" id="inputGroupFileAddon04" (click)="processRecords()">Process</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="button" class="btn btn-info" (click)="uploadRecords()">Upload Records</button>
+				</div>
+				<div class="form-group"> Total Rows: <br>{{totalCount}} </div>
+				<div class="form-group"> Recorded Records: <br>{{addedRecords}} </div>
+				<div class="form-group"> Existing Records: <br>{{existingRecords}} </div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" (click)="close()">Close</button>
+	<button type="submit" name="submit" value="insert" class="btn btn-success" form="bankAccountsRecordsForm">
+		<fa name="save"></fa> Create
+	</button>
+</div>

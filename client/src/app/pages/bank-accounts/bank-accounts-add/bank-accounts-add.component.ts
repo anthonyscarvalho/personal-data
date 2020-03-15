@@ -1,0 +1,93 @@
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+// validators
+import { NumericValues } from '../../../_helpers/validation';
+// external
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+// interfaces
+import { BankAccountsAddInterface } from '../../../interfaces/bankAccounts';
+// services
+import { GeneralService } from '../../../services/general.service';
+import { HttpService } from '../../../services/http.service';
+import { NotificationsService } from '../../../services/notifications.service';
+
+@Component({
+	selector: 'app-bank-accounts-add',
+	templateUrl: './bank-accounts-add.component.html',
+	styleUrls: ['./bank-accounts-add.component.scss']
+})
+export class BankAccountsAddComponent implements OnInit {
+	@ViewChild('filePicker', { static: false }) _file: ElementRef;
+
+	results: BankAccountsAddInterface;
+	bankAccountsAddForm: FormGroup;
+	submitted = false;
+
+	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+
+	constructor(
+		public fb: FormBuilder,
+		public bsModalRef: BsModalRef,
+		private route: ActivatedRoute,
+		private _generalService: GeneralService,
+		private _httpService: HttpService,
+		private _notificationsService: NotificationsService
+	) {
+		this.bsConfig.containerClass = 'theme-dark-blue';
+		this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
+	}
+
+	ngOnInit() {
+		if (!this.results) {
+			this.results = new BankAccountsAddInterface();
+		}
+		this.bankAccountsAddForm = this.fb.group({
+			accountNumber: ['', [Validators.required, NumericValues]],
+			accountDescription: ['', [Validators.required]],
+			dateOpened: [''],
+			dateClosed: [''],
+			csvType: ['', [Validators.required]],
+			status: ['', [Validators.required]]
+		});
+	}
+
+	// convenience getter for easy access to form fields
+	get f() { return this.bankAccountsAddForm.controls; }
+
+	submit() {
+		this.submitted = true;
+		if (this.bankAccountsAddForm.valid) {
+			this._httpService.post('bank-accounts/add', this.bankAccountsAddForm.value).then((pResult: any) => {
+				const _valid = this._generalService.validateResponse(pResult);
+				if (_valid === 'valid') {
+					this._notificationsService.success(pResult.message);
+					this.close();
+				} else {
+					if (pResult.errors) {
+						pResult.errors.forEach(pError => {
+							this._notificationsService.warn(pError);
+						});
+					}
+				}
+			});
+		} else {
+			console.log('invalid');
+		}
+	}
+
+	checkClass(fieldName) {
+		if (this.submitted) {
+			if (fieldName.errors) {
+				return `is-invalid`;
+			} else {
+				return `is-valid`;
+			}
+		}
+	}
+
+	close() {
+		this.bsModalRef.hide()
+	}
+}

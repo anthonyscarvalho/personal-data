@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
@@ -23,18 +23,18 @@ import { NotificationsService } from './services/notifications.service';
 
 // Components
 import { AppComponent } from './app.component';
+import { ErrorsComponent } from './components/errors/errors.component';
 import { FilterBoxComponent } from './components/filter-box/filter-box.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { TableComponent } from './components/table/table.component';
 
 // Pages
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AccountsViewComponent } from './pages/accounts/accounts-view/accounts-view.component';
 import { AccountsComponent } from './pages/accounts/accounts/accounts.component';
-import { AccountRecordsComponent } from './pages/account-records/account-records/account-records.component';
-import { AccountRecordsViewComponent } from './pages/account-records/account-records-view/account-records-view.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { TableComponent } from './components/table/table.component';
+
+import { MenuComponent } from './pages/menu/menu.component';
 import { JournalsComponent } from './pages/journals/journals/journals.component';
 import { JournalsViewComponent } from './pages/journals/journals-view/journals-view.component';
 import { AccountBlockComponent } from './pages/dashboard/account-block/account-block.component';
@@ -42,32 +42,47 @@ import { JournalBlockComponent } from './pages/dashboard/journal-block/journal-b
 import { JournalRecordsComponent } from './pages/journal-records/journal-records/journal-records.component';
 import { JournalRecordsViewComponent } from './pages/journal-records/journal-records-view/journal-records-view.component';
 
+// **Bank accounts
+import { BankAccountsAddComponent } from './pages/bank-accounts/bank-accounts-add/bank-accounts-add.component';
+import { BankAccountsViewComponent } from './pages/bank-accounts/bank-accounts-view/bank-accounts-view.component';
+import { BankAccountsEditComponent } from './pages/bank-accounts/bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsRecordsComponent } from './pages/bank-accounts/bank-accounts-records/bank-accounts-records.component';
+
 @NgModule({
 	declarations: [
 		// components
 		AppComponent,
+		ErrorsComponent,
 		FilterBoxComponent,
-		NavigationComponent,
+		FooterComponent,
+		HeaderComponent,
+		TableComponent,
 		// pages
 		AccountsViewComponent,
 		AccountsComponent,
 		DashboardComponent,
-		AccountRecordsComponent,
-		AccountRecordsViewComponent,
-		HeaderComponent,
-		FooterComponent,
-		TableComponent,
+		MenuComponent,
 		JournalsComponent,
 		JournalsViewComponent,
 		AccountBlockComponent,
 		JournalBlockComponent,
 		JournalRecordsComponent,
 		JournalRecordsViewComponent,
+		// **bank accounts
+		BankAccountsAddComponent,
+		BankAccountsViewComponent,
+		BankAccountsEditComponent,
+		BankAccountsRecordsComponent,
+	],
+	entryComponents: [
+		BankAccountsAddComponent,
+		BankAccountsRecordsComponent
 	],
 	imports: [
 		BrowserAnimationsModule,
 		BrowserModule,
 		FormsModule,
+		ReactiveFormsModule,
 		HttpClientModule,
 		// routing
 		AppRoutingModule,

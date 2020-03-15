@@ -1,0 +1,75 @@
+<div class="modal-header">
+	<h4 class="modal-title pull-left">Bank Accounts: Add New</h4>
+	<button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-12">
+			<form [formGroup]="bankAccountsAddForm" name="bankAccountsAddForm" id="bankAccountsAddForm" (ngSubmit)="submit()">
+				<div class="row">
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Account Number</label>
+							<input type="text" formControlName="accountNumber" name="accountNumber" class="form-control" [ngClass]="checkClass(f.accountNumber)">
+							<app-errors [element]="f.accountNumber" *ngIf="submitted"></app-errors>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Account Description</label>
+							<input type="text" formControlName="accountDescription" name="accountDescription" class="form-control" [ngClass]="checkClass(f.accountDescription)">
+							<app-errors [element]="f.accountDescription" *ngIf="submitted"></app-errors>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Date Opened</label>
+							<input type="text" class="form-control" formControlName="dateOpened" name="dateOpened" bsDatepicker [bsConfig]="bsConfig" [ngClass]="checkClass(f.dateOpened)">
+							<app-errors [element]="f.dateOpened" *ngIf="submitted"></app-errors>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Date Closed</label>
+							<input type="text" class="form-control" formControlName="dateClosed" name="dateClosed" bsDatepicker [bsConfig]="bsConfig" [ngClass]="checkClass(f.dateClosed)">
+							<app-errors [element]="f.dateClosed" *ngIf="submitted"></app-errors>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>CSV Type</label>
+							<select class="form-control" formControlName="csvType" name="csvType" [ngClass]="checkClass(f.csvType)">
+								<option value="">Please select</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+							<app-errors [element]="f.csvType" *ngIf="submitted"></app-errors>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>Status</label>
+							<select formControlName="status" name="status" class="form-control" [ngClass]="checkClass(f.status)">
+								<option value="">Select</option>
+								<option value="open">Open</option>
+								<option value="closed">Closed</option>
+							</select>
+							<app-errors [element]="f.status" *ngIf="submitted"></app-errors>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" (click)="close()">Close</button>
+	<button type="submit" name="submit" value="insert" class="btn btn-success" form="bankAccountsAddForm">
+		<fa name="save"></fa> Create
+	</button>
+</div>

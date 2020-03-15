@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+// component
+import { BankAccountsAddComponent } from '../bank-accounts-add/bank-accounts-add.component';
+// external
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 // service
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 // interfaces
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
-import { AccountRecordsInterface } from '../../../interfaces/accountRecords';
+import { BankAccountsViewInterface } from '../../../interfaces/bankAccounts';
 
 @Component({
-	selector: 'app-account-records-view',
-	templateUrl: './account-records-view.component.html',
-	styleUrls: ['./account-records-view.component.scss']
+	selector: 'app-bank-accounts-view',
+	templateUrl: './bank-accounts-view.component.html',
+	styleUrls: ['./bank-accounts-view.component.scss']
 })
-export class AccountRecordsViewComponent implements OnInit {
+export class BankAccountsViewComponent implements OnInit {
+	bsModalRef: BsModalRef;
 	tableHead = [
 		{
 			text: 'ID',
@@ -23,40 +28,37 @@ export class AccountRecordsViewComponent implements OnInit {
 			text: 'Account Number',
 			data: 'accountNumber'
 		}, {
-			text: 'Date 1',
-			data: 'date1'
+			text: 'Description',
+			data: 'accountDescription'
 		}, {
-			text: 'Date 2',
-			data: 'date2'
+			text: 'Date Opened',
+			data: 'dateOpened'
 		}, {
-			text: 'Credit',
-			data: 'credit'
+			text: 'Date Closed',
+			data: 'dateClosed'
 		}, {
-			text: 'Debit',
-			data: 'debit'
-		}, {
-			text: 'Journal',
-			data: 'journal'
+			text: 'Status',
+			data: 'status'
 		}
 	];
-	tableBody: AccountRecordsInterface[];
-	results: AccountRecordsInterface[];
+	tableBody: BankAccountsViewInterface[];
+	results: BankAccountsViewInterface[];
 	private filterBoxOptions: FilterBoxOptionsInterface;
 	private filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;
 
 	constructor(
 		private route: ActivatedRoute,
+		private _modalService: BsModalService,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
 		private _notificationService: NotificationsService
 	) {
-		this._generalService.setTitle('Account Records: View All');
+		this._generalService.setTitle('Bank Accounts: View All');
 		this.filterBoxConfig = new FilterBoxConfigInterface();
 	}
 
 	ngOnInit() {
-		localStorage.setItem('activeMenu', 'account-records');
 		this.filterBoxOptions = new FilterBoxOptionsInterface();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
@@ -75,7 +77,8 @@ export class AccountRecordsViewComponent implements OnInit {
 					this.load();
 					break;
 				case 'add':
-					this._generalService.redirect('account-records/add');
+					this.modalAdd();
+					// this._generalService.redirect('bank-accounts/add');
 					break;
 			}
 		} else {
@@ -94,7 +97,7 @@ export class AccountRecordsViewComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('accountRecords/view', this.filterBoxOptions).then((results: any) => {
+		this._httpService.post('bank-accounts/view', this.filterBoxOptions).then((results: any) => {
 			if (results.status === '00') {
 				this.results = results.data;
 				this.tableBody = results.data;
@@ -103,8 +106,15 @@ export class AccountRecordsViewComponent implements OnInit {
 		});
 	}
 
+	modalAdd() {
+		this.bsModalRef = this._modalService.show(BankAccountsAddComponent, Object.assign({}, { class: 'modal-xl', ignoreBackdropClick: true }));
+		this._modalService.onHide.subscribe((reason: string) => {
+			this.load();
+		});
+	}
+
 	enable(pId) {
-		this._httpService.update('accountRecords/enable', pId, {}).then((results: any) => {
+		this._httpService.update('bank-accounts/enable', pId, {}).then((results: any) => {
 			if (results.status === '00') {
 				this.load();
 				this._notificationService.success(results.message);
@@ -119,7 +129,7 @@ export class AccountRecordsViewComponent implements OnInit {
 	}
 
 	cancel(pId) {
-		this._httpService.update('accountRecords/cancel', pId, {}).then((results: any) => {
+		this._httpService.update('bank-accounts/cancel', pId, {}).then((results: any) => {
 			if (results.status === '00') {
 				this.load();
 				this._notificationService.success(results.message);
@@ -134,7 +144,7 @@ export class AccountRecordsViewComponent implements OnInit {
 	}
 
 	delete(pId) {
-		this._httpService.delete('accountRecords/delete', pId).then((results: any) => {
+		this._httpService.delete('bank-accounts/delete', pId).then((results: any) => {
 			if (results.status === '00') {
 				this.load();
 				this._notificationService.success(results.message);
@@ -147,4 +157,5 @@ export class AccountRecordsViewComponent implements OnInit {
 			}
 		});
 	}
+
 }

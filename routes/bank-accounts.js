@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['accounts']);
+var db = mongojs('mongodb://localhost:27017/accounts', ['bankAccounts']);
 
 var _response = {
     status: '00',
@@ -13,7 +13,7 @@ var _response = {
 var _errors = [];
 
 // fetch records
-router.post('/accounts/view/:id?', function (req, res, next) {
+router.post('/bank-accounts/view/:id?', function (req, res, next) {
     if (!req.params.id) {
         var body = req.body;
         var page = ((body.page) ? body.page : 1);
@@ -37,12 +37,12 @@ router.post('/accounts/view/:id?', function (req, res, next) {
         } else {
             filter = {};
         }
-        db.accounts.count(query, function (err, pCount) {
+        db.bankAccounts.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accounts.find(query)
+            db.bankAccounts.find(query)
                 .skip(((page * records) - records))
                 .limit(records)
                 .sort(filter)
@@ -59,12 +59,12 @@ router.post('/accounts/view/:id?', function (req, res, next) {
                 });
         });
     } else if (req.params.id == 'all') {
-        db.accounts.count(query, function (err, pCount) {
+        db.bankAccounts.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accounts.find(query)
+            db.bankAccounts.find(query)
                 .sort({
                     'accountDescription': 1
                 })
@@ -81,12 +81,12 @@ router.post('/accounts/view/:id?', function (req, res, next) {
                 });
         });
     } else if (req.params.id == 'dash') {
-        db.accounts.count(query, function (err, pCount) {
+        db.bankAccounts.count(query, function (err, pCount) {
             if (err) {
                 _errors.push("Can't count");
             }
             _response.totalRecords = pCount;
-            db.accounts.find(query, {
+            db.bankAccounts.find(query, {
                     _id: 1,
                     accountDescription: 1,
                     status: 1
@@ -107,7 +107,7 @@ router.post('/accounts/view/:id?', function (req, res, next) {
                 });
         });
     } else {
-        db.accounts.findOne({
+        db.bankAccounts.findOne({
             _id: mongojs.ObjectId(req.params.id)
         }, function (err, pResults) {
             if (err) {
@@ -121,15 +121,16 @@ router.post('/accounts/view/:id?', function (req, res, next) {
 });
 
 // create record
-router.put('/accounts/add', function (req, res, next) {
+router.post('/bank-accounts/add', function (req, res, next) {
     var newRecord = req.body;
     if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
         res.status(400);
         res.json({
-            "error": "bad data"
+            status: '01',
+            errors: ['Bad data']
         });
     } else {
-        db.accounts.find({
+        db.bankAccounts.find({
             accountNumber: req.body.accountNumber
         }, {}, {}, function (err, pResults) {
             if (err) {
@@ -141,7 +142,7 @@ router.put('/accounts/add', function (req, res, next) {
             _response.errors = _errors;
             _response.data = pResults;
             if (pResults.length == 0) {
-                db.accounts.save(newRecord, function (err, pResults) {
+                db.bankAccounts.save(newRecord, function (err, pResults) {
                     if (err) {
                         res.send(err);
                     }
@@ -163,7 +164,7 @@ router.put('/accounts/add', function (req, res, next) {
 });
 
 // update record
-router.put('/accounts/update/:id', function (req, res, next) {
+router.put('/bank-accounts/update/:id', function (req, res, next) {
     var newRecord = req.body;
     if (newRecord._id) {
         delete(newRecord._id);
@@ -174,7 +175,7 @@ router.put('/accounts/update/:id', function (req, res, next) {
             "error": "bad data"
         });
     } else {
-        db.accounts.update({
+        db.bankAccounts.update({
             _id: mongojs.ObjectId(req.params.id)
         }, {
             $set: newRecord
@@ -194,14 +195,14 @@ router.put('/accounts/update/:id', function (req, res, next) {
 });
 
 // delete record
-router.delete('/accounts/delete/:id', function (req, res, next) {
+router.delete('/bank-accounts/delete/:id', function (req, res, next) {
     if (!req.params.id) {
         res.status(400);
         res.json({
             "error": "bad data"
         });
     } else {
-        db.accounts.remove({
+        db.bankAccounts.remove({
             _id: mongojs.ObjectId(req.params.id)
         }, function (err, pResults) {
             if (err) {
@@ -213,7 +214,7 @@ router.delete('/accounts/delete/:id', function (req, res, next) {
 });
 
 // cancel record
-router.put('/accounts/cancel/:id', function (req, res, next) {
+router.put('/bank-accounts/cancel/:id', function (req, res, next) {
     var newRecord = {
         canceled: 'true',
         canceledDate: new Date()
@@ -224,7 +225,7 @@ router.put('/accounts/cancel/:id', function (req, res, next) {
             "error": "bad data"
         });
     } else {
-        db.accounts.update({
+        db.bankAccounts.update({
             _id: mongojs.ObjectId(req.params.id)
         }, {
             $set: newRecord
@@ -244,7 +245,7 @@ router.put('/accounts/cancel/:id', function (req, res, next) {
 });
 
 // enable record
-router.put('/accounts/enable/:id', function (req, res, next) {
+router.put('/bank-accounts/enable/:id', function (req, res, next) {
     var newRecord = {
         canceled: 'false',
         canceledDate: ''
@@ -255,7 +256,7 @@ router.put('/accounts/enable/:id', function (req, res, next) {
             "error": "bad data"
         });
     } else {
-        db.accounts.update({
+        db.bankAccounts.update({
             _id: mongojs.ObjectId(req.params.id)
         }, {
             $set: newRecord

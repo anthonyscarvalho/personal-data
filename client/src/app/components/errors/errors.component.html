@@ -1,0 +1,4 @@
+<div *ngIf="element" class="errors">
+	<div *ngIf="element.errors?.required" class="errors__error">This field is required</div>
+	<div *ngIf="element.errors?.numericValues" class="errors__error">Only numbers are allowed</div>
+</div>

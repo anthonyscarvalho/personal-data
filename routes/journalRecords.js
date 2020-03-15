@@ -159,7 +159,7 @@ router.post('/journalRecords/sum/:id?', function (req, res, next) {
             _response.totalRecords = pCount;
             db.journalRecords.aggregate([{
                 $match: {
-                    accountsId: req.params.id
+                    journalId: req.params.id
                 }
             }, {
                 $group: {

@@ -4,7 +4,7 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var accounts = require('./routes/accounts');
+var bankAccounts = require('./routes/bank-accounts');
 var accountRecords = require('./routes/accountRecords');
 var journals = require('./routes/journals');
 var journalRecords = require('./routes/journalRecords');
@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use('/', index);
-app.use('/', accounts);
+app.use('/', bankAccounts);
 app.use('/', accountRecords);
 app.use('/', journals);
 app.use('/', journalRecords);

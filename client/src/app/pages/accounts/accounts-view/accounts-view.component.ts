@@ -6,7 +6,7 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 // interfaces
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
-import { AccountsViewInterface } from '../../../interfaces/accounts';
+// import { AccountsViewInterface } from '../../../interfaces/accounts';
 
 @Component({
 	selector: 'app-accounts-view',
@@ -36,8 +36,10 @@ export class AccountsViewComponent implements OnInit {
 			data: 'dateClosed'
 		}
 	];
-	tableBody: AccountsViewInterface[];
-	results: AccountsViewInterface[];
+	// tableBody: AccountsViewInterface[];
+	// results: AccountsViewInterface[];
+	tableBody: [];
+	results: [];
 	private filterBoxOptions: FilterBoxOptionsInterface;
 	private filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;

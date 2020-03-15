@@ -1,27 +1,22 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+// external
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 // interfaces
-import { AccountRecordsInterface } from '../../../interfaces/accountRecords';
-import { AccountsViewInterface } from '../../../interfaces/accounts';
-import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
+import { BankAccountRecordsInterface } from '../../../interfaces/bankAccounts';
 // services
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
-
 @Component({
-	selector: 'app-account-records',
-	templateUrl: './account-records.component.html',
-	styleUrls: ['./account-records.component.scss']
+	selector: 'app-bank-accounts-records',
+	templateUrl: './bank-accounts-records.component.html',
+	styleUrls: ['./bank-accounts-records.component.scss']
 })
-export class AccountRecordsComponent implements OnInit {
+export class BankAccountsRecordsComponent implements OnInit {
 	@ViewChild('form', { static: false }) form: NgForm;
 	@ViewChild('filePicker', { static: false }) _file: ElementRef;
 
-	results: AccountRecordsInterface;
-	accounts: AccountsViewInterface[];
 	parentId: string;
 	accountRecords = [];
 	selectedAccount = '';
@@ -33,91 +28,20 @@ export class AccountRecordsComponent implements OnInit {
 	existingRecords = 0;
 	removedRecords = 0;
 	csvTextData: string;
-
-	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	accounts;
 
 	constructor(
-		private route: ActivatedRoute,
+		public bsModalRef: BsModalRef,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
 		private _notificationsService: NotificationsService
-	) {
-		if (this.route.snapshot.paramMap.get('id')) {
-			this.parentId = this.route.snapshot.paramMap.get('id');
-		} else {
-			this.parentId = null;
-		}
-		this.bsConfig.containerClass = 'theme-dark-blue';
-		this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
-		this._generalService.setTitle('Account Records: Add New');
-		this.filterBoxConfig = new FilterBoxConfigInterface();
-		this.filterBoxConfig.backLink = '/account-records/view';
-		this.filterBoxConfig.updateControls = true;
-	}
+	) { }
 
 	ngOnInit() {
-		localStorage.setItem('activeMenu', 'account-records');
-		this.filterBoxOptions = new FilterBoxOptionsInterface();
-
-		if (this.parentId) {
-			this.load();
-		}
-		this.getAccounts();
-	}
-
-	submit() {
-		if (!this.parentId) {
-			if (this.results.accountsId !== '') {
-				this._httpService.post('accounts/add', this.results).then((pResult: any) => {
-					if (pResult.status === '00') {
-						this.results = new AccountRecordsInterface();
-						this._notificationsService.success(pResult.message);
-					} else {
-						if (pResult.errors) {
-							pResult.errors.forEach(pError => {
-								this._notificationsService.warn(pError);
-							});
-						}
-					}
-				});
-			}
-		} else {
-			this._httpService.update('accounts/update', this.parentId, this.results).then((pResult: any) => {
-				if (pResult.status === '00') {
-					this.load();
-					this._notificationsService.success(pResult.message);
-				} else {
-					if (pResult.errors) {
-						pResult.errors.forEach(pError => {
-							this._notificationsService.warn(pError);
-						});
-					}
-				}
-			});
-		}
 	}
 
 	submitForm() {
 		this.form.ngSubmit.emit();
-	}
-
-	load() {
-		this._httpService.post('accounts/view/' + this.parentId, {}).then((results: any) => {
-			if (results.status === '00') {
-				this.results = new AccountRecordsInterface(results.data);
-				this._generalService.setTitle('Accounts Edit: ' + results.data.accountDescription);
-			}
-		});
-	}
-
-	getAccounts() {
-		this._httpService.post('accounts/view/all', {}).then((results: any) => {
-			if (results.status === '00') {
-				this.accounts = results.data;
-			}
-		});
 	}
 
 	processRecords(pEvent) {
@@ -152,13 +76,7 @@ export class AccountRecordsComponent implements OnInit {
 									accountNumber = currentRecord[1].trim();
 								}
 							}
-							if (accountNumber && this.selectedAccount !== accountNumber) {
-								this.accounts.find(pAccount => {
-									if (accountNumber === pAccount.accountNumber) {
-										this.selectedAccount = pAccount._id;
-									}
-								});
-							}
+
 							if (currentRecord[0].includes('Statement Number')) {
 								statementId = Number(currentRecord[1]);
 							}
@@ -251,7 +169,7 @@ export class AccountRecordsComponent implements OnInit {
 		this.existingRecords = 0;
 		this.addedRecords = 0;
 		this.accountRecords.map(pRecord => {
-			const csvRecord: AccountRecordsInterface = new AccountRecordsInterface(pRecord);
+			const csvRecord: BankAccountRecordsInterface = new BankAccountRecordsInterface(pRecord);
 			this._httpService.post('accountRecords/add', csvRecord).then((pResponse: any) => {
 				if (!pResponse.errors) {
 					this.addedRecords++;

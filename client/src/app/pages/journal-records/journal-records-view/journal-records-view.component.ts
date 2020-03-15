@@ -10,9 +10,9 @@ import { JournalRecordsInterface } from '../../../interfaces/journalRecords';
 
 
 @Component({
-  selector: 'app-journal-records-view',
-  templateUrl: './journal-records-view.component.html',
-  styleUrls: ['./journal-records-view.component.scss']
+	selector: 'app-journal-records-view',
+	templateUrl: './journal-records-view.component.html',
+	styleUrls: ['./journal-records-view.component.scss']
 })
 export class JournalRecordsViewComponent implements OnInit {
 	tableHead = [
@@ -21,23 +21,17 @@ export class JournalRecordsViewComponent implements OnInit {
 			data: '_id',
 			width: '250px'
 		}, {
-			text: 'Account Number',
-			data: 'accountNumber'
+			text: 'Journal ID',
+			data: 'journalId'
 		}, {
-			text: 'Date 1',
-			data: 'date1'
-		}, {
-			text: 'Date 2',
-			data: 'date2'
+			text: 'Date',
+			data: 'date'
 		}, {
 			text: 'Credit',
 			data: 'credit'
 		}, {
 			text: 'Debit',
 			data: 'debit'
-		}, {
-			text: 'Journal',
-			data: 'journal'
 		}
 	];
 	tableBody: JournalRecordsInterface[];

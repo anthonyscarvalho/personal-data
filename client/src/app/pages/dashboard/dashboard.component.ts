@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralService } from '../../services/general.service';
 import { HttpService } from '../../services/http.service';
 // interfaces
-import { AccountsDashboardInterface } from '../../interfaces/accounts';
+import { BankAccountsDashboardInterface } from '../../interfaces/dashboard';
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -30,13 +30,15 @@ export class DashboardComponent implements OnInit {
 	}
 
 	loadAccounts() {
-		this._httpService.post('accounts/view/dash', {}).then((pResults: any) => {
-			if (pResults.status === '00') {
+		this._httpService.post('bank-accounts/view/dash', {}).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === 'valid') {
 				this.accounts = pResults.data;
 			}
 			return this._httpService.post('journals/view/dash', {});
 		}).then((pResults: any) => {
-			if (pResults.status === '00') {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === 'valid') {
 				this.journalEntries = pResults.data;
 			}
 		});

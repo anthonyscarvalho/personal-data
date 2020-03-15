@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 // interfaces
-import { AccountsAddInterface } from '../../../interfaces/accounts';
+// import { AccountsAddInterface } from '../../../interfaces/accounts';
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
 // services
 import { GeneralService } from '../../../services/general.service';
@@ -18,7 +18,8 @@ import { NotificationsService } from '../../../services/notifications.service';
 export class AccountsComponent implements OnInit {
 	@ViewChild('form', { static: false }) form: NgForm;
 
-	results: AccountsAddInterface;
+	// results: AccountsAddInterface;
+	results;
 	parentId: string;
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 	private filterBoxOptions: FilterBoxOptionsInterface;
@@ -48,7 +49,8 @@ export class AccountsComponent implements OnInit {
 		localStorage.setItem('activeMenu', 'accounts');
 
 		if (!this.parentId) {
-			this.results = new AccountsAddInterface();
+			// this.results = new AccountsAddInterface();
+			this.results = {};
 			this.filterBoxConfig.create = true;
 		} else {
 			this.load();
@@ -60,7 +62,8 @@ export class AccountsComponent implements OnInit {
 			if (this.results.accountNumber !== '' && this.results.accountDescription !== '') {
 				this._httpService.post('accounts/add', this.results).then((pResult: any) => {
 					if (pResult.status === '00') {
-						this.results = new AccountsAddInterface();
+						// this.results = new AccountsAddInterface();
+						this.results = {};
 						this._notificationsService.success(pResult.message);
 					} else {
 						if (pResult.errors) {
@@ -94,7 +97,8 @@ export class AccountsComponent implements OnInit {
 	load() {
 		this._httpService.post('accounts/view/' + this.parentId, {}).then((results: any) => {
 			if (results.status === '00') {
-				this.results = new AccountsAddInterface(results.data);
+				// this.results = new AccountsAddInterface(results.data);
+				this.results = (results.data);
 				this._generalService.setTitle('Accounts Edit: ' + results.data.accountDescription);
 			}
 		});

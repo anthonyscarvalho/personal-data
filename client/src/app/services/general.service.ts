@@ -199,4 +199,18 @@ export class GeneralService {
 		const total: any = x1 + x2;
 		return total;
 	}
+
+	validateResponse(pResponse) {
+		if (pResponse.status) {
+			if (pResponse.status === '00') {
+				return 'valid';
+			} else if (pResponse === '01') {
+				return 'failed';
+			} else if (pResponse.status === '02') {
+				return 'exists';
+			}
+		} else {
+			return 'invalid';
+		}
+	}
 }
