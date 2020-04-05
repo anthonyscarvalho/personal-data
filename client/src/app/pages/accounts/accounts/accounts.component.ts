@@ -16,7 +16,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 	styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent implements OnInit {
-	@ViewChild('form', { static: false }) form: NgForm;
+	@ViewChild('form') form: NgForm;
 
 	// results: AccountsAddInterface;
 	results;

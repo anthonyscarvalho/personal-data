@@ -20,7 +20,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 	styleUrls: ['./bank-accounts-add.component.scss']
 })
 export class BankAccountsAddComponent implements OnInit {
-	@ViewChild('filePicker', { static: false }) _file: ElementRef;
+	@ViewChild('filePicker') _file: ElementRef;
 
 	results: BankAccountsAddInterface;
 	bankAccountsAddForm: FormGroup;

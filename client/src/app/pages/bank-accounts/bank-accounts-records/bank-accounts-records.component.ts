@@ -14,8 +14,8 @@ import { NotificationsService } from '../../../services/notifications.service';
 	styleUrls: ['./bank-accounts-records.component.scss']
 })
 export class BankAccountsRecordsComponent implements OnInit {
-	@ViewChild('form', { static: false }) form: NgForm;
-	@ViewChild('filePicker', { static: false }) _file: ElementRef;
+	@ViewChild('form') form: NgForm;
+	@ViewChild('filePicker') _file: ElementRef;
 
 	accountNumber: string;
 	csvType: number;

@@ -17,7 +17,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 	styleUrls: ['./journals.component.scss']
 })
 export class JournalsComponent implements OnInit {
-	@ViewChild('form', { static: false }) form: NgForm;
+	@ViewChild('form') form: NgForm;
 
 	results: JournalsAddInterface;
 	journalEntries: JournalRecordsProcessInterface[];
