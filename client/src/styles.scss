@@ -45,3 +45,30 @@ div.buttons {
 		}
 	}
 }
+
+.pagination {
+	justify-content: center;
+	margin-bottom: 0 !important;
+}
+
+// custom scrollbar
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #F3F3F4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #343a40;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #CC0000;
+}

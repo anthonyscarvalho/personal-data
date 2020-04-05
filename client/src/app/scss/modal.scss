@@ -11,4 +11,28 @@
 		right: 0;
 		bottom: 0;
 	}
+
+	&-content {
+		height: 100%;
+		margin: 0 !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+	}
+
+	&-header {
+		height: 72px;
+	}
+
+	&-body {
+		height: calc(100vh - 144px);
+		overflow: auto;
+	}
+
+	&-footer {
+		height: 72px;
+
+		& .row {
+			width: 100%;
+		}
+	}
 }

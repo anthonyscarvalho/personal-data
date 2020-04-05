@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -50,6 +51,7 @@ export class BankAccountsEditComponent implements OnInit {
 	constructor(
 		public fb: FormBuilder,
 		private route: ActivatedRoute,
+		private datePipe: DatePipe,
 		private _modalService: BsModalService,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
@@ -88,7 +90,15 @@ export class BankAccountsEditComponent implements OnInit {
 	submit() {
 		this.submitted = true;
 		if (this.bankAccountsAddForm.valid) {
-			this._httpService.update('bank-accounts/update', this.bankAccountsAddForm.value._id, this.bankAccountsAddForm.value).then((pResult: any) => {
+			const _postForm: BankAccountsEditInterface = this.bankAccountsAddForm.value;
+
+			const _dateOp = new Date(_postForm.dateOpened);
+			_postForm.dateOpened = this.datePipe.transform(_dateOp, 'yyyy-MM-dd');
+			if (_postForm.dateClosed !== '') {
+				const _dateCl = new Date(_postForm.dateClosed);
+				_postForm.dateClosed = this.datePipe.transform(_dateCl, 'yyyy-MM-dd');
+			}
+			this._httpService.update('bank-accounts/update', this.bankAccountsAddForm.value._id, _postForm).then((pResult: any) => {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
@@ -131,6 +141,8 @@ export class BankAccountsEditComponent implements OnInit {
 
 	addNewRecords() {
 		this.bsModalRef = this._modalService.show(BankAccountsRecordsComponent, Object.assign({}, { class: 'modal__full', ignoreBackdropClick: true }));
+		this.bsModalRef.content.accountNumber = this.bankAccountsAddForm.value._id;
+		this.bsModalRef.content.csvType = this.bankAccountsAddForm.value.csvType;
 		this._modalService.onHide.subscribe((reason: string) => {
 			this.load();
 		});

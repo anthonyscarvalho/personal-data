@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // validators
@@ -31,6 +32,7 @@ export class BankAccountsAddComponent implements OnInit {
 		public fb: FormBuilder,
 		public bsModalRef: BsModalRef,
 		private route: ActivatedRoute,
+		private datePipe: DatePipe,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
 		private _notificationsService: NotificationsService
@@ -59,7 +61,16 @@ export class BankAccountsAddComponent implements OnInit {
 	submit() {
 		this.submitted = true;
 		if (this.bankAccountsAddForm.valid) {
-			this._httpService.post('bank-accounts/add', this.bankAccountsAddForm.value).then((pResult: any) => {
+			const _postForm: BankAccountsAddInterface = this.bankAccountsAddForm.value;
+
+			const _dateOp = new Date(_postForm.dateOpened);
+			_postForm.dateOpened = this.datePipe.transform(_dateOp, 'yyyy-MM-dd');
+			if (_postForm.dateClosed !== '') {
+				const _dateCl = new Date(_postForm.dateClosed);
+				_postForm.dateClosed = this.datePipe.transform(_dateCl, 'yyyy-MM-dd');
+			}
+
+			this._httpService.post('bank-accounts/add', _postForm).then((pResult: any) => {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
@@ -88,6 +99,6 @@ export class BankAccountsAddComponent implements OnInit {
 	}
 
 	close() {
-		this.bsModalRef.hide()
+		this.bsModalRef.hide();
 	}
 }

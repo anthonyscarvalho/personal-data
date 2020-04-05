@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var bankAccounts = require('./routes/bank-accounts');
-var accountRecords = require('./routes/accountRecords');
+var bankAccountRecords = require('./routes/bank-account-records');
 var journals = require('./routes/journals');
 var journalRecords = require('./routes/journalRecords');
 var logs = require('./routes/logs');
@@ -50,7 +50,7 @@ app.use(bodyParser.json());
 
 app.use('/', index);
 app.use('/', bankAccounts);
-app.use('/', accountRecords);
+app.use('/', bankAccountRecords);
 app.use('/', journals);
 app.use('/', journalRecords);
 app.use('/', logs);
