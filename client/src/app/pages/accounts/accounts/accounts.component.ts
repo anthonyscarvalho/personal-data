@@ -22,8 +22,8 @@ export class AccountsComponent implements OnInit {
 	results;
 	parentId: string;
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	public filterBoxOptions: FilterBoxOptionsInterface;
+	public filterBoxConfig: FilterBoxConfigInterface;
 
 	constructor(
 		private route: ActivatedRoute,

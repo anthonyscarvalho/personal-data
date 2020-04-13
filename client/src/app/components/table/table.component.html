@@ -6,7 +6,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th *ngFor="let item of tableHead" (click)="changeColumn(item.data)" [attr.width]="item.width">{{item.text}} <fa *ngIf="filterBoxOptions && getActiveColumn(item.data)" class="pull-right" name="{{(filterBoxOptions.dir ==='ASC')?'chevron-up':'chevron-down'}}"></fa>
+				<th *ngFor="let item of tableHead" (click)="changeColumn(item.data)" [attr.width]="item.width">{{item.text}} <fa-icon *ngIf="filterBoxOptions && getActiveColumn(item.data)" class="pull-right" [icon]="['fas', (filterBoxOptions.dir ==='ASC')?'chevron-up':'chevron-down']"></fa-icon>
 				</th>
 				<th style="width: 120px;"></th>
 			</tr>
@@ -17,20 +17,20 @@
 				<td class="table-component__controls">
 					<span ng-if="userRoles.edit == 'true'">
 						<a class="btn btn-info btn-sm" routerLink="/{{editModule}}/edit/{{rows._id}}">
-							<span class="fa fa-fw fa-pencil"></span>
+							<fa-icon [icon]="['fas', 'edit']" [fixedWidth]="true"></fa-icon>
 						</a>
 					</span>
 					<span ng-if="userRoles.status == 'true'">
 						<a class="btn btn-danger btn-sm" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
-							<span class="fa fa-fw fa-square-o"></span>
+							<fa-icon [icon]="['far', 'square']" [fixedWidth]="true"></fa-icon>
 						</a>
 						<a class="btn btn-success btn-sm" (click)="cancel( rows._id)" *ngIf="rows.canceled == 'false'">
-							<span class="fa fa-fw fa-square"></span>
+							<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
 						</a>
 					</span>
 					<span ng-if="userRoles.delete == 'true'">
 						<a class="btn btn-warning btn-sm" (click)="delete( rows._id )">
-							<span class="fa fa-fw fa-trash"></span>
+							<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
 						</a>
 					</span>
 				</td>

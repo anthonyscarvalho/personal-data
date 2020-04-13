@@ -66,13 +66,13 @@
 						</div>
 						<div class="text-center navbar__bottom">
 							<a class="btn btn-secondary" routerLink="/bank-accounts">
-								<fa name="backward"></fa>
+								<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
 							</a>
 							<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
-								<fa name="save"></fa> Update
+								<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
 							</button>
 							<span class="btn btn-info" *ngIf="submitted">
-								<fa name="spinner" animation="spin"></fa>
+								<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
 							</span>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 							</div>
 							<div class="col-md-2">
 								<button type="button" class="btn btn-secondary pull-right" (click)="addNewRecords()">
-									<fa name="plus"></fa>
+									<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon>
 								</button>
 							</div>
 						</div>

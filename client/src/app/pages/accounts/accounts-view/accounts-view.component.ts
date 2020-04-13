@@ -40,8 +40,8 @@ export class AccountsViewComponent implements OnInit {
 	// results: AccountsViewInterface[];
 	tableBody: [];
 	results: [];
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	public filterBoxOptions: FilterBoxOptionsInterface;
+	public filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;
 
 	constructor(

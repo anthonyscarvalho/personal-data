@@ -51,9 +51,9 @@
         <legend>Controls</legend>
         <div class="form-group text-center">
           <button type="button" (click)="refreshRecords()" class="btn btn-default btn-sm">
-            <span class="fa fa-refresh"></span> Refresh List </button>
+			  <fa-icon [icon]="['fas', 'sync']"></fa-icon> Refresh List </button>
           <button type="button" (click)="addRecord()" class="btn btn-primary btn-sm">
-            <span class="fa fa-plus"></span> Record </button>
+            <fa-icon [icon]="['fas', 'plus']"></fa-icon> Record </button>
         </div>
       </div>
     </div>
@@ -63,20 +63,20 @@
       <div class="card-body" *ngIf="!submitted">
         <div class="form-group text-center">
           <button type="button" name="submit" value="submit" class="btn btn-success btn-block shadow" (click)="updateForm()">
-			<span class="fa fa-save"></span>&nbsp;
+			<fa-icon [icon]="['fas', 'save']"></fa-icon>&nbsp;
 			<span *ngIf="filterBoxConfig.create">Create</span>
             <span *ngIf="!filterBoxConfig.create">Save</span>
           </button>
         </div>
         <div class="clearfix">&nbsp;</div>
         <div class="form-group text-center">
-          <a routerLink="{{filterBoxConfig.backLink}}" class="btn btn-info btn-block shadow"><span class="fa fa-chevron-left"></span> Back </a>
+          <a routerLink="{{filterBoxConfig.backLink}}" class="btn btn-info btn-block shadow"><span class="fas fa-chevron-left"></span> Back </a>
         </div>
       </div>
     </div>
     <div *ngIf="submitted">
       <a class="btn btn-info">
-        <span class="fa fa-refresh fa-spin"></span> Saving! </a>
+        <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon> Saving! </a>
     </div>
   </div>
 </div>

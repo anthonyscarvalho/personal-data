@@ -48,7 +48,7 @@ export class BankAccountsRecordsComponent implements OnInit {
 		this.form.ngSubmit.emit();
 	}
 
-	processRecords(pEvent) {
+	processRecords() {
 		if (this._file) {
 			this.accountRecords = [];
 			const files: { [key: string]: File } = this._file.nativeElement.files;
@@ -159,6 +159,8 @@ export class BankAccountsRecordsComponent implements OnInit {
 		}
 	}
 
+	submit() { }
+
 	uploadRecords() {
 		this.existingRecords = 0;
 		this.addedRecords = 0;
@@ -194,6 +196,8 @@ export class BankAccountsRecordsComponent implements OnInit {
 			return <any>new Date(b.date1) - <any>new Date(a.date1);
 		});
 	}
+
+	updatePage(pEvent) { }
 
 	close() {
 		this.bsModalRef.hide();

@@ -1,7 +1,7 @@
 <div class="container appMenu">
 	<legend>Management</legend>
 	<div class="row">
-	  <div class="col-md-2 col-sm-3 col-xs-6" *ngFor="let menu of managementMenu">
+	  <div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of managementMenu">
 		<div class="card">
 		  <a class="btn btn-zawebs btn-block" routerLink="{{menu.url}}">
 			<span class="fa fa-{{menu.icon}} fa-2x"></span>
@@ -11,7 +11,7 @@
 	</div>
 	<legend>Admin</legend>
 	<div class="row">
-	  <div class="col-md-2 col-sm-3 col-xs-6" *ngFor="let menu of adminMenu">
+	  <div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of adminMenu">
 		<div class="card">
 		  <a class="btn btn-zawebs btn-block" routerLink="{{menu.url}}">
 			<span class="fa fa-{{menu.icon}} fa-2x"></span>
@@ -22,23 +22,23 @@
 	<div>
 	  <legend>Reports</legend>
 	  <div class="row">
-		<div class="col-md-2 col-sm-3 col-xs-6">
+		<div class="col-md-3 col-sm-3 col-xs-6">
 		  <div class="card">
-			<a class="btn btn-sm btn-zawebs btn-block" routerLink="/reports-income">
+			<a class="btn btn-zawebs btn-block" routerLink="/reports-income">
 			  <span class="fa fa-dollar fa-2x"></span>
 			  <br>Income Report</a>
 		  </div>
 		</div>
-		<div class="col-md-2 col-sm-3 col-xs-6">
+		<div class="col-md-3 col-sm-3 col-xs-6">
 		  <div class="card">
-			<a class="btn btn-sm btn-zawebs btn-block" routerLink="/reports-expense">
+			<a class="btn btn-zawebs btn-block" routerLink="/reports-expense">
 			  <span class="fa fa-list-alt fa-2x"></span>
 			  <br>Expense Report</a>
 		  </div>
 		</div>
-		<div class="col-md-2 col-sm-3 col-xs-6">
+		<div class="col-md-3 col-sm-3 col-xs-6">
 			<div class="card">
-			  <a class="btn btn-sm btn-zawebs btn-block" routerLink="/reports-adwords">
+			  <a class="btn btn-zawebs btn-block" routerLink="/reports-adwords">
 				<span class="fa fa-list-alt fa-2x"></span>
 				<br>Adwords Report</a>
 			</div>
@@ -48,7 +48,7 @@
 	<div ng-if="userAccess.expenditure === 'true'">
 	  <legend>Expenditure</legend>
 	  <div class="row">
-		<div class="col-md-2 col-sm-3 col-xs-6">
+		<div class="col-md-3 col-sm-3 col-xs-6">
 		  <div class="thumbnail">
 			<a class="btn btn-sm btn-zawebs btn-block" routerLink="/expenditure">
 			  <span class="fa fa-usd fa-2x"></span>

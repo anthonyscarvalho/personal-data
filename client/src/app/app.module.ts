@@ -7,7 +7,9 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -87,7 +89,6 @@ import { BankAccountsRecordsComponent } from './pages/bank-accounts/bank-account
 		// routing
 		AppRoutingModule,
 		// 3rd party scripts
-		AngularFontAwesomeModule,
 		BsDatepickerModule.forRoot(),
 		ButtonsModule.forRoot(),
 		ModalModule.forRoot(),
@@ -95,6 +96,7 @@ import { BankAccountsRecordsComponent } from './pages/bank-accounts/bank-account
 		PaginationModule.forRoot(),
 		TabsModule.forRoot(),
 		ToastyModule.forRoot(),
+		FontAwesomeModule,
 	],
 	exports: [
 		ToastyModule,
@@ -110,4 +112,8 @@ import { BankAccountsRecordsComponent } from './pages/bank-accounts/bank-account
 		AppComponent
 	]
 })
-export class AppModule { }
+export class AppModule {
+	constructor(library: FaIconLibrary) {
+		library.addIconPacks(fas,far);
+	}
+}

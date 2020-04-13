@@ -36,8 +36,8 @@ export class JournalRecordsViewComponent implements OnInit {
 	];
 	tableBody: JournalRecordsInterface[];
 	results: JournalRecordsInterface[];
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	public filterBoxOptions: FilterBoxOptionsInterface;
+	public filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;
 
 	constructor(

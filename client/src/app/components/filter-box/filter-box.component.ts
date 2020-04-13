@@ -15,6 +15,8 @@ export class FilterBoxComponent implements OnInit {
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
+	submitted = false;
+
 	constructor(
 		private _generalService: GeneralService,
 	) {

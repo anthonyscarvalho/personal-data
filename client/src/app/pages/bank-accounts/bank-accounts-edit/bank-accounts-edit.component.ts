@@ -45,8 +45,8 @@ export class BankAccountsEditComponent implements OnInit {
 	csvTextData: string;
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	public filterBoxOptions: FilterBoxOptionsInterface;
+	public filterBoxConfig: FilterBoxConfigInterface;
 
 	constructor(
 		public fb: FormBuilder,
@@ -77,7 +77,9 @@ export class BankAccountsEditComponent implements OnInit {
 			dateClosed: [''],
 			csvType: ['', [Validators.required]],
 			status: ['', [Validators.required]],
-			_id: ['']
+			_id: [''],
+			canceled: [``],
+			canceledDate: [``]
 		});
 		if (this.parentId) {
 			this.load();
@@ -90,7 +92,7 @@ export class BankAccountsEditComponent implements OnInit {
 	submit() {
 		this.submitted = true;
 		if (this.bankAccountsAddForm.valid) {
-			const _postForm: BankAccountsEditInterface = this.bankAccountsAddForm.value;
+			const _postForm: BankAccountsEditInterface = new BankAccountsEditInterface(this.bankAccountsAddForm.value);
 
 			const _dateOp = new Date(_postForm.dateOpened);
 			_postForm.dateOpened = this.datePipe.transform(_dateOp, 'yyyy-MM-dd');

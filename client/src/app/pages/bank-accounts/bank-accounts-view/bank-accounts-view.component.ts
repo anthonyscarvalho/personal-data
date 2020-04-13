@@ -43,8 +43,8 @@ export class BankAccountsViewComponent implements OnInit {
 	];
 	tableBody: BankAccountsViewInterface[];
 	results: BankAccountsViewInterface[];
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	public filterBoxOptions: FilterBoxOptionsInterface;
+	public filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;
 
 	constructor(

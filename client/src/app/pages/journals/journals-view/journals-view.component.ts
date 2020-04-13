@@ -30,8 +30,8 @@ export class JournalsViewComponent implements OnInit {
 	];
 	tableBody: JournalsViewInterface[];
 	results: JournalsViewInterface[];
-	private filterBoxOptions: FilterBoxOptionsInterface;
-	private filterBoxConfig: FilterBoxConfigInterface;
+	public filterBoxOptions: FilterBoxOptionsInterface;
+	public filterBoxConfig: FilterBoxConfigInterface;
 	totalRecords: string;
 
 	constructor(
