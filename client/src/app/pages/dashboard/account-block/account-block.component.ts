@@ -28,7 +28,7 @@ export class AccountBlockComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('bankAccountRecords/sum/' + this.account._id, {}).then((pRes: any) => {
+		this._httpService.post('bank-account-records/sum/' + this.account._id, {}).then((pRes: any) => {
 			if (pRes.status === '00') {
 				this.accountDetails = new BankAccountsDashboardInterface(pRes.data);
 				this.accountDetails.accountDescription = this.account.accountDescription;

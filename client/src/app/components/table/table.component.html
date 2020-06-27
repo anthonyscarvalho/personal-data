@@ -1,6 +1,6 @@
 <div class="table-component">
 	<div class="text-center">
-		<pagination [totalItems]="filterBoxOptions.totalRecords" [(ngModel)]="filterBoxOptions.page" (pageChanged)="updatePage($event)" [maxSize]="10" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="filterBoxOptions.pagerRecords"></pagination>
+		<pagination [totalItems]="filterBoxOptions.totalRecords" [(ngModel)]="filterBoxOptions.page" (pageChanged)="updatePage($event)" [maxSize]="9" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="filterBoxOptions.pagerRecords"></pagination>
 	</div>
 	<div class="clearfix">&nbsp;</div>
 	<table>
@@ -8,18 +8,22 @@
 			<tr>
 				<th *ngFor="let item of tableHead" (click)="changeColumn(item.data)" [attr.width]="item.width">{{item.text}} <fa-icon *ngIf="filterBoxOptions && getActiveColumn(item.data)" class="pull-right" [icon]="['fas', (filterBoxOptions.dir ==='ASC')?'chevron-up':'chevron-down']"></fa-icon>
 				</th>
-				<th style="width: 120px;"></th>
+				<th style="width: 45px;" *ngIf="showEdit"></th>
+				<th style="width: 45px;" *ngIf="showStatus"></th>
+				<th style="width: 45px;" *ngIf="showDelete"></th>
 			</tr>
 		</thead>
 		<tbody *ngIf="tableBody">
 			<tr *ngFor="let rows of tableBody">
 				<td *ngFor="let column of tableHead">{{rows[column.data]}}</td>
-				<td class="table-component__controls">
+				<td class="table-component__controls" *ngIf="showEdit">
 					<span ng-if="userRoles.edit == 'true'">
 						<a class="btn btn-info btn-sm" routerLink="/{{editModule}}/edit/{{rows._id}}">
 							<fa-icon [icon]="['fas', 'edit']" [fixedWidth]="true"></fa-icon>
 						</a>
 					</span>
+				</td>
+				<td *ngIf="showStatus">
 					<span ng-if="userRoles.status == 'true'">
 						<a class="btn btn-danger btn-sm" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
 							<fa-icon [icon]="['far', 'square']" [fixedWidth]="true"></fa-icon>
@@ -28,6 +32,8 @@
 							<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
 						</a>
 					</span>
+				</td>
+				<td *ngIf="showDelete">
 					<span ng-if="userRoles.delete == 'true'">
 						<a class="btn btn-warning btn-sm" (click)="delete( rows._id )">
 							<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>

@@ -77,35 +77,95 @@
 						</div>
 					</div>
 				</div>
+				<div class="card">
+					<div class="card-body">
+						<h1>Account Totals</h1>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Total Account Records</label>
+									<div>{{filterBoxOptions.totalRecords}}</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Total Account Pages</label>
+									<div>{{bankAccountRecordsPages}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Monthly Income</label>
+									<div></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Monthly Expense</label>
+									<div></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Total Income</label>
+									<div></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Total Expense</label>
+									<div></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Account Balance</label>
+									<div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-8">
-				<div class="card">
+				<div class="card" *ngIf="bankAccountRecords">
 					<div class="card-body">
 						<div class="row">
 							<div class="col-md-10">
 								<h1>Account Records</h1>
 							</div>
-							<div class="col-md-2">
-								<button type="button" class="btn btn-secondary pull-right" (click)="addNewRecords()">
+							<div class="col-md-2 text-right">
+								<button type="button" class="btn btn-secondary btn-sm" (click)="addNewRecords()">
 									<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon>
+								</button>
+								<button type="button" class="btn btn-info btn-sm" (click)="loadRecords()">
+									<fa-icon [icon]="['fas', 'sync-alt']" [fixedWidth]="true"></fa-icon>
 								</button>
 							</div>
 						</div>
-						<table class="table table-striped table-condensed">
+						<pagination [totalItems]="filterBoxOptions.totalRecords" [(ngModel)]="filterBoxOptions.page" (pageChanged)="updatePage($event)" [maxSize]="9" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="filterBoxOptions.pagerRecords"></pagination>
+						<div class="clearfix">&nbsp;</div>
+						<table>
 							<thead>
 								<tr>
-									<th>Statement ID</th>
-									<th>Date 1</th>
-									<th>Date 2</th>
+									<th width="130">Statement ID</th>
+									<th width="110">Date 1</th>
+									<th width="110">Date 2</th>
 									<th>Description</th>
-									<th>Credit</th>
-									<th>Debit</th>
-									<th>Balance</th>
+									<th width="120">Credit</th>
+									<th width="120">Debit</th>
+									<th width="120">Balance</th>
 									<th style="width: 40px;"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let item of accountRecords; let loopIndex = index">
+								<tr *ngFor="let item of bankAccountRecords; let loopIndex = index">
 									<td>{{item.statementId}}</td>
 									<td>{{item.date1}}</td>
 									<td>{{item.date2}}</td>
@@ -114,9 +174,9 @@
 									<td>{{item.debit}}</td>
 									<td>{{item.balance}}</td>
 									<td>
-										<span class="badge badge-danger" *ngIf="item.processed == 'false'">&nbsp;</span>
-										<span class="badge badge-success" *ngIf="item.processed == 'true'">&nbsp;</span>
-										<span class="badge badge-info" *ngIf="item.processed == 'exists'">&nbsp;</span>
+										<button type="button" class="btn btn-info btn-sm" (click)="editAccountRecord()">
+											<fa-icon [icon]="['fas', 'edit']" [fixedWidth]="true"></fa-icon>
+										</button>
 									</td>
 								</tr>
 							</tbody>

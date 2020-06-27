@@ -20,21 +20,20 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 @Component({
-	selector: 'app-bank-accounts-edit',
-	templateUrl: './bank-accounts-edit.component.html',
-	styleUrls: ['./bank-accounts-edit.component.scss']
+	selector: `app-bank-accounts-edit`,
+	templateUrl: `./bank-accounts-edit.component.html`,
+	styleUrls: [`./bank-accounts-edit.component.scss`]
 })
 export class BankAccountsEditComponent implements OnInit {
 	bsModalRef: BsModalRef;
 
 	bankAccountsAddForm: FormGroup;
 
-	results: BankAccountRecordsInterface;
 	submitted = false;
 
 	parentId: string;
 	accountRecords = [];
-	selectedAccount = '';
+	selectedAccount = ``;
 	transactions;
 
 	dataRows = 0;
@@ -43,6 +42,11 @@ export class BankAccountsEditComponent implements OnInit {
 	existingRecords = 0;
 	removedRecords = 0;
 	csvTextData: string;
+
+	// bank account records
+	bankAccountRecords: BankAccountRecordsInterface[];
+	bankAccountRecordsTotal: number;
+	bankAccountRecordsPages: number;
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 	public filterBoxOptions: FilterBoxOptionsInterface;
@@ -57,32 +61,38 @@ export class BankAccountsEditComponent implements OnInit {
 		private _httpService: HttpService,
 		private _notificationsService: NotificationsService
 	) {
-		if (this.route.snapshot.paramMap.get('id')) {
-			this.parentId = this.route.snapshot.paramMap.get('id');
+		if (this.route.snapshot.paramMap.get(`id`)) {
+			this.parentId = this.route.snapshot.paramMap.get(`id`);
 		} else {
 			this.parentId = null;
 		}
-		this.bsConfig.containerClass = 'theme-dark-blue';
-		this.bsConfig.dateInputFormat = 'YYYY-MM-DD'; // Or format like you want
+		this.bsConfig.containerClass = `theme-dark-blue`;
+		this.bsConfig.dateInputFormat = `YYYY-MM-DD`; // Or format like you want
 		this.filterBoxConfig = new FilterBoxConfigInterface();
-		this.filterBoxConfig.backLink = '/account-records/view';
+		this.filterBoxConfig.backLink = `/account-records/view`;
 		this.filterBoxConfig.updateControls = true;
 	}
 
 	ngOnInit() {
 		this.bankAccountsAddForm = this.fb.group({
-			accountNumber: ['', [Validators.required, NumericValues]],
-			accountDescription: ['', [Validators.required]],
-			dateOpened: [''],
-			dateClosed: [''],
-			csvType: ['', [Validators.required]],
-			status: ['', [Validators.required]],
-			_id: [''],
+			accountNumber: [``, [Validators.required, NumericValues]],
+			accountDescription: [``, [Validators.required]],
+			dateOpened: [``],
+			dateClosed: [``],
+			csvType: [``, [Validators.required]],
+			status: [``, [Validators.required]],
+			_id: [``],
 			canceled: [``],
 			canceledDate: [``]
 		});
+		this.filterBoxOptions = new FilterBoxOptionsInterface();
+		this.filterBoxOptions.column = `date1`;
+		this.filterBoxOptions.dir = `DESC`;
+		this.filterBoxOptions.page = this._generalService.getPage();
+		this.filterBoxOptions.pagerRecords = `10`;
 		if (this.parentId) {
 			this.load();
+			this.loadRecords();
 		}
 	}
 
@@ -95,14 +105,14 @@ export class BankAccountsEditComponent implements OnInit {
 			const _postForm: BankAccountsEditInterface = new BankAccountsEditInterface(this.bankAccountsAddForm.value);
 
 			const _dateOp = new Date(_postForm.dateOpened);
-			_postForm.dateOpened = this.datePipe.transform(_dateOp, 'yyyy-MM-dd');
-			if (_postForm.dateClosed !== '') {
+			_postForm.dateOpened = this.datePipe.transform(_dateOp, `yyyy-MM-dd`);
+			if (_postForm.dateClosed !== ``) {
 				const _dateCl = new Date(_postForm.dateClosed);
-				_postForm.dateClosed = this.datePipe.transform(_dateCl, 'yyyy-MM-dd');
+				_postForm.dateClosed = this.datePipe.transform(_dateCl, `yyyy-MM-dd`);
 			}
-			this._httpService.update('bank-accounts/update', this.bankAccountsAddForm.value._id, _postForm).then((pResult: any) => {
+			this._httpService.update(`bank-accounts/update`, this.bankAccountsAddForm.value._id, _postForm).then((pResult: any) => {
 				const _valid = this._generalService.validateResponse(pResult);
-				if (_valid === 'valid') {
+				if (_valid === `valid`) {
 					this._notificationsService.success(pResult.message);
 				} else {
 					if (pResult.errors) {
@@ -116,7 +126,7 @@ export class BankAccountsEditComponent implements OnInit {
 				}, 500);
 			});
 		} else {
-			console.log('invalid');
+			console.log(`invalid`);
 			this.submitted = false;
 		}
 	}
@@ -132,26 +142,45 @@ export class BankAccountsEditComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('bank-accounts/view/' + this.parentId, {}).then((pResults: any) => {
+		this._httpService.post(`bank-accounts/view/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
-			if (_valid === 'valid') {
+			if (_valid === `valid`) {
 				this.bankAccountsAddForm.setValue(pResults.data);
-				this._generalService.setTitle('Bank Accounts: Edit - ' + pResults.data.accountDescription);
+				this._generalService.setTitle(`Bank Accounts: Edit - ` + pResults.data.accountDescription);
 			}
 		});
 	}
 
 	addNewRecords() {
-		this.bsModalRef = this._modalService.show(BankAccountsRecordsComponent, Object.assign({}, { class: 'modal__full', ignoreBackdropClick: true }));
+		this.bsModalRef = this._modalService.show(BankAccountsRecordsComponent, Object.assign({}, { class: `modal__full`, ignoreBackdropClick: true }));
 		this.bsModalRef.content.accountNumber = this.bankAccountsAddForm.value._id;
 		this.bsModalRef.content.csvType = this.bankAccountsAddForm.value.csvType;
 		this._modalService.onHide.subscribe((reason: string) => {
-			this.load();
+			this.loadRecords();
 		});
 	}
 
 	convertDate(pDate) {
 		const _tmpDate = new Date(pDate);
-		return _tmpDate.getFullYear() + '-' + (_tmpDate.getMonth() + 1) + '-' + _tmpDate.getDate();
+		return _tmpDate.getFullYear() + `-` + (_tmpDate.getMonth() + 1) + `-` + _tmpDate.getDate();
 	}
+
+	loadRecords() {
+		this._httpService.post(`bank-account-records/view/` + this.parentId, this.filterBoxOptions).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+				this.bankAccountRecords = pResults.data;
+				this.filterBoxOptions.totalRecords = pResults.totalRecords;
+				this.bankAccountRecordsPages = Math.round(pResults.totalRecords / parseFloat(this.filterBoxOptions.pagerRecords));
+			}
+		});
+	}
+
+	updatePage(event: any) {
+		this.filterBoxOptions.page = event.page;
+		this._generalService.setPage(event.page);
+		this.loadRecords();
+	}
+
+	editAccountRecord() { }
 }

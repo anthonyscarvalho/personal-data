@@ -12,6 +12,9 @@ export class TableComponent implements OnInit {
 	@Input() tableBody;
 	@Input() editModule;
 	@Input() filterBoxOptions;
+	@Input() showEdit = true;
+	@Input() showStatus = true;
+	@Input() showDelete = true;
 	@Output('updater') _updater = new EventEmitter<any>();
 
 	constructor(

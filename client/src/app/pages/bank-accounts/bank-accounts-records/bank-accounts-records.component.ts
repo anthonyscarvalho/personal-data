@@ -166,7 +166,7 @@ export class BankAccountsRecordsComponent implements OnInit {
 		this.addedRecords = 0;
 		this.accountRecords.map(pRecord => {
 			const csvRecord: BankAccountRecordsInterface = new BankAccountRecordsInterface(pRecord);
-			this._httpService.post('bankAccountRecords/add', csvRecord).then((pResponse: any) => {
+			this._httpService.post('bank-account-records/add', csvRecord).then((pResponse: any) => {
 				if (!pResponse.errors) {
 					this.addedRecords++;
 					pRecord.processed = 'true';
