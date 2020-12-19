@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { stringify } from 'querystring';
 // interfaces
 import { BankAccountRecordsInterface } from '../../../interfaces/bankAccounts';
 // services
@@ -26,7 +27,9 @@ export class BankAccountsRecordsComponent implements OnInit {
 	totalCount = 0;
 	addedRecords = 0;
 	existingRecords = 0;
+	errorRecords = 0;
 	removedRecords = 0;
+	duplicateRecords = 0;
 	csvTextData: string;
 
 	// paginator
@@ -67,7 +70,7 @@ export class BankAccountsRecordsComponent implements OnInit {
 					if (_tmpFile) {
 						// const totalRecords = _tmpFile.length;
 						// this.totalCount = this.totalCount + Number(totalRecords);
-						let statementId: number = null;
+						const statementId: number = null;
 						_tmpFile.map(pRecord => {
 							const currentRecord = (pRecord as string).split(',');
 							let _tmpAmount;
@@ -87,61 +90,60 @@ export class BankAccountsRecordsComponent implements OnInit {
 								date1: null,
 								date2: null,
 								description: null,
-								credit: null,
-								debit: null,
+								credit: 0.00,
+								debit: 0.00,
 								balance: null,
 								serviceFee: null,
 								journal: '',
 								comments: '',
-								processed: 'false',
+								processed: 'false'
 							};
 							if (currentRecord.length >= 4) {
 								switch (Number(this.csvType)) {
 									case 1: // FNB accounts, eBucks
-										_tmpAmount = (currentRecord[1] ? Number(currentRecord[1].trim()) : null);
+										_tmpAmount = (currentRecord[1] ? Number(currentRecord[1].trim()) : 0.00);
 										_tmp.date1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
-										_tmp.credit = (_tmpAmount && _tmpAmount >= 0 ? _tmpAmount : null);
-										_tmp.debit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : null);
-										_tmp.balance = (currentRecord[2] ? Number(currentRecord[2].trim()) : null);
+										_tmp.credit = (_tmpAmount && _tmpAmount >= 0 ? _tmpAmount : 0.00);
+										_tmp.debit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
+										_tmp.balance = (currentRecord[2] ? Number(currentRecord[2].trim()) : 0.00);
 										_tmp.description = (currentRecord[3] ? currentRecord[3].trim() : null);
 										break;
 									case 2: // Nedbank cheque, Nedbank savings
-										_tmpAmount = (currentRecord[2] ? Number(currentRecord[2].trim()) : null);
+										_tmpAmount = (currentRecord[2] ? Number(currentRecord[2].trim()) : 0.00);
 										_tmp.date1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
 										_tmp.description = (currentRecord[1] ? currentRecord[1].trim() : null);
-										_tmp.credit = (_tmpAmount && _tmpAmount >= 0 ? _tmpAmount : null);
-										_tmp.debit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : null);
-										_tmp.balance = (currentRecord[3] ? Number(currentRecord[3].trim()) : null);
+										_tmp.credit = (_tmpAmount && _tmpAmount >= 0 ? _tmpAmount : 0.00);
+										_tmp.debit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
+										_tmp.balance = (currentRecord[3] ? Number(currentRecord[3].trim()) : 0.00);
 										_tmp.serviceFee = (currentRecord[4] ? (currentRecord[4].trim() === '#' ? true : null) : null);
 										break;
 									case 3: // Nedbank credit
-										_tmpAmount = (currentRecord[5] ? Number(currentRecord[5].trim()) : null);
+										_tmpAmount = (currentRecord[5] ? Number(currentRecord[5].trim()) : 0.00);
 										_tmp.date1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
 										_tmp.date2 = (currentRecord[1] ? this.convertDate(currentRecord[1].trim()) : null);
 										_tmp.description = (currentRecord[2] ? currentRecord[2].trim() : null);
 										// blank space
 										// blank space
 										// _tmp.credit = (currentRecord[5] ? Number(currentRecord[5].trim()) : null);
-										_tmp.credit = (_tmpAmount && _tmpAmount >= 0 ? _tmpAmount : null);
-										_tmp.debit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : null);
+										_tmp.credit = (_tmpAmount && _tmpAmount >= 0 ? _tmpAmount : 0.00);
+										_tmp.debit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
 										break;
 									case 4: // Nedbank loan - tba
-										_tmpAmount = (currentRecord[5] ? Number(currentRecord[5].trim()) : null);
 										_tmp.date1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
 										_tmp.description = (currentRecord[1] ? currentRecord[1].trim() : null);
-										_tmp.credit = (currentRecord[2] ? Number(currentRecord[2].trim()) : null);
-										_tmp.balance = (currentRecord[3] ? Number(currentRecord[3].trim()) : null);
+										_tmp.credit = (currentRecord[2] ? Number(currentRecord[2].trim()) : 0.00);
+										_tmp.balance = (currentRecord[3] ? Number(currentRecord[3].trim()) : 0.00);
 										break;
 									case 5: // Nedbank investment
 										_tmp.date1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
 										_tmp.description = (currentRecord[1] ? currentRecord[1].trim() : null);
-										_tmp.debit = (currentRecord[2] ? Number(currentRecord[2].trim()) : null);
-										_tmp.credit = (currentRecord[3] ? Number(currentRecord[3].trim()) : null);
-										_tmp.balance = (currentRecord[4] ? Number(currentRecord[4].trim()) : null);
+										_tmp.debit = (currentRecord[2] ? Number(currentRecord[2].trim()) : 0.00);
+										_tmp.credit = (currentRecord[3] ? Number(currentRecord[3].trim()) : 0.00);
+										_tmp.balance = (currentRecord[4] ? Number(currentRecord[4].trim()) : 0.00);
 										break;
 								}
 
-								if ((_tmp.date1 && !_tmp.date1.includes('Date')) && (_tmp.description && !_tmp.description.includes('Description'))) {
+								if ((_tmp.date1 && !_tmp.date1.includes('Date')) && (_tmp.description && !_tmp.description.includes('Description')) && (_tmp.balance)) {
 									this.totalCount++;
 									this.accountRecords.push(_tmp);
 								}
@@ -164,23 +166,42 @@ export class BankAccountsRecordsComponent implements OnInit {
 	uploadRecords() {
 		this.existingRecords = 0;
 		this.addedRecords = 0;
-		this.accountRecords.map(pRecord => {
-			const csvRecord: BankAccountRecordsInterface = new BankAccountRecordsInterface(pRecord);
-			this._httpService.post('bank-account-records/add', csvRecord).then((pResponse: any) => {
-				if (!pResponse.errors) {
-					this.addedRecords++;
-					pRecord.processed = 'true';
-				} else {
-					pRecord.processed = 'exists';
-					this.existingRecords++;
-				}
-				// if (pResponse.status === '00' || pResponse.status === '02') {
-				// 	const index: number = this.accountRecords.indexOf(pRecord);
-				// 	if (index !== -1) {
-				// 		this.accountRecords.splice(index, 1);
-				// 	}
-				// }
-			});
+		// this.accountRecords.map(pRecord => {
+		// 	const csvRecord: BankAccountRecordsInterface = new BankAccountRecordsInterface(pRecord);
+		// 	this._httpService.post('bank-account-records/add', csvRecord).then((pResponse: any) => {
+		// 		if (pResponse.status) {
+		// 			switch (pResponse.status) {
+		// 				case '00':
+		// 					this.addedRecords++;
+		// 					pRecord.processed = 'true';
+		// 					break;
+		// 				case '01':
+		// 					this.errorRecords++;
+		// 					pRecord.processed = 'error';
+		// 					break;
+		// 				case '02':
+		// 					this.existingRecords++;
+		// 					pRecord.processed = 'exists';
+		// 					break;
+		// 				case '03':
+		// 					this.duplicateRecords++;
+		// 					pRecord.processed = 'duplicated';
+		// 					break;
+		// 			}
+		// 		}
+		// 	});
+		// });
+
+		this._httpService.post('bank-account-records/add', this.accountRecords).then((pResponse: any) => {
+			if (pResponse.status) {
+				this.accountRecords = pResponse.data;
+			} else {
+				this.accountRecords = null;
+			}
+			this.addedRecords = pResponse.addedRecords;
+			this.errorRecords = pResponse.errorRecords;
+			this.existingRecords = pResponse.existingRecords;
+			this.duplicateRecords = pResponse.duplicateRecords;
 		});
 	}
 
@@ -193,7 +214,7 @@ export class BankAccountsRecordsComponent implements OnInit {
 
 	get sortData() {
 		return this.accountRecords.sort((a, b) => {
-			return <any>new Date(b.date1) - <any>new Date(a.date1);
+			return (new Date(b.date1) as any) - (new Date(a.date1) as any);
 		});
 	}
 

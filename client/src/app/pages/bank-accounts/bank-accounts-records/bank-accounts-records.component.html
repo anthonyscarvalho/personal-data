@@ -34,6 +34,16 @@
 						<div class="card-body text-center"> Existing Records: <br>{{existingRecords}} </div>
 					</div>
 				</div>
+				<div class="form-group">
+					<div class="card">
+						<div class="card-body text-center"> Error Records: <br>{{errorRecords}} </div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="card">
+						<div class="card-body text-center"> Duplicated Records: <br>{{duplicateRecords}} </div>
+					</div>
+				</div>
 			</form>
 		</div>
 		<div class="col-md-10">
@@ -46,7 +56,7 @@
 						<th>Description</th>
 						<th style="width: 110px;">Credit</th>
 						<th style="width: 110px;">Debit</th>
-						<th style="width: 110px;">Balance</th>
+						<th style="width: 160px;">Balance</th>
 						<th style="width: 40px;"></th>
 					</tr>
 				</thead>
@@ -60,9 +70,11 @@
 						<td>{{item.debit | currency:'R '}}</td>
 						<td>{{item.balance | currency:'R '}}</td>
 						<td>
-							<span class="badge badge-danger" *ngIf="item.processed == 'false'">&nbsp;</span>
+							<span class="badge badge-warning" *ngIf="item.processed == 'false'">&nbsp;</span>
 							<span class="badge badge-success" *ngIf="item.processed == 'true'">&nbsp;</span>
 							<span class="badge badge-info" *ngIf="item.processed == 'exists'">&nbsp;</span>
+							<span class="badge badge-danger" *ngIf="item.processed == 'error'">&nbsp;</span>
+							<span class="badge badge-primary" *ngIf="item.processed == 'duplicated'">&nbsp;</span>
 						</td>
 					</tr>
 				</tbody>

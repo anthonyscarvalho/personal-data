@@ -51,7 +51,7 @@ const logger = config => {
                 statusMessage
             }
         };
-        console.log(JSON.stringify(response));
+        // console.log(JSON.stringify(response));
         db.logs.save(newRecord, function (err, pResults) {
             if (err) {
                 res.send(err);

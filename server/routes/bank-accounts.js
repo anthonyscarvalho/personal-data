@@ -7,7 +7,8 @@ var _response = {
     status: '00',
     totalRecords: null,
     data: null,
-    errors: null
+    errors: null,
+    message: null
 };
 
 var _errors = [];

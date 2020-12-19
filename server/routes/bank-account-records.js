@@ -3,14 +3,11 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://localhost:27017/accounts', ['bankAccountRecords']);
 
-var _response = {
-    status: '00',
-    totalRecords: null,
-    data: null,
-    errors: null
-};
-
-var _errors = [];
+function newResponse() {
+    return {
+        status: '00'
+    };
+}
 
 // fetch records
 router.post('/bank-account-records/view/:id?', function (req, res, next) {
@@ -21,7 +18,8 @@ router.post('/bank-account-records/view/:id?', function (req, res, next) {
     var orderDir = ((body.dir === 'ASC') ? 1 : -1);
     var filter = {};
 
-    _errors = [];
+    var _response = newResponse();
+    var _errors = [];
 
     if (orderBy) {
         filter[orderBy] = orderDir;
@@ -50,6 +48,8 @@ router.post('/bank-account-records/view/:id?', function (req, res, next) {
                     if (_errors.length > 0) {
                         _response.status = '01';
                     }
+                    _response.status = '00';
+                    _response.message = '';
                     _response.errors = _errors;
                     _response.data = pResults;
                     res.json(_response);
@@ -60,8 +60,11 @@ router.post('/bank-account-records/view/:id?', function (req, res, next) {
 
 // sum records for given account
 router.post('/bank-account-records/sum/:id?', function (req, res, next) {
-    _errors = [];
+    var _response = newResponse();
+    var _errors = [];
+
     var query = {};
+
     if (!req.params.id) {
         if (_errors.length > 0) {}
         _response.status = '01';
@@ -128,48 +131,116 @@ router.post('/bank-account-records/sum/:id?', function (req, res, next) {
 
 // create record
 router.post('/bank-account-records/add', function (req, res, next) {
+    var _response = newResponse();
+    var _errors = [];
+    var addedRecords = 0;
+    var errorRecords = 0;
+    var existingRecords = 0;
+    var duplicateRecords = 0;
+
     var newRecord = req.body;
-    if (!newRecord.accountsId || !newRecord.date1) {
-        res.status(400);
-        res.json({
-            "error": "bad data"
-        });
-    } else {
-        db.bankAccountRecords.find({
-            accountsId: req.body.accountsId,
-            date1: newRecord.date1,
-            credit: newRecord.credit,
-            debit: newRecord.debit,
-            accountDescription: newRecord.accountDescription
-        }, {}, {}, function (err, pResults) {
-            if (err) {
-                _errors.push("Can't fetch data");
-            }
-            if (_errors.length > 0) {
-                _response.status = '01';
-            }
-            _response.errors = _errors;
-            _response.data = pResults;
-            if (pResults.length == 0) {
-                db.bankAccountRecords.save(newRecord, function (err, pResults) {
-                    if (err) {
-                        res.send(err);
-                    }
-                    res.json({
-                        status: '00',
-                        data: pResults,
-                        message: 'Record added'
+    if (newRecord && newRecord.length > 0) {
+        var updatedRecords = (pRecord) => {
+            return new Promise(pResolve => {
+                if (!pRecord.accountsId || !pRecord.date1 || pRecord.balance == 0) {
+                    pRecord.processed = 'false';
+                    errorRecords++;
+                    console.log('invalid data');
+                } else {
+                    db.bankAccountRecords.find({
+                        accountsId: pRecord.accountsId,
+                        date1: pRecord.date1,
+                        date2: pRecord.date2,
+                        credit: pRecord.credit,
+                        debit: pRecord.debit,
+                        description: pRecord.description
+                    }, function (err, pResults) {
+                        if (err) {
+                            pRecord.processed = 'false';
+                            errorRecords++;
+                            console.log('error finding');
+                        }
+                        
+                        if (pResults.length == 0) {
+                            console.log('not found');
+                            db.bankAccountRecords.save(pRecord, function (err, pResults) {
+                                if (err) {
+                                    pRecord.processed = 'false';
+                                    errorRecords++;
+                                    console.log('error saving');
+                                }
+                                console.log('saved');
+                                pRecord.processed = 'true';
+                                addedRecords++;
+                            });
+                        } else {
+                            console.log('exists');
+                            // record exists
+                            pRecord.processed = 'exists';
+                            existingRecords++;
+                        }
+                        
+                        if (pResults.length > 1) {
+                            console.log('duplicate entries');
+                            pRecord.processed = 'duplicated';
+                            duplicateRecords++;
+                        }
+                        pResolve(pRecord);
                     });
-                });
-            } else {
-                // record exists
-                res.json({
-                    status: '02',
-                    errors: ['Record exists']
-                });
-            }
+                }
+            });
+        };
+        Promise.all(newRecord.map(pRecord => updatedRecords(pRecord))).then(pResults => {
+            _response.status = '01';
+            _response.data = pResults;
+            _response.addedRecords = addedRecords;
+            _response.errorRecords = errorRecords;
+            _response.existingRecords = existingRecords;
+            _response.duplicateRecords = duplicateRecords;
+            res.json(_response);
         });
     }
+
+    // if (!newRecord.accountsId || !newRecord.date1 || newRecord.balance == 0) {
+    //     res.status(400);
+    //     res.json({
+    //         "error": "bad data"
+    //     });
+    // } else {
+    //     db.bankAccountRecords.find({
+    //         accountsId: req.body.accountsId,
+    //         date1: newRecord.date1,
+    //         date2: newRecord.date2,
+    //         credit: newRecord.credit,
+    //         debit: newRecord.debit,
+    //         description: newRecord.description
+    //     }, function (err, pResults) {
+    //         if (err) {
+    //             _errors.push("Can't fetch data");
+    //             _response.status = '01';
+    //             _response.errors = _errors;
+    //         }
+    //         _response.data = pResults;
+
+    //         if (pResults.length == 0) {
+    //             db.bankAccountRecords.save(newRecord, function (err, pResults) {
+    //                 if (err) {
+    //                     res.send(err);
+    //                 }
+    //                 _response.message = 'Record added';
+    //             });
+    //         } else {
+    //             // record exists
+    //             _response.status = '02';
+    //             _response.errors = ['Record exists'];
+    //         }
+
+    //         if (pResults.length > 1) {
+    //             _response.status = '03';
+    //         }
+    //         res.json(_response);
+    //     });
+    // }
 });
 
 // delete record
@@ -186,7 +257,11 @@ router.delete('/bank-account-records/delete/:id', function (req, res, next) {
 
 // update record
 router.put('/bank-account-records/update/:id', function (req, res, next) {
+    var _response = newResponse();
+    var _errors = [];
+
     var newRecord = req.body;
+
     if (newRecord._id) {
         delete(newRecord._id);
     }
@@ -217,7 +292,11 @@ router.put('/bank-account-records/update/:id', function (req, res, next) {
 
 
 router.get('/bank-account-records/updateDate', function (req, res, next) {
+    var _response = newResponse();
+    var _errors = [];
+
     var newRecord = req.body;
+
     if (newRecord._id) {
         delete(newRecord._id);
     }

@@ -77,9 +77,9 @@ export class BankAccountRecordsInterface {
 	date1: string;
 	date2: string;
 	description: string;
-	credit: string;
-	debit: string;
-	balance: string;
+	credit: number;
+	debit: number;
+	balance: number;
 	serviceFee: string;
 	journal: boolean;
 	comments: string;
@@ -91,9 +91,9 @@ export class BankAccountRecordsInterface {
 		this.date1 = (pModel ? (pModel.date1 ? pModel.date1 : ``) : ``);
 		this.date2 = (pModel ? (pModel.date2 ? pModel.date2 : ``) : ``);
 		this.description = (pModel ? (pModel.description ? pModel.description : ``) : ``);
-		this.credit = (pModel ? (pModel.credit ? pModel.credit : null) : null);
-		this.debit = (pModel ? (pModel.debit ? pModel.debit : null) : null);
-		this.balance = (pModel ? (pModel.balance ? pModel.balance : null) : null);
+		this.credit = (pModel ? (pModel.credit ? pModel.credit : 0.00) : 0.00);
+		this.debit = (pModel ? (pModel.debit ? pModel.debit : 0.00) : 0.00);
+		this.balance = (pModel ? (pModel.balance ? pModel.balance : 0.00) : 0.00);
 		this.serviceFee = (pModel ? (pModel.serviceFee ? pModel.serviceFee : ``) : ``);
 		this.journal = (pModel ? (pModel.journal ? pModel.journal : false) : false);
 		this.comments = (pModel ? (pModel.comments ? pModel.comments : ``) : ``);

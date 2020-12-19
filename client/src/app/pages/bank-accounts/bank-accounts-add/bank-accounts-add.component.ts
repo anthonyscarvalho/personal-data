@@ -51,7 +51,9 @@ export class BankAccountsAddComponent implements OnInit {
 			dateOpened: [''],
 			dateClosed: [''],
 			csvType: ['', [Validators.required]],
-			status: ['', [Validators.required]]
+			status: ['', [Validators.required]],
+			canceled: [''],
+			canceledDate: ['']
 		});
 	}
 

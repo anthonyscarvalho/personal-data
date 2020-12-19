@@ -3,14 +3,6 @@ var path = require('path');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var bankAccounts = require('./routes/bank-accounts');
-var bankAccountRecords = require('./routes/bank-account-records');
-var journals = require('./routes/journals');
-var journalRecords = require('./routes/journalRecords');
-var logs = require('./routes/logs');
-var transactions = require('./routes/transactions');
-var users = require('./routes/users');
 var logger = require('./services/logger');
 
 const _logger = logger({
@@ -48,14 +40,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use('/', index);
-app.use('/', bankAccounts);
-app.use('/', bankAccountRecords);
-app.use('/', journals);
-app.use('/', journalRecords);
-app.use('/', logs);
-app.use('/', transactions);
-app.use('/', users);
+app.use('/', require('./routes/index'));
+app.use('/', require('./routes/bank-accounts'));
+app.use('/', require('./routes/bank-account-records'));
+app.use('/', require('./routes/journals'));
+app.use('/', require('./routes/journalRecords'));
+app.use('/', require('./routes/logs'));
+app.use('/', require('./routes/transactions'));
+app.use('/', require('./routes/users'));
 
 app.listen(port, function () {
     console.log('server started on ' + port);
@@ -65,3 +57,4 @@ app.listen(port, function () {
 // 00 - Success
 // 01 - Failed to execute
 // 02 - Record exists
+// 03 - Duplicate record
