@@ -21,8 +21,7 @@ export class TableComponent implements OnInit {
 		private _generalService: GeneralService
 	) { }
 
-	ngOnInit() {
-	}
+	ngOnInit() { }
 
 	changeColumn(pNewColumn: string) {
 		if (pNewColumn === this.filterBoxOptions.column) {

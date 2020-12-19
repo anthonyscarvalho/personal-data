@@ -9,11 +9,11 @@ import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../in
 import { JournalsViewInterface } from '../../../interfaces/journals';
 
 @Component({
-	selector: 'app-journals-view',
-	templateUrl: './journals-view.component.html',
-	styleUrls: ['./journals-view.component.scss']
+	selector: 'app-journal-view',
+	templateUrl: './journal-view.component.html',
+	styleUrls: ['./journal-view.component.scss']
 })
-export class JournalsViewComponent implements OnInit {
+export class JournalViewComponent implements OnInit {
 	tableHead = [
 		{
 			text: 'ID',

@@ -1,0 +1,87 @@
+<div class="bank-accounts-edit">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-sm-12 offset-md-2">
+				<div class="card">
+					<div class="card-body">
+						<h1>Account Information</h1>
+						<form [formGroup]="bankAccountsAddForm" name="bankAccountsAddForm" id="bankAccountsAddForm" (ngSubmit)="submit()">
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Account Number</label>
+										<input type="text" formControlName="accountNumber" name="accountNumber" class="form-control" [ngClass]="checkClass(f.accountNumber)">
+										<app-errors [element]="f.accountNumber" *ngIf="error"></app-errors>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Account Description</label>
+										<input type="text" formControlName="accountDescription" name="accountDescription" class="form-control" [ngClass]="checkClass(f.accountDescription)">
+										<app-errors [element]="f.accountDescription" *ngIf="error"></app-errors>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Date Opened</label>
+										<input type="text" class="form-control" formControlName="dateOpened" name="dateOpened" bsDatepicker [bsConfig]="bsConfig" [ngClass]="checkClass(f.dateOpened)">
+										<app-errors [element]="f.dateOpened" *ngIf="error"></app-errors>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Date Closed</label>
+										<input type="text" class="form-control" formControlName="dateClosed" name="dateClosed" bsDatepicker [bsConfig]="bsConfig" [ngClass]="checkClass(f.dateClosed)">
+										<app-errors [element]="f.dateClosed" *ngIf="error"></app-errors>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>CSV Type</label>
+										<select class="form-control" formControlName="csvType" name="csvType" [ngClass]="checkClass(f.csvType)">
+											<option value="">Please select</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+										</select>
+										<app-errors [element]="f.csvType" *ngIf="error"></app-errors>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Status</label>
+										<select formControlName="status" name="status" class="form-control" [ngClass]="checkClass(f.status)">
+											<option value="">Select</option>
+											<option value="open">Open</option>
+											<option value="closed">Closed</option>
+										</select>
+										<app-errors [element]="f.status" *ngIf="error"></app-errors>
+									</div>
+								</div>
+							</div>
+						</form>
+						<div class="text-center">
+							<div class="row">
+								<div class="col-md-6">
+									<a class="btn btn-secondary" routerLink="/bank-accounts">
+										<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon> Back
+									</a>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+										<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon> Save
+									</button>
+									<span class="btn btn-info" *ngIf="submitted">
+										<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

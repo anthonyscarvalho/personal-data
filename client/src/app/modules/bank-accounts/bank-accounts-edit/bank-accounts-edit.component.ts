@@ -3,8 +3,6 @@ import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-// component
-import { BankAccountsRecordsComponent } from '../bank-accounts-records/bank-accounts-records.component';
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 // validators
@@ -13,7 +11,7 @@ import { NumericValues } from '../../../_helpers/validation';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 // interfaces
 import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
-import { BankAccountsViewInterface, BankAccountsEditInterface, BankAccountRecordsInterface } from '../../../interfaces/bankAccounts';
+import { BankAccountsEditInterface, BankAccountRecordsInterface } from '../../../interfaces/bankAccounts';
 // services
 import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
@@ -30,23 +28,9 @@ export class BankAccountsEditComponent implements OnInit {
 	bankAccountsAddForm: FormGroup;
 
 	submitted = false;
+	error = false;
 
 	parentId: string;
-	accountRecords = [];
-	selectedAccount = ``;
-	transactions;
-
-	dataRows = 0;
-	totalCount = 0;
-	addedRecords = 0;
-	existingRecords = 0;
-	removedRecords = 0;
-	csvTextData: string;
-
-	// bank account records
-	bankAccountRecords: BankAccountRecordsInterface[];
-	bankAccountRecordsTotal: number;
-	bankAccountRecordsPages: number;
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 	public filterBoxOptions: FilterBoxOptionsInterface;
@@ -56,7 +40,6 @@ export class BankAccountsEditComponent implements OnInit {
 		public fb: FormBuilder,
 		private route: ActivatedRoute,
 		private datePipe: DatePipe,
-		private _modalService: BsModalService,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
 		private _notificationsService: NotificationsService
@@ -85,14 +68,8 @@ export class BankAccountsEditComponent implements OnInit {
 			canceled: [``],
 			canceledDate: [``]
 		});
-		this.filterBoxOptions = new FilterBoxOptionsInterface();
-		this.filterBoxOptions.column = `date1`;
-		this.filterBoxOptions.dir = `DESC`;
-		this.filterBoxOptions.page = this._generalService.getPage();
-		this.filterBoxOptions.pagerRecords = `10`;
 		if (this.parentId) {
 			this.load();
-			this.loadRecords();
 		}
 	}
 
@@ -101,6 +78,7 @@ export class BankAccountsEditComponent implements OnInit {
 
 	submit() {
 		this.submitted = true;
+		this.error = false;
 		if (this.bankAccountsAddForm.valid) {
 			const _postForm: BankAccountsEditInterface = new BankAccountsEditInterface(this.bankAccountsAddForm.value);
 
@@ -126,23 +104,21 @@ export class BankAccountsEditComponent implements OnInit {
 				}, 500);
 			});
 		} else {
-			console.log(`invalid`);
+			this.error = true;
 			this.submitted = false;
 		}
 	}
 
 	checkClass(fieldName) {
-		if (this.submitted) {
-			if (fieldName.errors) {
-				return `is-invalid`;
-			} else {
-				return `is-valid`;
-			}
+		if (fieldName.errors) {
+			return `is-invalid`;
+		} else {
+			return `is-valid`;
 		}
 	}
 
 	load() {
-		this._httpService.post(`bank-accounts/view/` + this.parentId, {}).then((pResults: any) => {
+		this._httpService.post(`bank-accounts/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
 				this.bankAccountsAddForm.setValue(pResults.data);
@@ -151,35 +127,14 @@ export class BankAccountsEditComponent implements OnInit {
 		});
 	}
 
-	addNewRecords() {
-		this.bsModalRef = this._modalService.show(BankAccountsRecordsComponent, Object.assign({}, { class: `modal__full`, ignoreBackdropClick: true }));
-		this.bsModalRef.content.accountNumber = this.bankAccountsAddForm.value._id;
-		this.bsModalRef.content.csvType = this.bankAccountsAddForm.value.csvType;
-		this._modalService.onHide.subscribe((reason: string) => {
-			this.loadRecords();
-		});
-	}
-
 	convertDate(pDate) {
 		const _tmpDate = new Date(pDate);
 		return _tmpDate.getFullYear() + `-` + (_tmpDate.getMonth() + 1) + `-` + _tmpDate.getDate();
 	}
 
-	loadRecords() {
-		this._httpService.post(`bank-account-records/view/` + this.parentId, this.filterBoxOptions).then((pResults: any) => {
-			const _valid = this._generalService.validateResponse(pResults);
-			if (_valid === `valid`) {
-				this.bankAccountRecords = pResults.data;
-				this.filterBoxOptions.totalRecords = pResults.totalRecords;
-				this.bankAccountRecordsPages = Math.round(pResults.totalRecords / parseFloat(this.filterBoxOptions.pagerRecords));
-			}
-		});
-	}
-
 	updatePage(event: any) {
 		this.filterBoxOptions.page = event.page;
 		this._generalService.setPage(event.page);
-		this.loadRecords();
 	}
 
 	editAccountRecord() { }

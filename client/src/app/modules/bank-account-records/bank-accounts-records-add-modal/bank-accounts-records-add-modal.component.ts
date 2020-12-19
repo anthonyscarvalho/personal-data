@@ -10,11 +10,11 @@ import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 @Component({
-	selector: 'app-bank-accounts-records',
-	templateUrl: './bank-accounts-records.component.html',
-	styleUrls: ['./bank-accounts-records.component.scss']
+	selector: 'app-bank-accounts-records-add-modal',
+	templateUrl: './bank-accounts-records-add-modal.component.html',
+	styleUrls: ['./bank-accounts-records-add-modal.component.scss']
 })
-export class BankAccountsRecordsComponent implements OnInit {
+export class BankAccountsRecordsAddModalViewComponent implements OnInit {
 	@ViewChild('form') form: NgForm;
 	@ViewChild('filePicker') _file: ElementRef;
 

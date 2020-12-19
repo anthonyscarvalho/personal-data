@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BankAccountsRecordsComponent } from './bank-accounts-records.component';
+import { BankAccountsRecordsAddModalViewComponent } from './bank-accounts-records-add-modal.component';
 
 describe('BankAccountsRecordsComponent', () => {
-  let component: BankAccountsRecordsComponent;
-  let fixture: ComponentFixture<BankAccountsRecordsComponent>;
+  let component: BankAccountsRecordsAddModalViewComponent;
+  let fixture: ComponentFixture<BankAccountsRecordsAddModalViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BankAccountsRecordsComponent ]
+      declarations: [ BankAccountsRecordsAddModalViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BankAccountsRecordsComponent);
+    fixture = TestBed.createComponent(BankAccountsRecordsAddModalViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

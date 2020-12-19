@@ -3,20 +3,10 @@
 @import "~font-awesome/css/font-awesome.css";
 @import "~ng2-toasty/style-default.css";
 @import "~ngx-bootstrap/datepicker/bs-datepicker.css";
+@import "./app/scss/global.scss";
+@import "./app/scss/buttons.scss";
 @import "./app/scss/modal.scss";
 @import "./app/scss/table.scss";
-
-html,
-body {
-	height: 100%;
-	position: relative;
-	width: 100%;
-}
-
-.btn-sm {
-	margin: 4px;
-	padding: 3px !important;
-}
 
 .tab-content {
 	padding-top: 30px;

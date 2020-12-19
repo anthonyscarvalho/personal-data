@@ -8,8 +8,8 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 	styleUrls: ['./filter-box.component.scss']
 })
 export class FilterBoxComponent implements OnInit {
-	@Input() filterBoxConfig;
-	@Input() filterBoxOptions;
+	@Input('filterBoxConfig') filterBoxConfig;
+	@Input('filterBoxOptions') filterBoxOptions;
 
 	@Output('updater') _updater = new EventEmitter<any>();
 
@@ -47,22 +47,27 @@ export class FilterBoxComponent implements OnInit {
 		this._generalService.setActiveFilter(this.filterBoxOptions.state);
 		this._updater.emit('changed');
 	}
+
 	updateInvFilter() {
 		this._generalService.setInvFilter(this.filterBoxOptions.invoiceFilter);
 		this._updater.emit('changed');
 	}
+
 	updateDir() {
 		this._generalService.setActiveDir(this.filterBoxOptions.dir);
 		this._updater.emit('changed');
 	}
+
 	updateRecords() {
 		this._generalService.setRecords(this.filterBoxOptions.pagerRecords);
 		this._updater.emit('changed');
 	}
+
 	updateDate() {
 		this._generalService.setDate(this.filterBoxOptions.date);
 		this._updater.emit('changed');
 	}
+
 	updateSearch() {
 		if (this.filterBoxOptions.searchPhrase === '') {
 			this._generalService.setSearch(null);
@@ -71,6 +76,7 @@ export class FilterBoxComponent implements OnInit {
 		}
 		this._updater.emit('changed');
 	}
+
 	updateUser() {
 		if (this.filterBoxOptions.user === '0') {
 			this._generalService.setUser(null);
@@ -79,13 +85,14 @@ export class FilterBoxComponent implements OnInit {
 		}
 		this._updater.emit('changed');
 	}
+
 	resetSearch() {
-		this._generalService.setSearch('');
+		this._generalService.setSearch(null);
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this._updater.emit('changed');
 	}
+
 	updateForm() {
 		this._updater.emit('save');
 	}
-
 }

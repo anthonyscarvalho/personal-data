@@ -1,0 +1,16 @@
+@font-face {
+	font-family: 'GothamRoundedBook_21018';
+	src: url('./assets/fonts/GothamRoundedBook_21018.eot');
+	src: url('/assets/fonts/GothamRoundedBook_21018.eot');
+	src: url('/assets/fonts/GothamRoundedBook_21018.eot') format('embedded-opentype'), url('/assets/fonts/GothamRoundedBook_21018.woff2') format('woff2'), url('/assets/fonts/GothamRoundedBook_21018.woff') format('woff'), url('/assets/fonts/GothamRoundedBook_21018.ttf') format('truetype'), url('/assets/fonts/GothamRoundedBook_21018.svg#GothamRoundedBook_21018') format('svg');
+}
+
+
+html,
+body {
+	height: 100%;
+	position: relative;
+	width: 100%;
+	font-family: 'GothamRoundedBook_21018' !important;
+	font-size: 14px !important;
+}

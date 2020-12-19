@@ -121,6 +121,21 @@ router.post('/bank-accounts/view/:id?', function (req, res, next) {
     }
 });
 
+router.post('/bank-accounts/edit/:id?', function (req, res, next) {
+    if (req.params.id) {
+        db.bankAccounts.findOne({
+            _id: mongojs.ObjectId(req.params.id)
+        }, function (err, pResults) {
+            if (err) {
+                res.send(err);
+            }
+            _response.status = '00';
+            _response.data = pResults;
+            res.json(_response);
+        });
+    }
+});
+
 // create record
 router.post('/bank-accounts/add', function (req, res, next) {
     var newRecord = req.body;

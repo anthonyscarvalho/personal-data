@@ -3,7 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class GeneralService {
 
 	constructor(
