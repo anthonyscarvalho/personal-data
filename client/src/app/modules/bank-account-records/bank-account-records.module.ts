@@ -6,13 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Modules
 import { CommonComponentsModule } from '../../components/common-components.module';
 
-// Compoenents
-import { BankAccountsRecordsAddModalViewComponent } from './bank-accounts-records-add-modal/bank-accounts-records-add-modal.component';
+// Components
+import { BarAddModalViewComponent } from './bar-add-modal/bar-add-modal.component';
+import { BarViewComponent } from './bar-view/bar-view.component';
+import { BarViewAccountComponent } from './bar-view-account/bar-view-account.component';
 
 const routes: Routes = [
 	{
-		path: 'bank-accounts', children: [
-			{ path: '', component: BankAccountsRecordsAddModalViewComponent },
+		path: 'bank-account-records', children: [
+			{ path: '', component: BarViewComponent },
 			// { path: 'add', component: BankAccountsAddComponent },
 			// { path: 'edit/:id', component: BankAccountsEditComponent }
 		]
@@ -20,20 +22,21 @@ const routes: Routes = [
 ];
 @NgModule({
 	declarations: [
-		BankAccountsRecordsAddModalViewComponent
+		BarAddModalViewComponent,
+		BarViewComponent,
+		BarViewAccountComponent
 	],
 	imports: [
 		CommonModule,
-		RouterModule.forChild(routes),
+		RouterModule.forRoot(routes),
 		FormsModule,
 		ReactiveFormsModule,
 		CommonComponentsModule
 	],
 	exports: [
-		RouterModule,
-		CommonComponentsModule
-	], entryComponents: [
-		BankAccountsRecordsAddModalViewComponent
+		BarViewAccountComponent
+	], entryComponents: [,
+		BarAddModalViewComponent
 	]
 })
 export class BankAccountRecordsModule { }

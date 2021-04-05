@@ -15,11 +15,11 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 @Component({
-	selector: 'app-bank-accounts-add',
-	templateUrl: './bank-accounts-add.component.html',
-	styleUrls: ['./bank-accounts-add.component.scss']
+	selector: 'app-ba-add',
+	templateUrl: './ba-add.component.html',
+	styleUrls: ['./ba-add.component.scss']
 })
-export class BankAccountsAddComponent implements OnInit {
+export class BaAddComponent implements OnInit {
 	@ViewChild('filePicker') _file: ElementRef;
 
 	results: BankAccountsAddInterface;

@@ -40,7 +40,7 @@ const routes: Routes = [
 		DashboardComponent,
 		MenuComponent,
 		AccountBlockComponent,
-		JournalBlockComponent,
+		JournalBlockComponent
 	],
 	imports: [
 		BrowserAnimationsModule,
@@ -59,7 +59,9 @@ const routes: Routes = [
 	exports: [
 		RouterModule,
 		// Modules
-		CommonComponentsModule
+		CommonComponentsModule,
+		BankAccountsModule,
+		BankAccountRecordsModule
 	],
 	providers: [
 		// services

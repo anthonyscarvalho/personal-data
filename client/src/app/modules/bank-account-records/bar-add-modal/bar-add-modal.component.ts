@@ -10,17 +10,17 @@ import { GeneralService } from '../../../services/general.service';
 import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 @Component({
-	selector: 'app-bank-accounts-records-add-modal',
-	templateUrl: './bank-accounts-records-add-modal.component.html',
-	styleUrls: ['./bank-accounts-records-add-modal.component.scss']
+	selector: 'app-bar-add-modal',
+	templateUrl: './bar-add-modal.component.html',
+	styleUrls: ['./bar-add-modal.component.scss']
 })
-export class BankAccountsRecordsAddModalViewComponent implements OnInit {
+export class BarAddModalViewComponent implements OnInit {
 	@ViewChild('form') form: NgForm;
 	@ViewChild('filePicker') _file: ElementRef;
 
-	accountNumber: string;
-	csvType: number;
-	parentId: string;
+	public accountNumber: string;
+	public csvType: number;
+	public parentId: string;
 	accountRecords = [];
 
 	dataRows = 0;
@@ -44,8 +44,7 @@ export class BankAccountsRecordsAddModalViewComponent implements OnInit {
 		private _notificationsService: NotificationsService
 	) { }
 
-	ngOnInit() {
-	}
+	ngOnInit() { }
 
 	submitForm() {
 		this.form.ngSubmit.emit();
@@ -60,6 +59,8 @@ export class BankAccountsRecordsAddModalViewComponent implements OnInit {
 			this.addedRecords = 0;
 			this.existingRecords = 0;
 			this.removedRecords = 0;
+			this.duplicateRecords = 0;
+			this.totalRecords = 0;
 			for (let a = 0; a < _totalFiles; a++) {
 				const reader = new FileReader();
 				reader.readAsText(files[a]);
@@ -142,8 +143,7 @@ export class BankAccountsRecordsAddModalViewComponent implements OnInit {
 										_tmp.balance = (currentRecord[4] ? Number(currentRecord[4].trim()) : 0.00);
 										break;
 								}
-
-								if ((_tmp.date1 && !_tmp.date1.includes('Date')) && (_tmp.description && !_tmp.description.includes('Description')) && (_tmp.balance)) {
+								if ((_tmp.date1 && !_tmp.date1.includes('Date')) && (_tmp.description && !_tmp.description.includes('Description')) && (_tmp.balance.toString() != '')) {
 									this.totalCount++;
 									this.accountRecords.push(_tmp);
 								}
@@ -193,11 +193,8 @@ export class BankAccountsRecordsAddModalViewComponent implements OnInit {
 		// });
 
 		this._httpService.post('bank-account-records/add', this.accountRecords).then((pResponse: any) => {
-			if (pResponse.status) {
-				this.accountRecords = pResponse.data;
-			} else {
-				this.accountRecords = null;
-			}
+			this.accountRecords = null;
+			this.totalRecords = 0;
 			this.addedRecords = pResponse.addedRecords;
 			this.errorRecords = pResponse.errorRecords;
 			this.existingRecords = pResponse.existingRecords;

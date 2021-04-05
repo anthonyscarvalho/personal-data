@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BankAccountsViewComponent } from './bank-accounts-view.component';
+import { SubMenuComponent } from './sub-menu.component';
 
-describe('BankAccountsViewComponent', () => {
-  let component: BankAccountsViewComponent;
-  let fixture: ComponentFixture<BankAccountsViewComponent>;
+describe('SubMenuComponent', () => {
+  let component: SubMenuComponent;
+  let fixture: ComponentFixture<SubMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BankAccountsViewComponent ]
+      declarations: [ SubMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BankAccountsViewComponent);
+    fixture = TestBed.createComponent(SubMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

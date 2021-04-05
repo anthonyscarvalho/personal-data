@@ -1,9 +1,9 @@
-<div class="journal-block" *ngIf="journal">
-	<div class="journal-block__title">{{accountDetails.accountName}}</div>
-	<div class="journal-block__status" [ngClass]="checkClass(accountDetails.status)"></div>
+<div class="journal-block" *ngIf="journalDetails">
+	<div class="journal-block__title">{{journalDetails.accountName}}</div>
+	<div class="journal-block__status" [ngClass]="checkClass(journalDetails.balance)"></div>
 	<div class="journal-block__currency">
-		<div class="journal-block__currency--credit"><span class="journal-block__currency--fw">Credits</span>: R {{formatNumbers(accountDetails.totalCredit)}}</div>
-		<div class="journal-block__currency--debit"><span class="journal-block__currency--fw">Debits</span>: R {{formatNumbers(accountDetails.totalDebit)}}</div>
-		<div class="journal-block__currency--balance"><span class="journal-block__currency--fw">Balance</span>: R {{formatNumbers(accountDetails.balance)}}</div>
+		<div class="journal-block__currency--credit"><span class="journal-block__currency--fw">Credits</span>: R {{formatNumbers(journalDetails.totalCredit)}}</div>
+		<div class="journal-block__currency--debit"><span class="journal-block__currency--fw">Debits</span>: R {{formatNumbers(journalDetails.totalDebit)}}</div>
+		<div class="journal-block__currency--balance"><span class="journal-block__currency--fw">Balance</span>: R {{formatNumbers(journalDetails.balance)}}</div>
 	</div>
 </div>

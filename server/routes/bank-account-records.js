@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['bankAccountRecords']);
+let express = require('express');
+let router = express.Router();
+let mongojs = require('mongojs');
+let db = mongojs('mongodb://localhost:27017/accounts', ['bankAccountRecords']);
 
 function newResponse() {
     return {
@@ -11,15 +11,15 @@ function newResponse() {
 
 // fetch records
 router.post('/bank-account-records/view/:id?', function (req, res, next) {
-    var body = req.body;
-    var page = ((body.page) ? body.page : 1);
-    var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-    var orderBy = ((body.column) ? body.column : '');
-    var orderDir = ((body.dir === 'ASC') ? 1 : -1);
-    var filter = {};
+    let body = req.body;
+    let page = ((body.page) ? body.page : 1);
+    let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+    let orderBy = ((body.column) ? body.column : '');
+    let orderDir = ((body.dir === 'ASC') ? 1 : -1);
+    let filter = {};
 
-    var _response = newResponse();
-    var _errors = [];
+    let _response = newResponse();
+    let _errors = [];
 
     if (orderBy) {
         filter[orderBy] = orderDir;
@@ -29,7 +29,7 @@ router.post('/bank-account-records/view/:id?', function (req, res, next) {
         };
     }
     if (req.params.id) {
-        var query = {
+        let query = {
             accountsId: req.params.id
         };
         db.bankAccountRecords.count(query, function (err, pCount) {
@@ -60,10 +60,10 @@ router.post('/bank-account-records/view/:id?', function (req, res, next) {
 
 // sum records for given account
 router.post('/bank-account-records/sum/:id?', function (req, res, next) {
-    var _response = newResponse();
-    var _errors = [];
+    let _response = newResponse();
+    let _errors = [];
 
-    var query = {};
+    let query = {};
 
     if (!req.params.id) {
         if (_errors.length > 0) {}
@@ -131,18 +131,18 @@ router.post('/bank-account-records/sum/:id?', function (req, res, next) {
 
 // create record
 router.post('/bank-account-records/add', function (req, res, next) {
-    var _response = newResponse();
-    var _errors = [];
-    var addedRecords = 0;
-    var errorRecords = 0;
-    var existingRecords = 0;
-    var duplicateRecords = 0;
+    let _response = newResponse();
+    let _errors = [];
+    let addedRecords = 0;
+    let errorRecords = 0;
+    let existingRecords = 0;
+    let duplicateRecords = 0;
 
-    var newRecord = req.body;
+    let newRecord = req.body;
     if (newRecord && newRecord.length > 0) {
-        var updatedRecords = (pRecord) => {
+        let updatedRecords = (pRecord) => {
             return new Promise(pResolve => {
-                if (!pRecord.accountsId || !pRecord.date1 || pRecord.balance == 0) {
+                if (!pRecord.accountsId || !pRecord.date1) {
                     pRecord.processed = 'false';
                     errorRecords++;
                     console.log('invalid data');
@@ -153,35 +153,35 @@ router.post('/bank-account-records/add', function (req, res, next) {
                         date2: pRecord.date2,
                         credit: pRecord.credit,
                         debit: pRecord.debit,
+                        balance: pRecord.balance,
                         description: pRecord.description
                     }, function (err, pResults) {
                         if (err) {
                             pRecord.processed = 'false';
                             errorRecords++;
-                            console.log('error finding');
+                            // console.log('error finding');
                         }
-                        
+
                         if (pResults.length == 0) {
-                            console.log('not found');
+                            // console.log('not found');
                             db.bankAccountRecords.save(pRecord, function (err, pResults) {
                                 if (err) {
                                     pRecord.processed = 'false';
                                     errorRecords++;
                                     console.log('error saving');
                                 }
-                                console.log('saved');
                                 pRecord.processed = 'true';
-                                addedRecords++;
                             });
+                            addedRecords++;
                         } else {
-                            console.log('exists');
+                            // console.log('exists');
                             // record exists
                             pRecord.processed = 'exists';
                             existingRecords++;
                         }
-                        
+
                         if (pResults.length > 1) {
-                            console.log('duplicate entries');
+                            // console.log('duplicate entries');
                             pRecord.processed = 'duplicated';
                             duplicateRecords++;
                         }
@@ -192,7 +192,7 @@ router.post('/bank-account-records/add', function (req, res, next) {
         };
         Promise.all(newRecord.map(pRecord => updatedRecords(pRecord))).then(pResults => {
             _response.status = '01';
-            _response.data = pResults;
+            _response.data = [];
             _response.addedRecords = addedRecords;
             _response.errorRecords = errorRecords;
             _response.existingRecords = existingRecords;
@@ -257,10 +257,10 @@ router.delete('/bank-account-records/delete/:id', function (req, res, next) {
 
 // update record
 router.put('/bank-account-records/update/:id', function (req, res, next) {
-    var _response = newResponse();
-    var _errors = [];
+    let _response = newResponse();
+    let _errors = [];
 
-    var newRecord = req.body;
+    let newRecord = req.body;
 
     if (newRecord._id) {
         delete(newRecord._id);
@@ -292,10 +292,10 @@ router.put('/bank-account-records/update/:id', function (req, res, next) {
 
 
 router.get('/bank-account-records/updateDate', function (req, res, next) {
-    var _response = newResponse();
-    var _errors = [];
+    let _response = newResponse();
+    let _errors = [];
 
-    var newRecord = req.body;
+    let newRecord = req.body;
 
     if (newRecord._id) {
         delete(newRecord._id);

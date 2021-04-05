@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -18,14 +18,18 @@ import { HttpService } from '../../../services/http.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 @Component({
-	selector: `app-bank-accounts-edit`,
-	templateUrl: `./bank-accounts-edit.component.html`,
-	styleUrls: [`./bank-accounts-edit.component.scss`]
+	selector: `app-ba-edit`,
+	templateUrl: `./ba-edit.component.html`,
+	styleUrls: [`./ba-edit.component.scss`]
 })
-export class BankAccountsEditComponent implements OnInit {
+export class BaEditComponent implements OnInit, OnDestroy {
 	bsModalRef: BsModalRef;
 
 	bankAccountsAddForm: FormGroup;
+	addRecordEventEmitter = false;
+
+	accountNumber: number;
+	csvType: number;
 
 	submitted = false;
 	error = false;
@@ -121,6 +125,7 @@ export class BankAccountsEditComponent implements OnInit {
 		this._httpService.post(`bank-accounts/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
+				this.csvType = pResults.data.csvType;
 				this.bankAccountsAddForm.setValue(pResults.data);
 				this._generalService.setTitle(`Bank Accounts: Edit - ` + pResults.data.accountDescription);
 			}
@@ -138,4 +143,12 @@ export class BankAccountsEditComponent implements OnInit {
 	}
 
 	editAccountRecord() { }
+
+	addTransactions() {
+		this._generalService.setModalShowName("addRecordTransaction");
+	}
+
+	ngOnDestroy() {
+		this._generalService.setModalShowName(false);
+	}
 }

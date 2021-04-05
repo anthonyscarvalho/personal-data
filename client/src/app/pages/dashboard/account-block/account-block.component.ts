@@ -38,16 +38,7 @@ export class AccountBlockComponent implements OnInit {
 		});
 	}
 
-	checkClass(pStatus) {
-		if (pStatus === 'open') {
-			return 'account-block__status--open'
-		} else if (pStatus === 'closed') {
-			return 'account-block__status--closed'
-		}
-	}
-
 	formatNumbers(pNumber) {
 		return this._generalService.formatNumbers(pNumber, 2);
 	}
-
 }

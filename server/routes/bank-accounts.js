@@ -14,9 +14,54 @@ var _response = {
 var _errors = [];
 
 // fetch records
-router.post('/bank-accounts/view/:id?', function (req, res, next) {
-    if (!req.params.id) {
-        var body = req.body;
+router.post('/bank-accounts/view', function (req, res, next) {
+    var body = req.body;
+    var page = ((body.page) ? body.page : 1);
+    var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+    var orderBy = ((body.column) ? body.column : '');
+    var orderDir = ((body.dir === 'ASC') ? 1 : -1);
+    var searchPhrase = ((body.searchPhrase) ? body.searchPhrase : '');
+    var filter = {};
+    var query = {};
+    _errors = [];
+
+    if (searchPhrase != '') {
+        query = {
+            accountDescription: searchPhrase,
+            accountNumber: searchPhrase
+        };
+    }
+
+    if (orderBy) {
+        filter[orderBy] = orderDir;
+    } else {
+        filter = {};
+    }
+    db.bankAccounts.count(query, function (err, pCount) {
+        if (err) {
+            _errors.push("Can't count");
+        }
+        _response.totalRecords = pCount;
+        db.bankAccounts.find(query)
+            .skip(((page * records) - records))
+            .limit(records)
+            .sort(filter)
+            .toArray(function (err, pResults) {
+                if (err) {
+                    _errors.push(err);
+                }
+                if (_errors.length > 0) {
+                    _response.status = '01';
+                }
+                _response.errors = _errors;
+                _response.data = pResults;
+                res.json(_response);
+            });
+    });
+});
+
+router.post('/bank-accounts/view/dash', function (req, res, next) {
+    var body = req.body;
         var page = ((body.page) ? body.page : 1);
         var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
         var orderBy = ((body.column) ? body.column : '');
@@ -38,88 +83,34 @@ router.post('/bank-accounts/view/:id?', function (req, res, next) {
         } else {
             filter = {};
         }
-        db.bankAccounts.count(query, function (err, pCount) {
-            if (err) {
-                _errors.push("Can't count");
-            }
-            _response.totalRecords = pCount;
-            db.bankAccounts.find(query)
-                .skip(((page * records) - records))
-                .limit(records)
-                .sort(filter)
-                .toArray(function (err, pResults) {
-                    if (err) {
-                        _errors.push(err);
-                    }
-                    if (_errors.length > 0) {
-                        _response.status = '01';
-                    }
-                    _response.errors = _errors;
-                    _response.data = pResults;
-                    res.json(_response);
-                });
-        });
-    } else if (req.params.id == 'all') {
-        db.bankAccounts.count(query, function (err, pCount) {
-            if (err) {
-                _errors.push("Can't count");
-            }
-            _response.totalRecords = pCount;
-            db.bankAccounts.find(query)
-                .sort({
-                    'accountDescription': 1
-                })
-                .toArray(function (err, pResults) {
-                    if (err) {
-                        _errors.push(err);
-                    }
-                    if (_errors.length > 0) {
-                        _response.status = '01';
-                    }
-                    _response.errors = _errors;
-                    _response.data = pResults;
-                    res.json(_response);
-                });
-        });
-    } else if (req.params.id == 'dash') {
-        db.bankAccounts.count(query, function (err, pCount) {
-            if (err) {
-                _errors.push("Can't count");
-            }
-            _response.totalRecords = pCount;
-            db.bankAccounts.find(query, {
-                    _id: 1,
-                    accountDescription: 1,
-                    status: 1
-                })
-                .sort({
-                    'accountDescription': 1
-                })
-                .toArray(function (err, pResults) {
-                    if (err) {
-                        _errors.push(err);
-                    }
-                    if (_errors.length > 0) {
-                        _response.status = '01';
-                    }
-                    _response.errors = _errors;
-                    _response.data = pResults;
-                    res.json(_response);
-                });
-        });
-    } else {
-        db.bankAccounts.findOne({
-            _id: mongojs.ObjectId(req.params.id)
-        }, function (err, pResults) {
-            if (err) {
-                res.send(err);
-            }
-            _response.status = '00';
-            _response.data = pResults;
-            res.json(_response);
-        });
-    }
+
+    db.bankAccounts.count(query, function (err, pCount) {
+        if (err) {
+            _errors.push("Can't count");
+        }
+        _response.totalRecords = pCount;
+        db.bankAccounts.find(query, {
+                _id: 1,
+                accountDescription: 1,
+                status: 1
+            })
+            .sort({
+                'accountDescription': 1
+            })
+            .toArray(function (err, pResults) {
+                if (err) {
+                    _errors.push(err);
+                }
+                if (_errors.length > 0) {
+                    _response.status = '01';
+                }
+                _response.errors = _errors;
+                _response.data = pResults;
+                res.json(_response);
+            });
+    });
 });
+
 
 router.post('/bank-accounts/edit/:id?', function (req, res, next) {
     if (req.params.id) {

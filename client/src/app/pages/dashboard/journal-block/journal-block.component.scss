@@ -17,11 +17,11 @@
 	&__status {
 		height: 2px;
 
-		&--open {
+		&--good {
 			background-color: #009900;
 		}
 
-		&--closed {
+		&--bad {
 			background-color: #FF0000;
 		}
 	}

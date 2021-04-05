@@ -1,0 +1,7 @@
+<div class="sub-menu">
+	<ul class="sub-menu__nav">
+		<li class="sub-menu__nav--item" *ngFor="let item of _menuItems">
+			<a class="sub-menu__nav--item-link" routerLink="{{item.url}}" routerLinkActive="sub-menu__nav--item-link-active" [routerLinkActiveOptions]="{exact:true}">{{item.name}}</a>
+		</li>
+	</ul>
+</div>

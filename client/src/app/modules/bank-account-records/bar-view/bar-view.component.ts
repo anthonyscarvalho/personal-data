@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 // component
-import { BankAccountsAddComponent } from '../bank-accounts-add/bank-accounts-add.component';
+// import { BankAccountsAddComponent } from '../bank-accounts-add/bank-accounts-add.component';
+import { BarAddModalViewComponent } from '../bar-add-modal/bar-add-modal.component';
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 // service
@@ -13,11 +14,11 @@ import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../in
 import { BankAccountsViewInterface } from '../../../interfaces/bankAccounts';
 
 @Component({
-	selector: 'app-bank-accounts-view',
-	templateUrl: './bank-accounts-view.component.html',
-	styleUrls: ['./bank-accounts-view.component.scss']
+	selector: 'app-bar-view',
+	templateUrl: './bar-view.component.html',
+	styleUrls: ['./bar-view.component.scss']
 })
-export class BankAccountsViewComponent implements OnInit {
+export class BarViewComponent implements OnInit {
 	bsModalRef: BsModalRef;
 	tableHead = [
 		{
@@ -25,20 +26,25 @@ export class BankAccountsViewComponent implements OnInit {
 			data: '_id',
 			width: '250px'
 		}, {
-			text: 'Account Number',
-			data: 'accountNumber'
+			text: 'Date',
+			data: 'date1',
+			width: '150px'
+		}, {
+			text: 'Date 2',
+			data: 'date2',
+			width: '150px'
 		}, {
 			text: 'Description',
-			data: 'accountDescription'
+			data: 'description'
 		}, {
-			text: 'Date Opened',
-			data: 'dateOpened'
+			text: 'Credit',
+			data: 'credit'
 		}, {
-			text: 'Date Closed',
-			data: 'dateClosed'
+			text: 'Debit',
+			data: 'debit'
 		}, {
-			text: 'Status',
-			data: 'status'
+			text: 'Balance',
+			data: 'balance'
 		}
 	];
 	tableBody: BankAccountsViewInterface[];
@@ -97,7 +103,7 @@ export class BankAccountsViewComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('bank-accounts/view', this.filterBoxOptions).then((results: any) => {
+		this._httpService.post('bank-account-records/view/all', this.filterBoxOptions).then((results: any) => {
 			if (results.status === '00') {
 				this.results = results.data;
 				this.tableBody = results.data;
@@ -107,7 +113,7 @@ export class BankAccountsViewComponent implements OnInit {
 	}
 
 	modalAdd() {
-		this.bsModalRef = this._modalService.show(BankAccountsAddComponent, Object.assign({}, { class: 'modal-xl', ignoreBackdropClick: true }));
+		this.bsModalRef = this._modalService.show(BarAddModalViewComponent, Object.assign({}, { class: 'modal__full', ignoreBackdropClick: true }));
 		this._modalService.onHide.subscribe((reason: string) => {
 			this.load();
 		});
@@ -157,5 +163,4 @@ export class BankAccountsViewComponent implements OnInit {
 			}
 		});
 	}
-
 }

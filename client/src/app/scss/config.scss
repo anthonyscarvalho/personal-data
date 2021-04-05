@@ -1,0 +1,58 @@
+@import 'util/fluid-typography';
+@import 'util/background-gradient';
+@import 'util/box-shadow';
+@import 'util/animations';
+
+$baseFontSize: 10;
+$convertPixelToRem: true;
+$timing: 1s;
+
+$xxsm: 3px;
+$xsm: 5px;
+$sm: 10px;
+$norm: 15px;
+$md: 20px;
+$lg: 25px;
+$xlg: 30px;
+$xxlg: 45px;
+
+/* GENERAL COLOURS
+=====================*/
+$white: #fff;
+$black: #000;
+$greyMedium: #D3D3D3;
+$greyDark: #343A40;
+
+/* FONTS
+=====================*/
+$regular : '';
+$extra-light : '';
+$light : '';
+$condensed-light : '';
+$medium : '';
+$book : '';
+$bold : '';
+
+/* COLORS
+=====================*/
+$purple: #3F0F73;
+$turqoise: #2FD5AD;
+$orange: #F95500;
+$grey: #888;
+$white: #fff;
+$pink: #D82E98;
+
+/* BREAKPOINTS
+=====================*/
+$smartphone-portrait : 320px;
+$smartphone-landscape : 480px;
+
+$phablet: 640px;
+$phablet-landscape: 736px;
+
+$tablet-portrait : 768px;
+$tablet-landscape : 1024px;
+
+$desktop-small: 992px;
+$desktop-medium: 1200px;
+$desktop-large: 1400px;

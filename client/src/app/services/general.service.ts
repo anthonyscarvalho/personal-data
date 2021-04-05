@@ -173,6 +173,17 @@ export class GeneralService {
 		this.loadingStatusSource.next(pNewStatus);
 	}
 
+	// show modal in component
+	private modalShowName = new BehaviorSubject<boolean>(false);
+	getModalShowName() {
+		return this.modalShowName.asObservable();
+	}
+
+	setModalShowName(pNewStatus) {
+		this.modalShowName.next(pNewStatus);
+	}
+
+
 	// redirect to page
 	redirect(pUrl) {
 		if (pUrl) {

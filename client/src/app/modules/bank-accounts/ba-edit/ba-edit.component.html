@@ -1,7 +1,7 @@
 <div class="bank-accounts-edit">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-8 col-sm-12 offset-md-2">
+			<div class="col-md-4 col-sm-12">
 				<div class="card">
 					<div class="card-body">
 						<h1>Account Information</h1>
@@ -64,14 +64,19 @@
 						</form>
 						<div class="text-center">
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<a class="btn btn-secondary" routerLink="/bank-accounts">
-										<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon> Back
+										<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
 									</a>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-4">
+									<button type="button" class="btn btn-info" (click)="addTransactions()">
+										<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon> Transactions
+									</button>
+								</div>
+								<div class="col-md-4">
 									<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
-										<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon> Save
+										<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
 									</button>
 									<span class="btn btn-info" *ngIf="submitted">
 										<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
@@ -81,6 +86,9 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="col-md-8 col-sm-12">
+				<app-bar-view-account accountId="{{parentId}}" accountNumber="{{accountNumber}}" csvType="{{csvType}}"></app-bar-view-account>
 			</div>
 		</div>
 	</div>

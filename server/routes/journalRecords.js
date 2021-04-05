@@ -13,7 +13,7 @@ var _response = {
 var _errors = [];
 
 // fetch records
-router.post('/journalRecords/view/:id?', function (req, res, next) {
+router.post('/journal-records/view/:id?', function (req, res, next) {
     var body = req.body;
     var page = ((body.page) ? body.page : 1);
     var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
@@ -142,7 +142,7 @@ router.post('/journalRecords/view/:id?', function (req, res, next) {
 });
 
 // sum records for given account
-router.post('/journalRecords/sum/:id?', function (req, res, next) {
+router.post('/journal-records/sum/:id?', function (req, res, next) {
     _errors = [];
     var query = {};
     if (!req.params.id) {
@@ -210,7 +210,7 @@ router.post('/journalRecords/sum/:id?', function (req, res, next) {
 });
 
 // create record
-router.post('/journalRecords/add', function (req, res, next) {
+router.post('/journal-records/add', function (req, res, next) {
     var newRecord = req.body;
     if (!newRecord.journalId || !newRecord.date) {
         res.status(400);
@@ -256,7 +256,7 @@ router.post('/journalRecords/add', function (req, res, next) {
 });
 
 // delete record
-router.delete('/journalRecords/delete/:id', function (req, res, next) {
+router.delete('/journal-records/delete/:id', function (req, res, next) {
     db.journalRecords.remove({
         _id: mongojs.ObjectId(req.params.id)
     }, function (err, pResults) {
@@ -268,7 +268,7 @@ router.delete('/journalRecords/delete/:id', function (req, res, next) {
 });
 
 // update record
-router.put('/journalRecords/update/:id', function (req, res, next) {
+router.put('/journal-records/update/:id', function (req, res, next) {
     var newRecord = req.body;
     if (newRecord._id) {
         delete(newRecord._id);
@@ -299,7 +299,7 @@ router.put('/journalRecords/update/:id', function (req, res, next) {
 });
 
 // find records
-router.post('/journalRecords/search/:id', function (req, res, next) {
+router.post('/journal-records/search/:id', function (req, res, next) {
     if (!req.params.id) {
         res.status(400);
         res.json({

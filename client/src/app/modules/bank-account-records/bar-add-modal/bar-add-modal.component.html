@@ -1,0 +1,107 @@
+<div class="modal-header">
+	<h4 class="modal-title pull-left">Bank Accounts: Add New</h4>
+</div>
+<div class="modal-body">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<form name="bankAccountsRecordsForm" id="bankAccountsRecordsForm" (ngSubmit)="submit()">
+					<div class="row">
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="custom-file">
+										<input type="file" class="custom-file-input" #filePicker multiple id="filePicker" (change)="processRecords()" aria-describedby="inputGroupFileAddon04">
+										<label class="custom-file-label" for="filePicker">Choose file</label>
+									</div>
+									<div class="input-group-append">
+										<button class="btn btn-info" type="button" id="inputGroupFileAddon04" (click)="uploadRecords()">Upload</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="card">
+									<div class="card-body text-center"> Total Rows: <br>{{totalCount}} </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="card">
+									<div class="card-body text-center"> Recorded Records: <br>{{addedRecords}} </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="card">
+									<div class="card-body text-center"> Existing Records: <br>{{existingRecords}} </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="card">
+									<div class="card-body text-center"> Error Records: <br>{{errorRecords}} </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="card">
+									<div class="card-body text-center"> Duplicated Records: <br>{{duplicateRecords}} </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-12">
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>
+							<th style="width: 130px;">Statement ID</th>
+							<th style="width: 110px;">Date 1</th>
+							<th style="width: 110px;">Date 2</th>
+							<th>Description</th>
+							<th style="width: 110px;">Credit</th>
+							<th style="width: 110px;">Debit</th>
+							<th style="width: 160px;">Balance</th>
+							<th style="width: 40px;"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of accountRecords | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage">
+							<td>{{item.statementId}}</td>
+							<td>{{item.date1}}</td>
+							<td>{{item.date2}}</td>
+							<td>{{item.description}}</td>
+							<td>{{item.credit | currency:'R '}}</td>
+							<td>{{item.debit | currency:'R '}}</td>
+							<td>{{item.balance | currency:'R '}}</td>
+							<td>
+								<span class="badge badge-warning" *ngIf="item.processed == 'false'">&nbsp;</span>
+								<span class="badge badge-success" *ngIf="item.processed == 'true'">&nbsp;</span>
+								<span class="badge badge-info" *ngIf="item.processed == 'exists'">&nbsp;</span>
+								<span class="badge badge-danger" *ngIf="item.processed == 'error'">&nbsp;</span>
+								<span class="badge badge-primary" *ngIf="item.processed == 'duplicated'">&nbsp;</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<div class="row">
+		<div class="col-md-11">
+			<pagination [totalItems]="totalRecords" *ngIf="totalRecords > 10" [(ngModel)]="currentPage" (pageChanged)="updatePage($event)" [maxSize]="10" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="itemsPerPage"></pagination>
+		</div>
+		<div class="col-md-1">
+			<button type="button" class="btn btn-default pull-right" (click)="close()">Close</button>
+		</div>
+	</div>
+</div>

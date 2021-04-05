@@ -22,6 +22,7 @@ import { ErrorsComponent } from './errors/errors.component';
 import { FilterBoxComponent } from './filter-box/filter-box.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { SubMenuComponent } from './sub-menu/sub-menu.component';
 import { TableComponent } from './table/table.component';
 
 @NgModule({
@@ -30,7 +31,8 @@ import { TableComponent } from './table/table.component';
 		FilterBoxComponent,
 		FooterComponent,
 		HeaderComponent,
-		TableComponent
+		SubMenuComponent,
+		TableComponent,
 	],
 	imports: [
 		BrowserAnimationsModule,
@@ -54,6 +56,7 @@ import { TableComponent } from './table/table.component';
 		FilterBoxComponent,
 		FooterComponent,
 		HeaderComponent,
+		SubMenuComponent,
 		TableComponent,
 		// 3rd party scripts
 		BsDatepickerModule,
