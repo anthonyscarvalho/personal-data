@@ -1,24 +1,24 @@
 <div class="container dashboard">
-	<section *ngIf="MenuItems.length > 0">
+	<section *ngIf="menuItems.length > 0">
 		<legend>Management</legend>
 		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of MenuItems">
+			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of menuItems">
 				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
 			</div>
 		</div>
 	</section>
-	<section *ngIf="AdminMenu.length > 0">
+	<section *ngIf="adminMenu.length > 0">
 		<legend>Admin</legend>
 		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of AdminMenu">
+			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of adminMenu">
 				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
 			</div>
 		</div>
 	</section>
-	<section *ngIf="ReportMenuItems.length > 0">
+	<section *ngIf="reportMenuItems.length > 0">
 		<legend>Reports</legend>
 		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of ReportMenuItems">
+			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of reportMenuItems">
 				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
 			</div>
 		</div>

@@ -9,18 +9,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 // Services
-import { GeneralService } from './services/general.service';
-import { HttpService } from './services/http.service';
-import { NotificationsService } from './services/notifications.service';
+import { GeneralService, HttpService, NotificationsService } from './@shared/services';
 
 // Modules
 import { AppRoutingModule } from './app-routing.module';
+import { CommonComponentsModule } from './@common/common.module';
 
-import { CommonComponentsModule } from './components/common-components.module';
+// Components
+import { GlobalViewComponent } from './@shared/global-view/global-view.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
+		GlobalViewComponent,
 	],
 	imports: [
 		BrowserAnimationsModule,
@@ -36,6 +37,8 @@ import { CommonComponentsModule } from './components/common-components.module';
 		RouterModule,
 		// Modules
 		CommonComponentsModule,
+		// Components
+		GlobalViewComponent,
 	],
 	providers: [
 		// services

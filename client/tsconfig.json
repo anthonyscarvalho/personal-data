@@ -17,16 +17,19 @@
 		"lib": [
 			"es2018",
 			"dom"
-		]
+		],
+		"paths": {
+			"@accountRecords": ["src/app/@account-records/*"],
+			"@bankAccounts": ["src/app/@bank-accounts/*"],
+			"@common/*": ["src/app/@common/*"],
+			"@contacts/*": ["src/app/@contacts/*"],
+			"@journals/*": ["src/app/@journals/*"],
+			"@shared/*": ["src/app/@shared/*"],
+		}
 	},
 	"angularCompilerOptions": {
 		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
 		"allowEmptyCodegenFiles": true
-	},
-	"paths": {
-		"@bankAccounts": ["src/app/@bank-accounts"],
-		"@contacts": ["src/app/@contacts"],
-		"@journals": ["src/app/@journals"],
 	}
 }

@@ -2,18 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Modules
-import { AppRoutingModule } from './contacts-routing.module';
-import { CommonComponentsModule } from '../components/common-components.module';
+import { ContactsRoutingModule } from './contacts.routing';
+import { CommonComponentsModule } from '@common/common.module';
 // Views
-import { ViewComponent } from './view/view.component';
-import { EditComponent } from './edit/edit.component';
+import { ContactsViewComponent } from './contacts-view/contacts-view.component';
+import { ContactsEditComponent } from './contacts-edit/contacts-edit.component';
 
 @NgModule({
-	declarations: [ViewComponent, EditComponent],
+	declarations: [
+		ContactsViewComponent,
+		ContactsEditComponent,
+	],
 	imports: [
 		CommonModule,
-		AppRoutingModule,
+		ContactsRoutingModule,
 		CommonComponentsModule,
 	]
 })
-export class contactsModule { }
+export class ContactsModule { }

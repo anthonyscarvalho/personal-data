@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 // service
-import { GeneralService } from '../../../services/general.service';
-import { HttpService } from '../../../services/http.service';
-import { NotificationsService } from '../../../services/notifications.service';
+import { GeneralService } from '../../../@shared/services/general.service';
+import { HttpService } from '../../../@shared/services/http.service';
+import { NotificationsService } from '../../../@shared/services/notifications.service';
 // interfaces
-import { FilterBoxConfigInterface, FilterBoxOptionsInterface } from '../../../interfaces/filterBoxOptions';
-import { JournalRecordsInterface } from '../../../interfaces/journalRecords';
+import { IFilterBoxConfig, IFilterBoxOptions, IJournalRecordsProcess } from '../../../@shared/interfaces';
 
 
 @Component({
-	selector: 'app-journal-records-view',
+	selector: 'acc-journal-records-view',
 	templateUrl: './journal-records-view.component.html',
 	styleUrls: ['./journal-records-view.component.scss']
 })
@@ -34,10 +33,10 @@ export class JournalRecordsViewComponent implements OnInit {
 			data: 'debit'
 		}
 	];
-	tableBody: JournalRecordsInterface[];
-	results: JournalRecordsInterface[];
-	public filterBoxOptions: FilterBoxOptionsInterface;
-	public filterBoxConfig: FilterBoxConfigInterface;
+	tableBody: IJournalRecordsProcess[];
+	results: IJournalRecordsProcess[];
+	public filterBoxOptions: IFilterBoxOptions;
+	public filterBoxConfig: IFilterBoxConfig;
 	totalRecords: string;
 
 	constructor(
@@ -47,12 +46,12 @@ export class JournalRecordsViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle('Journal Records: View All');
-		this.filterBoxConfig = new FilterBoxConfigInterface();
+		this.filterBoxConfig = new IFilterBoxConfig();
 	}
 
 	ngOnInit() {
 		localStorage.setItem('activeMenu', 'journal-records');
-		this.filterBoxOptions = new FilterBoxOptionsInterface();
+		this.filterBoxOptions = new IFilterBoxOptions();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

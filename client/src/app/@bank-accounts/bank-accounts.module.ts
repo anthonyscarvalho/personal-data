@@ -3,39 +3,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // Modules
-import { AppRoutingModule } from './bank-accounts-routing.module';
-import { CommonComponentsModule } from '../components/common-components.module';
+import { BankAccountsRoutingModule } from './bank-accounts.routing';
+import { CommonComponentsModule } from '@common/common.module';
 // Components
-import { BaBlockComponent } from './ba-accounts/dash/block/block.component';
+import { BankAccountsDashBlockComponent } from './_components/bank-accounts-dash-block/bank-accounts-dash-block.component';
 // Views
-import { BaDashComponent } from './ba-accounts/dash/dash.component';
-import { BaEditComponent } from './ba-accounts/edit/edit.component';
-import { BaViewComponent } from './ba-accounts/view/view.component';
-import { BarAddModalViewComponent } from './ba-records/bar-add-modal/bar-add-modal.component';
-import { BarViewComponent } from './ba-records/bar-view/bar-view.component';
-import { BarViewAccountComponent } from './ba-records/bar-view-account/bar-view-account.component';
-import { BarEditComponent } from './ba-records/edit/edit.component';
-import { BarReportComponent } from './ba-records/report/report.component';
+import { BankAccountsDashComponent } from './bank-accounts-dash/bank-accounts-dash.component';
+import { BankAccountsEditComponent } from './bank-accounts-edit/bank-accounts-edit.component';
 
 @NgModule({
 	declarations: [
 		// components
-		BaBlockComponent,
-		BaDashComponent,
-		BaEditComponent,
-		BaViewComponent,
-		BarAddModalViewComponent,
-		BarViewComponent,
-		BarViewAccountComponent,
-		BarEditComponent,
-		BarViewComponent,
-		BarReportComponent,
+		BankAccountsDashBlockComponent,
+		BankAccountsDashComponent,
+		BankAccountsEditComponent,
 	],
 	imports: [
 		CommonModule,
 		FormsModule,
-		AppRoutingModule,
+		BankAccountsRoutingModule,
 		CommonComponentsModule,
 	],
 })
-export class bankAccountsModule { }
+export class BankAccountsModule { }

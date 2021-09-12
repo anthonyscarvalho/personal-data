@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Modules
-import { CommonComponentsModule } from '../../components/common-components.module';
+import { CommonComponentsModule } from '@common/common.module';
 
 // Components
 import { JournalRecordsViewComponent } from './journal-records-view/journal-records-view.component';
