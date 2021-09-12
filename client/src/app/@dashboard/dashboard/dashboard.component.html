@@ -1,0 +1,41 @@
+<div class="container dashboard">
+	<section *ngIf="MenuItems.length > 0">
+		<legend>Management</legend>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of MenuItems">
+				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+			</div>
+		</div>
+	</section>
+	<section *ngIf="AdminMenu.length > 0">
+		<legend>Admin</legend>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of AdminMenu">
+				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+			</div>
+		</div>
+	</section>
+	<section *ngIf="ReportMenuItems.length > 0">
+		<legend>Reports</legend>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of ReportMenuItems">
+				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+			</div>
+		</div>
+	</section>
+	<section>
+		<legend>Expenditure</legend>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-6">
+				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:{ name: 'Expenditure', url: '/expenditure', order: 1, icon: 'chart-bar' }, level:1}"></ng-container>
+			</div>
+		</div>
+	</section>
+</div>
+<ng-template #menuItem let-menu>
+	<div class="card">
+		<a class="btn btn-custom btn-block" routerLink="{{menu.url}}">
+			<fa-icon [icon]="['fas', menu.icon]" [fixedWidth]="true" size="2x"></fa-icon><br>{{menu.name}}
+		</a>
+	</div>
+</ng-template>

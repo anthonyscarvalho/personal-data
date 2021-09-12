@@ -1,5 +1,7 @@
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['logs']);
+
+var config = require("../config");
+var db = mongojs(config.database.host, ['logs']);
 
 const logger = config => {
     const loggingApiHeaders = {

@@ -1,0 +1,21 @@
+@import './config.scss';
+
+.page {
+	height: calc(100% - 60px);
+	display: flex;
+	align-items: stretch;
+
+	&__left {
+		position: absolute;
+		width: 190px;
+		border-right: 1px solid $greyLight;
+		height: calc(100% - 60px);
+	}
+
+	&__container {
+		padding: 5px 10px 50px;
+		margin-left: 190px;
+		width: 100%;
+		margin-top: 30px;
+	}
+}

@@ -5,19 +5,39 @@ import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty
 	providedIn: 'root',
 })
 export class NotificationsService {
+	toastOptions: ToastOptions = {
+		title: `Success`,
+		msg: ``,
+		showClose: true,
+		timeout: 5000,
+		theme: `default`,
+		onAdd: (toast: ToastData) => {
+			console.log(`Toast ` + toast.id + ` has been added!`);
+		},
+		onRemove: function (toast: ToastData) {
+			console.log(`Toast ` + toast.id + ` has been removed!`);
+		}
+	}
 
 	constructor(
 		private toastyService: ToastyService,
 		private toastyConfig: ToastyConfig
 	) {
 		this.toastyConfig.theme = 'default';
+		this.toastyConfig.position = 'top-left';
 	}
 
 	success(msg: string) {
-		this.toastyService.success({ title: 'Success', msg: msg });
+		this.toastOptions.title = `Success`;
+		this.toastOptions.msg = msg;
+		this.toastyService.success(this.toastOptions);
 	}
 
 	warn(msg: string) {
-		this.toastyService.warning({ title: 'Error', msg: msg, timeout: 6000 });
+		this.toastOptions.title = `Error`;
+		this.toastOptions.msg = msg;
+		this.toastOptions.timeout = 6000;
+
+		this.toastyService.warning(this.toastOptions);
 	}
 }

@@ -14,54 +14,28 @@ import { HttpService } from './services/http.service';
 import { NotificationsService } from './services/notifications.service';
 
 // Modules
+import { AppRoutingModule } from './app-routing.module';
+
 import { CommonComponentsModule } from './components/common-components.module';
-import { BankAccountsModule } from './modules/bank-accounts/bank-accounts.module';
-import { BankAccountRecordsModule } from './modules/bank-account-records/bank-account-records.module';
-
-import { JournalModule } from './modules/journal/journal.module';
-
-// Pages
-import { DashboardComponent } from './pages/dashboard/dashboard.component'
-import { MenuComponent } from './pages/menu/menu.component';
-
-import { AccountBlockComponent } from './pages/dashboard/account-block/account-block.component';
-import { JournalBlockComponent } from './pages/dashboard/journal-block/journal-block.component';
-
-const routes: Routes = [
-	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-	{ path: 'menu', component: MenuComponent },
-	{ path: 'dashboard', component: DashboardComponent },
-];
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		// pages
-		DashboardComponent,
-		MenuComponent,
-		AccountBlockComponent,
-		JournalBlockComponent
 	],
 	imports: [
 		BrowserAnimationsModule,
 		BrowserModule,
 		FormsModule,
-		ReactiveFormsModule,
 		HttpClientModule,
+		ReactiveFormsModule,
 		// Modules
+		AppRoutingModule,
 		CommonComponentsModule,
-		BankAccountsModule,
-		BankAccountRecordsModule,
-		JournalModule,
-		// routing
-		RouterModule.forRoot(routes),
 	],
 	exports: [
 		RouterModule,
 		// Modules
 		CommonComponentsModule,
-		BankAccountsModule,
-		BankAccountRecordsModule
 	],
 	providers: [
 		// services

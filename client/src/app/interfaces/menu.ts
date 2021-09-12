@@ -1,3 +1,23 @@
+export interface IMegaMenu {
+	label: string;
+	options: IMenu[];
+}
+
+export interface IMenu {
+	name: string;
+	url: string;
+	order: number;
+	icon: string;
+	children?: IMenuChildren[];
+}
+
+export interface IMenuChildren {
+	name: string;
+	url: string;
+	order: number;
+	icon: string;
+}
+
 export class MenuInterface {
 	name: string;
 	url: string;

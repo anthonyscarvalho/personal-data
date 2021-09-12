@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faBell, faCog, faBars } from '@fortawesome/free-solid-svg-icons';
+// services
+import { GeneralService } from '../../services/general.service';
 
 @Component({
 	selector: 'app-header',
@@ -7,12 +8,15 @@ import { faBell, faCog, faBars } from '@fortawesome/free-solid-svg-icons';
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	@Input() headerTitle: string;
-	faBars = faBars;
-	faCog = faCog;
-	faBell = faBell;
+	headerTitle = ``;
 
-	constructor() { }
+	constructor(
+		private _generalService: GeneralService
+	) { }
 
-	ngOnInit() { }
+	ngOnInit() {
+		this._generalService.getTitle().subscribe(pTitle => {
+			this.headerTitle = pTitle;
+		});
+	}
 }

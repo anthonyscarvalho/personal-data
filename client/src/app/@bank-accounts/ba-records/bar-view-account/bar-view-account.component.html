@@ -1,0 +1,1 @@
+<app-table [tableHead]="tableHead" *ngIf="tableBody" [tableBody]="tableBody" (updater)="filterUpdater($event)" [editModule]="'bank-accounts'" [filterBoxOptions]="filterBoxOptions" [showStatus]="false" [showEdit]="false" [checkDuplicates]="true"></app-table>

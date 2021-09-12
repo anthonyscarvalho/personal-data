@@ -16,13 +16,6 @@ $lg: 25px;
 $xlg: 30px;
 $xxlg: 45px;
 
-/* GENERAL COLOURS
-=====================*/
-$white: #fff;
-$black: #000;
-$greyMedium: #D3D3D3;
-$greyDark: #343A40;
-
 /* FONTS
 =====================*/
 $regular : '';
@@ -35,12 +28,20 @@ $bold : '';
 
 /* COLORS
 =====================*/
-$purple: #3F0F73;
-$turqoise: #2FD5AD;
-$orange: #F95500;
-$grey: #888;
-$white: #fff;
-$pink: #D82E98;
+$black: rgb(0, 0, 0);
+$blue: rgb(41, 150, 194);
+$green: rgb(0, 128, 0);
+$grey: rgb(135, 135, 135);
+$greyLight: rgba(239, 239, 239, 0.937);
+$greyMedium: rgb(211, 211, 211);
+$greyDark: rgb(52, 58, 64);
+$purple: rgb(63, 15, 115);
+$turqoise: rgb(47, 213, 173);
+$red:rgb(255, 0, 0);
+$orange: rgb(249, 85, 0);
+$orange: rgb(249, 85, 0);
+$white: rgb(255, 255, 255);
+$pink: rgb(216, 46, 152);
 
 /* BREAKPOINTS
 =====================*/

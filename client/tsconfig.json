@@ -23,5 +23,10 @@
 		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
 		"allowEmptyCodegenFiles": true
+	},
+	"paths": {
+		"@bankAccounts": ["src/app/@bank-accounts"],
+		"@contacts": ["src/app/@contacts"],
+		"@journals": ["src/app/@journals"],
 	}
 }

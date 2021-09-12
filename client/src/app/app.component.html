@@ -1,7 +1,6 @@
 <div class="appHeader">
-	<app-header [headerTitle]="appTitle"></app-header>
+	<app-header></app-header>
 </div>
-<div class="appContent">
-	<router-outlet></router-outlet>
-</div>
-<ng2-toasty></ng2-toasty>
+<router-outlet></router-outlet>
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<app-loading></app-loading>

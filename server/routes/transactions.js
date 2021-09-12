@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['transactions']);
+var config = require("../config");
+var db = mongojs(config.database.host, ['transactions']);
 
 var _response = {
     status: '00',

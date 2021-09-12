@@ -1,45 +1,72 @@
 <div class="table-component">
-	<div class="text-center">
-		<pagination [totalItems]="filterBoxOptions.totalRecords" [(ngModel)]="filterBoxOptions.page" (pageChanged)="updatePage($event)" [maxSize]="9" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [itemsPerPage]="filterBoxOptions.pagerRecords"></pagination>
+	<div class="table-component__pager">
+		<div class="table-component__pager--records"> Showing {{botDisplayRecords()}} to {{topDisplayRecords()}} of {{filterBoxOptions.totalRecords}} </div>
+		<div class="table-component__pager--pagination">
+			<span class="table-component__pager--button">
+				<button (click)="handlePage('prev')">
+					<fa-icon [icon]="['fas', 'chevron-left']" [fixedWidth]="true"></fa-icon>
+				</button>
+			</span>
+			<span class="table-component__pager--input"><input type="number" [value]="getCurrentPage()" [(ngModel)]="filterBoxOptions.page" max="{{totalPages}}" (blur)="checkValue($event.target.value)" (change)="checkValue($event.target.value)" /></span>
+			<span class="table-component__pager--label" *ngIf="checkTotalPages()"> / {{totalPages}}</span>
+			<span class="table-component__pager--button">
+				<button (click)="handlePage('next')">
+					<fa-icon [icon]="['fas', 'chevron-right']" [fixedWidth]="true"></fa-icon>
+				</button>
+			</span>
+		</div>
+		<div class="table-component__pager--pages">
+			<span class="table-component__pager--input">
+				<select [(ngModel)]="filterBoxOptions.pagerRecords" class="table-component__pager--select">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+					<option value="50">50</option>
+				</select>
+			</span>
+		</div>
 	</div>
 	<div class="clearfix">&nbsp;</div>
-	<table>
-		<thead>
-			<tr>
+	<table class="table-component__table">
+		<thead class="table-component__table--head">
+			<tr class="table-component__table--head-row">
 				<th *ngFor="let item of tableHead" (click)="changeColumn(item.data)" [attr.width]="item.width">{{item.text}} <fa-icon *ngIf="filterBoxOptions && getActiveColumn(item.data)" class="pull-right" [icon]="['fas', (filterBoxOptions.dir ==='ASC')?'chevron-up':'chevron-down']"></fa-icon>
 				</th>
-				<th style="width: 45px;" *ngIf="showEdit"></th>
-				<th style="width: 45px;" *ngIf="showStatus"></th>
-				<th style="width: 45px;" *ngIf="showDelete"></th>
+				<th style="width: 35px;" *ngIf="showEdit"></th>
+				<th style="width: 35px;" *ngIf="showStatus"></th>
+				<th style="width: 35px;" *ngIf="showDelete"></th>
+				<th style="width: 10px;" *ngIf="checkDuplicates"></th>
 			</tr>
 		</thead>
-		<tbody *ngIf="tableBody">
-			<tr *ngFor="let rows of tableBody">
+		<tbody class="table-component__table--body" *ngIf="tableBody">
+			<tr *ngFor="let rows of tableBody" class="table-component__table--body-row">
 				<td *ngFor="let column of tableHead">{{rows[column.data]}}</td>
 				<td class="table-component__controls" *ngIf="showEdit">
 					<span ng-if="userRoles.edit == 'true'">
-						<a class="btn btn-info btn-sm" routerLink="/{{editModule}}/edit/{{rows._id}}">
-							<fa-icon [icon]="['fas', 'edit']" [fixedWidth]="true"></fa-icon>
+						<a class="table-component__table--body-row-button edit" routerLink="/{{editModule}}/edit/{{rows._id}}">
+							<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
 						</a>
 					</span>
 				</td>
 				<td *ngIf="showStatus">
 					<span ng-if="userRoles.status == 'true'">
-						<a class="btn btn-danger btn-sm" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
-							<fa-icon [icon]="['far', 'square']" [fixedWidth]="true"></fa-icon>
-						</a>
-						<a class="btn btn-success btn-sm" (click)="cancel( rows._id)" *ngIf="rows.canceled == 'false'">
+						<button type="button" class="table-component__table--body-row-button disabled" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
 							<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
-						</a>
+						</button>
+						<button type="button" class="table-component__table--body-row-button enabled" (click)="cancel( rows._id)" *ngIf="rows.canceled == 'false'">
+							<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
+						</button>
 					</span>
 				</td>
 				<td *ngIf="showDelete">
 					<span ng-if="userRoles.delete == 'true'">
-						<a class="btn btn-warning btn-sm" (click)="delete( rows._id )">
-							<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
-						</a>
+						<button type="button" class="table-component__table--body-row-button delete" (click)="delete( rows._id )">
+							<fa-icon [icon]="['fas', 'minus-circle']" [fixedWidth]="true"></fa-icon>
+						</button>
 					</span>
 				</td>
+				<td *ngIf="checkDuplicates"><span class="" [ngClass]="duplicateCheck(rows)"></span></td>
 			</tr>
 		</tbody>
 	</table>

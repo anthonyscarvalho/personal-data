@@ -1,27 +1,20 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { MenuComponent } from './pages/menu/menu.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-
-import { JournalRecordsComponent } from './pages/journal-records/journal-records/journal-records.component';
-import { JournalRecordsViewComponent } from './modules/journal-records/journal-records-view/journal-records-view.component';
+import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-	{ path: 'menu', component: MenuComponent },
-	{ path: 'dashboard', component: DashboardComponent },
-	{
-		path: 'journal-records', children: [
-			{ path: '', component: JournalRecordsViewComponent },
-			{ path: 'add', component: JournalRecordsComponent },
-			{ path: 'edit/:id', component: JournalRecordsComponent }
-		]
-	}
+	{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+	{ path: 'dashboard', loadChildren: () => import('./@dashboard/dashboard.module').then(m => m.dashboardModule), },
+	{ path: 'contacts', loadChildren: () => import('./@contacts/contacts.module').then(m => m.contactsModule), },
+	{ path: 'bank-accounts', loadChildren: () => import('./@bank-accounts/bank-accounts.module').then(m => m.bankAccountsModule), }
 ];
 
+const config: ExtraOptions = {
+	useHash: false,
+	relativeLinkResolution: 'corrected',
+};
+
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
+	imports: [RouterModule.forRoot(routes, config)],
 	exports: [RouterModule]
 })
 export class AppRoutingModule { }

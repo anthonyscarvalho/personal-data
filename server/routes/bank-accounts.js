@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/accounts', ['bankAccounts']);
+var config = require("../config");
+var db = mongojs(config.database.host, ['bankAccounts']);
 
 var _response = {
     status: '00',
@@ -62,27 +63,27 @@ router.post('/bank-accounts/view', function (req, res, next) {
 
 router.post('/bank-accounts/view/dash', function (req, res, next) {
     var body = req.body;
-        var page = ((body.page) ? body.page : 1);
-        var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-        var orderBy = ((body.column) ? body.column : '');
-        var orderDir = ((body.dir === 'ASC') ? 1 : -1);
-        var searchPhrase = ((body.searchPhrase) ? body.searchPhrase : '');
-        var filter = {};
-        var query = {};
-        _errors = [];
+    var page = ((body.page) ? body.page : 1);
+    var records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+    var orderBy = ((body.column) ? body.column : '');
+    var orderDir = ((body.dir === 'ASC') ? 1 : -1);
+    var searchPhrase = ((body.searchPhrase) ? body.searchPhrase : '');
+    var filter = {};
+    var query = {};
+    _errors = [];
 
-        if (searchPhrase != '') {
-            query = {
-                accountDescription: searchPhrase,
-                accountNumber: searchPhrase
-            };
-        }
+    if (searchPhrase != '') {
+        query = {
+            accountDescription: searchPhrase,
+            accountNumber: searchPhrase
+        };
+    }
 
-        if (orderBy) {
-            filter[orderBy] = orderDir;
-        } else {
-            filter = {};
-        }
+    if (orderBy) {
+        filter[orderBy] = orderDir;
+    } else {
+        filter = {};
+    }
 
     db.bankAccounts.count(query, function (err, pCount) {
         if (err) {
@@ -110,7 +111,6 @@ router.post('/bank-accounts/view/dash', function (req, res, next) {
             });
     });
 });
-
 
 router.post('/bank-accounts/edit/:id?', function (req, res, next) {
     if (req.params.id) {

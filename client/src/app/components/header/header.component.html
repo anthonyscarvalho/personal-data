@@ -5,17 +5,17 @@
 			<ul class="header__navigation">
 				<li class="header__navigation--item">
 					<a class="header__navigation--item-link">
-						<fa-icon [icon]="faBell"></fa-icon>
+						<fa-icon [icon]="['fas', 'bell']" [fixedWidth]="true"></fa-icon>
 					</a>
 				</li>
 				<li class="header__navigation--item">
 					<a class="header__navigation--item-link">
-						<fa-icon [icon]="faCog"></fa-icon>
+						<fa-icon [icon]="['fas', 'cog']" [fixedWidth]="true"></fa-icon>
 					</a>
 				</li>
 				<li class="header__navigation--item">
-					<a routerLink="menu" routerLinkActive="header__navigation--item-link-active" class="header__navigation--item-link" [routerLinkActiveOptions]="{exact: true}">
-						<fa-icon [icon]="faBars"></fa-icon>
+					<a class="header__navigation--item-link" [routerLink]="['/log-out']">
+						<fa-icon [icon]="['fas', 'power-off']" [fixedWidth]="true"></fa-icon>
 					</a>
 				</li>
 			</ul>

@@ -71,7 +71,7 @@ export class GeneralService {
 	// Set the date used for due products
 	date: Date = new Date();
 	getDate() {
-		return this.datepipe.transform(this.date, 'yyyy-MM-dd');
+		return this.formatDate(this.date);
 	}
 	setDate(pDate: Date) {
 		this.date = pDate;
@@ -86,8 +86,8 @@ export class GeneralService {
 		if (pColumn === '_id') {
 			this.router.navigate([], { queryParams: { column: null }, relativeTo: this.route, queryParamsHandling: 'merge' });
 		} else {
+			this.router.navigate([], { queryParams: { column: pColumn }, relativeTo: this.route, queryParamsHandling: 'merge' });
 		}
-		this.router.navigate([], { queryParams: { column: pColumn }, relativeTo: this.route, queryParamsHandling: 'merge' });
 		this.column = pColumn;
 	}
 
@@ -225,5 +225,9 @@ export class GeneralService {
 		} else {
 			return 'invalid';
 		}
+	}
+
+	formatDate(pDate) {
+		return this.datepipe.transform(pDate, 'yyyy-MM-dd');
 	}
 }

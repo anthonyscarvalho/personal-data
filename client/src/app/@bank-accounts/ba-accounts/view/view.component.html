@@ -1,0 +1,17 @@
+<div class="page">
+	<div class="page__left">
+		<app-side-menu [menuItems]="megaMenu"></app-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-2">
+					<app-filter-box (updater)="filterUpdater($event)" [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig"></app-filter-box>
+				</div>
+				<div class="col-10">
+					<app-table [tableHead]="tableHead" [tableBody]="tableBody" (updater)="filterUpdater($event)" [editModule]="'bank-accounts/accounts'" [filterBoxOptions]="filterBoxOptions" [showStatus]="true"></app-table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
