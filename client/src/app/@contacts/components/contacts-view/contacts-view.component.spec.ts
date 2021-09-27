@@ -1,0 +1,26 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+
+import { ContactsViewComponent } from './contacts-view.component';
+
+describe('ContactsViewComponent', () => {
+	let component: ContactsViewComponent;
+	let fixture: ComponentFixture<ContactsViewComponent>;
+
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [ContactsViewComponent]
+		})
+			.compileComponents();
+	}));
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(ContactsViewComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
+});

@@ -1,0 +1,19 @@
+<div class="page">
+	<div class="page__left">
+		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="container-fluid">
+			<p>dash</p>
+			<div>
+				<div class="card text-center" style="width: 200px;">
+					<div class="card-body"> Total Budget:<br>{{totalBudget| currency:'R '}} </div>
+				</div>
+			</div>
+			<div class="clearfix">&nbsp;</div>
+			<div class="row">
+				<div class="col-md-3" *ngFor="let column of resultRecord">{{column|json}}</div>
+			</div>
+		</div>
+	</div>
+</div>

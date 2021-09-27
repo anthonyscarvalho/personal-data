@@ -15,21 +15,23 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastyModule } from 'ng2-toasty';
 
 // Components
-import { ErrorsComponent } from './errors/errors.component';
-import { FilterBoxComponent } from './filter-box/filter-box.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { SubMenuComponent } from './sub-menu/sub-menu.component';
-import { TableComponent } from './table/table.component';
-import { SideMenuComponent } from './side-menu/side-menu.component';
-import { LoadingComponent } from './loading/loading.component';
-import { InputsComponent } from './inputs/inputs.component';
+import { ErrorsComponent } from './components/errors/errors.component';
+import { FilterBoxComponent } from './components/filter-box/filter-box.component';
+import { GlobalViewComponent } from './components/global-view/global-view.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SubMenuComponent } from './components/sub-menu/sub-menu.component';
+import { TableComponent } from './components/table/table.component';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { InputsComponent } from './components/inputs/inputs.component';
 
 @NgModule({
 	declarations: [
 		ErrorsComponent,
 		FilterBoxComponent,
 		FooterComponent,
+		GlobalViewComponent,
 		HeaderComponent,
 		InputsComponent,
 		LoadingComponent,
@@ -55,6 +57,7 @@ import { InputsComponent } from './inputs/inputs.component';
 		ErrorsComponent,
 		FilterBoxComponent,
 		FooterComponent,
+		GlobalViewComponent,
 		HeaderComponent,
 		InputsComponent,
 		LoadingComponent,

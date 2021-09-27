@@ -8,7 +8,7 @@ import { JournalRoutingModule } from './journal.routing';
 import { CommonComponentsModule } from '@common/common.module';
 
 // Components
-import { JournalViewComponent } from './journal-view/journal-view.component';
+import { JournalViewComponent } from './components/journal-view/journal-view.component';
 
 @NgModule({
 	declarations: [

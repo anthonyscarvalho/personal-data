@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ContactsRoutingModule } from './contacts.routing';
 import { CommonComponentsModule } from '@common/common.module';
 // Views
-import { ContactsViewComponent } from './contacts-view/contacts-view.component';
-import { ContactsEditComponent } from './contacts-edit/contacts-edit.component';
+import { ContactsViewComponent } from './components/contacts-view/contacts-view.component';
+import { ContactsEditComponent } from './components/contacts-edit/contacts-edit.component';
 
 @NgModule({
 	declarations: [

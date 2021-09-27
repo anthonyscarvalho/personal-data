@@ -1,0 +1,70 @@
+@import 'config.scss';
+
+.side-menu {
+
+	&__legend {
+		text-align: center;
+		font-size: 9pt;
+		padding: 5px;
+		background-color: $greyDark;
+		color: $white;
+	}
+
+	&__main {
+		margin: 0;
+		padding: 0;
+
+		&--list {
+			background-color: $greyMedium;
+			color: $greyDark;
+		}
+
+		&--active {
+			background-color: $orange !important;
+			color: $white !important;
+		}
+	}
+
+	&__show {
+		display: block !important;
+	}
+
+	&__hide {
+		display: none !important;
+	}
+
+	&__second {
+		padding: 0;
+		margin: 0;
+
+		&--list {
+			margin: 0;
+			padding-left: 20px;
+			background-color: $greyLight;
+			color: $greyDark;
+		}
+
+		&--active {
+			background-color: $grey !important;
+			color: $white !important;
+		}
+	}
+
+	& a {
+		display: block;
+		padding: 5px;
+		font-size: 10pt;
+		color: unset;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: none;
+			background-color: $greyDark;
+			color: $white;
+		}
+	}
+
+	& ul {
+		list-style-type: none;
+	}
+}

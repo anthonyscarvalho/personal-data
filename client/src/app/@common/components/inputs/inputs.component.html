@@ -1,0 +1,28 @@
+<div class="inputs" [ngClass]="getClass()">
+	<span class="inputs__label" *ngIf="showLabel">{{inputLabel}}</span>
+	<ng-container [ngSwitch]="inputType">
+		<!-- checkbox -->
+		<div class="inputs__checkboxWrapper" *ngSwitchCase="'checkbox'">
+			<input type="checkbox" [attr.checked]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__checkbox" (blur)="pushChanges($event.target.value)">
+		</div>
+		<!-- text input -->
+		<input type="text" [value]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__text" (blur)="pushChanges($event.target.value)" *ngSwitchCase="'text'">
+		<!-- date picker -->
+		<ng-container *ngSwitchCase="'date'">
+			<input type="text" class="inputs__common inputs__date" [(ngModel)]="inputValue" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" (bsValueChange)="pushDateChanges($event)" *ngIf="inputValue">
+			<input type="text" class="inputs__common inputs__date" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" (bsValueChange)="pushDateChanges($event)" *ngIf="!inputValue">
+		</ng-container>
+		<!-- select -->
+		<ng-container *ngSwitchCase="'select'">
+			<select class="inputs__common inputs__select" name="{{inputLabel}}" *ngIf="selectOptions" (change)="pushChanges($event.target.value)">
+				<option *ngFor="let _option of selectOptions" [value]="_option.value" [selected]="inputValue == _option.value">{{_option.label}}</option>
+			</select>
+		</ng-container>
+		<!-- text area -->
+		<textarea [value]="inputValue" name="{{inputLabel}}" (blur)="pushChanges($event.target.value)" class="inputs__common inputs__textArea" rows="4" *ngSwitchCase="'textArea'"></textarea>
+		<!-- file selector -->
+		<label class="inputs__file" *ngSwitchCase="'files'"> Select {{selectMultiple === true ? 'files' : 'file'}} <input type="file" style="display: none;" [attr.multiple]="selectMultiple ? 'multiple' : null" (change)="pushChanges($event.target.files)"></label>
+	</ng-container>
+	<!-- error -->
+	<acc-errors [element]="inputValue" *ngIf="submitted"></acc-errors>
+</div>

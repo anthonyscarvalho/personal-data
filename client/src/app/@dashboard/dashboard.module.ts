@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { CommonComponentsModule } from '@common/common.module';
 // Views
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
 	declarations: [

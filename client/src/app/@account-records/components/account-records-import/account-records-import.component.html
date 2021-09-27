@@ -1,0 +1,87 @@
+<div class="page">
+	<div class="page__left">
+		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<form name="bankAccountsRecordsForm" id="bankAccountsRecordsForm" (ngSubmit)="submit()">
+						<div class="row">
+							<div class="col-md-2">
+								<acc-inputs [inputValue]="account" (updater)="updateAccount($event)" [inputType]="'select'" [submitted]="submitted" [inputLabel]="accounts.label" [selectOptions]="accounts.options"></acc-inputs>
+								<div class="form-group">
+									<acc-inputs (updater)="processRecords($event)" [inputType]="'files'" [selectMultiple]="true" [showLabel]="false"></acc-inputs>
+									<div class="AccountRecordsImport__Button">
+										<button class="btn btn-info" type="button" id="inputGroupFileAddon04" (click)="uploadRecords()">Upload</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="card">
+									<div class="card-body text-center"> Total: <br>{{totalCount}} </div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="card">
+									<div class="card-body text-center"> Recorded: <br>{{addedRecords}} </div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="card">
+									<div class="card-body text-center"> Existing: <br>{{existingRecords}} </div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="card">
+									<div class="card-body text-center"> Error: <br>{{errorRecords}} </div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="card">
+									<div class="card-body text-center"> Duplicate: <br>{{duplicateRecords}} </div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-12">
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th style="width: 130px;">Order</th>
+								<th style="width: 130px;">Statement ID</th>
+								<th style="width: 110px;">Date 1</th>
+								<th style="width: 110px;">Date 2</th>
+								<th>Description</th>
+								<th style="width: 110px;">Credit</th>
+								<th style="width: 110px;">Debit</th>
+								<th style="width: 160px;">Balance</th>
+								<th style="width: 40px;"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of accountRecords | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage">
+								<td>{{item.order}}</td>
+								<td>{{item.statementId}}</td>
+								<td>{{item.date1}}</td>
+								<td>{{item.date2}}</td>
+								<td>{{item.description}}</td>
+								<td>{{item.credit | currency:'R '}}</td>
+								<td>{{item.debit | currency:'R '}}</td>
+								<td>{{item.balance | currency:'R '}}</td>
+								<td>
+									<span class="badge badge-warning" *ngIf="item.processed == 'false'">&nbsp;</span>
+									<span class="badge badge-success" *ngIf="item.processed == 'true'">&nbsp;</span>
+									<span class="badge badge-info" *ngIf="item.processed == 'exists'">&nbsp;</span>
+									<span class="badge badge-danger" *ngIf="item.processed == 'error'">&nbsp;</span>
+									<span class="badge badge-primary" *ngIf="item.processed == 'duplicated'">&nbsp;</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

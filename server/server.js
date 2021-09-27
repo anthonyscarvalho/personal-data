@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 //Models
 require('./api/models/m-bank-accounts');
 require('./api/models/m-bank-accounts-records');
+require('./api/models/m-budget');
 require('./api/models/m-contacts');
 require('./api/models/m-journals');
 require('./api/models/m-journal-records');
@@ -79,9 +80,11 @@ app.use(bodyParser({
 var bankAccountsRoute = require('./api/routes/bank-accounts');
 var contactsRoute = require('./api/routes/contacts');
 var bankAccountRecordsRoute = require('./api/routes/bank-accounts-records');
+var budgetRoute = require('./api/routes/budget');
 var journalsRoute = require('./api/routes/journals');
 var journalRecordsRoute = require('./api/routes/journal-records');
 bankAccountsRoute(app);
+budgetRoute(app);
 contactsRoute(app);
 bankAccountRecordsRoute(app);
 journalsRoute(app);

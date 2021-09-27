@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 // Global Components
-import { GlobalViewComponent } from '@shared/global-view/global-view.component';
+import { GlobalViewComponent } from '@common/components';
 
 // Components
-import { BankAccountsDashComponent } from './bank-accounts-dash/bank-accounts-dash.component';
-import { BankAccountsEditComponent } from './bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsDashComponent } from './components/bank-accounts-dash/bank-accounts-dash.component';
+import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-accounts-edit.component';
 
 const megaMenu = {
 	label: `Management`,

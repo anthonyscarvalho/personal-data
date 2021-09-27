@@ -6,9 +6,9 @@ import { BarAddModalViewComponent } from '../bar-add-modal/bar-add-modal.compone
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 // service
-import { GeneralService, HttpService, NotificationsService } from '@shared/services';
+import { GeneralService, HttpService, NotificationsService } from '@common/services';
 // interfaces
-import { IFilterBoxConfig, IFilterBoxOptions, IBankAccount } from '@shared/interfaces';
+import { IFilterBoxConfig, IFilterBoxOptions, IBankAccount } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-bar-view-account',

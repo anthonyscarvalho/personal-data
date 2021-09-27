@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 // services
-import { GeneralService, HttpService, NotificationsService } from '@shared/services';
+import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 // interfaces
-import { IDashboardBankAccounts } from '@shared/interfaces';
+import { IDashboardBankAccounts } from '@common/interfaces';
 @Component({
 	selector: 'acc-bank-accounts-dash-block',
 	templateUrl: './bank-accounts-dash-block.component.html',

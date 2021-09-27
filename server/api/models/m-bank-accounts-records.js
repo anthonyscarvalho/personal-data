@@ -41,7 +41,10 @@ var BankAccountRecordSchema = new Schema({
 	},
 	processed: {
 		type: Boolean
-	}
+	},
+	originalRecord: {
+		type: String
+	},
 });
 
 module.exports = mongoose.model('bankAccountRecord', BankAccountRecordSchema, 'bankAccountRecords');

@@ -2,11 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { stringify } from 'querystring';
 // interfaces
-import { IAccountRecord } from '@shared/interfaces';
+import { IAccountRecord } from '@accountRecords/interfaces';
 // services
-import { GeneralService, HttpService, NotificationsService } from '@shared/services';
+import { GeneralService, HttpService, NotificationsService } from '@common/services';
 @Component({
 	selector: 'acc-bar-add-modal',
 	templateUrl: './bar-add-modal.component.html',

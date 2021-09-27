@@ -8,8 +8,8 @@ import { CommonComponentsModule } from '@common/common.module';
 // Components
 import { BankAccountsDashBlockComponent } from './_components/bank-accounts-dash-block/bank-accounts-dash-block.component';
 // Views
-import { BankAccountsDashComponent } from './bank-accounts-dash/bank-accounts-dash.component';
-import { BankAccountsEditComponent } from './bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsDashComponent } from './components/bank-accounts-dash/bank-accounts-dash.component';
+import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-accounts-edit.component';
 
 @NgModule({
 	declarations: [

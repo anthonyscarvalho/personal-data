@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 // Components
-import { ContactsViewComponent } from './contacts-view/contacts-view.component';
-import { ContactsEditComponent } from './contacts-edit/contacts-edit.component';
+import { ContactsViewComponent } from './components/contacts-view/contacts-view.component';
+import { ContactsEditComponent } from './components/contacts-edit/contacts-edit.component';
 
 const megaMenu = {
 	label: `Management`,

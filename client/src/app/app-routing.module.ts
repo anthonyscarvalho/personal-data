@@ -7,6 +7,8 @@ const routes: Routes = [
 	{ path: '', loadChildren: () => import('./@contacts/contacts.module').then(m => m.ContactsModule), },
 	{ path: '', loadChildren: () => import('./@account-records/account-records.module').then(m => m.AccountRecordsModule), },
 	{ path: '', loadChildren: () => import('./@bank-accounts/bank-accounts.module').then(m => m.BankAccountsModule), },
+	{ path: '', loadChildren: () => import('./@budget/budget.module').then(m => m.BudgetModule), },
+	{ path: '', loadChildren: () => import('./@journal-records/journal-records.module').then(m => m.JournalRecordsModule), },
 ];
 
 const config: ExtraOptions = {

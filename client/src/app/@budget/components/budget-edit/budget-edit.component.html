@@ -1,0 +1,148 @@
+<div class="page">
+	<div class="page__left">
+		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="BankAccountsEdit">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-7 col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+									<div class="row">
+										<div class="col-md-6 col-sm-12" *ngIf="add == false">
+											<acc-inputs [inputValue]="resultRecord._id" (updater)="updateValue($event, '_id')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'ID'"></acc-inputs>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.description" (updater)="updateValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.budget" (updater)="updateValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
+										</div>
+										<div class="col-md-4 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.actual" (updater)="updateValue($event, 'actual')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Actual'"></acc-inputs>
+										</div>
+										<div class="col-md-4 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.difference" (updater)="updateValue($event, 'difference')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Difference'"></acc-inputs>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.essential" (updater)="updateValue($event, 'essential')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Essential'"></acc-inputs>
+										</div>
+										<div class="col-md-3 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.created" (updater)="updateValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+										</div>
+										<div class="col-md-3 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.category" (updater)="updateValue($event, 'category')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="categories.label" [selectOptions]="categories.options"></acc-inputs>
+										</div>
+										<div class="col-md-3 col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.status" (updater)="updateValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<acc-inputs [inputValue]="resultRecord.keywords" (updater)="updateValue($event, 'keywords')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Keywords'"></acc-inputs>
+										</div>
+									</div>
+								</form>
+								<div class="text-center">
+									<div class="row">
+										<div class="col-md-4">
+											<a class="btn btn-secondary" [routerLink]="['/budget','view']">
+												<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
+											</a>
+										</div>
+										<div class="col-md-4">
+											<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+												<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+											</button>
+											<span class="btn btn-info" *ngIf="submitted">
+												<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<legend>Breakdown - <button class="btn btn-sm btn-primary" (click)="breakdownAdd = !breakdownAdd">
+										<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true" *ngIf="!breakdownAdd"></fa-icon>
+										<fa-icon [icon]="['fas', 'minus']" [fixedWidth]="true" *ngIf="breakdownAdd"></fa-icon>
+									</button>
+								</legend>
+								<ng-container *ngIf="breakdownAdd; else viewBreakdown">
+									<form name="recordBreakdownAdd" id="recordBreakdownAdd">
+										<div class="row">
+											<div class="col-md-12">
+												<acc-inputs [inputValue]="recordBreakdown.description" (updater)="updateBreakdownValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<acc-inputs [inputValue]="recordBreakdown.budget" (updater)="updateBreakdownValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<acc-inputs [inputValue]="recordBreakdown.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<acc-inputs [inputValue]="recordBreakdown.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<button type="button" class="btn btn-success" (click)="addBreakdown()" *ngIf="!submitted">
+													<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+												</button>
+											</div>
+										</div>
+									</form>
+								</ng-container>
+								<ng-template #viewBreakdown>
+									<table class="table table-sm">
+										<colgroup>
+											<col>
+											<col style="width: 100px;">
+											<col style="width: 100px;">
+											<col style="width: 100px;">
+											<col style="width: 60px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>Description</th>
+												<th>Budget</th>
+												<th>Created</th>
+												<th>Status</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody *ngIf="resultRecord.breakdown">
+											<tr *ngFor="let row of resultRecord.breakdown; let i = index;">
+												<td>{{row.description}}</td>
+												<td>{{row.budget | currency: 'R '}}</td>
+												<td>{{row.created}}</td>
+												<td>{{row.status}}</td>
+												<td>
+													<button class="btn btn-sm btn__color-info" (click)="editBreakdown(i)">
+														<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+													</button>
+													<button class="btn btn-sm btn__color-danger" (click)="removeBreakdown(i)">
+														<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</ng-template>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

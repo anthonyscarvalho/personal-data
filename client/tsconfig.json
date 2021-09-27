@@ -1,35 +1,39 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-		"baseUrl": "./",
 		"outDir": "./dist/out-tsc",
-		"sourceMap": true,
+		"sourceMap": false,
 		"declaration": false,
 		"downlevelIteration": true,
 		"experimentalDecorators": true,
+		"allowJs": true,
 		"module": "esnext",
 		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"importHelpers": true,
-		"target": "es2015",
-		"typeRoots": [
-			"node_modules/@types"
-		],
-		"lib": [
-			"es2018",
-			"dom"
-		],
+		"target": "es6",
+		"typeRoots": ["node_modules/@types"],
+		"lib": ["es2018", "dom"],
+		"baseUrl": ".",
 		"paths": {
-			"@accountRecords": ["src/app/@account-records/*"],
-			"@bankAccounts": ["src/app/@bank-accounts/*"],
+			"@accountRecords/*": ["src/app/@account-records/*"],
+			"@bankAccounts/*": ["src/app/@bank-accounts/*"],
+			"@budget/*": ["src/app/@budget/*"],
 			"@common/*": ["src/app/@common/*"],
 			"@contacts/*": ["src/app/@contacts/*"],
-			"@journals/*": ["src/app/@journals/*"],
-			"@shared/*": ["src/app/@shared/*"],
+			"@journal/*": ["src/app/@journal/*"],
+			"@journalRecords/*": ["src/app/@journal-records/*"],
 		}
 	},
 	"angularCompilerOptions": {
 		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
 		"allowEmptyCodegenFiles": true
-	}
+	},
+	"target": "es6",
+	"files": [
+		"./src/app/index.ts"
+	]
 }
