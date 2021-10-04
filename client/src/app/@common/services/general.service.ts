@@ -11,7 +11,7 @@ export class GeneralService {
 	constructor(
 		private router: Router,
 		private route: ActivatedRoute,
-		private datepipe: DatePipe
+		private _datePipe: DatePipe
 	) {
 		this.route.queryParams.subscribe(params => {
 			this.state = ((params.state) ? params.state : 'false');
@@ -227,7 +227,7 @@ export class GeneralService {
 		}
 	}
 
-	formatDate(pDate) {
-		return this.datepipe.transform(pDate, 'yyyy-MM-dd');
+	formatDate(pDate, pFormat: string = 'yyyy-MM-dd') {
+		return this._datePipe.transform(pDate, pFormat);
 	}
 }

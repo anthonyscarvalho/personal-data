@@ -13,6 +13,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastyModule } from 'ng2-toasty';
+import { ChartsModule } from 'ng2-charts';
 
 // Components
 import { ErrorsComponent } from './components/errors/errors.component';
@@ -47,6 +48,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
 		// 3rd party scripts
 		BsDatepickerModule.forRoot(),
 		ButtonsModule.forRoot(),
+		ChartsModule,
 		FontAwesomeModule,
 		ModalModule.forRoot(),
 		PaginationModule.forRoot(),
@@ -67,6 +69,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
 		// 3rd party scripts
 		BsDatepickerModule,
 		ButtonsModule,
+		ChartsModule,
 		FontAwesomeModule,
 		ModalModule,
 		PaginationModule,

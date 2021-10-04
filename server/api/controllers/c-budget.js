@@ -72,7 +72,6 @@ exports.view_dash = function (req, res) {
 	let query = {
 		canceled: 'false'
 	};
-	console.log('test');
 
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {

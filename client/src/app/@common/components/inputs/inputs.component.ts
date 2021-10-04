@@ -27,6 +27,15 @@ export class InputsComponent implements OnInit {
 		clearPosition: `right`
 	};
 
+	bsConfigYear = {
+		dateInputFormat: `YYYY`,
+		containerClass: `theme-dark-blue`,
+		showClearButton: true,
+		clearPosition: `right`,
+		startView: `year`,
+		minMode: `year`
+	};
+
 	constructor() {
 		this.bsConfig.containerClass = `theme-dark-blue`;
 		this.bsConfig.dateInputFormat = `YYYY-MM-DD`; // Or format like you want
@@ -46,7 +55,17 @@ export class InputsComponent implements OnInit {
 	}
 
 	pushChanges(pData) {
-		this._updater.emit(pData);
+		let result;
+		switch (this.inputType) {
+			case `checkbox`:
+				const element = pData as HTMLInputElement;
+				result = (element.checked) ? true : false;
+				break;
+			default:
+				result = pData
+				break;
+		}
+		this._updater.emit(result);
 	}
 
 	pushDateChanges(pData) {

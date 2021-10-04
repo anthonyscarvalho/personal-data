@@ -21,6 +21,10 @@ export const budgets = [
 	}, {
 		text: `Status`,
 		data: `status`,
-		width: `100px`
+		width: `70px`
+	}, {
+		text: `Essential`,
+		data: `essential`,
+		width: `70px`
 	}
 ];
