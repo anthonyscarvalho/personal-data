@@ -2,6 +2,7 @@
 'use strict';
 var mongoose = require('mongoose');
 // mongodb models
+require('../models/m-budget');
 var databaseModel = mongoose.model('budget');
 // utile
 var Utils = require('../utils/utils.js');

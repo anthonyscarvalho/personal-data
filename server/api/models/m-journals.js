@@ -2,22 +2,25 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var JournalSchema = new Schema({
-	accountName: {
-		type: String
-	},
-	accountNumber: {
-		type: String
-	},
-	status: {
-		type: String
-	},
-	canceled: {
-		type: String
-	},
-	canceledDate: {
-		type: Date
-	},
-});
+var modelName = 'journal';
+var tableName = 'journals';
 
-module.exports = mongoose.model('journals', JournalSchema, 'journals');
+module.exports = mongoose.model(modelName,
+	new Schema({
+		accountName: {
+			type: String
+		},
+		accountNumber: {
+			type: String
+		},
+		status: {
+			type: String
+		},
+		canceled: {
+			type: String
+		},
+		canceledDate: {
+			type: Date
+		},
+	}),
+	tableName);

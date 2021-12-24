@@ -7,7 +7,7 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 // interfaces
 import { IFilterBoxConfig, IFilterBoxOptions, IBankAccount } from '@common/interfaces';
 // constants
-import { bankAccounts, budgets } from '@common/constants';
+import { bankAccounts, budgets, clients } from '@common/constants';
 
 @Component({
 	selector: 'acc-global-view',
@@ -48,6 +48,10 @@ export class GlobalViewComponent implements OnInit {
 			case `budget`:
 				this.tableHead = budgets;
 				this.apiUrl = `budget/view`;
+				break;
+			case `clients`:
+				this.tableHead = clients;
+				this.apiUrl = `clients/view`;
 				break;
 		}
 		this.filterBoxOptions = new IFilterBoxOptions();

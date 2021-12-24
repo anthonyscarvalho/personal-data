@@ -2,7 +2,8 @@
 'use strict';
 var mongoose = require('mongoose');
 // mongodb models
-var databaseModel = mongoose.model('journals');
+require('../models/m-journalRecords');
+var databaseModel = mongoose.model('journal');
 // utile
 var Utils = require('../utils/utils.js');
 

@@ -1,0 +1,155 @@
+<div class="page">
+	<div class="page__left">
+		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="BankAccountsEdit">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-7 col-sm-12">
+						<div class="card">
+							<div class="card-body" *ngIf="resultRecord">
+								<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+									<div class="row">
+										<div class="col-md-8">
+											<div class="row">
+												<div class="col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.business" (updater)="updateValue($event, 'business')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Business'"></acc-inputs>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.vat" (updater)="updateValue($event, 'vat')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'VAT'"></acc-inputs>
+												</div>
+												<div class="col-md-4 col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.number" (updater)="updateValue($event, 'number')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Number'"></acc-inputs>
+												</div>
+												<div class="col-md-4 col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.fax" (updater)="updateValue($event, 'fax')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Fax'"></acc-inputs>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.signupDate" (updater)="updateValue($event, 'signupDate')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Sign Up Date'"></acc-inputs>
+												</div>
+												<div class="col-md-4 col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.registration" (updater)="updateValue($event, 'registration')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Registration'"></acc-inputs>
+												</div>
+												<div class="col-md-4 col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.badClient" (updater)="updateValue($event, 'badClient')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Bad Client'"></acc-inputs>
+												</div>
+												<div class="col-sm-12">
+													<acc-inputs [inputValue]="resultRecord.notes" (updater)="updateValue($event, 'notes')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Notes'"></acc-inputs>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<acc-inputs [inputValue]="resultRecord.billingAddress" (updater)="updateValue($event, 'billingAddress')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Billing Address'"></acc-inputs>
+											</div>
+											<div class="form-group">
+												<acc-inputs [inputValue]="resultRecord.city" (updater)="updateValue($event, 'city')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'City'"></acc-inputs>
+											</div>
+											<div class="form-group">
+												<acc-inputs [inputValue]="resultRecord.postalCode" (updater)="updateValue($event, 'postalCode')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Postal Code'"></acc-inputs>
+											</div>
+										</div>
+									</div>
+								</form>
+								<div class="text-center">
+									<div class="row">
+										<div class="col-md-4">
+											<a class="btn btn-secondary" [routerLink]="['/clients','view']">
+												<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
+											</a>
+										</div>
+										<div class="col-md-4">
+											<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+												<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+											</button>
+											<span class="btn btn-info" *ngIf="submitted">
+												<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 col-sm-12" *ngIf="!add">
+						<div class="card">
+							<div class="card-body">
+								<legend>Products - <button class="btn btn-sm btn-primary" (click)="productAdd = !productAdd">
+										<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true" *ngIf="!productAdd"></fa-icon>
+										<fa-icon [icon]="['fas', 'minus']" [fixedWidth]="true" *ngIf="productAdd"></fa-icon>
+									</button>
+								</legend>
+								<ng-container *ngIf="productAdd; else clientProducts">
+									<form name="clientProducts" id="clientProducts">
+										<div class="row">
+											<div class="col-md-12">
+												<acc-inputs [inputValue]="recordProducts.description" (updater)="updateBreakdownValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<acc-inputs [inputValue]="recordProducts.budget" (updater)="updateBreakdownValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<acc-inputs [inputValue]="recordProducts.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<acc-inputs [inputValue]="recordProducts.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<button type="button" class="btn btn-success" (click)="addClientProduct()" *ngIf="!submitted">
+													<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+												</button>
+											</div>
+										</div>
+									</form>
+								</ng-container>
+								<ng-template #clientProducts>
+									<table class="table table-sm">
+										<colgroup>
+											<col>
+											<col style="width: 100px;">
+											<col style="width: 100px;">
+											<col style="width: 100px;">
+											<col style="width: 60px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>Description</th>
+												<th>Budget</th>
+												<th>Created</th>
+												<th>Status</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody *ngIf="resultRecord.products">
+											<tr *ngFor="let row of resultRecord.products; let i = index;">
+												<td>{{row.description}}</td>
+												<td>{{row.budget | currency: 'R '}}</td>
+												<td>{{row.created}}</td>
+												<td>{{row.status}}</td>
+												<td>
+													<button class="btn btn-sm btn__color-info" (click)="editClientProduct(i)">
+														<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+													</button>
+													<button class="btn btn-sm btn__color-danger" (click)="removeClientProduct(i)">
+														<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</ng-template>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

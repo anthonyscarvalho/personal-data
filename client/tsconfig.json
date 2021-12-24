@@ -21,6 +21,7 @@
 			"@accountRecords/*": ["src/app/@account-records/*"],
 			"@bankAccounts/*": ["src/app/@bank-accounts/*"],
 			"@budget/*": ["src/app/@budget/*"],
+			"@clients/*": ["src/app/@clients/*"],
 			"@common/*": ["src/app/@common/*"],
 			"@contacts/*": ["src/app/@contacts/*"],
 			"@journal/*": ["src/app/@journal/*"],
