@@ -15,6 +15,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastyModule } from 'ng2-toasty';
 import { ChartsModule } from 'ng2-charts';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 // Components
 import { ErrorsComponent } from './components/errors/errors.component';
@@ -27,19 +28,24 @@ import { TableComponent } from './components/table/table.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { InputsComponent } from './components/inputs/inputs.component';
+import { TablePaginationComponent } from './components/table-pagination/table-pagination.component';
+
+const allComponents = [ErrorsComponent,
+	FilterBoxComponent,
+	FooterComponent,
+	GlobalViewComponent,
+	HeaderComponent,
+	InputsComponent,
+	LoadingComponent,
+	SideMenuComponent,
+	SubMenuComponent,
+	TableComponent,
+	TablePaginationComponent,
+];
 
 @NgModule({
 	declarations: [
-		ErrorsComponent,
-		FilterBoxComponent,
-		FooterComponent,
-		GlobalViewComponent,
-		HeaderComponent,
-		InputsComponent,
-		LoadingComponent,
-		SideMenuComponent,
-		SubMenuComponent,
-		TableComponent,
+		...allComponents,
 	],
 	imports: [
 		CommonModule,
@@ -50,6 +56,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
 		BsDatepickerModule.forRoot(),
 		ButtonsModule.forRoot(),
 		ChartsModule,
+		CKEditorModule,
 		FontAwesomeModule,
 		ModalModule.forRoot(),
 		PaginationModule.forRoot(),
@@ -57,16 +64,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
 		ToastyModule.forRoot(),
 	],
 	exports: [
-		ErrorsComponent,
-		FilterBoxComponent,
-		FooterComponent,
-		GlobalViewComponent,
-		HeaderComponent,
-		InputsComponent,
-		LoadingComponent,
-		SideMenuComponent,
-		SubMenuComponent,
-		TableComponent,
+		...allComponents,
 		// 3rd party scripts
 		BsDatepickerModule,
 		ButtonsModule,
@@ -83,8 +81,8 @@ import { InputsComponent } from './components/inputs/inputs.component';
 	}]
 })
 export class CommonComponentsModule {
-	constructor(library: FaIconLibrary) {
-		library.addIconPacks(fas, far);
+	constructor(iconLibrary: FaIconLibrary) {
+		iconLibrary.addIconPacks(fas, far);
 	}
 }
 

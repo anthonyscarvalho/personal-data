@@ -34,6 +34,9 @@ module.exports = mongoose.model(modelName,
 		access: {
 			type: String
 		},
+		created: {
+			type: Date
+		},
 		canceled: {
 			type: String
 		},

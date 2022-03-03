@@ -10,6 +10,7 @@ import { BankAccountsDashBlockComponent } from './_components/bank-accounts-dash
 // Views
 import { BankAccountsDashComponent } from './components/bank-accounts-dash/bank-accounts-dash.component';
 import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsViewComponent } from './components/bank-accounts-view/bank-accounts-view.component';
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-
 		BankAccountsDashBlockComponent,
 		BankAccountsDashComponent,
 		BankAccountsEditComponent,
+		BankAccountsViewComponent,
 	],
 	imports: [
 		CommonModule,

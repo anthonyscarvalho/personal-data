@@ -4,59 +4,37 @@
 	</div>
 	<div class="page__container">
 		<div class="BankAccountsEdit">
-			<div class="container-fluid">
+			<div class="container">
 				<div class="row">
-					<div class="col-md-7 col-sm-12">
+					<div class="col-md-6 col-sm-12">
 						<div class="card">
 							<div class="card-body">
 								<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+									<acc-inputs [inputValue]="resultRecord._id" (updater)="updateValue($event, '_id')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'ID'"></acc-inputs>
+									<acc-inputs [inputValue]="resultRecord.description" (updater)="updateValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
+									<acc-inputs [inputValue]="resultRecord.budget" (updater)="updateValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
+									<acc-inputs [inputValue]="resultRecord.actual" (updater)="updateValue($event, 'actual')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Actual'"></acc-inputs>
+									<acc-inputs [inputValue]="resultRecord.difference" (updater)="updateValue($event, 'difference')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Difference'"></acc-inputs>
 									<div class="row">
-										<div class="col-md-6 col-sm-12" *ngIf="add == false">
-											<acc-inputs [inputValue]="resultRecord._id" (updater)="updateValue($event, '_id')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'ID'"></acc-inputs>
-										</div>
 										<div class="col-md-6 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.description" (updater)="updateValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-4 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.budget" (updater)="updateValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
-										</div>
-										<div class="col-md-4 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.actual" (updater)="updateValue($event, 'actual')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Actual'"></acc-inputs>
-										</div>
-										<div class="col-md-4 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.difference" (updater)="updateValue($event, 'difference')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Difference'"></acc-inputs>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-3 col-sm-12">
 											<acc-inputs [inputValue]="resultRecord.essential" (updater)="updateValue($event, 'essential')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Essential'"></acc-inputs>
 										</div>
-										<div class="col-md-3 col-sm-12">
+										<div class="col-md-6 col-sm-12">
 											<acc-inputs [inputValue]="resultRecord.created" (updater)="updateValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
 										</div>
-										<div class="col-md-3 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.category" (updater)="updateValue($event, 'category')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="categories.label" [selectOptions]="categories.options"></acc-inputs>
-										</div>
-										<div class="col-md-3 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.status" (updater)="updateValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
-										</div>
 									</div>
-									<div class="row">
-										<div class="col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.keywords" (updater)="updateValue($event, 'keywords')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Keywords'"></acc-inputs>
-										</div>
-									</div>
+									<acc-inputs [inputValue]="resultRecord.category" (updater)="updateValue($event, 'category')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="categories.label" [selectOptions]="categories.options"></acc-inputs>
+									<acc-inputs [inputValue]="resultRecord.status" (updater)="updateValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+									<acc-inputs [inputValue]="resultRecord.keywords" (updater)="updateValue($event, 'keywords')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Keywords'"></acc-inputs>
 								</form>
 								<div class="text-center">
 									<div class="row">
-										<div class="col-md-4">
+										<div class="col-md-6">
 											<a class="btn btn-secondary" [routerLink]="['/budget','view']">
 												<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
 											</a>
 										</div>
-										<div class="col-md-4">
+										<div class="col-md-6">
 											<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
 												<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
 											</button>
@@ -69,7 +47,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5 col-sm-12">
+					<div class="col-md-6 col-sm-12">
 						<div class="card">
 							<div class="card-body">
 								<legend>Breakdown - <button class="btn btn-sm btn-primary" (click)="breakdownAdd = !breakdownAdd">
@@ -108,7 +86,7 @@
 											<col>
 											<col style="width: 100px;">
 											<col style="width: 100px;">
-											<col style="width: 100px;">
+											<col style="width: 60px;">
 											<col style="width: 60px;">
 										</colgroup>
 										<thead>

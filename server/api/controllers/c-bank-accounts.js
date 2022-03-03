@@ -12,10 +12,8 @@ exports.view_filtered = function (req, res) {
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
 	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-	let orderBy = ((body.column) ? body.column : `1`);
 	let orderDir = ((body.dir === `ASC`) ? 1 : -1);
 	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
-	let filter = {};
 	let query = {};
 	if (searchPhrase !== `1` && searchPhrase !== ``) {
 		query = {
@@ -37,12 +35,6 @@ exports.view_filtered = function (req, res) {
 		query["canceled"] = body.state;
 	}
 
-	if (orderBy) {
-		filter[orderBy] = orderDir;
-	} else {
-		filter = {};
-	}
-
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
 			Utils.returnError(`Can't count`, res);
@@ -50,7 +42,9 @@ exports.view_filtered = function (req, res) {
 
 		_response.totalRecords = pCount;
 		databaseModel.find(query)
-			.sort(filter)
+			.sort({
+				accountDescription: orderDir
+			})
 			.skip(((page * records) - records))
 			.limit(records)
 			.exec(function (err, pResults) {
@@ -198,54 +192,9 @@ exports.update_record = function (req, res) {
 };
 
 exports.update_status = function (req, res) {
-	let newRecord = req.body;
-	if (!newRecord.action) {
-		Utils.returnError(`bad data`, res);
-	} else {
-		let _response = new Utils.newResponse();
-		databaseModel.updateOne({
-			_id: req.params.id
-		}, {
-			$set: {
-				canceled: newRecord.action
-			}
-		}, {
-			new: true
-		}, function (err, pResults) {
-			if (err) {
-				Utils.returnError(err, res);
-			}
-
-			if (pResults.ok) {
-				_response.status = `00`;
-				_response.message = `Record updated`;
-			} else {
-				_response.status = `01`;
-				_response.message = `Record not updated`;
-			}
-
-			Utils.returnSuccess(_response, res);
-		});
-	}
+	Utils.update_status(req, res, databaseModel);
 };
 
 exports.delete_record = function (req, res) {
-	if (!req.params.id) {
-		Utils.returnError(`bad data`, res);
-	} else {
-		let _response = new Utils.newResponse();
-		databaseModel.remove({
-			_id: req.params.id
-		}, function (err, pResults) {
-			if (err) {
-				Utils.returnError(err, res);
-			}
-
-			if (pResults.ok) {
-				_response.message = `Record delete`;
-				_response.data = pResults;
-				Utils.returnSuccess(_response, res);
-			}
-		});
-	}
+	Utils.delete_record(req, res, databaseModel);
 };

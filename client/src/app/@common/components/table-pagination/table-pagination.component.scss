@@ -1,0 +1,47 @@
+.TablePagination {
+	&__pager {
+		display: flex;
+
+		&--records {
+			width: calc(100% /3);
+		}
+
+		&--pagination {
+			width: calc(100% /3);
+			text-align: center;
+		}
+
+		&--pages {
+			width: calc(100% /3);
+			text-align: right;
+		}
+
+		&--button {
+			& button {
+				border: 0;
+				outline: 0;
+				background-color: transparent;
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+		}
+
+		&--input {
+			& input {
+				border-top: 0;
+				border-left: 0;
+				border-right: 0;
+				outline: 0;
+				width: 60px;
+			}
+
+			& select {
+				border-top: 0;
+				border-left: 0;
+				border-right: 0;
+				outline: 0;
+				width: 50px;
+			}
+		}
+	}
+}

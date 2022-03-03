@@ -35,27 +35,29 @@ export class IClients {
 
 export class IClientsProducts {
 	_id: string;
-	companies: string;
+	clients: string;
 	categories: string;
-	date: Date;
+	companies: string;
+	date: string;
 	year: number;
 	month: number;
 	description: string;
-	amount: number;
+	price: number;
 	renewable: string;
 	period: number;
 	canceled: string;
-	canceledDate: Date;
+	canceledDate: string;
 
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
-		this.companies = (pModel ? (pModel.companies ? pModel.companies : null) : null);
+		this.clients = (pModel ? (pModel.clients ? pModel.clients : null) : null);
 		this.categories = (pModel ? (pModel.categories ? pModel.categories : null) : null);
+		this.companies = (pModel ? (pModel.companies ? pModel.companies : null) : null);
 		this.date = (pModel ? (pModel.date ? pModel.date : null) : null);
 		this.year = (pModel ? (pModel.year ? pModel.year : null) : null);
 		this.month = (pModel ? (pModel.month ? pModel.month : null) : null);
 		this.description = (pModel ? (pModel.description ? pModel.description : null) : null);
-		this.amount = (pModel ? (pModel.amount ? pModel.amount : null) : null);
+		this.price = (pModel ? (pModel.price ? pModel.price : null) : null);
 		this.renewable = (pModel ? (pModel.renewable ? pModel.renewable : null) : null);
 		this.period = (pModel ? (pModel.period ? pModel.period : null) : null);
 		this.canceled = (pModel ? (pModel.canceled ? pModel.canceled : null) : null);

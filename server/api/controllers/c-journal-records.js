@@ -271,54 +271,9 @@ exports.update_record = function (req, res) {
 };
 
 exports.update_status = function (req, res) {
-	let newRecord = req.body;
-	if (!newRecord.action) {
-		Utils.returnError(`bad data`, res);
-	} else {
-		let _response = new Utils.newResponse();
-		databaseModel.updateOne({
-			_id: req.params.id
-		}, {
-			$set: {
-				canceled: newRecord.action
-			}
-		}, {
-			new: true
-		}, function (err, pResults) {
-			if (err) {
-				Utils.returnError(err, res);
-			}
-
-			if (pResults.ok) {
-				_response.status = `00`;
-				_response.message = `Record updated`;
-			} else {
-				_response.status = `01`;
-				_response.message = `Record not updated`;
-			}
-
-			Utils.returnSuccess(_response, res);
-		});
-	}
+	Utils.update_status(req, res, databaseModel);
 };
 
 exports.delete_record = function (req, res) {
-	if (!req.params.id) {
-		Utils.returnError(`bad data`, res);
-	} else {
-		let _response = new Utils.newResponse();
-		databaseModel.remove({
-			_id: req.params.id
-		}, function (err, pResults) {
-			if (err) {
-				Utils.returnError(err, res);
-			}
-
-			if (pResults.ok) {
-				_response.message = `Record delete`;
-				_response.data = pResults;
-				Utils.returnSuccess(_response, res);
-			}
-		});
-	}
+	Utils.delete_record(req, res, databaseModel);
 };

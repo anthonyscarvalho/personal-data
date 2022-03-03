@@ -88,24 +88,24 @@
 									<form name="clientProducts" id="clientProducts">
 										<div class="row">
 											<div class="col-md-12">
-												<acc-inputs [inputValue]="recordProducts.description" (updater)="updateBreakdownValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
+												<!-- <acc-inputs [inputValue]="recordProducts.description" (updater)="updateBreakdownValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs> -->
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordProducts.budget" (updater)="updateBreakdownValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
+												<!-- <acc-inputs [inputValue]="recordProducts.budget" (updater)="updateBreakdownValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs> -->
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordProducts.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+												<!-- <acc-inputs [inputValue]="recordProducts.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs> -->
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordProducts.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+												<!-- <acc-inputs [inputValue]="recordProducts.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs> -->
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-12">
+											<!-- <div class="col-md-12">
 												<button type="button" class="btn btn-success" (click)="addClientProduct()" *ngIf="!submitted">
 													<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
 												</button>
-											</div>
+											</div> -->
 										</div>
 									</form>
 								</ng-container>
@@ -127,7 +127,7 @@
 												<th></th>
 											</tr>
 										</thead>
-										<tbody *ngIf="resultRecord.products">
+										<!-- <tbody *ngIf="resultRecord.products">
 											<tr *ngFor="let row of resultRecord.products; let i = index;">
 												<td>{{row.description}}</td>
 												<td>{{row.budget | currency: 'R '}}</td>
@@ -142,7 +142,7 @@
 													</button>
 												</td>
 											</tr>
-										</tbody>
+										</tbody> -->
 									</table>
 								</ng-template>
 							</div>

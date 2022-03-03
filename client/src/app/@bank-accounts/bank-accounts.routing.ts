@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
-// Global Components
-import { GlobalViewComponent } from '@common/components';
-
 // Components
 import { BankAccountsDashComponent } from './components/bank-accounts-dash/bank-accounts-dash.component';
 import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsViewComponent } from './components/bank-accounts-view/bank-accounts-view.component';
 
 const megaMenu = {
 	label: `Management`,
@@ -37,7 +35,7 @@ const routes: Routes = [
 		path: 'bank-accounts',
 		children: [
 			{ path: '', component: BankAccountsDashComponent },
-			{ path: 'view', component: GlobalViewComponent },
+			{ path: 'view', component: BankAccountsViewComponent },
 			{ path: 'add', component: BankAccountsEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: BankAccountsEditComponent, data: { add: false } },
 		],

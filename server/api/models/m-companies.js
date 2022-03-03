@@ -10,10 +10,13 @@ module.exports = mongoose.model(modelName,
 		company: {
 			type: String
 		},
-		invoice_header: {
+		invoiceHeader: {
 			type: String
 		},
-		account_details: {
+		accountDetails: {
+			type: String
+		},
+		created: {
 			type: String
 		},
 		canceled: {

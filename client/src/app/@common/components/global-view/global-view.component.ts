@@ -7,7 +7,7 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 // interfaces
 import { IFilterBoxConfig, IFilterBoxOptions, IBankAccount } from '@common/interfaces';
 // constants
-import { bankAccounts, budgets, clients } from '@common/constants';
+import { clients, companies } from './constants';
 
 @Component({
 	selector: 'acc-global-view',
@@ -33,7 +33,7 @@ export class GlobalViewComponent implements OnInit {
 		private _httpService: HttpService,
 		private _notificationService: NotificationsService
 	) {
-		this._generalService.setTitle(`Bank Accounts: View All`);
+		this._generalService.setTitle(`View All`);
 		this.filterBoxConfig = new IFilterBoxConfig();
 	}
 
@@ -41,17 +41,13 @@ export class GlobalViewComponent implements OnInit {
 		this.megaMenu = this.route.snapshot.data.menu;
 		this.module = this.route.snapshot.data.module;
 		switch (this.module) {
-			case `bank-accounts`:
-				this.tableHead = bankAccounts;
-				this.apiUrl = `bank-accounts/view`;
-				break;
-			case `budget`:
-				this.tableHead = budgets;
-				this.apiUrl = `budget/view`;
-				break;
 			case `clients`:
 				this.tableHead = clients;
 				this.apiUrl = `clients/view`;
+				break;
+			case `companies`:
+				this.tableHead = companies;
+				this.apiUrl = `companies/view`;
 				break;
 		}
 		this.filterBoxOptions = new IFilterBoxOptions();

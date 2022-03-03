@@ -8,7 +8,10 @@ import { ClientsDashboardComponent } from './components/clients-dashboard/client
 import { ClientsEditComponent } from './components/clients-edit/clients-edit.component';
 
 @NgModule({
-	declarations: [ClientsDashboardComponent, ClientsEditComponent],
+	declarations: [
+		ClientsDashboardComponent,
+		ClientsEditComponent,
+	],
 	imports: [
 		CommonModule,
 		FormsModule,

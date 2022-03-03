@@ -69,20 +69,17 @@ app.use(bodyParser({
 // app.use('/', require('./routes/users'));
 
 // controllers
-var bankAccountsRoute = require('./api/routes/bank-accounts');
-var contactsRoute = require('./api/routes/contacts');
-var clientsRoute = require('./api/routes/clients');
-var bankAccountRecordsRoute = require('./api/routes/bank-accounts-records');
-var budgetRoute = require('./api/routes/budget');
-var journalsRoute = require('./api/routes/journals');
-var journalRecordsRoute = require('./api/routes/journal-records');
-bankAccountsRoute(app);
-budgetRoute(app);
-contactsRoute(app);
-clientsRoute(app);
-bankAccountRecordsRoute(app);
-journalsRoute(app);
-journalRecordsRoute(app);
+require('./api/routes/bank-accounts')(app);
+require('./api/routes/companies')(app);
+require('./api/routes/contacts')(app);
+require('./api/routes/clients')(app);
+require('./api/routes/bank-accounts-records')(app);
+require('./api/routes/budget')(app);
+require('./api/routes/journals')(app);
+require('./api/routes/journal-records')(app);
+require('./api/routes/products')(app);
+require('./api/routes/users');
+require('./api/routes/users')(app);
 
 // used to return static assets through the api
 // app.use('/' + config.fileRoot, express.static(config.fileRoot));

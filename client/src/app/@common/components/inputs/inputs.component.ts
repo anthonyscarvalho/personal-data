@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
 // external
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 @Component({
 	selector: 'acc-inputs',
@@ -15,8 +18,24 @@ export class InputsComponent implements OnInit {
 	@Input() submitted;
 	@Input() showLabel = true;
 	@Input() selectMultiple = true;
+	@Input() textAreaRows = 4;
 
 	@Output(`updater`) _updater = new EventEmitter<any>();
+
+	public readonly editor = ClassicEditor;
+	public readonly config = {
+		toolbar: {
+			items: ["undo", "redo", "bold", "italic", "blockQuote", "ckfinder", "imageTextAlternative", "imageUpload", "heading", "imageStyle:full", "imageStyle:side", "link", "numberedList", "bulletedList", "mediaEmbed", "insertTable", "tableColumn", "tableRow", "mergeTableCells"],
+			shouldNotGroupWhenFull: true
+		},
+		heading: {
+			options: [
+				{ model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+				{ model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+				{ model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+			]
+		}
+	};
 
 	// public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
@@ -86,5 +105,9 @@ export class InputsComponent implements OnInit {
 			default:
 				return 'inputs__standard';
 		}
+	}
+
+	public onCKEChange({ editor }: ChangeEvent) {
+		this._updater.emit(editor.getData());
 	}
 }

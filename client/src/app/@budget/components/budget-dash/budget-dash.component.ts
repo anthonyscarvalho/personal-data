@@ -37,7 +37,7 @@ export class BudgetDashComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.year = this._generalService.formatDate(new Date(), 'yyyy');
-		this._generalService.setTitle('Budget Dash');
+		this._generalService.setTitle('Budgets Dash');
 		this.load();
 	}
 

@@ -62,7 +62,7 @@ export class BudgetEditComponent implements OnInit {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
 				this.resultRecord = new IBudget(pResults.data);
-				this._generalService.setTitle(`Budget: Edit - ` + pResults.data.accountDescription);
+				this._generalService.setTitle(`Budget: Edit - ` + pResults.data.description);
 			}
 		});
 	}

@@ -51,44 +51,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewChecked {
 		this.updater.emit(`load`);
 	}
 
-	botDisplayRecords() {
-		if (this.filterBoxOptions.totalRecords < this.filterBoxOptions.pagerRecords) {
-			return this.filterBoxOptions.totalRecords;
-		} else {
-			return ((this.filterBoxOptions.pagerRecords * this.filterBoxOptions.page) - (this.filterBoxOptions.pagerRecords - 1));
-			if (this.filterBoxOptions.page < this.totalPages) {
-			}
-			else {
-				const _lastFew = (this.filterBoxOptions.totalRecords - (this.filterBoxOptions.pagerRecords * (this.totalPages - 1)));
-				return ((this.filterBoxOptions.pagerRecords * this.filterBoxOptions.page) - (this.filterBoxOptions.pagerRecords - 1))
-			}
-		}
-	}
-
-	topDisplayRecords() {
-		if (this.filterBoxOptions.totalRecords < this.filterBoxOptions.pagerRecords) {
-			return this.filterBoxOptions.totalRecords;
-		} else {
-			if (this.filterBoxOptions.page < this.totalPages) {
-				return (this.filterBoxOptions.pagerRecords * this.filterBoxOptions.page)
-			}
-			else {
-
-				const _lastFew = (this.filterBoxOptions.totalRecords - (this.filterBoxOptions.pagerRecords * (this.totalPages - 1)));
-				return ((this.filterBoxOptions.pagerRecords * this.filterBoxOptions.page) - (this.filterBoxOptions.pagerRecords) + _lastFew)
-			}
-		}
-	}
-	totalDisplayRecords() {
-		return this.filterBoxOptions.totalRecords;
-	}
-
-	updatePage(event: any) {
-		this.filterBoxOptions.page = event.page;
-		this._generalService.setPage(event.page);
-		this.updater.emit(`load`);
-	}
-
 	getActiveColumn(currentColumn: string) {
 		const activeColumn = this._generalService.getSortColumn();
 		if (currentColumn === activeColumn) {
@@ -98,44 +60,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewChecked {
 		}
 	}
 
-	getCurrentPage() {
-		return this.filterBoxOptions.page;
-	}
-
-	checkTotalPages() {
-		if (this.filterBoxOptions.totalRecords && this.filterBoxOptions.totalRecords > 0) {
-			this.totalPages = Math.ceil(this.filterBoxOptions.totalRecords / this.filterBoxOptions.pagerRecords);
-			return true;
-		} else {
-			this.totalPages = 0;
-			return false;
-		}
-	}
-
-	checkValue(pInput) {
-		if (pInput >= this.totalPages) {
-			this.filterBoxOptions.page = this.totalPages;
-		}
+	handlePage() {
 		this.updater.emit(`load`);
-	}
-
-	handlePage(pType: string) {
-		switch (pType) {
-			case `next`:
-				if (this.totalPages > 0 && this.filterBoxOptions.page < this.totalPages) {
-					this.filterBoxOptions.page++;
-					this._generalService.setPage(this.filterBoxOptions.page);
-					this.updater.emit(`load`);
-				}
-				break;
-			case `prev`:
-				if (this.totalPages > 0 && this.filterBoxOptions.page > 1) {
-					this.filterBoxOptions.page--;
-					this._generalService.setPage(this.filterBoxOptions.page);
-					this.updater.emit(`load`);
-				}
-				break;
-		}
 	}
 
 	enable(pId) {

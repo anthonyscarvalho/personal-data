@@ -39,3 +39,56 @@ exports.newResponse = function () {
 		message: null
 	};
 }
+
+exports.update_status = function (req, res, databaseModel) {
+	let _response = new exports.newResponse();
+	let newRecord = req.body;
+
+	if (!newRecord.action) {
+		return exports.returnError(`Bad data`, res);
+	} else {
+		databaseModel.updateOne({
+			_id: req.params.id
+		}, {
+			$set: {
+				canceled: newRecord.action
+			}
+		}, {
+			new: true
+		}, function (err, pResults) {
+			if (err) {
+				return exports.returnError(`Can't count`, res);
+			}
+
+			if (pResults.ok) {
+				_response.message = `Record updated`;
+			} else {
+				_response.status = `01`;
+				_response.message = `Record not updated`;
+			}
+
+			return exports.returnSuccess(_response, res);
+		});
+	}
+};
+
+exports.delete_record = function (req, res, databaseModel) {
+	let _response = new exports.newResponse();
+
+	if (!req.params.id) {
+		return exports.returnError(`Bad data`, res);
+	} else {
+		databaseModel.remove({
+			_id: req.params.id
+		}, function (err, pResults) {
+			if (err) {
+				res.send(err);
+			}
+
+			if (pResults.ok) {
+				_response.message = `Record delete`;
+				return exports.returnSuccess(_response, res);
+			}
+		});
+	}
+};

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
-// Global Components
-import { GlobalViewComponent } from '@common/components';
-
 // Components
 import { BudgetDashComponent } from './components/budget-dash/budget-dash.component';
 import { BudgetEditComponent } from './components/budget-edit/budget-edit.component';
+import { BudgetViewComponent } from './components/budget-view/budget-view.component';
 
 const megaMenu = {
 	label: `Management`,
@@ -37,7 +35,7 @@ const routes: Routes = [
 		path: 'budget',
 		children: [
 			{ path: '', component: BudgetDashComponent },
-			{ path: 'view', component: GlobalViewComponent },
+			{ path: 'view', component: BudgetViewComponent },
 			{ path: 'add', component: BudgetEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: BudgetEditComponent, data: { add: false } },
 		],

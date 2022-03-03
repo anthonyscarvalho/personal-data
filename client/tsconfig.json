@@ -23,9 +23,12 @@
 			"@budget/*": ["src/app/@budget/*"],
 			"@clients/*": ["src/app/@clients/*"],
 			"@common/*": ["src/app/@common/*"],
+			"@companies/*": ["src/app/@companies/*"],
 			"@contacts/*": ["src/app/@contacts/*"],
 			"@journal/*": ["src/app/@journal/*"],
 			"@journalRecords/*": ["src/app/@journal-records/*"],
+			"@products/*": ["src/app/@products/*"],
+			"@users/*": ["src/app/@users/*"],
 		}
 	},
 	"angularCompilerOptions": {

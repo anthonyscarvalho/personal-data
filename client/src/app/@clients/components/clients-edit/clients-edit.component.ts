@@ -22,7 +22,7 @@ export class ClientsEditComponent implements OnInit {
 
 	resultRecord: IClients;
 	recordProducts: IClientsProducts;
-	breakdownAdd = false;
+	productAdd = false;
 
 	// select values
 	categories: any;
@@ -66,6 +66,8 @@ export class ClientsEditComponent implements OnInit {
 		});
 	}
 
+	addClientProduct() { }
+
 	submit() {
 		this.submitted = true;
 		this.error = false;
@@ -73,7 +75,7 @@ export class ClientsEditComponent implements OnInit {
 		this.resultRecord.signupDate = this.datePipe.transform(_dateOp, `yyyy-MM-dd`);
 
 		if (!this.add) {
-			this._httpService.update(`budget/update`, this.resultRecord._id, this.resultRecord).then((pResult: any) => {
+			this._httpService.update(`clients/update`, this.resultRecord._id, this.resultRecord).then((pResult: any) => {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === `valid`) {
 					this._notificationsService.success(pResult.message);

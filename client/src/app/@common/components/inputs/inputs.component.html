@@ -1,5 +1,5 @@
 <div class="inputs" [ngClass]="getClass()">
-	<span class="inputs__label" *ngIf="showLabel">{{inputLabel}}</span>
+	<span class="inputs__label" *ngIf="showLabel">{{inputLabel | titlecase}}</span>
 	<ng-container [ngSwitch]="inputType">
 		<!-- checkbox -->
 		<div class="inputs__checkboxWrapper" *ngSwitchCase="'checkbox'">
@@ -7,6 +7,8 @@
 		</div>
 		<!-- text input -->
 		<input type="text" [value]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__text" (blur)="pushChanges($event.target.value)" *ngSwitchCase="'text'">
+		<!-- password input -->
+		<input type="password" [value]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__text" (blur)="pushChanges($event.target.value)" *ngSwitchCase="'password'">
 		<!-- date picker -->
 		<ng-container *ngSwitchCase="'date'">
 			<input type="text" class="inputs__common inputs__date" [(ngModel)]="inputValue" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" (bsValueChange)="pushDateChanges($event)" *ngIf="inputValue">
@@ -24,9 +26,11 @@
 			</select>
 		</ng-container>
 		<!-- text area -->
-		<textarea [value]="inputValue" name="{{inputLabel}}" (blur)="pushChanges($event.target.value)" class="inputs__common inputs__textArea" rows="4" *ngSwitchCase="'textArea'"></textarea>
+		<textarea [value]="inputValue" name="{{inputLabel}}" (blur)="pushChanges($event.target.value)" class="inputs__common inputs__textArea" rows="{{textAreaRows}}" *ngSwitchCase="'textArea'"></textarea>
 		<!-- file selector -->
 		<label class="inputs__file" *ngSwitchCase="'files'"> Select {{selectMultiple === true ? 'files' : 'file'}} <input type="file" style="display: none;" [attr.multiple]="selectMultiple ? 'multiple' : null" (change)="pushChanges($event.target.files)"></label>
+		<!-- WYSIWYG editor -->
+		<ckeditor *ngSwitchCase="'editor'" [editor]="editor" [config]="config" (change)="onCKEChange($event)" [data]="inputValue"></ckeditor>
 	</ng-container>
 	<!-- error -->
 	<acc-errors [element]="inputValue" *ngIf="submitted"></acc-errors>
