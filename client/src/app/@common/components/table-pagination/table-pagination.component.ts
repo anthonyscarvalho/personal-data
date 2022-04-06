@@ -13,7 +13,7 @@ export class TablePaginationComponent implements OnInit {
 	totalPages: number;
 
 	constructor(
-		private _generalService: GeneralService
+		private _generalService: GeneralService,
 	) { }
 
 	ngOnInit(): void { }
@@ -34,6 +34,14 @@ export class TablePaginationComponent implements OnInit {
 			return false;
 		}
 	}
+
+	// ValidateTotalPageAndCurrent() {
+	// 	if (this.filterBoxOptions.page < this.totalPages) {
+	// 		this._generalService.setPage(this.totalPages);
+	// 	} else if (this.totalPages === 0) {
+	// 		this._generalService.setPage(null);
+	// 	}
+	// }
 
 	handlePage(pType: string) {
 		switch (pType) {
@@ -93,5 +101,4 @@ export class TablePaginationComponent implements OnInit {
 	getCurrentPage() {
 		return this.filterBoxOptions.page;
 	}
-
 }

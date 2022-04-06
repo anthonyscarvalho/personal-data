@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 // Components
-import { AccountRecordsEditComponent } from './components/account-records-edit/account-records-edit.component';
-import { AccountRecordsReportComponent } from './components/account-records-report/account-records-report.component';
-import { AccountRecordsImportComponent } from './components/account-records-import/account-records-import.component';
-import { AccountRecordsViewComponent } from './components/account-records-view/account-records-view.component';
+import { AccountRecordsEditComponent } from './views/account-records-edit/account-records-edit.component';
+import { AccountRecordsReportComponent } from './views/account-records-report/account-records-report.component';
+import { AccountRecordsImportComponent } from './views/account-records-import/account-records-import.component';
+import { AccountRecordsViewComponent } from './views/account-records-view/account-records-view.component';
 
 
 const megaMenu = {

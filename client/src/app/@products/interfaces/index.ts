@@ -1,1 +1,1 @@
-export { ProductInterface } from './Product.interface';
+export * from './product.interface';

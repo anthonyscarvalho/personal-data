@@ -1,1 +1,2 @@
-export { IClients, IClientsProducts } from './iClients.interface';
+export * from './client.interface';
+export * from './client-products.interface';

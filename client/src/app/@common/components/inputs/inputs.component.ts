@@ -88,7 +88,7 @@ export class InputsComponent implements OnInit {
 	}
 
 	pushDateChanges(pData) {
-		this._updater.emit(this.convertDate(pData));
+		this._updater.emit((pData) ? this.convertDate(pData) : pData);
 	}
 
 	convertDate(pDate) {

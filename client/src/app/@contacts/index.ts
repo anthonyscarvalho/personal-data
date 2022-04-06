@@ -1,3 +1,3 @@
 export { ContactsModule } from './contacts.module';
 
-export * from './components';
+export * from './views';

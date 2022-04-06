@@ -1,2 +1,4 @@
 export { DashboardModule } from './dashboard.module';
-export * from './components';
+
+export * from './interfaces';
+export * from './views';

@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// Modules
+// modules
 import { UsersRoutingModule } from './users.routing';
 import { CommonComponentsModule } from '@common/common.module';
-import { UsersDashboardComponent } from './components/users-dashboard/users-dashboard.component';
-import { UsersEditComponent } from './components/users-edit/users-edit.component';
-import { UsersViewComponent } from './components/users-view/users-view.component';
+// components
+import { UsersDashboardComponent } from './views/users-dashboard/users-dashboard.component';
+import { UsersEditComponent } from './views/users-edit/users-edit.component';
+import { UsersViewComponent } from './views/users-view/users-view.component';
 
 @NgModule({
 	declarations: [

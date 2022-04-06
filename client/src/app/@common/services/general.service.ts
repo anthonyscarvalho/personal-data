@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
+// service
+import { HttpService, NotificationsService } from '@common/services';
 
 @Injectable({
 	providedIn: 'root',
@@ -11,7 +13,9 @@ export class GeneralService {
 	constructor(
 		private router: Router,
 		private route: ActivatedRoute,
-		private _datePipe: DatePipe
+		private _datePipe: DatePipe,
+		private _httpService: HttpService,
+		private _notificationService: NotificationsService,
 	) {
 		this.route.queryParams.subscribe(params => {
 			this.state = ((params.state) ? params.state : 'false');
@@ -22,6 +26,7 @@ export class GeneralService {
 			this.page = Number((params.page) ? params.page : 1);
 			this.pagerRecords = ((params.records) ? params.records : '20');
 			this.user = ((params.user) ? params.user : '0');
+			this.bankAccount = ((params.bankAccount) ? params.bankAccount : '');
 		});
 		this.authKey = localStorage.getItem('authKey');
 	}
@@ -113,6 +118,16 @@ export class GeneralService {
 	setSearch(pSearchPhrase: string) {
 		this.router.navigate([], { queryParams: { searchPhrase: pSearchPhrase }, relativeTo: this.route, queryParamsHandling: 'merge' });
 		this.searchPhrase = pSearchPhrase;
+	}
+
+	// Set the bank account used to filter results
+	bankAccount: string = '';
+	getBankAccount() {
+		return this.bankAccount;
+	}
+	setBankAccount(pBankAccount: string) {
+		this.router.navigate([], { queryParams: { bankAccount: pBankAccount }, relativeTo: this.route, queryParamsHandling: 'merge' });
+		this.bankAccount = pBankAccount;
 	}
 
 	// Set whether to show the invoice filter or not
@@ -229,5 +244,27 @@ export class GeneralService {
 
 	formatDate(pDate, pFormat: string = 'yyyy-MM-dd') {
 		return this._datePipe.transform(pDate, pFormat);
+	}
+
+	changeStatus(pModule, pId, pAction) {
+		this._httpService.update(`${pModule}/status`, pId, { action: pAction }).then((results: any) => {
+			if (results.status === `00`) {
+				this._notificationService.success(results.message);
+			} else {
+				this._notificationService.warn(results.message);
+			}
+		});
+	}
+
+	deleteRecord(pModule, pId) {
+		this._httpService.delete(`${pModule}/delete`, pId).then((results: any) => {
+			if (results.status === `00`) {
+				this._notificationService.success(results.message);
+				return true;
+			} else {
+				this._notificationService.warn(results.message);
+				return false;
+			}
+		});
 	}
 }

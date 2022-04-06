@@ -43,7 +43,6 @@ exports.newResponse = function () {
 exports.update_status = function (req, res, databaseModel) {
 	let _response = new exports.newResponse();
 	let newRecord = req.body;
-
 	if (!newRecord.action) {
 		return exports.returnError(`Bad data`, res);
 	} else {
@@ -51,7 +50,8 @@ exports.update_status = function (req, res, databaseModel) {
 			_id: req.params.id
 		}, {
 			$set: {
-				canceled: newRecord.action
+				canceled: newRecord.action,
+				canceledDate: ((newRecord.action === "true") ? new Date() : null)
 			}
 		}, {
 			new: true

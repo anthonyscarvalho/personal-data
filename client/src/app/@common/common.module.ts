@@ -20,7 +20,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // Components
 import { ErrorsComponent } from './components/errors/errors.component';
 import { FilterBoxComponent } from './components/filter-box/filter-box.component';
-import { GlobalViewComponent } from './components/global-view/global-view.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SubMenuComponent } from './components/sub-menu/sub-menu.component';
@@ -30,10 +29,10 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { InputsComponent } from './components/inputs/inputs.component';
 import { TablePaginationComponent } from './components/table-pagination/table-pagination.component';
 
-const allComponents = [ErrorsComponent,
+const allComponents = [
+	ErrorsComponent,
 	FilterBoxComponent,
 	FooterComponent,
-	GlobalViewComponent,
 	HeaderComponent,
 	InputsComponent,
 	LoadingComponent,

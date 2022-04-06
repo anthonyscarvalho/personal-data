@@ -1,1 +1,1 @@
-export { CompanyInterface } from './Companies.interface';
+export { CompanyInterface } from './company.interface';

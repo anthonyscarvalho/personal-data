@@ -1,4 +1,4 @@
-export class UserInterface {
+export class UserModel {
 	_id: string;
 	username: string;
 	password: string;

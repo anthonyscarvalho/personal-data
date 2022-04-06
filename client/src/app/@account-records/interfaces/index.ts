@@ -1,1 +1,1 @@
-export * from './IAccountRecord';
+export * from './account-record';

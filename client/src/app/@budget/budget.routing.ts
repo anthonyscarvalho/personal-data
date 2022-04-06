@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 // Components
-import { BudgetDashComponent } from './components/budget-dash/budget-dash.component';
-import { BudgetEditComponent } from './components/budget-edit/budget-edit.component';
-import { BudgetViewComponent } from './components/budget-view/budget-view.component';
+import { BudgetDashComponent } from './views/budget-dash/budget-dash.component';
+import { BudgetEditComponent } from './views/budget-edit/budget-edit.component';
+import { BudgetViewComponent } from './views/budget-view/budget-view.component';
 
 const megaMenu = {
 	label: `Management`,

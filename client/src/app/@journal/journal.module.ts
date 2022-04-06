@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// Modules
+// modules
 import { JournalRoutingModule } from './journal.routing';
 import { CommonComponentsModule } from '@common/common.module';
-
-// Components
-import { JournalViewComponent } from './components/journal-view/journal-view.component';
+// components
+import { JournalViewComponent } from './views/journal-view/journal-view.component';
 
 @NgModule({
 	declarations: [

@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// Modules
+
+// modules
 import { CommonComponentsModule } from '@common/common.module';
-// Components
-import { JournalRecordsViewComponent } from './components/journal-records-view/journal-records-view.component';
+// components
+import { JournalRecordsViewComponent } from './views/journal-records-view/journal-records-view.component';
 
 const routes: Routes = [
 	{

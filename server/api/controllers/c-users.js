@@ -6,8 +6,7 @@ var databaseModel = mongoose.model('user');
 // utils
 var Utils = require('../utils/utils.js');
 
-exports.view_all = (req, res, baseUrl) => {
-	console.log(baseUrl);
+exports.view_all = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);

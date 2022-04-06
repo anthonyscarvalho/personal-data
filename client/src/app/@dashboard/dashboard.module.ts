@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// Modules
+// modules
 import { DashboardRoutingModule } from './dashboard.routing';
 import { CommonComponentsModule } from '@common/common.module';
-// Views
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+// components
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 @NgModule({
 	declarations: [

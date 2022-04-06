@@ -12,6 +12,23 @@ module.exports = mongoose.model(modelName,
 			type: String,
 			required: 'Enter account number'
 		},
+		accountNumbers: [{
+			number: {
+				type: String
+			},
+			comment: {
+				type: String
+			},
+			created: {
+				type: String
+			},
+			closed: {
+				type: String
+			},
+			status: {
+				type: String
+			}
+		}],
 		accountDescription: {
 			type: String
 		},

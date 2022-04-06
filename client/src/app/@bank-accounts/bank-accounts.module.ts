@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { BankAccountsRoutingModule } from './bank-accounts.routing';
 import { CommonComponentsModule } from '@common/common.module';
 // Components
-import { BankAccountsDashBlockComponent } from './_components/bank-accounts-dash-block/bank-accounts-dash-block.component';
+import { BankAccountsDashBlockComponent } from './components/bank-accounts-dash-block/bank-accounts-dash-block.component';
 // Views
-import { BankAccountsDashComponent } from './components/bank-accounts-dash/bank-accounts-dash.component';
-import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-accounts-edit.component';
-import { BankAccountsViewComponent } from './components/bank-accounts-view/bank-accounts-view.component';
+import { BankAccountsDashComponent } from './views/bank-accounts-dash/bank-accounts-dash.component';
+import { BankAccountsEditComponent } from './views/bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsViewComponent } from './views/bank-accounts-view/bank-accounts-view.component';
 
 @NgModule({
 	declarations: [

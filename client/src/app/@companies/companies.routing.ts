@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
-
-// Global Components
-import { GlobalViewComponent } from '@common/components';
-
 // components
-import { CompaniesDashboardComponent } from './components/companies-dashboard/companies-dashboard.component';
-import { CompaniesEditComponent } from './components/companies-edit/companies-edit.component';
+import { CompaniesDashboardComponent } from './views/companies-dashboard/companies-dashboard.component';
+import { CompaniesEditComponent } from './views/companies-edit/companies-edit.component';
+import { CompaniesViewComponent } from './views/companies-view/companies-view.component';
 
 const megaMenu = {
 	label: `Management`,
@@ -37,7 +34,7 @@ const routes: Routes = [
 		path: 'companies',
 		children: [
 			{ path: '', component: CompaniesDashboardComponent },
-			{ path: 'view', component: GlobalViewComponent },
+			{ path: 'view', component: CompaniesViewComponent },
 			{ path: 'add', component: CompaniesEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: CompaniesEditComponent, data: { add: false } },
 		],

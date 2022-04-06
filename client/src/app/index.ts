@@ -1,6 +1,7 @@
 export * from './@account-records';
 export * from './@bank-accounts';
 export * from './@budget';
+export * from './@categories';
 export * from './@clients';
 export * from './@common';
 export * from './@companies';

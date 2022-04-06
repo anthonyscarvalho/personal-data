@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-// Services
+// common
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
+import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
+// modules
+import { BankAccountModel } from '@bankAccounts/interfaces';
 
 @Component({
 	selector: 'acc-filter-box',
@@ -9,31 +12,35 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 	styleUrls: ['./filter-box.component.scss']
 })
 export class FilterBoxComponent implements OnInit {
-	@Input() filterBoxConfig;
-	@Input() filterBoxOptions;
+	@Input() filterBoxConfig: IFilterBoxConfig;
+	@Input() filterBoxOptions: IFilterBoxOptions;
 
 	@Output() updater = new EventEmitter<any>();
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
-
 	submitted = false;
+	bankAccounts: BankAccountModel[];
 
 	constructor(
 		private _generalService: GeneralService,
+		private _httpService: HttpService,
 	) {
 		this.bsConfig.containerClass = `theme-dark-blue`;
 		this.bsConfig.dateInputFormat = `YYYY-MM-DD`; // Or format like you want
 	}
 
 	ngOnInit() {
-		this._generalService.setDate(this.filterBoxOptions.date);
-		this.filterBoxOptions.state = this._generalService.getActiveFilter();
-		this.filterBoxOptions.invoiceFilter = this._generalService.getInvFilter();
-		this.filterBoxOptions.dir = this._generalService.getSortDir();
-		this.filterBoxOptions.user = this._generalService.getUser();
-		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
-		this.filterBoxOptions.pagerRecords = this._generalService.getRecords();
-		this.filterBoxOptions.page = this._generalService.getPage();
+		if (this.filterBoxConfig.showBankAccounts) {
+			this.loadBankAccounts();
+		}
+	}
+
+	loadBankAccounts() {
+		this._httpService.post('bank-accounts/viewAll', {}).then((results: any) => {
+			if (results.status === `00`) {
+				this.bankAccounts = results.data;
+			}
+		});
 	}
 
 	refreshRecords() {
@@ -46,11 +53,6 @@ export class FilterBoxComponent implements OnInit {
 
 	updateFilter() {
 		this._generalService.setActiveFilter(this.filterBoxOptions.state);
-		this.updater.emit(`changed`);
-	}
-
-	updateInvFilter() {
-		this._generalService.setInvFilter(this.filterBoxOptions.invoiceFilter);
 		this.updater.emit(`changed`);
 	}
 
@@ -74,6 +76,15 @@ export class FilterBoxComponent implements OnInit {
 			this._generalService.setSearch(null);
 		} else {
 			this._generalService.setSearch(this.filterBoxOptions.searchPhrase);
+		}
+		this.updater.emit(`changed`);
+	}
+
+	updateBankAccount() {
+		if (this.filterBoxOptions.bankAccount === ``) {
+			this._generalService.setBankAccount(null);
+		} else {
+			this._generalService.setBankAccount(this.filterBoxOptions.bankAccount);
 		}
 		this.updater.emit(`changed`);
 	}

@@ -1,0 +1,77 @@
+<div class="page">
+	<div class="page__left">
+		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-2">
+					<acc-filter-box (updater)="filterUpdater($event)" [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig"></acc-filter-box>
+				</div>
+				<div class="col-10">
+					<acc-table-pagination [filterBoxOptions]="filterBoxOptions" (updater)="filterUpdater($event)"></acc-table-pagination>
+					<table class="table-component__table">
+						<colgroup>
+							<col width="170px">
+							<col>
+							<col width="100px">
+							<col width="100px">
+							<col width="100px">
+							<col width="100px">
+							<col width="35px">
+							<col width="35px">
+							<col width="35px">
+						</colgroup>
+						<thead class="table-component__table--head">
+							<tr class="table-component__table--head-row">
+								<th>ID</th>
+								<th>Business</th>
+								<th>City</th>
+								<th>Signed Up</th>
+								<th>Canceled</th>
+								<th>Date Canceled</th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody class="table-component__table--body" *ngIf="tableBody">
+							<tr *ngFor="let row of tableBody" class="table-component__table--body-row">
+								<td>{{ row._id }}</td>
+								<td>{{ row.business }}</td>
+								<td>{{ row.city }}</td>
+								<td>{{ row.signupDate }}</td>
+								<td>{{ row.canceled }}</td>
+								<td>{{ row.canceledDate | date:'dd-MM-yyyy' }}</td>
+								<td class="table-component__controls">
+									<span ng-if="userRoles.edit == 'true'">
+										<a class="table-component__table--body-row-button edit" [routerLink]="['/clients', 'edit', row._id]">
+											<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+										</a>
+									</span>
+								</td>
+								<td>
+									<span ng-if="userRoles.status == 'true'">
+										<button type="button" class="table-component__table--body-row-button disabled" (click)="filterUpdater( {action:'enable', record: row._id} )" *ngIf="row.canceled == 'true'">
+											<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
+										</button>
+										<button type="button" class="table-component__table--body-row-button enabled" (click)="filterUpdater( {action:'cancel', record: row._id} )" *ngIf="row.canceled == 'false'">
+											<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
+										</button>
+									</span>
+								</td>
+								<td>
+									<span ng-if="userRoles.delete == 'true'">
+										<button type="button" class="table-component__table--body-row-button delete" (click)="filterUpdater( {action:'delete', record: row._id} )">
+											<fa-icon [icon]="['fas', 'minus-circle']" [fixedWidth]="true"></fa-icon>
+										</button>
+									</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

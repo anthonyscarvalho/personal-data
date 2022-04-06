@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 // components
-import { UsersDashboardComponent } from './components/users-dashboard/users-dashboard.component';
-import { UsersEditComponent } from './components/users-edit/users-edit.component';
-import { UsersViewComponent } from './components/users-view/users-view.component';
+import { UsersDashboardComponent } from './views/users-dashboard/users-dashboard.component';
+import { UsersEditComponent } from './views/users-edit/users-edit.component';
+import { UsersViewComponent } from './views/users-view/users-view.component';
 
 const megaMenu = {
 	label: `Management`,

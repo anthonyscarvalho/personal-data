@@ -21,11 +21,7 @@ export class NotificationsService {
 
 	constructor(
 		private toastyService: ToastyService,
-		private toastyConfig: ToastyConfig
-	) {
-		this.toastyConfig.theme = 'default';
-		this.toastyConfig.position = 'top-left';
-	}
+	) { }
 
 	success(msg: string) {
 		this.toastOptions.title = `Success`;

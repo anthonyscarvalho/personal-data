@@ -4,6 +4,7 @@ import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
 	{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 	{ path: '', loadChildren: () => import('./@dashboard/dashboard.module').then(m => m.DashboardModule), },
+	{ path: '', loadChildren: () => import('./@categories/categories.module').then(m => m.CategoriesModule), },
 	{ path: '', loadChildren: () => import('./@clients/clients.module').then(m => m.ClientsModule), },
 	{ path: '', loadChildren: () => import('./@companies/companies.module').then(m => m.CompaniesModule), },
 	{ path: '', loadChildren: () => import('./@contacts/contacts.module').then(m => m.ContactsModule), },

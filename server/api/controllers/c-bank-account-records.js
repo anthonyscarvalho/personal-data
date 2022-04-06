@@ -12,17 +12,29 @@ exports.view_record = function (req, res) {
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
 	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
 	let filter = {
-		date1: 1,
-		order: 1,
+		// date1: -1,
+		order: -1,
 		// description: 1,
 		// credit: 1,
 		// debit: 1
 	};
-	let query = {
-		accountsId: req.params.id,
-		// $and:{}
-	};
+
+	let query = {};
+
+	if (searchPhrase != `1`) {
+		query = {
+			$or: [{
+				description: {
+					$regex: new RegExp(searchPhrase, 'i')
+				}
+			}, ]
+		};
+	}
+	if (body.bankAccount && body.bankAccount != '') {
+		query['accountsId'] = body.bankAccount;
+	}
 
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
@@ -43,6 +55,73 @@ exports.view_record = function (req, res) {
 				Utils.returnSuccess(_response, res);
 			});
 	});
+};
+
+exports.fix_order = function (req, res) {
+	let _response = new Utils.newResponse();
+	let body = req.body;
+	let page = ((body.page) ? body.page : 1);
+	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
+	let filter = {
+		date1: 1,
+		order: 1,
+		// description: 1,
+		// credit: 1,
+		// debit: 1
+	};
+
+	let query = {};
+
+	if (searchPhrase != `1`) {
+		query = {
+			$or: [{
+				description: {
+					$regex: new RegExp(searchPhrase, 'i')
+				}
+			}, ]
+		};
+	}
+
+	if (body.bankAccount && body.bankAccount != '') {
+		query['accountsId'] = body.bankAccount;
+	}
+
+	databaseModel.find(query)
+		.sort(filter)
+		.exec((err, pResults) => {
+			if (err) {
+				Utils.returnError(err, res);
+			}
+			let count = 0;
+			pResults.forEach((pResult, pIndex) => {
+				if (pIndex > 0) {
+					if (pResult.debit || pResult.credit) {
+						const previousBalance = exports.round(pResults[pIndex - 1].balance);
+
+						const balance = exports.round(previousBalance + ((pResult.debit) ? pResult.debit : pResult.credit));
+
+						if (balance !== exports.round(pResult.balance)) {
+							console.log('Order: ' + pResult.order, 'Balance: ' + pResult.balance, 'Prev: ' + previousBalance, 'Cal: ' + balance, 'Debit: ' + pResult.debit, 'Credit: ' + pResult.credit);
+						}
+					}
+				}
+
+				// databaseModel.updateOne({
+				// 	_id: pResult._id
+				// }, {
+				// 	$set: {
+				// 		order: count
+				// 	}
+				// }, {
+				// 	new: true
+				// }, (err, pResults) => {});
+				count++;
+			});
+
+			_response.message = 'Order Updated';
+			Utils.returnSuccess(_response, res);
+		});
 };
 
 exports.sum_records = function (req, res) {
@@ -105,6 +184,32 @@ exports.sum_records = function (req, res) {
 				Utils.returnSuccess(_response, res);
 			});
 		});
+	}
+};
+
+exports.last_record = function (req, res) {
+	let _response = new Utils.newResponse();
+
+	if (!req.params.id) {
+		Utils.returnError(`Bad data`, res);
+	} else if (req.params.id) {
+		let query = {
+			accountsId: req.params.id
+		};
+
+		databaseModel.find(query)
+			.sort({
+				order: -1
+			})
+			.limit(1)
+			.exec(function (err, pResults) {
+				if (err) {
+					Utils.returnError(err, res);
+				}
+
+				_response.data = (pResults[0]) ? pResults[0].order : 0;
+				Utils.returnSuccess(_response, res);
+			});
 	}
 };
 
@@ -193,6 +298,8 @@ exports.filter_record = function (req, res) {
 	let query = {
 		$and: queryAnd
 	};
+
+	console.log(queryAnd);
 
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
@@ -320,3 +427,7 @@ exports.update_status = function (req, res) {
 exports.delete_record = function (req, res) {
 	Utils.delete_record(req, res, databaseModel);
 };
+
+exports.round = function (num) {
+	return (Math.round((num + Number.EPSILON) * 100) / 100);
+}

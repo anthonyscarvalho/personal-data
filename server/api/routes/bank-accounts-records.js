@@ -20,4 +20,8 @@ module.exports = function (app) {
 	app.route(baseUrl + `/delete/:id`).delete(controller.delete_record);
 
 	app.route(baseUrl + `/status/:id`).put(controller.update_status);
+
+	app.route(baseUrl + `/last-record/:id`).post(controller.last_record);
+
+	app.route(baseUrl + `/fix-order`).post(controller.fix_order);
 };

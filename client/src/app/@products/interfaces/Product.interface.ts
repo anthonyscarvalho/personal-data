@@ -1,4 +1,4 @@
-export class ProductInterface {
+export class ProductModel {
 	_id: string;
 	description: string;
 	price: number;

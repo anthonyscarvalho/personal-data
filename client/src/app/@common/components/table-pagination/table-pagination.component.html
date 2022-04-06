@@ -6,7 +6,9 @@
 				<fa-icon [icon]="['fas', 'chevron-left']" [fixedWidth]="true"></fa-icon>
 			</button>
 		</span>
-		<span class="TablePagination__pager--input"><input type="number" [value]="getCurrentPage()" [(ngModel)]="filterBoxOptions.page" max="{{totalPages}}" (blur)="checkValue($event.target.value)" (change)="checkValue($event.target.value)" /></span>
+		<span class="TablePagination__pager--input">
+			<input type="number" [value]="getCurrentPage()" [(ngModel)]="filterBoxOptions.page" max="{{totalPages}}" (blur)="checkValue($event.target.value)" (change)="checkValue($event.target.value)" />
+		</span>
 		<span class="TablePagination__pager--label" *ngIf="checkTotalPages()"> / {{totalPages}}</span>
 		<span class="TablePagination__pager--button">
 			<button (click)="handlePage('next')">

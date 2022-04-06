@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
-// Global Components
-import { GlobalViewComponent } from '@common/components';
-
 // components
-import { ClientsDashboardComponent } from './components/clients-dashboard/clients-dashboard.component';
-import { ClientsEditComponent } from './components/clients-edit/clients-edit.component';
+import { ClientsDashboardComponent } from './views/clients-dashboard/clients-dashboard.component';
+import { ClientsEditComponent } from './views/clients-edit/clients-edit.component';
+import { ClientsViewComponent } from './views/clients-view/clients-view.component';
 
 const megaMenu = {
 	label: `Management`,
@@ -37,7 +35,7 @@ const routes: Routes = [
 		path: 'clients',
 		children: [
 			{ path: '', component: ClientsDashboardComponent },
-			{ path: 'view', component: GlobalViewComponent },
+			{ path: 'view', component: ClientsViewComponent },
 			{ path: 'add', component: ClientsEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: ClientsEditComponent, data: { add: false } },
 		],

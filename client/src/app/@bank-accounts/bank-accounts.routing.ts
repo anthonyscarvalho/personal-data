@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 // Components
-import { BankAccountsDashComponent } from './components/bank-accounts-dash/bank-accounts-dash.component';
-import { BankAccountsEditComponent } from './components/bank-accounts-edit/bank-accounts-edit.component';
-import { BankAccountsViewComponent } from './components/bank-accounts-view/bank-accounts-view.component';
+import { BankAccountsDashComponent } from './views/bank-accounts-dash/bank-accounts-dash.component';
+import { BankAccountsEditComponent } from './views/bank-accounts-edit/bank-accounts-edit.component';
+import { BankAccountsViewComponent } from './views/bank-accounts-view/bank-accounts-view.component';
 
 const megaMenu = {
 	label: `Management`,
