@@ -17,6 +17,9 @@ import { ToastyModule } from 'ng2-toasty';
 import { ChartsModule } from 'ng2-charts';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
+// Directives
+import { NumberOnly } from './directives/number-only.directive';
+
 // Components
 import { ErrorsComponent } from './components/errors/errors.component';
 import { FilterBoxComponent } from './components/filter-box/filter-box.component';
@@ -42,9 +45,14 @@ const allComponents = [
 	TablePaginationComponent,
 ];
 
+const allDirectives = [
+	NumberOnly
+];
+
 @NgModule({
 	declarations: [
 		...allComponents,
+		...allDirectives,
 	],
 	imports: [
 		CommonModule,
@@ -64,6 +72,7 @@ const allComponents = [
 	],
 	exports: [
 		...allComponents,
+		...allDirectives,
 		// 3rd party scripts
 		BsDatepickerModule,
 		ButtonsModule,

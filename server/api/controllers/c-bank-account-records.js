@@ -107,15 +107,15 @@ exports.fix_order = function (req, res) {
 					}
 				}
 
-				// databaseModel.updateOne({
-				// 	_id: pResult._id
-				// }, {
-				// 	$set: {
-				// 		order: count
-				// 	}
-				// }, {
-				// 	new: true
-				// }, (err, pResults) => {});
+				databaseModel.updateOne({
+					_id: pResult._id
+				}, {
+					$set: {
+						order: count
+					}
+				}, {
+					new: true
+				}, (err, pResults) => {});
 				count++;
 			});
 
@@ -398,7 +398,7 @@ exports.update_record = function (req, res) {
 	if (newRecord._id) {
 		delete(newRecord._id);
 	}
-	if (!newRecord.name) {
+	if (!newRecord.date1) {
 		Utils.returnError(`Bad data`, res);
 	} else {
 		databaseModel.updateOne({
@@ -420,6 +420,7 @@ exports.update_record = function (req, res) {
 	}
 };
 
+/* #region  global_utils */
 exports.update_status = function (req, res) {
 	Utils.update_status(req, res, databaseModel);
 };
@@ -427,7 +428,207 @@ exports.update_status = function (req, res) {
 exports.delete_record = function (req, res) {
 	Utils.delete_record(req, res, databaseModel);
 };
+/* #endregion */
 
 exports.round = function (num) {
 	return (Math.round((num + Number.EPSILON) * 100) / 100);
 }
+
+/* #region budget */
+exports.budget = function (req, res) {
+	let _response = new Utils.newResponse();
+	let body = req.body;
+	let page = ((body.page) ? body.page : 1);
+	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
+
+	if (!req.params.id) {
+		Utils.returnError(`Bad data`, res);
+	} else if (req.params.id) {
+		let query = {
+			budgetId: req.params.id
+		};
+
+		databaseModel.countDocuments(query, function (err, pCount) {
+			if (err) {
+				Utils.returnError(`Can't count`, res);
+			}
+
+			_response.totalRecords = pCount;
+			databaseModel.find(query)
+				.sort({
+					date1: -1,
+					order: -1
+				})
+				.skip(((page * records) - records))
+				.limit(records)
+				.exec(function (err, pResults) {
+					if (err) {
+						Utils.returnError(err, res);
+					}
+
+					_response.data = pResults;
+					Utils.returnSuccess(_response, res);
+				});
+		});
+	}
+};
+
+exports.budget_search = function (req, res) {
+	let _response = new Utils.newResponse();
+	let body = req.body;
+	let keywords = body.keywords;
+
+	if (!keywords) {
+		Utils.returnError(`Bad data`, res);
+	} else {
+
+		let keywordsArray = keywords.split(',');
+		if (keywordsArray.length > 0) {
+
+			let orQuery = [];
+
+			keywordsArray.forEach((keyword) => {
+				const item = {
+					description: {
+						$regex: new RegExp(keyword, 'i')
+					}
+				};
+
+				orQuery.push(item);
+			});
+
+			let query = {
+				$or: orQuery,
+				$and: [{
+					$or:[
+						{
+							budgetId: {
+								$exists: false
+							}
+						},
+						{
+							budgetId: undefined
+						}
+					]
+				}],
+			};
+
+			databaseModel.find(query)
+				.sort({
+					date1: -1,
+					order: -1
+				})
+				.exec(function (err, pResults) {
+					if (err) {
+						Utils.returnError(err, res);
+					}
+
+					_response.totalRecords = pResults.length;
+					_response.data = pResults;
+					Utils.returnSuccess(_response, res);
+				});
+		}
+	}
+};
+
+exports.add_to_budget = function (req, res) {
+	let _response = new Utils.newResponse();
+	let body = req.body;
+	let records = body.records;
+	let budgetId = body.budgetId;
+
+	if (!records || !budgetId) {
+		Utils.returnError(`Bad data`, res);
+	} else {
+		databaseModel.updateMany({
+			_id: {
+				$in: records
+			}
+		}, {
+			$set: {
+				budgetId: budgetId
+			}
+		}, {
+			multi: true
+		}, function (err, pResults) {
+			if (err) {
+				Utils.returnError(`Can't count`, res);
+			}
+
+			if (pResults.ok) {
+				_response.message = `Records updated`;
+				Utils.returnSuccess(_response, res);
+			}
+		});
+	}
+};
+
+exports.remove_from_budget = function (req, res) {
+	let _response = new Utils.newResponse();
+	const body = req.body;
+	const recordId = body.recordId;
+
+
+	if (!recordId) {
+		Utils.returnError(`Bad data`, res);
+	} else {
+		databaseModel.updateOne({
+			_id: recordId
+		}, {
+			$set: {
+				budgetId: undefined
+			}
+		}, {
+			new: true
+		}, function (err, pResults) {
+			if (err) {
+				Utils.returnError(`Can't count`, res);
+			}
+
+			if (pResults.ok) {
+				_response.message = `Record updated`;
+				Utils.returnSuccess(_response, res);
+			}
+		});
+	}
+};
+
+exports.view_dashItem = function (req, res) {
+	let _response = new Utils.newResponse();
+	let body = req.body;
+
+	databaseModel.aggregate([{
+		$match: {
+			$and: [{
+					date1: {
+						$gte: body.year + '-01-01'
+					}
+				},
+				{
+					date1: {
+						$lt: (body.year + 1) + '-01-01'
+					}
+				},
+				{
+					budgetId: body.budgetId
+				}
+			]
+		}
+	},  {
+		$project: {
+			_id: 0,
+			debit: {
+				$round: ["$debit", 2]
+			},
+			date1: 1
+		}
+	}], function (err, pResults) {
+		if (err) {
+			Utils.returnError(err, res);
+		}
+
+		_response.data = pResults
+		Utils.returnSuccess(_response, res);
+	});
+};
+/* #endregion */

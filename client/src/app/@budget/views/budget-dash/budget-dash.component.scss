@@ -9,6 +9,27 @@
 				margin-right: 0;
 			}
 		}
+
+		&--Year {
+			width: 200px;
+			top: -12px;
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
+	}
+
+	&__Year {
+		display: flex;
+
+		&--Control {}
+
+		&--Input {
+			& input {
+				width: 70px;
+				font-size: 14px;
+				text-align: center;
+			}
+		}
 	}
 
 	&__Row {

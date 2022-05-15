@@ -10,6 +10,7 @@ import { BudgetDashBarComponent } from './components/budget-dash-bar/budget-dash
 import { BudgetEditComponent } from './views/budget-edit/budget-edit.component';
 import { BudgetDashComponent } from './views/budget-dash/budget-dash.component';
 import { BudgetViewComponent } from './views/budget-view/budget-view.component';
+import { BudgetRecordsComponent } from './components/budget-records/budget-records.component';
 
 @NgModule({
 	declarations: [
@@ -18,6 +19,7 @@ import { BudgetViewComponent } from './views/budget-view/budget-view.component';
 		BudgetDashComponent,
 		BudgetViewComponent,
 		BudgetDashBarComponent,
+		BudgetRecordsComponent,
 	],
 	imports: [
 		CommonModule,

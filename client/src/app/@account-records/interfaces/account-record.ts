@@ -14,6 +14,7 @@ export class AccountRecordModel {
 	comments: string;
 	processed: boolean;
 	originalRecord: string;
+	checked?: boolean;
 
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);

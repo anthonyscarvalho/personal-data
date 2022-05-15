@@ -33,7 +33,7 @@ const routes: Routes = [
 	{
 		path: 'companies',
 		children: [
-			{ path: '', component: CompaniesDashboardComponent },
+			{ path: '', redirectTo: 'view' },
 			{ path: 'view', component: CompaniesViewComponent },
 			{ path: 'add', component: CompaniesEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: CompaniesEditComponent, data: { add: false } },

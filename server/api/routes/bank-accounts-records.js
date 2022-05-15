@@ -24,4 +24,14 @@ module.exports = function (app) {
 	app.route(baseUrl + `/last-record/:id`).post(controller.last_record);
 
 	app.route(baseUrl + `/fix-order`).post(controller.fix_order);
+
+	app.route(baseUrl + `/budget/:id`).post(controller.budget);
+
+	app.route(baseUrl + `/budget-search/`).post(controller.budget_search);
+
+	app.route(baseUrl + `/add-to-budget/`).post(controller.add_to_budget);
+
+	app.route(baseUrl + `/budget-dash-item`).post(controller.view_dashItem);
+
+	app.route(baseUrl + `/remove-from-budget/`).post(controller.remove_from_budget);
 };

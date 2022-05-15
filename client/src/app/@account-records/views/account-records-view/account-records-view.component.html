@@ -44,21 +44,29 @@
 								<th>Credit</th>
 								<th>Debit</th>
 								<th>Balance</th>
+								<th>Cal Balance</th>
 								<th>Service Fee</th>
 								<th></th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody class="table-component__table--body" *ngIf="tableBody">
-							<tr *ngFor="let row of tableBody" class="table-component__table--body-row">
+							<tr *ngFor="let row of tableBody; let i = index" class="table-component__table--body-row">
 								<td>{{ row._id }}</td>
 								<td>{{ row.order }}</td>
-								<td>{{ row.description }}</td>
+								<!-- <td>{{ row.description }}</td> -->
+								<td>
+									<input type="text" [(ngModel)]="row.description" (blur)="updateRecord(row)">
+								</td>
 								<td>{{ row.date1 }}</td>
 								<td>{{ row.date2 }}</td>
 								<td>{{ row.credit | currency : 'R ' }}</td>
 								<td>{{ row.debit | currency : 'R ' }}</td>
-								<td>{{ row.balance | currency : 'R ' }}</td>
+								<td>
+									<input type="number" [(ngModel)]="row.balance" (blur)="updateRecord(row)">
+								</td>
+								<!-- <td>{{ row.balance }}</td> -->
+								<td>{{ showCalBalance(i) }}</td>
 								<td>{{ row.serviceFee }}</td>
 								<td class="table-component__controls">
 									<span ng-if="userRoles.edit == 'true'">

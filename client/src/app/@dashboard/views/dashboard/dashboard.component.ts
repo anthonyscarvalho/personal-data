@@ -45,7 +45,6 @@ export class DashboardComponent implements OnInit {
 	reportMenuItems: MenuModel[] = [
 		{ name: `Income`, url: `/reports/income`, order: 1, icon: `dollar-sign` },
 		{ name: `Expenses`, url: `/reports/expenses`, order: 2, icon: `list` },
-		{ name: `Adwords`, url: `/reports/adwords`, order: 3, icon: `list` },
 	];
 
 	constructor(

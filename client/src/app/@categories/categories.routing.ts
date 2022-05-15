@@ -34,7 +34,7 @@ const routes: Routes = [
 	{
 		path: 'categories',
 		children: [
-			{ path: '', component: CategoriesDashboardComponent },
+			{ path: '', redirectTo: 'view' },
 			{ path: 'view', component: CategoriesViewComponent },
 			{ path: 'add', component: CategoriesEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: CategoriesEditComponent, data: { add: false } },

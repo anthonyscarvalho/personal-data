@@ -6,7 +6,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 // modules
-import { BudgetModel } from '@budget/interfaces';
+import { AccountRecordModel } from '@accountRecords/interfaces';
 
 @Component({
 	selector: 'acc-account-records-view',
@@ -19,7 +19,8 @@ export class AccountRecordsViewComponent implements OnInit {
 	bsModalRef: BsModalRef;
 	apiUrl: string;
 	tableHead: any[];
-	tableBody: BudgetModel[];
+	tableBody: AccountRecordModel[];
+	submitted: boolean = false;
 
 	public filterBoxOptions: IFilterBoxOptions = new IFilterBoxOptions({
 		bankAccount: this._generalService.getBankAccount(),
@@ -84,6 +85,7 @@ export class AccountRecordsViewComponent implements OnInit {
 		this._httpService.post('bank-account-records/view', this.filterBoxOptions).then((results: any) => {
 			if (results.status === `00`) {
 				// this.results = results.data;
+
 				this.tableBody = results.data;
 				this.filterBoxOptions.totalRecords = results.totalRecords;
 			}
@@ -96,6 +98,38 @@ export class AccountRecordsViewComponent implements OnInit {
 				this._notificationService.success(results.message);
 				this.load();
 			}
+		});
+	}
+
+	showCalBalance(index: number) {
+		const current = this.tableBody[index];
+		let next = null;
+		if (index < this.tableBody.length - 1) {
+			next = this.tableBody[index + 1];
+		}
+
+		if (next) {
+
+			const balance = current.credit + current.debit;
+			const nextBalance = next.balance === null ? next.credit + next.debit : next.balance;
+			return (nextBalance + balance).toFixed(2);
+		} else {
+			return (current.credit + current.debit).toFixed(2);
+		}
+	}
+
+	updateRecord(row) {
+		this.submitted = true;
+		this._httpService.update(`bank-account-records/update`, row._id, row).then((pResult: any) => {
+			const _valid = this._generalService.validateResponse(pResult);
+			if (_valid === `valid`) {
+				this._notificationService.success(pResult.message);
+			} else {
+				this._notificationService.warn(pResult.message);
+			}
+			setTimeout(() => {
+				this.submitted = false;
+			}, 500);
 		});
 	}
 

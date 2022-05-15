@@ -1,0 +1,61 @@
+<legend>Budget Records - <button class="btn btn-sm btn-primary mg__r20" (click)="syncBudgetRecords = !syncBudgetRecords; showBudgetSync()">
+		<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true" *ngIf="!syncBudgetRecords"></fa-icon>
+		<fa-icon [icon]="['fas', 'minus']" [fixedWidth]="true" *ngIf="syncBudgetRecords"></fa-icon>
+	</button>
+	<button class="btn btn-sm btn-info" [class.mg__r20]="syncBudgetRecords" (click)="load()">
+		<fa-icon [icon]="['fas', 'sync']" [fixedWidth]="true"></fa-icon>
+	</button>
+	<button class="btn btn-sm btn-success" (click)="saveRecords()" *ngIf="syncBudgetRecords">
+		<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon>
+	</button>
+</legend>
+<ng-container *ngIf="syncBudgetRecords; else viewBudgetRecords">
+	<ng-container *ngIf="syncRecords" [ngTemplateOutlet]="recordsTable" [ngTemplateOutletContext]="{ budgetTableData: syncRecords, selection:true}"></ng-container>
+</ng-container>
+<ng-template #viewBudgetRecords>
+	<acc-table-pagination [filterBoxOptions]="recordFilterBoxOptions" (updater)="recordFilterUpdater($event)"></acc-table-pagination>
+	<ng-container *ngIf="budgetRecords" [ngTemplateOutlet]="recordsTable" [ngTemplateOutletContext]="{ budgetTableData: budgetRecords}"></ng-container>
+</ng-template>
+
+<ng-template #recordsTable let-budgetTableData="budgetTableData" let-selection="selection">
+	<table class="table table-sm">
+		<thead class="table-component__table--head">
+			<tr class="table-component__table--head-row">
+				<ng-container *ngIf="selection">
+					<th width="35px"><input type="checkbox" name="checkbox_all" [(ngModel)]="allChecked" (click)="checkAll()" /></th>
+				</ng-container>
+				<th width="170px">ID</th>
+				<th>Description</th>
+				<th width="100px">Date 1</th>
+				<th width="100px">Date 2</th>
+				<th width="100px">Credit</th>
+				<th width="100px">Debit</th>
+				<ng-container *ngIf="!selection">
+					<th width="35px"></th>
+				</ng-container>
+			</tr>
+		</thead>
+		<tbody class="table-component__table--body" *ngIf="budgetTableData">
+			<tr *ngFor="let row of budgetTableData" class="table-component__table--body-row">
+				<ng-container *ngIf="selection">
+					<td><input type="checkbox" name="checkbox_{{row._id}}" [(ngModel)]="row.checked" /></td>
+				</ng-container>
+				<td>{{ row._id }}</td>
+				<td>{{ row.description }}</td>
+				<td>{{ row.date1 }}</td>
+				<td>{{ row.date2 }}</td>
+				<td>{{ row.credit | currency : 'R ' }}</td>
+				<td>{{ row.debit | currency : 'R ' }}</td>
+				<ng-container *ngIf="!selection">
+					<td class="table-component__controls">
+						<span ng-if="userRoles.delete == 'true'">
+							<button type="button" class="table-component__table--body-row-button delete" (click)="deleteBudgetRecord( row._id )">
+								<fa-icon [icon]="['fas', 'minus-circle']" [fixedWidth]="true"></fa-icon>
+							</button>
+						</span>
+					</td>
+				</ng-container>
+			</tr>
+		</tbody>
+	</table>
+</ng-template>

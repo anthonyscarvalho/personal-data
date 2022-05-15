@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 // external
-import { Chart, ChartPoint } from 'chart.js';
+import { Chart, ChartPoint, ChartDataSets } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
+// common
+import { GeneralService, HttpService, NotificationsService } from '@common/services';
 // modules
 import { ChartOptionsModel } from '@budget/interfaces';
 
@@ -13,12 +15,16 @@ import { ChartOptionsModel } from '@budget/interfaces';
 export class BudgetDashBarComponent implements OnInit {
 	@Input() budgetItem;
 	@Input() year;
-	months = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
+	months: Label[] = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
 
-	public chart: ChartOptionsModel = {
+	public chart: any = {
+		type: 'line',
+		legend: true,
 		options: {
 			responsive: true,
-			animation: null,
+			animation: {
+				duration: 0
+			},
 			tooltips: {
 				intersect: false,
 				mode: 'index',
@@ -37,65 +43,90 @@ export class BudgetDashBarComponent implements OnInit {
 					display: true,
 					text: (ctx) => 'Tooltip position mode: ' + ctx.chart.options.plugins.tooltip.position,
 				},
-			},
-			elements:
-			{
-				line:
-				{
-					fill: false,
-				}
-			},
-			scales: {
-				yAxes: [{
-					ticks: {
-						beginAtZero: true
-					}
-				}]
+			}
+		},
+		plugins: {
+			legend: {
+				position: 'top',
 			},
 		},
-		labels: this.months,
-		legend: true,
-		type: 'bar',
-		plugins: [],
 		colors: [
 			{
-				backgroundColor: 'rgba(1, 1, 128, 0.4)',
-				borderColor: 'rgba(1, 1, 128, 0.4)',
+				backgroundColor: 'rgba(201, 203, 207, 0)',
+				borderColor: 'rgb(201, 203, 207)',
 			},
 			{
-				backgroundColor: 'rgba(5, 171, 5, 1)',
-				borderColor: 'rgba(5, 171, 5, 0.4)',
-			},
-			{
-				backgroundColor: 'rgba(245, 7, 7, 1)',
-				borderColor: 'rgba(245, 7, 7, 0.4)',
-			},
-			{
-				backgroundColor: 'rgba(75, 224, 232, 1)',
-				borderColor: 'rgba(75, 224, 232, 0.4)',
-			},
-			{
-				backgroundColor: 'rgba(255, 128, 0, 1)',
-				borderColor: 'rgba(255, 128, 0, 0.4)',
-			}
-		],
-	};
-
-	constructor() { }
-
-	ngOnInit(): void {
-
-		const _budgetData: ChartPoint[] = [];
-		this.months.map((map, index) => {
-			_budgetData.push({ x: map, y: (10 * index), r: this.budgetItem.budget });
-		})
-
-		this.chart.data = [
-			{
-				data: _budgetData,
-				label: 'Budget',
-				type: 'line',
+				backgroundColor: 'rgba(255, 99, 132, 0.5)',
+				borderColor: 'rgb(255, 99, 132)',
 			}
 		]
+	};
+
+	constructor(
+		private _generalService: GeneralService,
+		private _httpService: HttpService,
+	) { }
+
+	ngOnInit(): void {
+		// const _budgetData: ChartPoint[] = [];
+		// this.months.map((map, index) => {
+		// 	_budgetData.push({ x: map, y: this.budgetItem.budget });
+		// })
+
+		// this.chart.data = [
+		// 	{
+		// 		data: _budgetData,
+		// 		label: 'Budget',
+		// 		type: 'line',
+		// 	}
+		// ]
+
+		this.loadBudgetData();
+	}
+
+	loadBudgetData() {
+		this._httpService.post(`bank-account-records/budget-dash-item`, { budgetId: this.budgetItem._id, year: this.year }).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+
+				const data: ChartDataSets[] = [
+					{
+						label: 'Budget',
+						data: [],
+
+					},
+					{
+						label: 'Actual',
+						data: [],
+
+					}
+				];
+
+				this.months.forEach((month, index) => {
+
+					data[0].data.push(this.budgetItem.budget);
+					let monthData;
+
+					if (pResults.data.length > 0) {
+						monthData = pResults.data.filter((record) => {
+							const month = (index + 1) < 10 ? '0' + (index + 1) : (index + 1);
+							return record.date1.includes(`${this.year}-${month}`);
+						});
+					}
+
+					if (monthData && monthData.length > 0) {
+						let total = 0;
+						monthData.forEach(element => {
+							total += element.debit;
+						});
+						data[1].data.push(total * (-1));
+					} else {
+						data[1].data.push(0);
+					}
+				})
+
+				this.chart.data = data;
+			}
+		})
 	}
 }

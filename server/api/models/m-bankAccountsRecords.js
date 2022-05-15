@@ -37,8 +37,11 @@ module.exports = mongoose.model(modelName,
 		serviceFee: {
 			type: Boolean
 		},
-		journal: {
-			type: Boolean
+		journalId: {
+			type: String
+		},
+		budgetId: {
+			type: String
 		},
 		comments: {
 			type: String

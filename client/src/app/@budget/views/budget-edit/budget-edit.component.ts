@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 // common
@@ -13,7 +13,7 @@ import { BreakDownModel, BudgetModel } from '@budget/interfaces';
 	templateUrl: './budget-edit.component.html',
 	styleUrls: ['./budget-edit.component.scss']
 })
-export class BudgetEditComponent implements OnInit {
+export class BudgetEditComponent implements OnInit, AfterContentChecked {
 	megaMenu: any;
 	submitted = false;
 	error = false;
@@ -32,9 +32,10 @@ export class BudgetEditComponent implements OnInit {
 	constructor(
 		private route: ActivatedRoute,
 		private datePipe: DatePipe,
+		private changeDetectionRef: ChangeDetectorRef,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
-		private _notificationsService: NotificationsService
+		private _notificationsService: NotificationsService,
 	) {
 		this.megaMenu = this.route.snapshot.data.menu;
 		this.add = this.route.snapshot.data.add;
@@ -151,5 +152,9 @@ export class BudgetEditComponent implements OnInit {
 	removeBreakdown(pIndex) {
 		this.resultRecord.breakdown.splice(pIndex, 1);
 		this.updateActual();
+	}
+
+	ngAfterContentChecked() {
+		this.changeDetectionRef.detectChanges();
 	}
 }

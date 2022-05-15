@@ -35,7 +35,7 @@
 		<div class="card" *ngIf="filterBoxConfig.showBankAccounts">
 			<div class="card-body">
 				<legend>Bank Accounts</legend>
-				<select class="form-control" name="filterBoxOptions.bankAccount" (change)="updateBankAccount($event.target.value)" [(ngModel)]="filterBoxOptions.bankAccount">
+				<select class="form-control" name="filterBoxOptions.bankAccount" (change)="updateBankAccount()" [(ngModel)]="filterBoxOptions.bankAccount">
 					<option value="">Please Select</option>
 					<option *ngFor="let _option of bankAccounts" [value]="_option._id" [selected]="filterBoxOptions.bankAccount === _option._id">{{_option.accountDescription}}</option>
 				</select>

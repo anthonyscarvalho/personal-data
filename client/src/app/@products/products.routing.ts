@@ -34,7 +34,7 @@ const routes: Routes = [
 	{
 		path: 'products',
 		children: [
-			{ path: '', component: ProductsDashboardComponent },
+			{ path: '', redirectTo: 'view' },
 			{ path: 'view', component: ProductsViewComponent },
 			{ path: 'add', component: ProductsEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: ProductsEditComponent, data: { add: false } },
