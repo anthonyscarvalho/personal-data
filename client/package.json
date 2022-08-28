@@ -35,7 +35,6 @@
 		"d3-tip": "^0.9.1",
 		"mydatepicker": "^9.0.1",
 		"ng2-charts": "^2.3.0",
-		"ng2-toasty": "^4.0.3",
 		"ngx-bootstrap": "^5.6.1",
 		"node-sass": "^4.13.1",
 		"rxjs": "~6.5.5",
