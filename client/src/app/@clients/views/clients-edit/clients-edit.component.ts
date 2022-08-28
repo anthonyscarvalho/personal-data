@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES, RENEWABLE } from '@common/constants';
 import { CompanyInterface } from '@companies/interfaces';
-// modules
+import { ProductModel } from '@products/interfaces';
+
 import { ClientModel, ClientProductModel } from '@clients/interfaces';
 
 @Component({
@@ -24,6 +25,7 @@ export class ClientsEditComponent implements OnInit {
 	resultRecord: ClientModel;
 	recordProduct: ClientProductModel;
 	productAdd = true;
+	products: ProductModel[] = [];
 
 	// select values
 	categories: any[];
@@ -52,6 +54,7 @@ export class ClientsEditComponent implements OnInit {
 	ngOnInit(): void {
 		if (this.parentId) {
 			this.load();
+			this.loadProducts();
 		} else {
 			this._generalService.setTitle(`Budget: Add`);
 		}
@@ -63,6 +66,14 @@ export class ClientsEditComponent implements OnInit {
 			if (_valid === `valid`) {
 				this.resultRecord = new ClientModel(pResults.data);
 				this._generalService.setTitle(`Budget: Edit - ` + pResults.data.business);
+			}
+		});
+	}
+
+	loadProducts() {
+		this._httpService.post('products/view_active', {}).then((results: any) => {
+			if (results.status === `00`) {
+				this.products = results.data;
 			}
 		});
 	}
@@ -102,6 +113,23 @@ export class ClientsEditComponent implements OnInit {
 			}, (error) => {
 				this.submitted = false;
 			});
+		}
+	}
+
+	selectOption(event) {
+		const product: ProductModel = this.products.find((product) => product._id === event);
+
+		if (product) {
+			const date = new Date();
+			const option = new ClientProductModel();
+			option.price = product.price;
+			option.description = product.description;
+			option.created = this._generalService.formatDate(date);
+			option.date = this._generalService.formatDate(date);
+			option.year = date.getFullYear();
+			option.month = date.getMonth();
+
+			this.recordProduct = option;
 		}
 	}
 

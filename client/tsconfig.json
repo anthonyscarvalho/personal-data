@@ -38,7 +38,7 @@
 		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
 		"allowEmptyCodegenFiles": true,
-		"enableIvy": false,
+		"enableIvy": true,
 	},
 	"target": "es6",
 	"files": [

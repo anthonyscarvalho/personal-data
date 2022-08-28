@@ -14,45 +14,59 @@
 										<div class="col-md-8">
 											<div class="row">
 												<div class="col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.business" (updater)="updateValue($event, 'business')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Business'"></acc-inputs>
+													<acc-inputs [inputLabel]="'Business'">
+														<input [(ngModel)]="resultRecord.business" name="business" [disabled]="submitted" />
+													</acc-inputs>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-md-4 col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.vat" (updater)="updateValue($event, 'vat')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'VAT'"></acc-inputs>
+													<acc-inputs [inputLabel]="'VAT'">
+														<input [(ngModel)]="resultRecord.vat" name="vat" [disabled]="submitted" />
+													</acc-inputs>
 												</div>
 												<div class="col-md-4 col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.number" (updater)="updateValue($event, 'number')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Number'"></acc-inputs>
+													<acc-inputs [inputLabel]="'Number'">
+														<input [(ngModel)]="resultRecord.number" name="number" [disabled]="submitted" />
+													</acc-inputs>
 												</div>
 												<div class="col-md-4 col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.fax" (updater)="updateValue($event, 'fax')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Fax'"></acc-inputs>
+													<acc-inputs [inputLabel]="'Fax'">
+														<input [(ngModel)]="resultRecord.fax" name="fax" [disabled]="submitted" />
+													</acc-inputs>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-md-4 col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.signupDate" (updater)="updateValue($event, 'signupDate')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Sign Up Date'"></acc-inputs>
+													<acc-inputs [inputLabel]="'Sign Up Date'">
+														<input [(ngModel)]="resultRecord.signupDate" name="signupDate" [disabled]="submitted" bsDatepicker />
+													</acc-inputs>
 												</div>
 												<div class="col-md-4 col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.registration" (updater)="updateValue($event, 'registration')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Registration'"></acc-inputs>
+													<acc-inputs [inputLabel]="'Business Registration'">
+														<input [(ngModel)]="resultRecord.registration" name="registration" [disabled]="submitted" />
+													</acc-inputs>
 												</div>
 												<div class="col-md-4 col-sm-12">
 													<acc-inputs [inputValue]="resultRecord.badClient" (updater)="updateValue($event, 'badClient')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Bad Client'"></acc-inputs>
 												</div>
 												<div class="col-sm-12">
-													<acc-inputs [inputValue]="resultRecord.notes" (updater)="updateValue($event, 'notes')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Notes'"></acc-inputs>
+													<acc-inputs [inputLabel]="'Notes'">
+														<textarea [(ngModel)]="resultRecord.notes" name="notes" [disabled]="submitted" rows="4"></textarea>
+													</acc-inputs>
 												</div>
 											</div>
 										</div>
 										<div class="col-md-4">
-											<div class="form-group">
-												<acc-inputs [inputValue]="resultRecord.billingAddress" (updater)="updateValue($event, 'billingAddress')" [inputType]="'textArea'" [submitted]="submitted" [inputLabel]="'Billing Address'"></acc-inputs>
-											</div>
-											<div class="form-group">
-												<acc-inputs [inputValue]="resultRecord.city" (updater)="updateValue($event, 'city')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'City'"></acc-inputs>
-											</div>
-											<div class="form-group">
-												<acc-inputs [inputValue]="resultRecord.postalCode" (updater)="updateValue($event, 'postalCode')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Postal Code'"></acc-inputs>
-											</div>
+											<acc-inputs [inputLabel]="'Billing Address'">
+												<textarea [(ngModel)]="resultRecord.billingAddress" rows="4" name="billingAddress" [disabled]="submitted"></textarea>
+											</acc-inputs>
+											<acc-inputs [inputLabel]="'City'">
+												<input [(ngModel)]="resultRecord.city" name="city" [disabled]="submitted" />
+											</acc-inputs>
+											<acc-inputs [inputLabel]="'Postal Code'">
+												<input [(ngModel)]="resultRecord.postalCode" name="postalCode" [disabled]="submitted" />
+											</acc-inputs>
 										</div>
 									</div>
 								</form>
@@ -85,6 +99,16 @@
 									</button>
 								</legend>
 								<ng-container *ngIf="productAdd; else clientProducts">
+									<div class="row">
+										<div class="col-md-12">
+											<acc-inputs [inputLabel]="'Product'">
+												<select (change)="selectOption($event.target.value)">
+													<option value="">Please select</option>
+													<option *ngFor="let product of products" [value]="product._id">{{product.description}}</option>
+												</select>
+											</acc-inputs>
+										</div>
+									</div>
 									<form name="clientProducts" id="clientProducts">
 										<div class="row">
 											<div class="col-md-6 col-sm-12">
@@ -108,10 +132,14 @@
 												<acc-inputs [inputValue]="recordProduct.price" (updater)="updateBreakdownValue($event, 'price')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'price'"></acc-inputs>
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordProduct.date" (updater)="updateBreakdownValue($event, 'date')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date'"></acc-inputs>
+												<acc-inputs [inputLabel]="'Date'">
+													<input [(ngModel)]="recordProduct.date" name="productDate" [disabled]="submitted" bsDatepicker />
+												</acc-inputs>
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordProduct.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+												<acc-inputs [inputLabel]="'Date Created'">
+													<input [(ngModel)]="recordProduct.created" name="productCreated" [disabled]="submitted" bsDatepicker />
+												</acc-inputs>
 											</div>
 										</div>
 										<div class="row">

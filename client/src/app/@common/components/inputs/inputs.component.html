@@ -31,6 +31,7 @@
 		<label class="inputs__file" *ngSwitchCase="'files'"> Select {{selectMultiple === true ? 'files' : 'file'}} <input type="file" style="display: none;" [attr.multiple]="selectMultiple ? 'multiple' : null" (change)="pushChanges($event.target.files)"></label>
 		<!-- WYSIWYG editor -->
 		<ckeditor *ngSwitchCase="'editor'" [editor]="editor" [config]="config" (change)="onCKEChange($event)" [data]="inputValue"></ckeditor>
+		<ng-content></ng-content>
 	</ng-container>
 	<!-- error -->
 	<acc-errors [element]="inputValue" *ngIf="submitted"></acc-errors>

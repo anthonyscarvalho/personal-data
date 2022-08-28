@@ -52,6 +52,26 @@ exports.view_all = function (req, res) {
 	});
 };
 
+exports.view_active = function (req, res) {
+	let _response = new Utils.newResponse();
+	let query = {
+		canceled: 'false'
+	}
+
+	databaseModel.find(query)
+		.sort({
+			description: 1
+		})
+		.exec(function (err, pResults) {
+			if (err) {
+				Utils.returnError(err, res);
+			}
+
+			_response.data = pResults;
+			Utils.returnSuccess(_response, res);
+		});
+};
+
 exports.sum_records = function (req, res) {
 	let _response = new Utils.newResponse();
 

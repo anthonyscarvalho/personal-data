@@ -3,7 +3,9 @@ module.exports = function (app) {
 	var controller = require('../controllers/c-products');
 	var baseUrl = '/products';
 
-	app.route(baseUrl+ `/view`).post(controller.view_all);
+	app.route(baseUrl + `/view`).post(controller.view_all);
+
+	app.route(baseUrl + `/view_active`).post(controller.view_active);
 
 	app.route(baseUrl + `/view/dash`).post(controller.view_dash);
 

@@ -9,6 +9,7 @@
 @import './app/scss/config.scss';
 @import "./app/scss/global.scss";
 @import "./app/scss/buttons.scss";
+@import "./app/scss/inputs.scss";
 @import "./app/scss/margin.scss";
 @import "./app/scss/modal.scss";
 @import "./app/scss/page.scss";
@@ -47,6 +48,10 @@ div.buttons {
 .pagination {
 	justify-content: center;
 	margin-bottom: 0 !important;
+}
+
+legend {
+	float: unset !important;
 }
 
 // custom scrollbar
