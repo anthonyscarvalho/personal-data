@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-// external
-import { Chart, ChartPoint, ChartDataSets } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
-// common
+
+import { ChartDataset } from 'chart.js';
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-// modules
+
 import { ChartOptionsModel } from '@budget/interfaces';
 
 @Component({
@@ -15,51 +14,52 @@ import { ChartOptionsModel } from '@budget/interfaces';
 export class BudgetDashBarComponent implements OnInit {
 	@Input() budgetItem;
 	@Input() year;
-	months: Label[] = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
 
-	public chart: any = {
+
+
+	chart: ChartOptionsModel = {
 		type: 'line',
 		legend: true,
+		labels: [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`],
+		data: [],
 		options: {
-			responsive: true,
-			animation: {
-				duration: 0
-			},
-			tooltips: {
-				intersect: false,
+			interaction: {
 				mode: 'index',
-				bodySpacing: 5,
-				xPadding: 10,
-				yPadding: 10,
-				titleSpacing: 10,
-				callbacks: {
-					label: (tooltipItem) => {
-						return 'R ' + Number(tooltipItem.yLabel).toFixed(2);
-					}
-				},
+				intersect: false,
 			},
 			plugins: {
-				title: {
-					display: true,
-					text: (ctx) => 'Tooltip position mode: ' + ctx.chart.options.plugins.tooltip.position,
+				legend: {
+					position: 'top'
 				},
+				tooltip: {
+					backgroundColor: 'rgba(0, 0, 0, 0.8)',
+					displayColors: false,
+					padding: 6,
+					titleSpacing: 6,
+					titleColor: '#ffffff',
+					bodyColor: '#ffffff',
+					bodyFont: {
+						size: 11
+					},
+					titleFont: {
+						size: 13
+					},
+					callbacks: {
+						label: function (context) {
+							let label = context.dataset.label || '';
+
+							if (label) {
+								label += ': ';
+							}
+							if (context.parsed.y !== null) {
+								label += Number(context.parsed.y).toFixed();
+							}
+							return label;
+						}
+					}
+				}
 			}
-		},
-		plugins: {
-			legend: {
-				position: 'top',
-			},
-		},
-		colors: [
-			{
-				backgroundColor: 'rgba(201, 203, 207, 0)',
-				borderColor: 'rgb(201, 203, 207)',
-			},
-			{
-				backgroundColor: 'rgba(255, 99, 132, 0.5)',
-				borderColor: 'rgb(255, 99, 132)',
-			}
-		]
+		}
 	};
 
 	constructor(
@@ -76,20 +76,23 @@ export class BudgetDashBarComponent implements OnInit {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
 
-				const data: ChartDataSets[] = [
+				const data: ChartDataset[] = [
 					{
 						label: 'Budget',
 						data: [],
+						backgroundColor: 'rgba(201, 203, 207, 0)',
+						borderColor: 'rgb(201, 203, 207)'
 
 					},
 					{
 						label: 'Actual',
 						data: [],
-
+						backgroundColor: 'rgba(255, 99, 132, 0.5)',
+						borderColor: 'rgb(255, 99, 132)'
 					}
 				];
 
-				this.months.forEach((month, index) => {
+				this.chart.labels.forEach((month, index) => {
 
 					data[0].data.push(this.budgetItem.actual);
 					let monthData;

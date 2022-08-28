@@ -13,8 +13,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ToastyModule } from 'ng2-toasty';
-import { ChartsModule } from 'ng2-charts';
+import { ToastrModule } from 'ngx-toastr';
+import { NgChartsModule } from 'ng2-charts';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 // module
@@ -64,13 +64,13 @@ const allDirectives = [
 		// 3rd party scripts
 		BsDatepickerModule.forRoot(),
 		ButtonsModule.forRoot(),
-		ChartsModule,
+		NgChartsModule,
 		CKEditorModule,
 		FontAwesomeModule,
 		ModalModule.forRoot(),
 		PaginationModule.forRoot(),
 		TabsModule.forRoot(),
-		ToastyModule.forRoot(),
+		ToastrModule.forRoot(),
 	],
 	exports: [
 		...allComponents,
@@ -78,12 +78,12 @@ const allDirectives = [
 		// 3rd party scripts
 		BsDatepickerModule,
 		ButtonsModule,
-		ChartsModule,
+		NgChartsModule,
 		FontAwesomeModule,
 		ModalModule,
 		PaginationModule,
 		TabsModule,
-		ToastyModule,
+		ToastrModule,
 	],
 	providers: [{
 		provide: BsDatepickerConfig,

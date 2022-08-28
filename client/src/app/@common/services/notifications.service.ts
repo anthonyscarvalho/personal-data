@@ -1,39 +1,26 @@
 import { Injectable } from '@angular/core';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class NotificationsService {
-	toastOptions: ToastOptions = {
-		title: `Success`,
-		msg: ``,
-		showClose: true,
-		timeout: 5000,
-		theme: `default`,
-		onAdd: (toast: ToastData) => {
-			console.log(`Toast ` + toast.id + ` has been added!`);
-		},
-		onRemove: (toast: ToastData) => {
-			console.log(`Toast ` + toast.id + ` has been removed!`);
-		}
+	toastOptions: Partial<IndividualConfig> = {
+		closeButton: true,
+		timeOut: 5000,
 	}
 
 	constructor(
-		private toastyService: ToastyService,
+		private toastr: ToastrService
 	) { }
 
 	success(msg: string) {
-		this.toastOptions.title = `Success`;
-		this.toastOptions.msg = msg;
-		this.toastyService.success(this.toastOptions);
+		this.toastr.success(msg, `Success`, this.toastOptions);
 	}
 
 	warn(msg: string) {
-		this.toastOptions.title = `Error`;
-		this.toastOptions.msg = msg;
-		this.toastOptions.timeout = 6000;
+		this.toastOptions.timeOut = 6000;
 
-		this.toastyService.warning(this.toastOptions);
+		this.toastr.warning(msg, `Error`, this.toastOptions);
 	}
 }
