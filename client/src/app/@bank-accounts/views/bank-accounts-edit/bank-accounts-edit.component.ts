@@ -69,6 +69,7 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 		if (this.parentId) {
 			this.load();
 		} else {
+			this.resultRecord = new BankAccountModel();
 			this._generalService.setTitle(`Bank Accounts: Add`);
 		}
 	}

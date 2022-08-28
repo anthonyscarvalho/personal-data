@@ -1,13 +1,52 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// modules
-import { ClientsRoutingModule } from './clients.routing';
+import { Routes, RouterModule } from '@angular/router';
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// components
-import { ClientsDashboardComponent } from './views/clients-dashboard/clients-dashboard.component';
-import { ClientsEditComponent } from './views/clients-edit/clients-edit.component';
-import { ClientsViewComponent } from './views/clients-view/clients-view.component';
+// module
+import {
+	ClientsDashboardComponent,
+	ClientsEditComponent,
+	ClientsViewComponent,
+} from '@clients/views';
+
+const megaMenu = {
+	label: `Management`,
+	options: [{
+		name: 'Clients',
+		url: 'clients',
+		order: 1,
+		icon: 'chart-area',
+		children: [
+			{
+				name: 'View',
+				url: 'view',
+				order: 1,
+				icon: 'eye',
+			},
+			{
+				name: 'Add',
+				url: 'add',
+				order: 2,
+				icon: 'plus',
+			}
+		]
+	},],
+};
+
+const routes: Routes = [
+	{
+		path: 'clients',
+		children: [
+			{ path: '', component: ClientsDashboardComponent },
+			{ path: 'view', component: ClientsViewComponent },
+			{ path: 'add', component: ClientsEditComponent, data: { add: true } },
+			{ path: 'edit/:id', component: ClientsEditComponent, data: { add: false } },
+		],
+		data: { menu: megaMenu, module: `clients` }
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -18,8 +57,9 @@ import { ClientsViewComponent } from './views/clients-view/clients-view.componen
 	imports: [
 		CommonModule,
 		FormsModule,
-		ClientsRoutingModule,
+		RouterModule.forChild(routes),
 		CommonComponentsModule,
 	],
+	exports: [RouterModule]
 })
 export class ClientsModule { }

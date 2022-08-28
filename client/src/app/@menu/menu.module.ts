@@ -6,22 +6,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { CommonComponentsModule } from '@common/common.module';
 // module
 import {
-	DashboardComponent,
-} from '@dashboard/views';
+	MenuComponent,
+} from '@menu/views';
 
 const routes: Routes = [
 	{
-		path: 'dashboard',
+		path: 'menu',
 		children: [
-			{ path: '', component: DashboardComponent },
+			{ path: '', component: MenuComponent },
 		],
-		data: { module: `account-records` }
+		data: { module: `menu` }
 	}
 ];
 
 @NgModule({
 	declarations: [
-		DashboardComponent,
+		MenuComponent,
 	],
 	imports: [
 		CommonModule,
@@ -30,4 +30,4 @@ const routes: Routes = [
 	],
 	exports: [RouterModule]
 })
-export class DashboardModule { }
+export class MenuModule { }

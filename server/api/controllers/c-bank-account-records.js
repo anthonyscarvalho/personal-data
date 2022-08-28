@@ -95,6 +95,9 @@ exports.fix_order = function (req, res) {
 			}
 			let count = 0;
 			pResults.forEach((pResult, pIndex) => {
+				let updateRecord = {
+					order: count
+				};
 				if (pIndex > 0) {
 					if (pResult.debit || pResult.credit) {
 						const previousBalance = exports.round(pResults[pIndex - 1].balance);
@@ -104,15 +107,16 @@ exports.fix_order = function (req, res) {
 						if (balance !== exports.round(pResult.balance)) {
 							console.log('Order: ' + pResult.order, 'Balance: ' + pResult.balance, 'Prev: ' + previousBalance, 'Cal: ' + balance, 'Debit: ' + pResult.debit, 'Credit: ' + pResult.credit);
 						}
+						if (pResult.balance === 0) {
+							updateRecord.balance = balance;
+						}
 					}
 				}
 
 				databaseModel.updateOne({
 					_id: pResult._id
 				}, {
-					$set: {
-						order: count
-					}
+					$set: updateRecord
 				}, {
 					new: true
 				}, (err, pResults) => {});
@@ -500,8 +504,7 @@ exports.budget_search = function (req, res) {
 			let query = {
 				$or: orQuery,
 				$and: [{
-					$or:[
-						{
+					$or: [{
 							budgetId: {
 								$exists: false
 							}
@@ -614,7 +617,7 @@ exports.view_dashItem = function (req, res) {
 				}
 			]
 		}
-	},  {
+	}, {
 		$project: {
 			_id: 0,
 			debit: {

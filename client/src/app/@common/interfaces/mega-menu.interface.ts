@@ -1,4 +1,4 @@
-import { MenuModel } from '@dashboard/interfaces';
+import { MenuModel } from '@menu/interfaces';
 
 export interface MegaMenuModel {
 	label: string;

@@ -40,7 +40,7 @@ export class InputsComponent implements OnInit {
 	// public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
 	bsConfig = {
-		dateInputFormat: `DD/MM/YYYY`,
+		dateInputFormat: `DD-MM-YYYY`,
 		containerClass: `theme-dark-blue`,
 		showClearButton: true,
 		clearPosition: `right`
@@ -55,11 +55,7 @@ export class InputsComponent implements OnInit {
 		minMode: `year`
 	};
 
-	constructor() {
-		this.bsConfig.containerClass = `theme-dark-blue`;
-		this.bsConfig.dateInputFormat = `YYYY-MM-DD`; // Or format like you want
-		// this.bsConfig.showClearButton = true;
-	}
+	constructor() { }
 
 	ngOnInit(): void { }
 

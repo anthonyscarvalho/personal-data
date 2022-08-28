@@ -1,8 +1,13 @@
 <div class="header">
 	<div class="row no-gutters">
-		<div class="col-md-6"><a class="header__brand" routerLink="/">{{headerTitle}}</a></div>
+		<div class="col-md-6"><a class="header__brand" [routerLink]="['/']">{{headerTitle}}</a></div>
 		<div class="col-md-6">
 			<ul class="header__navigation">
+				<li class="header__navigation--item">
+					<a class="header__navigation--item-link" [routerLink]="['/', 'menu']">
+						<fa-icon [icon]="['fas', 'bars']" [fixedWidth]="true"></fa-icon>
+					</a>
+				</li>
 				<li class="header__navigation--item">
 					<a class="header__navigation--item-link">
 						<fa-icon [icon]="['fas', 'bell']" [fixedWidth]="true"></fa-icon>

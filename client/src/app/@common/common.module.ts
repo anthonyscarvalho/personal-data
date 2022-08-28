@@ -17,20 +17,22 @@ import { ToastyModule } from 'ng2-toasty';
 import { ChartsModule } from 'ng2-charts';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
-// Directives
-import { NumberOnly } from './directives/number-only.directive';
-
-// Components
-import { ErrorsComponent } from './components/errors/errors.component';
-import { FilterBoxComponent } from './components/filter-box/filter-box.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { SubMenuComponent } from './components/sub-menu/sub-menu.component';
-import { TableComponent } from './components/table/table.component';
-import { SideMenuComponent } from './components/side-menu/side-menu.component';
-import { LoadingComponent } from './components/loading/loading.component';
-import { InputsComponent } from './components/inputs/inputs.component';
-import { TablePaginationComponent } from './components/table-pagination/table-pagination.component';
+// module
+import {
+	NumberOnly,
+} from '@common/directives';
+import {
+	ErrorsComponent,
+	FilterBoxComponent,
+	HeaderComponent,
+	FooterComponent,
+	SubMenuComponent,
+	TableComponent,
+	SideMenuComponent,
+	LoadingComponent,
+	InputsComponent,
+	TablePaginationComponent
+} from '@common/components';
 
 const allComponents = [
 	ErrorsComponent,

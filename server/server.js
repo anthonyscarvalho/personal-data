@@ -78,7 +78,7 @@ require('./api/routes/budget')(app);
 require('./api/routes/journals')(app);
 require('./api/routes/journal-records')(app);
 require('./api/routes/products')(app);
-require('./api/routes/users');
+require('./api/routes/users')(app);
 require('./api/routes/users')(app);
 
 // used to return static assets through the api

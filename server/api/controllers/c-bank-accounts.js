@@ -93,7 +93,9 @@ exports.view_all = function (req, res) {
 	let filter = {
 		accountDescription: 1
 	};
-	let query = {};
+	let query = {
+		canceled: 'false'
+	};
 
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
@@ -129,12 +131,12 @@ exports.edit_record = function (req, res) {
 exports.add_record = function (req, res) {
 	var new_record = new databaseModel(req.body);
 
-	if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
+	if (!new_record.accountNumber || !(new_record.accountDescription + '')) {
 		Utils.returnError(`bad data`, res);
 	} else {
 		let _response = new Utils.newResponse();
 		databaseModel.find({
-			accountNumber: req.body.accountNumber
+			accountNumber: new_record.accountNumber
 		}, {}, {}, function (err, pResults) {
 			if (err) {
 				Utils.returnError(`can't fetch`, res);
@@ -142,22 +144,43 @@ exports.add_record = function (req, res) {
 
 			_response.data = pResults;
 
-			if (pResults.length > 0) {
+			if (pResults.length == 0) {
 				new_record.save(function (err, pResults) {
 					if (err) {
 						Utils.returnError(err, res);
+						return;
 					}
 
-					_response.message = `Record updated`;
+					_response.message = `Record added`;
 					_response.data = pResults;
 					Utils.returnSuccess(_response, res);
 				});
-			} else {
-				// record exists
+			} else if (pResults.length == 1) {
 				_response.status = `02`;
-				_response.message = 'Record exists';
+				_response.message = `Record exists`;
+				Utils.returnSuccess(_response, res);
+			} else if (pResults.length > 1) {
+				_response.status = `03`;
+				_response.message = `Duplicate entries for record`;
 				Utils.returnSuccess(_response, res);
 			}
+
+			// if (pResults.length > 0) {
+			// 	new_record.save(function (err, pResults) {
+			// 		if (err) {
+			// 			Utils.returnError(err, res);
+			// 		}
+
+			// 		_response.message = `Record updated`;
+			// 		_response.data = pResults;
+			// 		Utils.returnSuccess(_response, res);
+			// 	});
+			// } else {
+			// 	// record exists
+			// 	_response.status = `02`;
+			// 	_response.message = 'Record exists';
+			// 	Utils.returnSuccess(_response, res);
+			// }
 		});
 	}
 };

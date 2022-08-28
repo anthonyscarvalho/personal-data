@@ -3,11 +3,23 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// modules
-import { JournalRoutingModule } from './journal.routing';
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// components
-import { JournalViewComponent } from './views/journal-view/journal-view.component';
+// module
+import {
+	JournalViewComponent,
+} from '@journal/views';
+
+const routes: Routes = [
+	{
+		path: 'journals', children: [
+			{ path: '', component: JournalViewComponent },
+			{ path: 'view', component: JournalViewComponent },
+			// { path: 'add', component: JournalsComponent },
+			// { path: 'edit/:id', component: JournalsComponent }
+		]
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -15,7 +27,7 @@ import { JournalViewComponent } from './views/journal-view/journal-view.componen
 	],
 	imports: [
 		CommonModule,
-		JournalRoutingModule,
+		RouterModule.forChild(routes),
 		FormsModule,
 		ReactiveFormsModule,
 		CommonComponentsModule

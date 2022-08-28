@@ -29,6 +29,7 @@
 			"@dashboard/*": ["src/app/@dashboard/*"],
 			"@journal/*": ["src/app/@journal/*"],
 			"@journalRecords/*": ["src/app/@journal-records/*"],
+			"@menu/*": ["src/app/@menu/*"],
 			"@products/*": ["src/app/@products/*"],
 			"@users/*": ["src/app/@users/*"],
 		}

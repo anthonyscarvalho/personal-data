@@ -1,13 +1,52 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// modules
-import { UsersRoutingModule } from './users.routing';
+import { Routes, RouterModule } from '@angular/router';
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// components
-import { UsersDashboardComponent } from './views/users-dashboard/users-dashboard.component';
-import { UsersEditComponent } from './views/users-edit/users-edit.component';
-import { UsersViewComponent } from './views/users-view/users-view.component';
+// module
+import {
+	UsersDashboardComponent,
+	UsersEditComponent,
+	UsersViewComponent,
+} from '@users/views';
+
+const megaMenu = {
+	label: `Management`,
+	options: [{
+		name: 'Users',
+		url: '/users',
+		order: 1,
+		icon: 'users',
+		children: [
+			{
+				name: 'View',
+				url: '/view',
+				order: 1,
+				icon: 'eye',
+			},
+			{
+				name: 'Add',
+				url: '/add',
+				order: 2,
+				icon: 'plus',
+			}
+		]
+	},],
+};
+
+const routes: Routes = [
+	{
+		path: 'users',
+		children: [
+			{ path: '', redirectTo: 'view' },
+			{ path: 'view', component: UsersViewComponent },
+			{ path: 'add', component: UsersEditComponent, data: { add: true } },
+			{ path: 'edit/:id', component: UsersEditComponent, data: { add: false } },
+		],
+		data: { menu: megaMenu, module: `users` }
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -18,8 +57,9 @@ import { UsersViewComponent } from './views/users-view/users-view.component';
 	imports: [
 		CommonModule,
 		FormsModule,
-		UsersRoutingModule,
+		RouterModule.forChild(routes),
 		CommonComponentsModule,
 	],
+	exports: [RouterModule]
 })
 export class UsersModule { }

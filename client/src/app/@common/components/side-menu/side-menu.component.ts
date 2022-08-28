@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// interface
+// common
 import { MegaMenuModel } from '@common/interfaces';
-// services
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
@@ -36,7 +35,6 @@ export class SideMenuComponent implements OnInit {
 		} else {
 			this.parentId = null;
 		}
-
 	}
 
 	ngOnInit(): void {
@@ -44,8 +42,8 @@ export class SideMenuComponent implements OnInit {
 			{
 				label: ``,
 				options: [{
-					name: `Home`,
-					url: `/dashboard`,
+					name: `Menu`,
+					url: `menu`,
 					order: 1,
 					icon: `home`,
 				}]

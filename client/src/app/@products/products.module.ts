@@ -1,13 +1,52 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// modules
-import { ProductsRoutingModule } from './products.routing';
+import { Routes, RouterModule } from '@angular/router';
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// components
-import { ProductsDashboardComponent } from './views/products-dashboard/products-dashboard.component';
-import { ProductsEditComponent } from './views/products-edit/products-edit.component';
-import { ProductsViewComponent } from './views/products-view/products-view.component';
+// module
+import {
+	ProductsDashboardComponent,
+	ProductsEditComponent,
+	ProductsViewComponent,
+} from '@products/views';
+
+const megaMenu = {
+	label: `Management`,
+	options: [{
+		name: 'Products',
+		url: 'products',
+		order: 1,
+		icon: 'chart-area',
+		children: [
+			{
+				name: 'View',
+				url: 'view',
+				order: 1,
+				icon: 'eye',
+			},
+			{
+				name: 'Add',
+				url: 'add',
+				order: 2,
+				icon: 'plus',
+			}
+		]
+	},],
+};
+
+const routes: Routes = [
+	{
+		path: 'products',
+		children: [
+			{ path: '', redirectTo: 'view' },
+			{ path: 'view', component: ProductsViewComponent },
+			{ path: 'add', component: ProductsEditComponent, data: { add: true } },
+			{ path: 'edit/:id', component: ProductsEditComponent, data: { add: false } },
+		],
+		data: { menu: megaMenu, module: `products` }
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -18,8 +57,9 @@ import { ProductsViewComponent } from './views/products-view/products-view.compo
 	imports: [
 		CommonModule,
 		FormsModule,
-		ProductsRoutingModule,
+		RouterModule.forChild(routes),
 		CommonComponentsModule,
 	],
+	exports: [RouterModule]
 })
 export class ProductsModule { }

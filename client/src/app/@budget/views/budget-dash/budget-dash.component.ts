@@ -53,7 +53,7 @@ export class BudgetDashComponent implements OnInit {
 				pResults.data.map((record: BudgetModel) => {
 					this.resultRecord.push(new BudgetModel(record))
 					if (record.status === 'open') {
-						const amount = record.budget;
+						const amount = record.actual;
 						this.totalBudget += amount;
 						if (record.essential) {
 							this.totalEssential += amount;

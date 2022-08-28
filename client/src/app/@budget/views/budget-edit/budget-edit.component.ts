@@ -64,8 +64,13 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 			if (_valid === `valid`) {
 				this.resultRecord = new BudgetModel(pResults.data);
 				this._generalService.setTitle(`Budget: Edit - ` + pResults.data.description);
+				this.sortBreakDown();
 			}
 		});
+	}
+
+	sortBreakDown() {
+		this.resultRecord.breakdown.sort((a, b) => a.description.toLocaleLowerCase() < b.description.toLowerCase() ? -1 : 1);
 	}
 
 	submit() {
@@ -131,6 +136,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 			this.breakdownAdd = false;
 		}
 		this.updateActual();
+		this.sortBreakDown();
 	}
 
 	updateActual() {
@@ -147,6 +153,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 		this.recordBreakdown = new BreakDownModel(this.resultRecord.breakdown[pIndex]);
 		this.breakdownAdd = true;
 		this.breakdownIndex = pIndex;
+		this.sortBreakDown();
 	}
 
 	removeBreakdown(pIndex) {

@@ -53,13 +53,20 @@
 						<tbody class="table-component__table--body" *ngIf="tableBody">
 							<tr *ngFor="let row of tableBody; let i = index" class="table-component__table--body-row">
 								<td>{{ row._id }}</td>
-								<td>{{ row.order }}</td>
+								<!-- <td>{{ row.order }}</td> -->
+								<td>
+									<input type="number" [(ngModel)]="row.order" (blur)="updateRecord(row)" style="width: 60px;">
+								</td>
 								<!-- <td>{{ row.description }}</td> -->
 								<td>
-									<input type="text" [(ngModel)]="row.description" (blur)="updateRecord(row)">
+									<input type="text" [(ngModel)]="row.description" (blur)="updateRecord(row)"  style="width: 400px;">
 								</td>
-								<td>{{ row.date1 }}</td>
-								<td>{{ row.date2 }}</td>
+								<td>
+									<input type="text" [(ngModel)]="row.date1" (blur)="updateRecord(row)" style="width: 90px;">
+								</td>
+								<td>
+									<input type="text" [(ngModel)]="row.date2" (blur)="updateRecord(row)" style="width: 90px;">
+								</td>
 								<td>{{ row.credit | currency : 'R ' }}</td>
 								<td>{{ row.debit | currency : 'R ' }}</td>
 								<td>

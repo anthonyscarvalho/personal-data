@@ -1,13 +1,52 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// modules
-import { CategoriesRoutingModule } from './categories.routing';
+import { Routes, RouterModule } from '@angular/router';
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// components
-import { CategoriesDashboardComponent } from './views/categories-dashboard/categories-dashboard.component';
-import { CategoriesEditComponent } from './views/categories-edit/categories-edit.component';
-import { CategoriesViewComponent } from './views/categories-view/categories-view.component';
+// module
+import {
+	CategoriesDashboardComponent,
+	CategoriesEditComponent,
+	CategoriesViewComponent,
+} from '@categories/views';
+
+const megaMenu = {
+	label: `Management`,
+	options: [{
+		name: 'Categories',
+		url: 'categories',
+		order: 1,
+		icon: 'check-square',
+		children: [
+			{
+				name: 'View',
+				url: 'view',
+				order: 1,
+				icon: 'eye',
+			},
+			{
+				name: 'Add',
+				url: 'add',
+				order: 2,
+				icon: 'plus',
+			}
+		]
+	},],
+};
+
+const routes: Routes = [
+	{
+		path: 'categories',
+		children: [
+			{ path: '', redirectTo: 'view' },
+			{ path: 'view', component: CategoriesViewComponent },
+			{ path: 'add', component: CategoriesEditComponent, data: { add: true } },
+			{ path: 'edit/:id', component: CategoriesEditComponent, data: { add: false } },
+		],
+		data: { menu: megaMenu, module: `categories` }
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -18,8 +57,9 @@ import { CategoriesViewComponent } from './views/categories-view/categories-view
 	imports: [
 		CommonModule,
 		FormsModule,
-		CategoriesRoutingModule,
+		RouterModule.forChild(routes),
 		CommonComponentsModule,
 	],
+	exports: [RouterModule]
 })
 export class CategoriesModule { }

@@ -1,16 +1,57 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// Modules
-import { BudgetRoutingModule } from './budget.routing';
+import { Routes, RouterModule } from '@angular/router';
+
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// components
-import { BudgetDashBarComponent } from './components/budget-dash-bar/budget-dash-bar.component';
-// views
-import { BudgetEditComponent } from './views/budget-edit/budget-edit.component';
-import { BudgetDashComponent } from './views/budget-dash/budget-dash.component';
-import { BudgetViewComponent } from './views/budget-view/budget-view.component';
-import { BudgetRecordsComponent } from './components/budget-records/budget-records.component';
+// module
+import {
+	BudgetEditComponent,
+	BudgetDashComponent,
+	BudgetViewComponent,
+} from '@budget/views';
+import {
+	BudgetRecordsComponent,
+	BudgetDashBarComponent,
+} from '@budget/components';
+
+const megaMenu = {
+	label: `Management`,
+	options: [{
+		name: 'Budget',
+		url: 'budget',
+		order: 1,
+		icon: 'chart-area',
+		children: [
+			{
+				name: 'View',
+				url: 'view',
+				order: 1,
+				icon: 'eye',
+			},
+			{
+				name: 'Add',
+				url: 'add',
+				order: 2,
+				icon: 'plus',
+			}
+		]
+	},],
+};
+
+const routes: Routes = [
+	{
+		path: 'budget',
+		children: [
+			{ path: '', component: BudgetDashComponent },
+			{ path: 'view', component: BudgetViewComponent },
+			{ path: 'add', component: BudgetEditComponent, data: { add: true } },
+			{ path: 'edit/:id', component: BudgetEditComponent, data: { add: false } },
+		],
+		data: { menu: megaMenu, module: `budget` }
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -24,8 +65,9 @@ import { BudgetRecordsComponent } from './components/budget-records/budget-recor
 	imports: [
 		CommonModule,
 		FormsModule,
-		BudgetRoutingModule,
+		RouterModule.forChild(routes),
 		CommonComponentsModule,
 	],
+	exports: [RouterModule]
 })
 export class BudgetModule { }

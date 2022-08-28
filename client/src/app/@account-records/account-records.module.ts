@@ -1,21 +1,68 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Routes, RouterModule } from '@angular/router';
 
-// Modules
-import { AccountRecordsRoutingModule } from './account-records.routing';
+// common
 import { CommonComponentsModule } from '@common/common.module';
-// Components
-// import { BaBlockComponent } from './ba-accounts/dash/block/block.component';
-// Views
-import { AccountRecordsEditComponent } from './views/account-records-edit/account-records-edit.component';
-import { AccountRecordsReportComponent } from './views/account-records-report/account-records-report.component';
-import { AccountRecordsViewComponent } from './views/account-records-view/account-records-view.component';
-import { AccountRecordsImportComponent } from './views/account-records-import/account-records-import.component';
-// import { BAccountRecordsViewComponent } from './ba-records/bar-view/bar-view.component';
-// import { BarViewAccountComponent } from './ba-records/bar-view-account/bar-view-account.component';
-// import { BarEditComponent } from './ba-records/edit/edit.component';
-// import { BAccountRecordsReportComponent } from './ba-records/report/report.component';
+// module
+import {
+	AccountRecordsEditComponent,
+	AccountRecordsReportComponent,
+	AccountRecordsViewComponent,
+	AccountRecordsImportComponent,
+} from '@accountRecords/views';
+
+const megaMenu = {
+	label: `Management`,
+	options: [{
+		name: 'Account Records',
+		url: 'account-records',
+		order: 1,
+		icon: 'coins',
+		children: [
+			{
+				name: 'View',
+				url: 'view',
+				order: 1,
+				icon: 'eye',
+			},
+			{
+				name: 'Add',
+				url: 'add',
+				order: 2,
+				icon: 'plus',
+			},
+			{
+				name: 'Import',
+				url: 'import',
+				order: 2,
+				icon: 'plus',
+			},
+			{
+				name: 'Report',
+				url: 'report',
+				order: 3,
+				icon: 'chart-area',
+			}
+		]
+	},],
+};
+
+const routes: Routes = [
+	{
+		path: 'account-records',
+		children: [
+			{ path: '', redirectTo: 'view', pathMatch: 'full' },
+			{ path: 'view', component: AccountRecordsViewComponent },
+			{ path: 'add', component: AccountRecordsEditComponent, data: { add: true } },
+			{ path: 'import', component: AccountRecordsImportComponent, data: { add: true } },
+			{ path: 'edit/:id', component: AccountRecordsEditComponent, data: { add: false } },
+			{ path: 'report', component: AccountRecordsReportComponent, data: {} },
+		],
+		data: { menu: megaMenu, module: `account-records` }
+	}
+];
 
 @NgModule({
 	declarations: [
@@ -28,8 +75,9 @@ import { AccountRecordsImportComponent } from './views/account-records-import/ac
 	imports: [
 		CommonModule,
 		FormsModule,
-		AccountRecordsRoutingModule,
+		RouterModule.forChild(routes),
 		CommonComponentsModule,
 	],
+	exports: [RouterModule]
 })
 export class AccountRecordsModule { }

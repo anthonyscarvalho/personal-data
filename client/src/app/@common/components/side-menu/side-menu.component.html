@@ -2,10 +2,10 @@
 	<div class="side-menu__legend" *ngIf="group.label">{{group.label}}</div>
 	<ul class="side-menu__main">
 		<li *ngFor="let menu of group.options" class="side-menu__main--list">
-			<a routerLink="{{menu.url}}" routerLinkActive="side-menu__main--active"><fa-icon [icon]="['fas', menu.icon]" [fixedWidth]="true"></fa-icon> {{menu.name}}</a>
+			<a [routerLink]="['/', menu.url]" routerLinkActive="side-menu__main--active"><fa-icon [icon]="['fas', menu.icon]" [fixedWidth]="true"></fa-icon> {{menu.name}}</a>
 			<ul *ngIf="menu.children" class="side-menu__second">
 				<li *ngFor="let child of menu.children" class="side-menu__second--list">
-					<a routerLink="{{menu.url}}/{{child.url}}" routerLinkActive="side-menu__second--active"><fa-icon [icon]="['fas', child.icon]" [fixedWidth]="true"></fa-icon> {{child.name}}</a>
+					<a [routerLink]="['/', menu.url, child.url]" routerLinkActive="side-menu__second--active"><fa-icon [icon]="['fas', child.icon]" [fixedWidth]="true"></fa-icon> {{child.name}}</a>
 				</li>
 			</ul>
 		</li>

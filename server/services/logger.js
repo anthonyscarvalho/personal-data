@@ -10,63 +10,49 @@ const logger = config => {
 
     const log = (request, response, errorMessage, requestStart) => {
         const {
-            rawHeaders,
-            httpVersion,
-            method,
-            body,
-            socket,
-            url
-        } = request;
-        const {
-            remoteAddress,
-            remoteFamily
-        } = socket;
-
-        const {
             statusCode,
-            statusMessage
+            statusMessage,
         } = response;
         const responseHeaders = response.getHeaders();
 
-        var newRecord = {
+        const newRecord = {
             timestamp: requestStart,
             processingTime: Date.now() - requestStart,
-            rawHeaders,
-            body,
+            rawHeaders: request.rawHeaders,
+            body: request.body,
             errorMessage,
-            httpVersion,
-            method,
-            remoteAddress,
-            remoteFamily,
-            url,
+            httpVersion: request.httpVersion,
+            method: request.method,
+            remoteAddress: request.socket.remoteAddress,
+            remoteFamily: request.socket.remoteFamily,
+            url: request.url,
             response: {
                 statusCode,
                 statusMessage,
-                headers: responseHeaders
+                headers: responseHeaders,
+                body: response.body,
             }
         };
 
-        var response = {
-            url,
-            response: {
-                statusCode,
-                statusMessage
-            }
-        };
-        // console.log(JSON.stringify(response));
+        // const response = {
+        //     url: request.url,
+        //     response: {
+        //         statusCode,
+        //         statusMessage
+        //     }
+        // };
+
         db.logs.save(newRecord, function (err, pResults) {
             if (err) {
                 res.send(err);
             }
-            
-            // console.log(JSON.stringify(newRecord));
         });
     };
 
     return (request, response) => {
         const requestStart = Date.now();
 
-        // ========== REQUEST HANLDING ==========
+        // ========== REQUEST HANDLING ==========
         let body = [];
         let requestErrorMessage = null;
         const getChunk = chunk => body.push(chunk);
@@ -80,7 +66,7 @@ const logger = config => {
         request.on("end", assembleBody);
         request.on("error", getError);
 
-        // ========== RESPONSE HANLDING ==========
+        // ========== RESPONSE HANDLING ==========
         const logClose = () => {
             removeHandlers();
             log(request, response, "Client aborted.", requestStart);

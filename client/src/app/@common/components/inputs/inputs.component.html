@@ -3,7 +3,7 @@
 	<ng-container [ngSwitch]="inputType">
 		<!-- checkbox -->
 		<div class="inputs__checkboxWrapper" *ngSwitchCase="'checkbox'">
-			<input type="checkbox" [ngModel]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__checkbox" (change)="pushChanges($event.target)">
+			<input type="checkbox" [checked]="inputValue === 'true' ? true : false" name="{{inputLabel}}" class="inputs__common inputs__checkbox" (change)="pushChanges($event.target)">
 		</div>
 		<!-- text input -->
 		<input type="text" [value]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__text" (blur)="pushChanges($event.target.value)" *ngSwitchCase="'text'">
@@ -11,12 +11,12 @@
 		<input type="password" [value]="inputValue" name="{{inputLabel}}" class="inputs__common inputs__text" (blur)="pushChanges($event.target.value)" *ngSwitchCase="'password'">
 		<!-- date picker -->
 		<ng-container *ngSwitchCase="'date'">
-			<input type="text" class="inputs__common inputs__date" [(ngModel)]="inputValue" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" (bsValueChange)="pushDateChanges($event)" *ngIf="inputValue">
+			<input type="text" class="inputs__common inputs__date" [value]="inputValue" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" (bsValueChange)="pushDateChanges($event)" *ngIf="inputValue">
 			<input type="text" class="inputs__common inputs__date" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" (bsValueChange)="pushDateChanges($event)" *ngIf="!inputValue">
 		</ng-container>
 		<!-- year picker -->
 		<ng-container *ngSwitchCase="'date_year'">
-			<input type="text" class="inputs__common inputs__date" [(ngModel)]="inputValue" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfigYear" (bsValueChange)="pushDateChanges($event)" *ngIf="inputValue">
+			<input type="text" class="inputs__common inputs__date" [value]="inputValue" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfigYear" (bsValueChange)="pushDateChanges($event)" *ngIf="inputValue">
 			<input type="text" class="inputs__common inputs__date" name="{{inputLabel}}" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfigYear" (bsValueChange)="pushDateChanges($event)" *ngIf="!inputValue">
 		</ng-container>
 		<!-- select -->

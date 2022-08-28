@@ -34,7 +34,7 @@ export class BudgetDashBarComponent implements OnInit {
 				titleSpacing: 10,
 				callbacks: {
 					label: (tooltipItem) => {
-						return 'R' + Number(tooltipItem.yLabel);
+						return 'R ' + Number(tooltipItem.yLabel).toFixed(2);
 					}
 				},
 			},
@@ -68,19 +68,6 @@ export class BudgetDashBarComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		// const _budgetData: ChartPoint[] = [];
-		// this.months.map((map, index) => {
-		// 	_budgetData.push({ x: map, y: this.budgetItem.budget });
-		// })
-
-		// this.chart.data = [
-		// 	{
-		// 		data: _budgetData,
-		// 		label: 'Budget',
-		// 		type: 'line',
-		// 	}
-		// ]
-
 		this.loadBudgetData();
 	}
 
@@ -104,7 +91,7 @@ export class BudgetDashBarComponent implements OnInit {
 
 				this.months.forEach((month, index) => {
 
-					data[0].data.push(this.budgetItem.budget);
+					data[0].data.push(this.budgetItem.actual);
 					let monthData;
 
 					if (pResults.data.length > 0) {

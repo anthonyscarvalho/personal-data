@@ -298,7 +298,7 @@ exports.update_record = function (req, res) {
 	if (newRecord._id) {
 		delete(newRecord._id);
 	}
-	if (!newRecord.name) {
+	if (!newRecord.business) {
 		Utils.returnError(`Bad data`, res);
 	} else {
 		databaseModel.updateOne({

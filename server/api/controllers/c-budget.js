@@ -152,7 +152,7 @@ exports.add_record = function (req, res) {
 							Utils.returnError(err, res);
 						}
 
-						_response.message = `Record updated`;
+						_response.message = `Record added`;
 						_response.data = pResults;
 						Utils.returnSuccess(_response, res);
 					});

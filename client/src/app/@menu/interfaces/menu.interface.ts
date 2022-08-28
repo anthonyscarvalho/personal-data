@@ -1,4 +1,4 @@
-import { MenuChildrenModel } from '@dashboard/interfaces';
+import { MenuChildrenModel } from '@menu/interfaces';
 
 export interface MenuModel {
 	name: string;
