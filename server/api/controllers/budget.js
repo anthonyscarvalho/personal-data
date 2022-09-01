@@ -1,28 +1,37 @@
-// core modules
 'use strict';
+require('../models/budget');
 var mongoose = require('mongoose');
-// mongodb models
-require('../models/m-contacts');
-var databaseModel = mongoose.model('contact');
-// utile
+var ObjectID = require('mongodb').ObjectID;
+var databaseModel = mongoose.model('budget');
 var Utils = require('../utils/utils.js');
 
-exports.view_record = function (req, res) {
+exports.view_filtered = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
 	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-	let filter = {
-		date1: 1,
-		order: 1,
-		// description: 1,
-		// credit: 1,
-		// debit: 1
-	};
-	let query = {
-		accountsId: req.params.id,
-		// $and:{}
-	};
+	let orderDir = ((body.dir === `ASC`) ? 1 : -1);
+	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
+	let query = {};
+	if (searchPhrase !== `1` && searchPhrase !== ``) {
+		query = {
+			$or: [{
+					accountDescription: {
+						$regex: new RegExp(searchPhrase, `i`)
+					}
+				},
+				{
+					accountNumber: {
+						$regex: new RegExp(searchPhrase, `i`)
+					}
+				}
+			]
+		};
+	}
+
+	if (body.state != `all`) {
+		query["canceled"] = body.state;
+	}
 
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
@@ -31,7 +40,9 @@ exports.view_record = function (req, res) {
 
 		_response.totalRecords = pCount;
 		databaseModel.find(query)
-			.sort(filter)
+			.sort({
+				description: orderDir
+			})
 			.skip(((page * records) - records))
 			.limit(records)
 			.exec(function (err, pResults) {
@@ -45,108 +56,19 @@ exports.view_record = function (req, res) {
 	});
 };
 
-exports.sum_records = function (req, res) {
-	let _response = new Utils.newResponse();
-
-	if (!req.params.id) {
-		Utils.returnError(`Bad data`, res);
-	} else if (req.params.id) {
-		let query = {};
-
-		databaseModel.countDocuments(query, function (err, pCount) {
-			if (err) {
-				Utils.returnError(`Can't count`, res);
-			}
-
-			_response.totalRecords = pCount;
-			databaseModel.aggregate([{
-				$match: {
-					accountsId: req.params.id
-				}
-			}, {
-				$group: {
-					_id: null,
-					totalCredit: {
-						$sum: "$credit"
-					},
-					totalDebit: {
-						$sum: "$debit"
-					}
-				}
-			}, {
-				$addFields: {
-					balance: {
-						$sum: ["$totalCredit", "$totalDebit"]
-					}
-				}
-			}, {
-				$project: {
-					_id: 0,
-					totalCredit: {
-						$round: ["$totalCredit", 2]
-					},
-					totalDebit: {
-						$round: ["$totalDebit", 2]
-					},
-					balance: {
-						$round: ["$balance", 2]
-					}
-				}
-			}], function (err, pResults) {
-				if (err) {
-					Utils.returnError(err, res);
-				}
-
-				if (pResults.length === 1) {
-					_response.data = pResults[0];
-				} else {
-					_response.data = {};
-				}
-				Utils.returnSuccess(_response, res);
-			});
-		});
-	}
-};
-
-exports.view_dash = function (req, res) {
+exports.view_dash = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
-	let page = ((body.page) ? body.page : 1);
-	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-	let orderBy = ((body.column) ? body.column : `1`);
-	let orderDir = ((body.dir === `ASC`) ? 1 : -1);
-	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
-	let filter = {};
-	let query = {};
+	let filter = {
+		description: 1
+	};
+	let query = {
+		canceled: 'false'
+	};
 
-	if (searchPhrase != `1`) {
-		query = {
-			$or: [{
-					accountDescription: {
-						$regex: new RegExp(searchPhrase, 'i')
-					}
-				},
-				{
-					accountNumber: {
-						$regex: new RegExp(searchPhrase, 'i')
-					}
-				}
-			]
-		};
-	}
-
-	if (body.state != `all`) {
-		query["canceled"] = body.state;
-	}
-
-	if (orderBy) {
-		filter[orderBy] = orderDir;
-	} else {
-		filter = {};
-	}
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
-			Utils.returnError(`Can't count`, res);
+			Utils.returnError(`can't count`, res);
 		}
 
 		_response.totalRecords = pCount;
@@ -163,9 +85,35 @@ exports.view_dash = function (req, res) {
 	});
 };
 
-exports.edit_record = function (req, res) {
+exports.view_all = (req, res) => {
 	let _response = new Utils.newResponse();
+	let body = req.body;
+	let filter = {
+		accountDescription: 1
+	};
+	let query = {};
 
+	databaseModel.countDocuments(query, function (err, pCount) {
+		if (err) {
+			Utils.returnError(`can't count`, res);
+		}
+
+		_response.totalRecords = pCount;
+		databaseModel.find(query)
+			.sort(filter)
+			.exec(function (err, pResults) {
+				if (err) {
+					Utils.returnError(err, res);
+				}
+
+				_response.data = pResults;
+				Utils.returnSuccess(_response, res);
+			});
+	});
+};
+
+exports.edit_record = (req, res) => {
+	let _response = new Utils.newResponse();
 	databaseModel.findById(req.params.id, function (err, pResults) {
 		if (err) {
 			Utils.returnError(err, res);
@@ -176,29 +124,17 @@ exports.edit_record = function (req, res) {
 	});
 };
 
-exports.add_record = function (req, res) {
+exports.add_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let new_record = new databaseModel(req.body);
 
 	let query = {
 		$and: [{
-			accountsId: new_record.accountsId
-		}, {
-			date1: new_record.date1
-		}, {
-			date2: new_record.date2
-		}, {
-			credit: new_record.credit
-		}, {
-			debit: new_record.debit
-		}, {
-			balance: new_record.balance
-		}, {
 			description: new_record.description
 		}]
 	};
 
-	if (!new_record.accountsId || !new_record.date1) {
+	if (!new_record.description) {
 		Utils.returnError(`Bad data`, res);
 	} else {
 		databaseModel.find(query, {}, {}, function (err, pResults) {
@@ -214,7 +150,7 @@ exports.add_record = function (req, res) {
 							Utils.returnError(err, res);
 						}
 
-						_response.message = `Record updated`;
+						_response.message = `Record added`;
 						_response.data = pResults;
 						Utils.returnSuccess(_response, res);
 					});
@@ -234,16 +170,15 @@ exports.add_record = function (req, res) {
 	}
 };
 
-exports.update_record = function (req, res) {
-	let _response = new Utils.newResponse();
+exports.update_record = (req, res) => {
 	let newRecord = req.body;
-
 	if (newRecord._id) {
 		delete(newRecord._id);
 	}
-	if (!newRecord.name) {
-		Utils.returnError(`Bad data`, res);
+	if (!newRecord.description) {
+		Utils.returnError(`bad data`, res);
 	} else {
+		let _response = new Utils.newResponse();
 		databaseModel.updateOne({
 			_id: req.params.id
 		}, {
@@ -252,21 +187,22 @@ exports.update_record = function (req, res) {
 			new: true
 		}, function (err, pResults) {
 			if (err) {
-				Utils.returnError(`Can't count`, res);
+				Utils.returnError(err, res);
 			}
 
 			if (pResults.ok) {
 				_response.message = `Record updated`;
+				_response.data = pResults;
 				Utils.returnSuccess(_response, res);
 			}
 		});
 	}
 };
 
-exports.update_status = function (req, res) {
+exports.update_status = (req, res) => {
 	Utils.update_status(req, res, databaseModel);
 };
 
-exports.delete_record = function (req, res) {
+exports.delete_record = (req, res) => {
 	Utils.delete_record(req, res, databaseModel);
 };

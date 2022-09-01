@@ -8,8 +8,8 @@
 	&__left {
 		position: absolute;
 		width: 190px;
-		border-right: 1px solid $greyLight;
-		height: calc(100% - 60px);
+		max-height: calc(100% - 60px);
+		overflow-x: auto;
 	}
 
 	&__container {

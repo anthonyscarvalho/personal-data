@@ -1,0 +1,22 @@
+@import 'config.scss';
+
+.footer-actions {
+	width: 100%;
+	border-top: 1px solid #efefef;
+	text-align: right;
+	padding: 10px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	background-color: $white;
+
+	&__btn {
+		margin-left: 20px;
+		position: relative;
+		width: 5.3rem;
+
+		&:first-child {
+			margin-left: 0px;
+		}
+	}
+}

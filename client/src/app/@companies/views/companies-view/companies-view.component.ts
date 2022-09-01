@@ -93,14 +93,14 @@ export class CompaniesViewComponent implements OnInit {
 	}
 
 	status(pId, pAction) {
-		this._generalService.changeStatus('clients', pId, pAction);
+		this._generalService.changeStatus('companies', pId, pAction);
 		setTimeout(() => {
 			this.load();
 		}, 30);
 	}
 
 	delete(pId) {
-		this._generalService.deleteRecord('clients', pId);
+		this._generalService.deleteRecord('companies', pId);
 		setTimeout(() => {
 			this.load();
 		}, 30);

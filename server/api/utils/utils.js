@@ -1,4 +1,5 @@
 'use strict';
+var ObjectID = require('mongodb').ObjectID;
 
 exports.generateSlug = function (pInput) {
 	let _slug = pInput.name;
@@ -42,16 +43,18 @@ exports.newResponse = function () {
 
 exports.update_status = function (req, res, databaseModel) {
 	let _response = new exports.newResponse();
-	let newRecord = req.body;
-	if (!newRecord.action) {
+	let {
+		action
+	} = req.body;
+	if (!action) {
 		return exports.returnError(`Bad data`, res);
 	} else {
 		databaseModel.updateOne({
-			_id: req.params.id
+			_id: ObjectID(req.params.id)
 		}, {
 			$set: {
-				canceled: newRecord.action,
-				canceledDate: ((newRecord.action === "true") ? new Date() : null)
+				canceled: action,
+				canceledDate: ((action === "true") ? new Date() : null)
 			}
 		}, {
 			new: true
@@ -59,8 +62,7 @@ exports.update_status = function (req, res, databaseModel) {
 			if (err) {
 				return exports.returnError(`Can't count`, res);
 			}
-
-			if (pResults.ok) {
+			if (pResults.acknowledged) {
 				_response.message = `Record updated`;
 			} else {
 				_response.status = `01`;
@@ -79,7 +81,7 @@ exports.delete_record = function (req, res, databaseModel) {
 		return exports.returnError(`Bad data`, res);
 	} else {
 		databaseModel.remove({
-			_id: req.params.id
+			_id: ObjectID(req.params.id)
 		}, function (err, pResults) {
 			if (err) {
 				res.send(err);

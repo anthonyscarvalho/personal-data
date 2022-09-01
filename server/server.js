@@ -63,23 +63,18 @@ app.use(express.json({
 app.use(bodyParser({
     limit: '50mb'
 }));
-// app.use('/', require('./routes/journalRecords'));
-// app.use('/', require('./routes/logs'));
-// app.use('/', require('./routes/transactions'));
-// app.use('/', require('./routes/users'));
 
 // controllers
-require('./api/routes/bank-accounts')(app);
-require('./api/routes/companies')(app);
-require('./api/routes/contacts')(app);
-require('./api/routes/clients')(app);
-require('./api/routes/bank-accounts-records')(app);
-require('./api/routes/budget')(app);
-require('./api/routes/journals')(app);
-require('./api/routes/journal-records')(app);
-require('./api/routes/products')(app);
-require('./api/routes/users')(app);
-require('./api/routes/users')(app);
+require('./api/routes/bank-accounts-records')(app, require('./api/controllers/bank-account-records'));
+require('./api/routes/bank-accounts')(app, require('./api/controllers/bank-accounts'));
+require('./api/routes/budget')(app, require('./api/controllers/budget'));
+require('./api/routes/clients')(app, require('./api/controllers/clients'));
+require('./api/routes/companies')(app, require('./api/controllers/companies'));
+require('./api/routes/contacts')(app, require('./api/controllers/contacts'));
+require('./api/routes/journal-records')(app, require('./api/controllers/journal-records'));
+require('./api/routes/journals')(app, require('./api/controllers/journals'));
+require('./api/routes/products')(app, require('./api/controllers/products'));
+require('./api/routes/users')(app, require('./api/controllers/users'));
 
 // used to return static assets through the api
 // app.use('/' + config.fileRoot, express.static(config.fileRoot));

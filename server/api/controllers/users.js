@@ -1,21 +1,17 @@
-// core modules
 'use strict';
+require('../models/users');
 var mongoose = require('mongoose');
-// mongodb models
-require('../models/m-companies');
-var databaseModel = mongoose.model('company');
-// utile
+var ObjectID = require('mongodb').ObjectID;
+var databaseModel = mongoose.model('user');
 var Utils = require('../utils/utils.js');
 
-exports.view_all = function (req, res) {
+exports.view_all = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
 	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-	let orderBy = ((body.column) ? body.column : `1`);
 	let orderDir = ((body.dir === `ASC`) ? 1 : -1);
 	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
-	let filter = {};
 	let query = {};
 	if (searchPhrase !== `1` && searchPhrase !== ``) {
 		query = {
@@ -31,12 +27,6 @@ exports.view_all = function (req, res) {
 		query["canceled"] = body.state;
 	}
 
-	if (orderBy) {
-		filter[orderBy] = orderDir;
-	} else {
-		filter = {};
-	}
-
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
 			Utils.returnError(`Can't count`, res);
@@ -44,7 +34,9 @@ exports.view_all = function (req, res) {
 
 		_response.totalRecords = pCount;
 		databaseModel.find(query)
-			.sort(filter)
+			.sort({
+				name: orderDir
+			})
 			.skip(((page * records) - records))
 			.limit(records)
 			.exec(function (err, pResults) {
@@ -58,45 +50,7 @@ exports.view_all = function (req, res) {
 	});
 };
 
-exports.view_record = function (req, res) {
-	let _response = new Utils.newResponse();
-	let body = req.body;
-	let page = ((body.page) ? body.page : 1);
-	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
-	let filter = {
-		date1: 1,
-		order: 1,
-		// description: 1,
-		// credit: 1,
-		// debit: 1
-	};
-	let query = {
-		accountsId: req.params.id,
-		// $and:{}
-	};
-
-	databaseModel.countDocuments(query, function (err, pCount) {
-		if (err) {
-			Utils.returnError(`Can't count`, res);
-		}
-
-		_response.totalRecords = pCount;
-		databaseModel.find(query)
-			.sort(filter)
-			.skip(((page * records) - records))
-			.limit(records)
-			.exec(function (err, pResults) {
-				if (err) {
-					Utils.returnError(err, res);
-				}
-
-				_response.data = pResults;
-				Utils.returnSuccess(_response, res);
-			});
-	});
-};
-
-exports.sum_records = function (req, res) {
+exports.sum_records = (req, res) => {
 	let _response = new Utils.newResponse();
 
 	if (!req.params.id) {
@@ -159,7 +113,7 @@ exports.sum_records = function (req, res) {
 	}
 };
 
-exports.view_dash = function (req, res) {
+exports.view_dash = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
@@ -173,16 +127,10 @@ exports.view_dash = function (req, res) {
 	if (searchPhrase != `1`) {
 		query = {
 			$or: [{
-					accountDescription: {
-						$regex: new RegExp(searchPhrase, 'i')
-					}
-				},
-				{
-					accountNumber: {
-						$regex: new RegExp(searchPhrase, 'i')
-					}
+				description: {
+					$regex: new RegExp(searchPhrase, 'i')
 				}
-			]
+			}]
 		};
 	}
 
@@ -214,7 +162,7 @@ exports.view_dash = function (req, res) {
 	});
 };
 
-exports.edit_record = function (req, res) {
+exports.edit_record = (req, res) => {
 	let _response = new Utils.newResponse();
 
 	databaseModel.findById(req.params.id, function (err, pResults) {
@@ -227,17 +175,15 @@ exports.edit_record = function (req, res) {
 	});
 };
 
-exports.add_record = function (req, res) {
+exports.add_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let new_record = new databaseModel(req.body);
 
 	let query = {
-		$and: [{
-			company: new_record.company
-		}]
+		description: new_record.description
 	};
 
-	if (!new_record.company) {
+	if (!new_record.description) {
 		Utils.returnError(`Bad data`, res);
 	} else {
 		databaseModel.find(query, {}, {}, function (err, pResults) {
@@ -273,14 +219,14 @@ exports.add_record = function (req, res) {
 	}
 };
 
-exports.update_record = function (req, res) {
+exports.update_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let newRecord = req.body;
 
 	if (newRecord._id) {
 		delete(newRecord._id);
 	}
-	if (!newRecord.company) {
+	if (!newRecord.description) {
 		Utils.returnError(`Bad data`, res);
 	} else {
 		databaseModel.updateOne({
@@ -302,10 +248,10 @@ exports.update_record = function (req, res) {
 	}
 };
 
-exports.update_status = function (req, res) {
+exports.update_status = (req, res) => {
 	Utils.update_status(req, res, databaseModel);
 };
 
-exports.delete_record = function (req, res) {
+exports.delete_record = (req, res) => {
 	Utils.delete_record(req, res, databaseModel);
 };

@@ -1,13 +1,11 @@
-// core modules
 'use strict';
+require('../models/bank-accounts-records');
 var mongoose = require('mongoose');
-// mongodb models
-require('../models/m-bankAccountsRecords');
+var ObjectID = require('mongodb').ObjectID;
 var databaseModel = mongoose.model('bankAccountRecord');
-// utile
 var Utils = require('../utils/utils.js');
 
-exports.view_record = function (req, res) {
+exports.view_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
@@ -57,7 +55,7 @@ exports.view_record = function (req, res) {
 	});
 };
 
-exports.fix_order = function (req, res) {
+exports.fix_order = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
@@ -128,7 +126,7 @@ exports.fix_order = function (req, res) {
 		});
 };
 
-exports.sum_records = function (req, res) {
+exports.sum_records = (req, res) => {
 	let _response = new Utils.newResponse();
 
 	if (!req.params.id) {
@@ -191,7 +189,7 @@ exports.sum_records = function (req, res) {
 	}
 };
 
-exports.last_record = function (req, res) {
+exports.last_record = (req, res) => {
 	let _response = new Utils.newResponse();
 
 	if (!req.params.id) {
@@ -217,7 +215,7 @@ exports.last_record = function (req, res) {
 	}
 };
 
-exports.view_dash = function (req, res) {
+exports.view_dash = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
@@ -272,7 +270,7 @@ exports.view_dash = function (req, res) {
 	});
 };
 
-exports.filter_record = function (req, res) {
+exports.filter_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
@@ -324,7 +322,7 @@ exports.filter_record = function (req, res) {
 	});
 };
 
-exports.edit_record = function (req, res) {
+exports.edit_record = (req, res) => {
 	let _response = new Utils.newResponse();
 
 	databaseModel.findById(req.params.id, function (err, pResults) {
@@ -337,7 +335,7 @@ exports.edit_record = function (req, res) {
 	});
 };
 
-exports.add_record = function (req, res) {
+exports.add_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let new_record = new databaseModel(req.body);
 
@@ -395,7 +393,7 @@ exports.add_record = function (req, res) {
 	}
 };
 
-exports.update_record = function (req, res) {
+exports.update_record = (req, res) => {
 	let _response = new Utils.newResponse();
 	let newRecord = req.body;
 
@@ -425,11 +423,11 @@ exports.update_record = function (req, res) {
 };
 
 /* #region  global_utils */
-exports.update_status = function (req, res) {
+exports.update_status = (req, res) => {
 	Utils.update_status(req, res, databaseModel);
 };
 
-exports.delete_record = function (req, res) {
+exports.delete_record = (req, res) => {
 	Utils.delete_record(req, res, databaseModel);
 };
 /* #endregion */
@@ -439,7 +437,7 @@ exports.round = function (num) {
 }
 
 /* #region budget */
-exports.budget = function (req, res) {
+exports.budget = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let page = ((body.page) ? body.page : 1);
@@ -477,7 +475,7 @@ exports.budget = function (req, res) {
 	}
 };
 
-exports.budget_search = function (req, res) {
+exports.budget_search = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let keywords = body.keywords;
@@ -534,7 +532,7 @@ exports.budget_search = function (req, res) {
 	}
 };
 
-exports.add_to_budget = function (req, res) {
+exports.add_to_budget = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 	let records = body.records;
@@ -566,7 +564,7 @@ exports.add_to_budget = function (req, res) {
 	}
 };
 
-exports.remove_from_budget = function (req, res) {
+exports.remove_from_budget = (req, res) => {
 	let _response = new Utils.newResponse();
 	const body = req.body;
 	const recordId = body.recordId;
@@ -596,7 +594,7 @@ exports.remove_from_budget = function (req, res) {
 	}
 };
 
-exports.view_dashItem = function (req, res) {
+exports.view_dashItem = (req, res) => {
 	let _response = new Utils.newResponse();
 	let body = req.body;
 

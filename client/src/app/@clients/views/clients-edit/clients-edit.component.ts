@@ -99,7 +99,7 @@ export class ClientsEditComponent implements OnInit {
 				this.submitted = false;
 			});
 		} else {
-			this._httpService.post('budget/add', this.resultRecord).then((pResult: any) => {
+			this._httpService.post('clients/add', this.resultRecord).then((pResult: any) => {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
