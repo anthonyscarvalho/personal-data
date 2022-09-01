@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-// Services
+import { AfterContentChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
@@ -7,12 +7,13 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 	templateUrl: './table-pagination.component.html',
 	styleUrls: ['./table-pagination.component.scss']
 })
-export class TablePaginationComponent implements OnInit {
+export class TablePaginationComponent implements AfterContentChecked, OnInit {
 	@Input() filterBoxOptions;
 	@Output() updater = new EventEmitter<any>();
 	totalPages: number;
 
 	constructor(
+		private changeDetectorRef: ChangeDetectorRef,
 		private _generalService: GeneralService,
 	) { }
 
@@ -70,12 +71,6 @@ export class TablePaginationComponent implements OnInit {
 			return this.filterBoxOptions.totalRecords;
 		} else {
 			return ((this.filterBoxOptions.pagerRecords * this.filterBoxOptions.page) - (this.filterBoxOptions.pagerRecords - 1));
-			if (this.filterBoxOptions.page < this.totalPages) {
-			}
-			else {
-				const _lastFew = (this.filterBoxOptions.totalRecords - (this.filterBoxOptions.pagerRecords * (this.totalPages - 1)));
-				return ((this.filterBoxOptions.pagerRecords * this.filterBoxOptions.page) - (this.filterBoxOptions.pagerRecords - 1))
-			}
 		}
 	}
 
@@ -100,5 +95,9 @@ export class TablePaginationComponent implements OnInit {
 
 	getCurrentPage() {
 		return this.filterBoxOptions.page;
+	}
+
+	ngAfterContentChecked() {
+		this.changeDetectorRef.detectChanges();
 	}
 }

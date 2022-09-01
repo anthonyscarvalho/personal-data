@@ -39,7 +39,7 @@ const routes: Routes = [
 	{
 		path: 'users',
 		children: [
-			{ path: '', redirectTo: 'view' },
+			{ path: '', redirectTo: 'view', pathMatch: 'full' },
 			{ path: 'view', component: UsersViewComponent },
 			{ path: 'add', component: UsersEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: UsersEditComponent, data: { add: false } },

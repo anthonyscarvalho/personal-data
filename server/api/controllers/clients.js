@@ -300,20 +300,24 @@ exports.update_record = (req, res) => {
 		Utils.returnError(`Bad data`, res);
 	} else {
 		databaseModel.updateOne({
-			_id: req.params.id
+			_id: ObjectID(req.params.id)
 		}, {
 			$set: newRecord
 		}, {
 			new: true
 		}, function (err, pResults) {
 			if (err) {
-				Utils.returnError(`Can't update`, res);
+				Utils.returnError(`Can't count`, res);
 			}
 
-			if (pResults.ok) {
+			if (pResults.acknowledged) {
 				_response.message = `Record updated`;
-				Utils.returnSuccess(_response, res);
+			} else {
+				_response.status = `01`;
+				_response.message = `Record not updated`;
 			}
+
+			Utils.returnSuccess(_response, res);
 		});
 	}
 };

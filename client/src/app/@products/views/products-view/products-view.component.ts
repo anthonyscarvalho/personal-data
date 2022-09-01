@@ -13,14 +13,10 @@ import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 })
 export class ProductsViewComponent implements OnInit {
 	megaMenu: any;
-	module: any;
 	bsModalRef: BsModalRef;
-	apiUrl: string;
-	tableHead: any[];
 	tableBody: any[];
 	public filterBoxOptions: IFilterBoxOptions;
 	public filterBoxConfig: IFilterBoxConfig;
-	totalRecords: string;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -30,7 +26,7 @@ export class ProductsViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle(`Products: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig();
+		this.filterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	}
 
 	ngOnInit() {

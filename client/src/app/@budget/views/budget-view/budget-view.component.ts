@@ -21,7 +21,7 @@ export class BudgetViewComponent implements OnInit {
 	tableHead: any[];
 	tableBody: BudgetModel[];
 	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig;
+	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;
 
 	constructor(
@@ -32,7 +32,6 @@ export class BudgetViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle(`Budgets: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig();
 	}
 
 	ngOnInit() {

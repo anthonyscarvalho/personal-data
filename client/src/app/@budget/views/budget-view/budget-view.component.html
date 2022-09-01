@@ -43,10 +43,10 @@
 								</td>
 								<td>
 									<span ng-if="userRoles.status == 'true'">
-										<button type="button" class="table-component__table--body-row-button disabled" (click)="filterUpdater( {action:'enable', record: row._id} )" *ngIf="row.canceled == 'true'">
+										<button type="button" class="table-component__table--body-row-button btn__disabled" (click)="filterUpdater( {action:'enable', record: row._id} )" *ngIf="row.canceled == 'true'">
 											<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
 										</button>
-										<button type="button" class="table-component__table--body-row-button enabled" (click)="filterUpdater( {action:'cancel', record: row._id} )" *ngIf="row.canceled == 'false'">
+										<button type="button" class="table-component__table--body-row-button btn__enabled" (click)="filterUpdater( {action:'cancel', record: row._id} )" *ngIf="row.canceled == 'false'">
 											<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
 										</button>
 									</span>

@@ -29,7 +29,7 @@ export class BankAccountsViewComponent implements OnInit {
 		page: this._generalService.getPage(),
 		pagerRecords: this._generalService.getRecords(),
 	});
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig();
+	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 
 	constructor(
 		private route: ActivatedRoute,
@@ -39,7 +39,6 @@ export class BankAccountsViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle(`Bank Accounts: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig();
 		this.megaMenu = this.route.snapshot.data.menu;
 	}
 

@@ -22,7 +22,7 @@ export class CategoriesViewComponent implements OnInit {
 	tableHead: any[];
 	tableBody: CategoryModel[];
 	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig;
+	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;
 
 	constructor(
@@ -34,7 +34,6 @@ export class CategoriesViewComponent implements OnInit {
 		private _CategoriesService: CategoriesService,
 	) {
 		this._generalService.setTitle(`Categories: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig();
 	}
 
 	ngOnInit() {

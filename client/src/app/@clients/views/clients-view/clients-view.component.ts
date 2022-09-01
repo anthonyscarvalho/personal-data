@@ -22,7 +22,7 @@ export class ClientsViewComponent implements OnInit {
 	tableHead: any[];
 	tableBody: ClientModel[];
 	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig;
+	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;
 
 	constructor(
@@ -34,7 +34,6 @@ export class ClientsViewComponent implements OnInit {
 		private _ClientsService: ClientsService,
 	) {
 		this._generalService.setTitle(`Clients: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig();
 	}
 
 	ngOnInit() {

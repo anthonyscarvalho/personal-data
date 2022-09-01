@@ -23,10 +23,10 @@
 				</td>
 				<td *ngIf="showStatus">
 					<span ng-if="userRoles.status == 'true'">
-						<button type="button" class="table-component__table--body-row-button disabled" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
+						<button type="button" class="table-component__table--body-row-button btn__disabled" (click)="enable( rows._id )" *ngIf="rows.canceled == 'true'">
 							<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
 						</button>
-						<button type="button" class="table-component__table--body-row-button enabled" (click)="cancel( rows._id)" *ngIf="rows.canceled == 'false'">
+						<button type="button" class="table-component__table--body-row-button btn__enabled" (click)="cancel( rows._id)" *ngIf="rows.canceled == 'false'">
 							<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
 						</button>
 					</span>

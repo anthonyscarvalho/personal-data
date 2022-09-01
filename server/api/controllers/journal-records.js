@@ -240,6 +240,7 @@ exports.add_record = (req, res) => {
 };
 
 exports.update_record = (req, res) => {
+	let _response = new Utils.newResponse();
 	let newRecord = req.body;
 	if (newRecord._id) {
 		delete(newRecord._id);
@@ -247,23 +248,25 @@ exports.update_record = (req, res) => {
 	if (!newRecord.accountNumber || !(newRecord.accountDescription + '')) {
 		Utils.returnError(`bad data`, res);
 	} else {
-		let _response = new Utils.newResponse();
 		databaseModel.updateOne({
-			_id: req.params.id
+			_id: ObjectID(req.params.id)
 		}, {
 			$set: newRecord
 		}, {
 			new: true
 		}, function (err, pResults) {
 			if (err) {
-				Utils.returnError(err, res);
+				Utils.returnError(`Can't count`, res);
 			}
 
-			if (pResults.ok) {
+			if (pResults.acknowledged) {
 				_response.message = `Record updated`;
-				_response.data = pResults;
-				Utils.returnSuccess(_response, res);
+			} else {
+				_response.status = `01`;
+				_response.message = `Record not updated`;
 			}
+
+			Utils.returnSuccess(_response, res);
 		});
 	}
 };
