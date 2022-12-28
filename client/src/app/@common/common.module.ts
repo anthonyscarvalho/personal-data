@@ -70,7 +70,11 @@ const allDirectives = [
 		ModalModule.forRoot(),
 		PaginationModule.forRoot(),
 		TabsModule.forRoot(),
-		ToastrModule.forRoot(),
+		ToastrModule.forRoot({
+			positionClass: 'toast-bottom-left',
+			newestOnTop: true,
+			maxOpened: 10
+		}),
 	],
 	exports: [
 		...allComponents,

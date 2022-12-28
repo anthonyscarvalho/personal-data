@@ -11,7 +11,7 @@
 							<div class="col-md-2">
 								<acc-inputs [inputValue]="account" (updater)="updateAccount($event)" [inputType]="'select'" [submitted]="submitted" [inputLabel]="accounts.label" [selectOptions]="accounts.options"></acc-inputs>
 								<div class="form-group">
-									<acc-inputs #uploader (updater)="lastOrder($event)" [inputType]="'files'" [selectMultiple]="true" [showLabel]="false"></acc-inputs>
+									<acc-inputs #uploader (updater)="lastOrder($event)" [inputType]="'files'" [selectMultiple]="true" [showLabel]="false" [accepts]="'.ofc'"></acc-inputs>
 									<div class="AccountRecordsImport__Button">
 										<button class="btn btn-info" type="button" id="inputGroupFileAddon04" (click)="uploadRecords()">Upload</button>
 									</div>

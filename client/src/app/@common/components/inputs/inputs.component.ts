@@ -19,6 +19,7 @@ export class InputsComponent implements OnInit {
 	@Input() showLabel = true;
 	@Input() selectMultiple = true;
 	@Input() textAreaRows = 4;
+	@Input() accepts = '.jpg, .jpeg, .png, .xlsx, .xls, .csv, .ofc';
 
 	@Output(`updater`) _updater = new EventEmitter<any>();
 

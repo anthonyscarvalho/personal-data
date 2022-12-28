@@ -13,6 +13,9 @@ module.exports = mongoose.model(modelName,
 		accountsId: {
 			type: String
 		},
+		transactionId: {
+			type: String
+		},
 		order: {
 			type: Number
 		},

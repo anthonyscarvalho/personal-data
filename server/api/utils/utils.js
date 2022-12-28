@@ -80,17 +80,21 @@ exports.delete_record = function (req, res, databaseModel) {
 	if (!req.params.id) {
 		return exports.returnError(`Bad data`, res);
 	} else {
-		databaseModel.remove({
+		databaseModel.deleteOne({
 			_id: ObjectID(req.params.id)
 		}, function (err, pResults) {
 			if (err) {
 				res.send(err);
 			}
 
-			if (pResults.ok) {
-				_response.message = `Record delete`;
-				return exports.returnSuccess(_response, res);
+			if (pResults.acknowledged) {
+				_response.message = `Record updated`;
+			} else {
+				_response.status = `01`;
+				_response.message = `Record not updated`;
 			}
+
+			return exports.returnSuccess(_response, res);
 		});
 	}
 };

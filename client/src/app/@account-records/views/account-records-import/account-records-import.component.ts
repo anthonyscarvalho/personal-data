@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import xml2js from 'xml2js';
 // common
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { DropDownOptionsModel } from '@common/interfaces';
@@ -109,7 +110,6 @@ export class AccountRecordsImportComponent implements OnInit {
 	processRecords(pEvent) {
 		if (pEvent) {
 			this.accountRecords = [];
-			const csvType = parseFloat(this.account.csvType);
 			const files: { [key: string]: File } = pEvent;
 			const _totalFiles = Number(files.length);
 
@@ -121,116 +121,23 @@ export class AccountRecordsImportComponent implements OnInit {
 				const reader = new FileReader();
 				reader.readAsText(files[a]);
 
-				reader.onload = () => {
-					const csvData = reader.result;
-					const _tmpFile = (csvData as string).split(/\r\n|\n/);
-					if (_tmpFile) {
-						if (this.account.csvType === '1') {
-							_tmpFile.reverse();
+				reader.onload = ((fileData) => {
+					const name = fileData.name;
+					return (e) => {
+						const fileData = reader.result;
+						console.log(fileData);
+
+						const lastDot = name.lastIndexOf('.');
+
+						const extension = name.substring(lastDot + 1);
+
+						if (extension === 'ofc') {
+							this.accountRecords = this.parseXMLFile(fileData);
+						} else if (extension === 'csv') {
+							this.accountRecords = this.parseCSVFile(fileData);
 						}
-						const statementId: string = null;
-
-						_tmpFile.forEach(pRecord => {
-							const currentRecord = (pRecord as string).split(`,`);
-							let _tmpAmount = null;
-							let _tmpCredit = null;
-							let _tmpDebit = null;
-							let _tmpBalance = null;
-							let _tmpDescription = null;
-							let _tmpDate1 = null;
-							let _tmpDate2 = null;
-							let _tmpServiceFee = false;
-
-							if (currentRecord[0].includes(`Account`)) {
-								return null;
-							}
-							else if (currentRecord[0].includes(`Statement Number`)) {
-								return null;
-							}
-							else if (currentRecord[0].includes(`Description`)) {
-								return null;
-							}
-							else if (currentRecord[0] === ``) {
-								return null;
-							}
-							else if (currentRecord.length >= 4) {
-								switch (Number(csvType)) {
-									case AccountTypes.Fnb:
-										_tmpAmount = (currentRecord[1] ? this.convertNumber(currentRecord[1]) : null);
-										_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
-										_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : null);
-										_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : null);
-										_tmpBalance = (currentRecord[2] ? this.convertNumber(currentRecord[2]) : 0.00);
-										_tmpDescription = (currentRecord[3] ? this.replaceText(currentRecord[3]) : null);
-										break;
-									case AccountTypes.NedBank:
-										console.log(currentRecord);
-										_tmpAmount = (currentRecord[2] ? this.convertNumber(currentRecord[2]) : 0.00);
-										_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
-										_tmpDescription = (currentRecord[1] ? this.replaceText(currentRecord[1]) : null);
-										_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : 0.00);
-										_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
-										_tmpBalance = (currentRecord[3] ? this.convertNumber(currentRecord[3]) : 0.00);
-										_tmpServiceFee = (currentRecord[4] ? (currentRecord[4].trim() === `#` ? true : false) : false);
-										break;
-									case AccountTypes.NedBankCredit:
-										_tmpAmount = (currentRecord[5] ? this.convertNumber(currentRecord[5]) : 0.00);
-										_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
-										_tmpDate2 = (currentRecord[1] ? this.convertDate(currentRecord[1].trim()) : null);
-										_tmpDescription = (currentRecord[2] ? this.replaceText(currentRecord[2]) : null);
-										// blank space
-										// blank space
-										_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : 0.00);
-										_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
-										break;
-									case AccountTypes.NedBankLoan:
-										_tmpAmount = (currentRecord[5] ? this.convertNumber(currentRecord[2]) : 0.00);
-										_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
-										_tmpDescription = (currentRecord[1] ? this.replaceText(currentRecord[1]) : null);
-										_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : 0.00);
-										_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
-										_tmpBalance = (currentRecord[3] ? this.convertNumber(currentRecord[3]) : 0.00);
-										break;
-									case AccountTypes.NedBankInvestment:
-										_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
-										_tmpDescription = (currentRecord[1] ? this.replaceText(currentRecord[1]) : null);
-										_tmpDebit = (currentRecord[2] ? this.convertNumber(currentRecord[2]) : 0.00);
-										_tmpCredit = (currentRecord[3] ? this.convertNumber(currentRecord[3]) : 0.00);
-										_tmpBalance = (currentRecord[4] ? this.convertNumber(currentRecord[4]) : 0.00);
-										break;
-								}
-
-								const _tmp: AccountRecordModel = {
-									statementId: (statementId ? statementId : null),
-									accountsId: this.account._id,
-									order: this.recordOrder,
-									date1: _tmpDate1,
-									date2: _tmpDate2,
-									description: _tmpDescription,
-									credit: _tmpCredit > 0 ? _tmpCredit : null,
-									debit: _tmpDebit !== 0 ? _tmpDebit : null,
-									balance: _tmpBalance,
-									serviceFee: _tmpServiceFee,
-									journal: false,
-									comments: ``,
-									processed: false,
-									originalRecord: ``
-								};
-
-								if ((_tmp.date1 && !_tmp.date1.includes(`Date`)) && (_tmp.description && !_tmp.description.includes(`Description`)) && (_tmp.balance.toString() !== ``)) {
-									this.totalCount++;
-									_tmp.originalRecord = JSON.stringify(currentRecord);
-									this.accountRecords.push(_tmp);
-								} else {
-									// console.log(currentRecord);
-								}
-								this.recordOrder++;
-							}
-						});
-
-						this.totalRecords = this.accountRecords.length;
 					}
-				};
+				})(files[a]);
 
 				reader.onerror = () => {
 					console.log(`error has occurred while reading file!`);
@@ -241,7 +148,178 @@ export class AccountRecordsImportComponent implements OnInit {
 		input.value = '';
 	}
 
+	cleanString(string) {
+		return string.replace(/,\s*$/, "");
+	}
+
 	submit() { }
+
+	parseCSVFile(fileData) {
+		const csvType = parseFloat(this.account.csvType);
+		const _tmpData = (fileData as string).split(/\r\n|\n/);
+		let records: AccountRecordModel[] = [];
+		if (_tmpData) {
+			if (this.account.csvType === '1') {
+				_tmpData.reverse();
+			}
+			const statementId: string = null;
+
+			_tmpData.forEach(pRecord => {
+				const currentRecord = (pRecord as string).split(`,`);
+				let _tmpAmount = null;
+				let _tmpCredit = null;
+				let _tmpDebit = null;
+				let _tmpBalance = null;
+				let _tmpDescription = null;
+				let _tmpDate1 = null;
+				let _tmpDate2 = null;
+				let _tmpServiceFee = false;
+				let _transactionId = '';
+
+				if (currentRecord[0].includes(`Account`)) {
+					return null;
+				}
+				else if (currentRecord[0].includes(`Statement Number`)) {
+					return null;
+				}
+				else if (currentRecord[0].includes(`Description`)) {
+					return null;
+				}
+				else if (currentRecord[0] === ``) {
+					return null;
+				}
+				else if (currentRecord.length >= 4) {
+					switch (Number(csvType)) {
+						case AccountTypes.Fnb:
+							_tmpAmount = (currentRecord[1] ? this.convertNumber(currentRecord[1]) : null);
+							_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
+							_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : null);
+							_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : null);
+							_tmpBalance = (currentRecord[2] ? this.convertNumber(currentRecord[2]) : 0.00);
+							_tmpDescription = (currentRecord[3] ? this.replaceText(currentRecord[3]) : null);
+							break;
+						case AccountTypes.NedBank:
+							console.log(currentRecord);
+							_tmpAmount = (currentRecord[2] ? this.convertNumber(currentRecord[2]) : 0.00);
+							_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
+							_tmpDescription = (currentRecord[1] ? this.replaceText(currentRecord[1]) : null);
+							_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : 0.00);
+							_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
+							_tmpBalance = (currentRecord[3] ? this.convertNumber(currentRecord[3]) : 0.00);
+							_tmpServiceFee = (currentRecord[4] ? (currentRecord[4].trim() === `#` ? true : false) : false);
+							break;
+						case AccountTypes.NedBankCredit:
+							_tmpAmount = (currentRecord[5] ? this.convertNumber(currentRecord[5]) : 0.00);
+							_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
+							_tmpDate2 = (currentRecord[1] ? this.convertDate(currentRecord[1].trim()) : null);
+							_tmpDescription = (currentRecord[2] ? this.replaceText(currentRecord[2]) : null);
+							// blank space
+							// blank space
+							_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : 0.00);
+							_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
+							break;
+						case AccountTypes.NedBankLoan:
+							_tmpAmount = (currentRecord[5] ? this.convertNumber(currentRecord[2]) : 0.00);
+							_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
+							_tmpDescription = (currentRecord[1] ? this.replaceText(currentRecord[1]) : null);
+							_tmpCredit = (_tmpAmount && _tmpAmount > 0 ? _tmpAmount : 0.00);
+							_tmpDebit = (_tmpAmount && _tmpAmount < 0 ? _tmpAmount : 0.00);
+							_tmpBalance = (currentRecord[3] ? this.convertNumber(currentRecord[3]) : 0.00);
+							break;
+						case AccountTypes.NedBankInvestment:
+							_tmpDate1 = (currentRecord[0] ? this.convertDate(currentRecord[0].trim()) : null);
+							_tmpDescription = (currentRecord[1] ? this.replaceText(currentRecord[1]) : null);
+							_tmpDebit = (currentRecord[2] ? this.convertNumber(currentRecord[2]) : 0.00);
+							_tmpCredit = (currentRecord[3] ? this.convertNumber(currentRecord[3]) : 0.00);
+							_tmpBalance = (currentRecord[4] ? this.convertNumber(currentRecord[4]) : 0.00);
+							break;
+					}
+
+					const _tmp: AccountRecordModel = {
+						statementId: (statementId ? statementId : null),
+						accountsId: this.account._id,
+						transactionId: _transactionId,
+						order: this.recordOrder,
+						date1: _tmpDate1,
+						date2: _tmpDate2,
+						description: _tmpDescription,
+						credit: _tmpCredit > 0 ? _tmpCredit : null,
+						debit: _tmpDebit !== 0 ? _tmpDebit : null,
+						balance: _tmpBalance,
+						serviceFee: _tmpServiceFee,
+						journal: false,
+						comments: ``,
+						processed: false,
+						originalRecord: ``
+					};
+
+					if ((_tmp.date1 && !_tmp.date1.includes(`Date`)) && (_tmp.description && !_tmp.description.includes(`Description`)) && (_tmp.balance.toString() !== ``)) {
+						this.totalCount++;
+						_tmp.originalRecord = JSON.stringify(currentRecord);
+						records.push(_tmp);
+					}
+					this.recordOrder++;
+				}
+			});
+
+			this.totalRecords = this.accountRecords.length;
+
+			this.totalRecords = this.accountRecords.length;
+
+		}
+
+		return records;
+	}
+
+	parseXMLFile(fileData) {
+		let k: string | number;
+		let records: AccountRecordModel[] = [];
+		const parser = new xml2js.Parser({
+			strict: false,
+			trim: true
+		});
+		parser.parseString(fileData, (err, result) => {
+			var obj = result.OFC.DTD[0].CPAGE[0].ACCTSTMT[0].STMTRS[0].DTSTART[0].DTEND[0].LEDGER[0].STMTTRN;
+			for (k in obj) {
+				const record = obj[k];
+				const transactionType = record.TRNTYPE[0];
+				const datePosted = transactionType.DTPOSTED[0];
+				const transaction = datePosted.TRNAMT[0];
+				const transactionAmount = parseFloat(transaction._);
+				const transactionId = transaction.FITID[0];
+				const Description = transactionId.MEMO[0];
+
+				const y = datePosted._.substr(0, 4),
+					m = datePosted._.substr(4, 2) - 1,
+					d = datePosted._.substr(6, 2);
+
+				const _tmp: AccountRecordModel = {
+					statementId: null,
+					accountsId: this.account._id,
+					transactionId: this.cleanString(transactionId._),
+					order: this.recordOrder,
+					date1: this.convertDate(`${y}/${m}/${d}`),
+					description: this.replaceText(this.cleanString(Description)),
+					credit: transactionAmount >= 0 ? transactionAmount : null,
+					debit: transactionAmount < 0 ? transactionAmount : null,
+					serviceFee: (Description.includes('#') || false),
+					journal: false,
+					comments: ``,
+					processed: false,
+					originalRecord: ``
+				};
+
+				if ((_tmp.date1 && !_tmp.date1.includes(`Date`)) && (_tmp.description && !_tmp.description.includes(`Description`)) && (_tmp.balance.toString() !== ``)) {
+					this.totalCount++;
+					_tmp.originalRecord = JSON.stringify(_tmp);
+					records.push(_tmp);
+				}
+				this.recordOrder++;
+			}
+		});
+
+		return records;
+	}
 
 	uploadRecords() {
 		this.resetCounters();

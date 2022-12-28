@@ -1,14 +1,15 @@
 export class AccountRecordModel {
 	_id?: string;
 	statementId: string;
+	transactionId: string;
 	order: number;
 	accountsId: string;
 	date1: string;
-	date2: string;
+	date2?: string;
 	description: string;
 	credit: number;
 	debit: number;
-	balance: number;
+	balance?: number;
 	serviceFee: boolean;
 	journal: boolean;
 	comments: string;
@@ -19,6 +20,7 @@ export class AccountRecordModel {
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
 		this.statementId = (pModel ? (pModel.statementId ? pModel.statementId : null) : null);
+		this.transactionId = (pModel ? (pModel.transactionId ? pModel.transactionId : null) : null);
 		this.order = (pModel ? (pModel.order ? pModel.order : null) : null);
 		this.accountsId = (pModel ? (pModel.accountsId ? pModel.accountsId : ``) : ``);
 		this.date1 = (pModel ? (pModel.date1 ? pModel.date1 : ``) : ``);

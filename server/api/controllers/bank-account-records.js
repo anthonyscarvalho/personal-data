@@ -301,8 +301,6 @@ exports.filter_record = (req, res) => {
 		$and: queryAnd
 	};
 
-	console.log(queryAnd);
-
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
 			Utils.returnError(`Can't count`, res);
@@ -559,11 +557,15 @@ exports.add_to_budget = (req, res) => {
 			if (err) {
 				Utils.returnError(`Can't count`, res);
 			}
-
-			if (pResults.ok) {
-				_response.message = `Records updated`;
-				Utils.returnSuccess(_response, res);
+			
+			if (pResults.acknowledged) {
+				_response.message = `Record updated`;
+			} else {
+				_response.status = `01`;
+				_response.message = `Record not updated`;
 			}
+
+			return Utils.returnSuccess(_response, res);
 		});
 	}
 };
@@ -590,10 +592,14 @@ exports.remove_from_budget = (req, res) => {
 				Utils.returnError(`Can't count`, res);
 			}
 
-			if (pResults.ok) {
+			if (pResults.acknowledged) {
 				_response.message = `Record updated`;
-				Utils.returnSuccess(_response, res);
+			} else {
+				_response.status = `01`;
+				_response.message = `Record not updated`;
 			}
+
+			return Utils.returnSuccess(_response, res);
 		});
 	}
 };

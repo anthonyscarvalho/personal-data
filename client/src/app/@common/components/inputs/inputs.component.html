@@ -28,7 +28,10 @@
 		<!-- text area -->
 		<textarea [value]="inputValue" name="{{inputLabel}}" (blur)="pushChanges($event.target.value)" class="inputs__common inputs__textArea" rows="{{textAreaRows}}" *ngSwitchCase="'textArea'"></textarea>
 		<!-- file selector -->
-		<label class="inputs__file" *ngSwitchCase="'files'"> Select {{selectMultiple === true ? 'files' : 'file'}} <input type="file" style="display: none;" [attr.multiple]="selectMultiple ? 'multiple' : null" (change)="pushChanges($event.target.files)"></label>
+		<label class="inputs__file" *ngSwitchCase="'files'">
+			Select {{selectMultiple === true ? 'files' : 'file'}}
+			<input type="file" style="display: none;" [attr.multiple]="selectMultiple ? 'multiple' : null" (change)="pushChanges($event.target.files)" accept="{{accepts}}">
+		</label>
 		<!-- WYSIWYG editor -->
 		<ckeditor *ngSwitchCase="'editor'" [editor]="editor" [config]="config" (change)="onCKEChange($event)" [data]="inputValue"></ckeditor>
 		<ng-content></ng-content>
