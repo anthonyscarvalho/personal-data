@@ -1,16 +1,10 @@
-FROM node:10
-
-# Create app directory and epgpub directory
-RUN mkdir /src
-WORKDIR /src
-
-# Install app dependencies
-ADD package.json /src/package.json
-RUN npm install
-
-#Bundle app source
-COPY . /src
-
-EXPOSE 4000
-
-CMD npm start
+FROM node:lts-alpine
+ENV NODE_ENV=production
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
+COPY . .
+EXPOSE 3000
+RUN chown -R node /usr/src/app
+USER node
+CMD ["node", "server.js"]

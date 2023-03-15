@@ -11,7 +11,7 @@ const _logger = logger({
     apiKey: "XYZ"
 });
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3080;
 
 var app = express();
 
@@ -65,6 +65,7 @@ app.use(bodyParser({
 }));
 
 // controllers
+require('./api/routes/assets')(app, require('./api/controllers/assets'));
 require('./api/routes/bank-accounts-records')(app, require('./api/controllers/bank-account-records'));
 require('./api/routes/bank-accounts')(app, require('./api/controllers/bank-accounts'));
 require('./api/routes/budget')(app, require('./api/controllers/budget'));

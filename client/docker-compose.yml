@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  personal-data-client:
+    image: personal-data-client
+    container_name: personal-data-client
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4100:80

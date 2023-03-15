@@ -1,0 +1,11 @@
+<div class="page">
+	<div class="page__left">
+		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
+	</div>
+	<div class="page__container">
+		<div class="container-fluid">
+			<ng-content></ng-content>
+		</div>
+	</div>
+</div>
+<ng-content select=".footer-actions"></ng-content>

@@ -12,7 +12,7 @@ exports.view_record = (req, res) => {
 	let records = ((body.pagerRecords) ? parseInt(body.pagerRecords) : 20);
 	let searchPhrase = ((body.searchPhrase) ? body.searchPhrase : `1`);
 	let filter = {
-		// date1: -1,
+		date1: -1,
 		order: -1,
 		// description: 1,
 		// credit: 1,

@@ -1,4 +1,5 @@
 export * from './@account-records';
+export * from './@assets';
 export * from './@bank-accounts';
 export * from './@budget';
 export * from './@categories';
@@ -7,6 +8,7 @@ export * from './@common';
 export * from './@companies';
 export * from './@contacts';
 export * from './@dashboard';
+export * from './@health';
 export * from './@journal-records';
 export * from './@journal';
 export * from './@menu';

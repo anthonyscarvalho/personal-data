@@ -1,38 +1,31 @@
-<div class="page">
-	<div class="page__left">
-		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
-	</div>
-	<div class="page__container">
-		<div class="BankAccountsEdit" *ngIf="resultRecord">
-			<div class="row">
-				<div class="col-md-12 col-sm-12">
-					<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
-						<div class="row">
-							<div class="col-sm-6">
-								<acc-inputs [inputLabel]="'Company'">
-									<input [(ngModel)]="resultRecord.company" name="company" [disabled]="submitted" />
-								</acc-inputs>
-							</div>
-							<div class="col-sm-6">
-								<acc-inputs [inputLabel]="'Created Date'">
-									<input [(ngModel)]="resultRecord.created" name="created" [disabled]="submitted" bsDatepicker />
-								</acc-inputs>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<acc-inputs [inputValue]="resultRecord.invoiceHeader" (updater)="updateValue($event, 'invoiceHeader')" [inputType]="'editor'" [submitted]="submitted" [inputLabel]="'Invoice Header'" [textAreaRows]="8"></acc-inputs>
-							</div>
-							<div class="col-md-6">
-								<acc-inputs [inputValue]="resultRecord.accountDetails" (updater)="updateValue($event, 'accountDetails')" [inputType]="'editor'" [submitted]="submitted" [inputLabel]="'Account Details'" [textAreaRows]="8"></acc-inputs>
-							</div>
-						</div>
-					</form>
+<acc-page [megaMenu]="megaMenu">
+	<div class="row" *ngIf="resultRecord">
+		<div class="col-md-12 col-sm-12">
+			<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+				<div class="row">
+					<div class="col-sm-6">
+						<acc-inputs [inputLabel]="'Company'">
+							<input [(ngModel)]="resultRecord.company" name="company" [disabled]="submitted" />
+						</acc-inputs>
+					</div>
+					<div class="col-sm-6">
+						<acc-inputs [inputLabel]="'Created Date'">
+							<input [(ngModel)]="resultRecord.created" name="created" [disabled]="submitted" bsDatepicker />
+						</acc-inputs>
+					</div>
 				</div>
-			</div>
+				<div class="row">
+					<div class="col-md-6">
+						<acc-inputs [inputValue]="resultRecord.invoiceHeader" (updater)="updateValue($event, 'invoiceHeader')" [inputType]="'editor'" [submitted]="submitted" [inputLabel]="'Invoice Header'" [textAreaRows]="8"></acc-inputs>
+					</div>
+					<div class="col-md-6">
+						<acc-inputs [inputValue]="resultRecord.accountDetails" (updater)="updateValue($event, 'accountDetails')" [inputType]="'editor'" [submitted]="submitted" [inputLabel]="'Account Details'" [textAreaRows]="8"></acc-inputs>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
-</div>
+</acc-page>
 
 <div class="footer-actions">
 	<a class="footer-actions__btn btn btn-secondary" [routerLink]="['/companies','view']">

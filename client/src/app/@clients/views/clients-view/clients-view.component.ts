@@ -6,8 +6,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 // modules
-import { ClientsService } from '@clients/services';
 import { ClientModel } from '@clients/interfaces';
+import { ClientsService } from '@clients/services';
 
 @Component({
 	selector: 'acc-clients-view',

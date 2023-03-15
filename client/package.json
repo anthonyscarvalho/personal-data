@@ -1,5 +1,5 @@
 {
-	"name": "client",
+	"name": "personal-data-client",
 	"version": "0.0.0",
 	"scripts": {
 		"ng": "ng",
@@ -28,13 +28,10 @@
 		"@fortawesome/free-regular-svg-icons": "^6.1.2",
 		"@fortawesome/free-solid-svg-icons": "^6.1.2",
 		"@riapacheco/yutes": "^4.1.7",
-		"@types/chart.js": "^2.9.37",
 		"angular2-datetimepicker": "^1.1.1",
 		"bootstrap": "^5.2.0",
-		"chart.js": "^3.9.1",
-		"d3": "^7.6.1",
+		"d3": "^7.8.2",
 		"d3-tip": "^0.9.1",
-		"ng2-charts": "^4.0.2",
 		"ngx-bootstrap": "^9.0.0",
 		"ngx-toastr": "^15.0.0",
 		"rxjs": "~7.5.6",

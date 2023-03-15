@@ -1,6 +1,8 @@
 @import 'config.scss';
 
 .side-menu {
+	width: 100%;
+	display: block;
 
 	&__legend {
 		text-align: center;

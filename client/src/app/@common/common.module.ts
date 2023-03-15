@@ -14,7 +14,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastrModule } from 'ngx-toastr';
-import { NgChartsModule } from 'ng2-charts';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 // module
@@ -24,13 +23,14 @@ import {
 import {
 	ErrorsComponent,
 	FilterBoxComponent,
-	HeaderComponent,
 	FooterComponent,
+	HeaderComponent,
+	InputsComponent,
+	LoadingComponent,
+	PageComponent,
+	SideMenuComponent,
 	SubMenuComponent,
 	TableComponent,
-	SideMenuComponent,
-	LoadingComponent,
-	InputsComponent,
 	TablePaginationComponent
 } from '@common/components';
 
@@ -41,6 +41,7 @@ const allComponents = [
 	HeaderComponent,
 	InputsComponent,
 	LoadingComponent,
+	PageComponent,
 	SideMenuComponent,
 	SubMenuComponent,
 	TableComponent,
@@ -64,7 +65,6 @@ const allDirectives = [
 		// 3rd party scripts
 		BsDatepickerModule.forRoot(),
 		ButtonsModule.forRoot(),
-		NgChartsModule,
 		CKEditorModule,
 		FontAwesomeModule,
 		ModalModule.forRoot(),
@@ -82,7 +82,6 @@ const allDirectives = [
 		// 3rd party scripts
 		BsDatepickerModule,
 		ButtonsModule,
-		NgChartsModule,
 		FontAwesomeModule,
 		ModalModule,
 		PaginationModule,

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<acc-page [megaMenu]="megaMenu">
 	<div class="row">
 		<div class="col-2">
 			<acc-filter-box (updater)="filterUpdater($event)" [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig"></acc-filter-box>
@@ -7,4 +7,4 @@
 			<acc-table [tableHead]="tableHead" [tableBody]="tableBody" (updater)="filterUpdater($event)" [editModule]="'journals'" [filterBoxOptions]="filterBoxOptions"></acc-table>
 		</div>
 	</div>
-</div>
+</acc-page>

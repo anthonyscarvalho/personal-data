@@ -1,8 +1,6 @@
 <div class="card">
 	<div class="card-body">
 		<legend>{{budgetItem.description}}</legend>
-		<ng-container *ngIf="chart.data">
-			<canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chart.options" [legend]="chart.legend" [type]="chart.type"></canvas>
-		</ng-container>
+		<div class="line__chart" #svgItem></div>
 	</div>
 </div>
