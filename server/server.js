@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var cors = require('cors');
 var config = require("./config");
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var logger = require('./services/logger');
@@ -38,6 +37,7 @@ mongoose.connect(config.database.host, {
         console.log('database connected');
     }
 });
+mongoose.set('strictQuery', false);
 
 // set debug to true for database connection debugging
 // mongoose.set('debug', function(coll, method, query, doc, options) {
@@ -58,9 +58,6 @@ app.use(express.urlencoded({
     limit: '50mb'
 }));
 app.use(express.json({
-    limit: '50mb'
-}));
-app.use(bodyParser({
     limit: '50mb'
 }));
 
