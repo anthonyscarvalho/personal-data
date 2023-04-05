@@ -1,47 +1,40 @@
-<div class="page">
-	<div class="page__left">
-		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
-	</div>
-	<div class="page__container">
-		<div class="container-fluid">
-			<div class="BudgetDash__Summary">
-				<div class="card text-center BudgetDash__Summary--Item BudgetDash__Summary--Year">
-					<div class="card-body">
-						<div class="BudgetDash__Year">
-							<div class="BudgetDash__Year--Control mg__r20">
-								<button type="button" class="btn btn-primary btn-sm" (click)="previousYear()">
-									<fa-icon [icon]="['fas', 'chevron-left']" [fixedWidth]="true"></fa-icon>
-								</button>
-							</div>
-							<div class="BudgetDash__Year--Input">
-								<input type="text" [(ngModel)]="year" (blur)="updateYear()" numberOnly minlength="4" maxlength="4">
-							</div>
-							<div class="BudgetDash__Year--Control mg__l20">
-								<button type="button" class="btn btn-primary btn-sm" (click)="nextYear()">
-									<fa-icon [icon]="['fas', 'chevron-right']" [fixedWidth]="true"></fa-icon>
-								</button>
-							</div>
-						</div>
+<acc-page [megaMenu]="megaMenu">
+	<div class="BudgetDash__Summary">
+		<div class="card text-center BudgetDash__Summary--Item BudgetDash__Summary--Year">
+			<div class="card-body">
+				<div class="BudgetDash__Year">
+					<div class="BudgetDash__Year--Control mg__r20">
+						<button type="button" class="btn btn-primary btn-sm" (click)="previousYear()">
+							<fa-icon [icon]="['fas', 'chevron-left']" [fixedWidth]="true"></fa-icon>
+						</button>
+					</div>
+					<div class="BudgetDash__Year--Input">
+						<input type="text" [(ngModel)]="year" (blur)="updateYear()" numberOnly minlength="4" maxlength="4">
+					</div>
+					<div class="BudgetDash__Year--Control mg__l20">
+						<button type="button" class="btn btn-primary btn-sm" (click)="nextYear()">
+							<fa-icon [icon]="['fas', 'chevron-right']" [fixedWidth]="true"></fa-icon>
+						</button>
 					</div>
 				</div>
-				<div class="card text-center BudgetDash__Summary--Item">
-					<div class="card-body"> Total Budget:<br>{{totalBudget| currency:'R '}} </div>
-				</div>
-				<div class="card text-center BudgetDash__Summary--Item">
-					<div class="card-body"> Total Essential:<br>{{totalEssential| currency:'R '}} </div>
-				</div>
-				<div class="card text-center BudgetDash__Summary--Item">
-					<div class="card-body"> Total Non Essential:<br>{{totalNonEssential| currency:'R '}} </div>
-				</div>
-			</div>
-			<div class="clearfix">&nbsp;</div>
-			<div class="BudgetDash__Row">
-				<ng-container *ngIf="resultRecord.length > 0">
-					<div class="BudgetDash__Row--Column" *ngFor="let column of resultRecord">
-						<acc-budget-dash-bar [budgetItem]="column" [year]="year"></acc-budget-dash-bar>
-					</div>
-				</ng-container>
 			</div>
 		</div>
+		<div class="card text-center BudgetDash__Summary--Item">
+			<div class="card-body"> Total Budget:<br>{{totalBudget| currency:'R '}} </div>
+		</div>
+		<div class="card text-center BudgetDash__Summary--Item">
+			<div class="card-body"> Total Essential:<br>{{totalEssential| currency:'R '}} </div>
+		</div>
+		<div class="card text-center BudgetDash__Summary--Item">
+			<div class="card-body"> Total Non Essential:<br>{{totalNonEssential| currency:'R '}} </div>
+		</div>
 	</div>
-</div>
+	<div class="clearfix">&nbsp;</div>
+	<div class="BudgetDash__Row">
+		<ng-container *ngIf="resultRecord.length > 0">
+			<div class="BudgetDash__Row--Column" *ngFor="let column of resultRecord">
+				<acc-budget-dash-bar [budgetItem]="column" [year]="year"></acc-budget-dash-bar>
+			</div>
+		</ng-container>
+	</div>
+</acc-page>

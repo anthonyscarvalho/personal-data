@@ -12,6 +12,7 @@ import { JournalRecordProcessModel } from '@journalRecords/interfaces';
 	styleUrls: ['./journal-records-view.component.scss']
 })
 export class JournalRecordsViewComponent implements OnInit {
+	megaMenu: any;
 	tableHead = [
 		{
 			text: 'ID',

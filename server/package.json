@@ -1,7 +1,7 @@
 {
-  "name": "mytasklist",
+  "name": "personal-data-server",
   "version": "1.0.0",
-  "description": "Simple Task Manager",
+  "description": "My personal data backend",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js -e ejs,js,css,html,jpg,png,scss",

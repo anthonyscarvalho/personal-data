@@ -1,30 +1,23 @@
-<div class="page">
-	<div class="page__left">
-		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
-	</div>
-	<div class="page__container">
-		<div class="container-fluid">
-			<div class="report mt_30">
-				<div class="report__controls">
-					<div class="row">
-						<div class="col-md-2">
-							<acc-inputs [inputValue]="account" (updater)="updateValue($event, 'account')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="accounts.label" [selectOptions]="accounts.options"></acc-inputs>
-						</div>
-						<div class="col-md-2">
-							<acc-inputs [inputValue]="dateStart" (updater)="updateValue($event, 'dateStart')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Start'"></acc-inputs>
-						</div>
-						<div class="col-md-2">
-							<acc-inputs [inputValue]="dateEnd" (updater)="updateValue($event, 'dateEnd')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date End'"></acc-inputs>
-						</div>
-						<div class="col-md-2">
-							<button type="button" class="btn btn-info" (click)="searchTransactions()">
-								<fa-icon [icon]="['fas', 'search']" [fixedWidth]="true"></fa-icon> Search
-							</button>
-						</div>
-					</div>
+<acc-page [megaMenu]="megaMenu">
+	<div class="report mt_30">
+		<div class="report__controls">
+			<div class="row">
+				<div class="col-md-2">
+					<acc-inputs [inputValue]="account" (updater)="updateValue($event, 'account')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="accounts.label" [selectOptions]="accounts.options"></acc-inputs>
+				</div>
+				<div class="col-md-2">
+					<acc-inputs [inputValue]="dateStart" (updater)="updateValue($event, 'dateStart')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Start'"></acc-inputs>
+				</div>
+				<div class="col-md-2">
+					<acc-inputs [inputValue]="dateEnd" (updater)="updateValue($event, 'dateEnd')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date End'"></acc-inputs>
+				</div>
+				<div class="col-md-2">
+					<button type="button" class="btn btn-info" (click)="searchTransactions()">
+						<fa-icon [icon]="['fas', 'search']" [fixedWidth]="true"></fa-icon> Search
+					</button>
 				</div>
 			</div>
-			<p>report works!</p>
 		</div>
 	</div>
-</div>
+	<p>report works!</p>
+</acc-page>

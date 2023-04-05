@@ -1,6 +1,6 @@
 module.exports = {
 	database: {
-		host: "mongodb://anthony.work:27018/accounts",
+		host: "mongodb://mongodb_container:27017/accounts",
 		database: ""
 	},
 }

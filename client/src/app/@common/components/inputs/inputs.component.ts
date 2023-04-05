@@ -7,8 +7,7 @@ import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 @Component({
 	selector: 'acc-inputs',
-	templateUrl: './inputs.component.html',
-	styleUrls: ['./inputs.component.scss']
+	templateUrl: './inputs.component.html'
 })
 export class InputsComponent implements OnInit {
 	@Input() inputValue;

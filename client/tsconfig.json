@@ -19,6 +19,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@accountRecords/*": ["src/app/@account-records/*"],
+			"@assets/*": ["src/app/@assets/*"],
 			"@bankAccounts/*": ["src/app/@bank-accounts/*"],
 			"@budget/*": ["src/app/@budget/*"],
 			"@categories/*": ["src/app/@categories/*"],
@@ -26,6 +27,7 @@
 			"@common/*": ["src/app/@common/*"],
 			"@companies/*": ["src/app/@companies/*"],
 			"@contacts/*": ["src/app/@contacts/*"],
+			"@health/*": ["src/app/@health/*"],
 			"@dashboard/*": ["src/app/@dashboard/*"],
 			"@journal/*": ["src/app/@journal/*"],
 			"@journalRecords/*": ["src/app/@journal-records/*"],

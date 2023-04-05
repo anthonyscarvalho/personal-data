@@ -1,0 +1,19 @@
+.page {
+	height: calc(100% - 60px);
+	display: flex;
+	align-items: stretch;
+	flex-direction: row;
+
+	&__left {
+		max-height: calc(100% - 60px);
+		overflow-x: auto;
+		flex: 200px;
+	}
+
+	&__container {
+		padding: 20px;
+		width: 100%;
+		margin-top: 10px;
+		flex: auto;
+	}
+}

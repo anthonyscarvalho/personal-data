@@ -1,3 +1,4 @@
+export * from './d3-chart-data.interface';
 export * from './dropdown-options.interface';
 export * from './filter-box-config.interface';
 export * from './filter-box-options.interface';

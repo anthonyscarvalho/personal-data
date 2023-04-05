@@ -26,7 +26,9 @@ export class MenuComponent implements OnInit {
 		{ name: `Logs`, url: `/logs`, order: 7, icon: `list-ol` },
 		{ name: `Jobs`, url: `/jobs`, order: 8, icon: `id-card` },
 		{ name: `Tickets`, url: `/tickets`, order: 9, icon: `ticket-alt` },
-		{ name: `Scheduler`, url: `/scheduler`, order: 9, icon: `calendar-alt` },
+		{ name: `Scheduler`, url: `/scheduler`, order: 10, icon: `calendar-alt` },
+		{ name: `Health`, url: `/health`, order: 11, icon: `heartbeat` },
+		{ name: `Assets`, url: `/assets`, order: 12, icon: `folder` },
 	];
 	adminMenu: MenuModel[] = [
 		// import from legacy

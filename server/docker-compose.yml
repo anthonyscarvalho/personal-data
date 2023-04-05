@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  personal-data-server:
+    image: personal-data-server
+    container_name: personal-data-server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+    ports:
+      - 3080:3080
+    networks:
+      - mongodb
+
+networks:
+  mongodb:
+    external: true

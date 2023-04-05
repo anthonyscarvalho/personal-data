@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -13,7 +13,7 @@ import { AccountRecordModel } from '@accountRecords/interfaces';
 	templateUrl: './account-records-view.component.html',
 	styleUrls: ['./account-records-view.component.scss']
 })
-export class AccountRecordsViewComponent implements OnInit {
+export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 	megaMenu: any;
 	module: any;
 	bsModalRef: BsModalRef;
@@ -35,6 +35,7 @@ export class AccountRecordsViewComponent implements OnInit {
 	});
 
 	constructor(
+		private ref: ChangeDetectorRef,
 		private route: ActivatedRoute,
 		private _modalService: BsModalService,
 		private _generalService: GeneralService,
@@ -91,6 +92,8 @@ export class AccountRecordsViewComponent implements OnInit {
 			}
 		});
 	}
+
+
 
 	fixSort() {
 		this._httpService.post('bank-account-records/fix-order', this.filterBoxOptions).then((results: any) => {
@@ -153,5 +156,9 @@ export class AccountRecordsViewComponent implements OnInit {
 				this._notificationService.warn(results.message);
 			}
 		});
+	}
+
+	ngAfterViewInit(): void {
+		this.ref.detectChanges();
 	}
 }

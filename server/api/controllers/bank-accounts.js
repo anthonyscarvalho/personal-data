@@ -33,8 +33,11 @@ exports.view = (req, res) => {
 		query["canceled"] = body.state;
 	}
 
+	console.log(JSON.stringify(databaseModel));
+
 	databaseModel.countDocuments(query, function (err, pCount) {
 		if (err) {
+			console.log('count error: ', JSON.stringify(err));
 			Utils.returnError(`Can't count`, res);
 		}
 
