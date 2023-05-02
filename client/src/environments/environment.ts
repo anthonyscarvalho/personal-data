@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://personal-data-server:3080',
+  baseUrl: 'http://anthony.work:3080',
   apiUrl: 'api'
 };
 
