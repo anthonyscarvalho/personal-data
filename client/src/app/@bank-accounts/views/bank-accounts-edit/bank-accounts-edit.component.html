@@ -15,10 +15,14 @@
 									<acc-inputs [inputValue]="resultRecord.accountDescription" (updater)="updateValue($event, 'accountDescription')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Account Description'"></acc-inputs>
 								</div>
 								<div class="col-md-6 col-sm-12">
-									<acc-inputs [inputValue]="resultRecord.dateOpened" (updater)="updateValue($event, 'dateOpened')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Opened'"></acc-inputs>
+									<acc-inputs [inputLabel]="'Date Opened'">
+										<input [(ngModel)]="resultRecord.dateOpened" name="dateOpened" [disabled]="submitted" bsDatepicker />
+									</acc-inputs>
 								</div>
 								<div class="col-md-6 col-sm-12">
-									<acc-inputs [inputValue]="resultRecord.dateClosed" (updater)="updateValue($event, 'dateClosed')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Closed'"></acc-inputs>
+									<acc-inputs [inputLabel]="'Date Closed'">
+										<input [(ngModel)]="resultRecord.dateClosed" name="dateClosed" [disabled]="submitted" bsDatepicker />
+									</acc-inputs>
 								</div>
 								<div class="col-md-6 col-sm-12">
 									<acc-inputs [inputValue]="resultRecord.csvType" (updater)="updateValue($event, 'csvType')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="csvTypes.label" [selectOptions]="csvTypes.options"></acc-inputs>
