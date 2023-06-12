@@ -1,6 +1,6 @@
 module.exports = {
 	database: {
-		host: "mongodb://mongodb:27017/accounts",
+		host: "mongodb://localhost:27017/accounts",
 		database: ""
 	},
 }

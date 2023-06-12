@@ -31,7 +31,9 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.database.host, {
     dbName: 'accounts',
     useNewUrlParser: true
-}, (error) => {
+})
+.then(()=>{console.log('database connected');})
+.catch((error) => {
     if (error) {
         console.log(error);
     } else {
@@ -60,9 +62,9 @@ app.use(express.urlencoded({
 app.use(express.json({
     limit: '50mb'
 }));
-app.use(bodyParser({
-    limit: '50mb'
-}));
+// app.use(bodyParser({
+//     limit: '50mb'
+// }));
 
 // controllers
 require('./api/routes/assets')(app, require('./api/controllers/assets'));
