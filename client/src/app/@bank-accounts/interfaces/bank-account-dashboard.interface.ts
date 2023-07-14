@@ -5,6 +5,8 @@ export class BankAccountDashboardModel {
 	totalCredit: number;
 	totalDebit: number;
 	balance: number;
+	currency: string;
+	symbol: string;
 
 	constructor(pModel = null) {
 		this.accountNumber = (pModel ? (pModel.accountNumber ? pModel.accountNumber : ``) : ``);
@@ -13,5 +15,7 @@ export class BankAccountDashboardModel {
 		this.totalCredit = (pModel ? (pModel.totalCredit ? pModel.totalCredit : null) : null);
 		this.totalDebit = (pModel ? (pModel.totalDebit ? pModel.totalDebit : null) : null);
 		this.balance = (pModel ? (pModel.balance ? pModel.balance : null) : null);
+		this.currency = (pModel ? (pModel.currency ? pModel.currency : ``) : ``);
+		this.symbol = (pModel ? (pModel.symbol ? pModel.symbol : ``) : ``);
 	}
 }

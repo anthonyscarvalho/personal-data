@@ -15,6 +15,16 @@
 									<acc-inputs [inputValue]="resultRecord.accountDescription" (updater)="updateValue($event, 'accountDescription')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Account Description'"></acc-inputs>
 								</div>
 								<div class="col-md-6 col-sm-12">
+									<acc-inputs [inputLabel]="'Currency'">
+										<input [(ngModel)]="resultRecord.currency" name="currency" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<acc-inputs [inputLabel]="'Currency Symbol'">
+										<input [(ngModel)]="resultRecord.symbol" name="symbol" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-6 col-sm-12">
 									<acc-inputs [inputLabel]="'Date Opened'">
 										<input [(ngModel)]="resultRecord.dateOpened" name="dateOpened" [disabled]="submitted" bsDatepicker />
 									</acc-inputs>

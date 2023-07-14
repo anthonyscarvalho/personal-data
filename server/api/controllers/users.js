@@ -1,7 +1,7 @@
 "use strict";
 require("../models/users");
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 var databaseModel = mongoose.model("user");
 var Utils = require("../utils/utils.js");
 
@@ -57,7 +57,7 @@ exports.sum_records = (req, res) => {
   let _response = new Utils.newResponse();
 
   if (!req.params.id) {
-    Utils.returnError(`Bad data`, res);
+    Utils.returnBadData(res);
   } else if (req.params.id) {
     let query = {};
 
@@ -198,7 +198,7 @@ exports.add_record = (req, res) => {
   };
 
   if (!new_record.description) {
-    Utils.returnError(`Bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .find(query)
@@ -210,24 +210,18 @@ exports.add_record = (req, res) => {
             new_record
               .save()
               .then((pResults) => {
-                _response.message = `Record updated`;
-                _response.data = pResults;
-                Utils.returnSuccess(_response, res);
+                Utils.returnUpdated(res);
               })
               .catch((err) => {
                 Utils.returnError(err, res);
               });
           } else if (pResults.length == 1) {
-            _response.status = `02`;
-            _response.message = `Record exists`;
-            Utils.returnSuccess(_response, res);
+            Utils.returnRecordExist(res);
           } else if (pResults.length > 1) {
-            _response.status = `03`;
-            _response.message = `Duplicate entries for record`;
-            Utils.returnSuccess(_response, res);
+            Utils.returnDuplicate(res);
           }
         } else {
-          Utils.returnError(`find results error`, res);
+          Utils.returnFindError(res);
         }
       })
       .catch((err) => {
@@ -244,12 +238,12 @@ exports.update_record = (req, res) => {
     delete newRecord._id;
   }
   if (!newRecord.description) {
-    Utils.returnError(`Bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: newRecord,
@@ -260,13 +254,10 @@ exports.update_record = (req, res) => {
       )
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `Record updated`;
+          Utils.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `Record not updated`;
+          Utils.returnNotUpdated(res);
         }
-
-        Utils.returnSuccess(_response, res);
       })
       .catch((err) => {
         Utils.returnError(err, res);

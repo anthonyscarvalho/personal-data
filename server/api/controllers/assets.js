@@ -1,7 +1,7 @@
 "use strict";
 require("../models/asset");
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 var databaseModel = mongoose.model("assets");
 var Utils = require("../utils/utils.js");
 
@@ -167,7 +167,7 @@ exports.add_record = (req, res) => {
             Utils.returnDuplicate(res);
           }
         } else {
-          Utils.returnError(`find results error`, res);
+          Utils.returnFindError(res);
         }
       })
       .catch((err) => {
@@ -182,12 +182,12 @@ exports.update_record = (req, res) => {
     delete newRecord._id;
   }
   if (!newRecord.description) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: newRecord,

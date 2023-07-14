@@ -16,6 +16,7 @@ export class AccountRecordModel {
 	processed: boolean;
 	originalRecord: string;
 	checked?: boolean;
+	hash:string;
 
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
@@ -34,5 +35,6 @@ export class AccountRecordModel {
 		this.comments = (pModel ? (pModel.comments ? pModel.comments : ``) : ``);
 		this.processed = (pModel ? (pModel.processed ? pModel.processed : false) : false);
 		this.originalRecord = (pModel ? (pModel.originalRecord ? pModel.originalRecord : ``) : ``);
+		this.hash = (pModel ? (pModel.hash ? pModel.hash : ``) : ``);
 	}
 }

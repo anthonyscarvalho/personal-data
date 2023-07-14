@@ -33,6 +33,8 @@ export class BankAccountsDashBlockComponent implements OnInit {
 				this.accountDetails.accountDescription = this.account.accountDescription;
 				this.accountDetails.accountNumber = this.account.accountNumber;
 				this.accountDetails.status = this.account.status;
+				this.accountDetails.symbol = this.account.symbol || '';
+				this.accountDetails.currency = this.account.currency || '';
 			}
 		});
 	}

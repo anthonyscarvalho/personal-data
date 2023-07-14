@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -59,6 +59,9 @@ dependencies:
   bootstrap:
     specifier: ^5.2.0
     version: 5.2.0(@popperjs/core@2.11.8)
+  crypto-js:
+    specifier: ^4.1.1
+    version: 4.1.1
   d3:
     specifier: ^7.8.2
     version: 7.8.2
@@ -3997,6 +4000,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js@4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css-blank-pseudo@3.0.3(postcss@8.4.16):
     resolution: {integrity: sha512-VS90XWtsHGqoM0t4KpH053c4ehxZ2E6HtGI7x68YFV0pTo/QmkV/YFA+NnlvK8guxZVNWGQhVNJGC39Q8XF4OQ==}

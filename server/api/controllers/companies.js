@@ -1,7 +1,7 @@
 "use strict";
 require("../models/companies");
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 var databaseModel = mongoose.model("company");
 var Utils = require("../utils/utils.js");
 
@@ -164,7 +164,7 @@ exports.add = (req, res) => {
   };
 
   if (!new_record.company) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .find(query)
@@ -176,24 +176,18 @@ exports.add = (req, res) => {
             new_record
               .save()
               .then((pResults) => {
-                _response.message = `record updated`;
-                _response.data = pResults;
-                Utils.returnSuccess(_response, res);
+                Utils.returnUpdated(res);
               })
               .catch((err) => {
                 Utils.returnError(err, res);
               });
           } else if (pResults.length == 1) {
-            _response.status = `02`;
-            _response.message = `record exists`;
-            Utils.returnSuccess(_response, res);
+            Utils.returnRecordExist(res);
           } else if (pResults.length > 1) {
-            _response.status = `03`;
-            _response.message = `duplicate entries for record`;
-            Utils.returnSuccess(_response, res);
+            Utils.returnDuplicate(res);
           }
         } else {
-          Utils.returnError(`find results error`, res);
+          Utils.returnFindError(res);
         }
       })
       .catch((err) => {
@@ -210,12 +204,12 @@ exports.update = (req, res) => {
     delete newRecord._id;
   }
   if (!newRecord.company) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: newRecord,
@@ -226,13 +220,10 @@ exports.update = (req, res) => {
       )
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `record updated`;
+          Utils.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `record not updated`;
+          Utils.returnNotUpdated(res);
         }
-
-        Utils.returnSuccess(_response, res);
       })
       .catch((err) => {
         Utils.returnError(err, res);

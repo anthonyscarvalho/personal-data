@@ -55,5 +55,8 @@ module.exports = mongoose.model(modelName,
 		originalRecord: {
 			type: String
 		},
+		hash: {
+			type: String
+		},
 	}),
 	tableName);

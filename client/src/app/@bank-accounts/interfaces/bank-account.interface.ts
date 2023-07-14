@@ -11,6 +11,8 @@ export class BankAccountModel {
 	dateOpened: string;
 	dateClosed: string;
 	csvType: string;
+	currency: string;
+	symbol: string;
 
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
@@ -23,5 +25,7 @@ export class BankAccountModel {
 		this.dateOpened = (pModel ? (pModel.dateOpened ? pModel.dateOpened : null) : null);
 		this.dateClosed = (pModel ? (pModel.dateClosed ? pModel.dateClosed : null) : null);
 		this.csvType = (pModel ? (pModel.csvType ? pModel.csvType : ``) : ``);
+		this.currency = (pModel ? (pModel.currency ? pModel.currency : ``) : ``);
+		this.symbol = (pModel ? (pModel.symbol ? pModel.symbol : ``) : ``);
 	}
 }

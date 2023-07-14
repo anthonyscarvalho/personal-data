@@ -1,5 +1,5 @@
 "use strict";
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 
 exports.generateSlug = function (pInput) {
   let _slug = pInput.name;
@@ -73,11 +73,8 @@ exports.returnBadData = function (pRes) {
   exports.returnError(`bad data`, pRes);
 };
 
-exports.returnError = function (pRes) {
-  let _response = new exports.newResponse();
-  _response.status = `01`;
-  _response.message = `record not updated`;
-  exports.returnSuccess(_response, pRes);
+exports.returnFindError = function (pRes) {
+  exports.returnError(`find results error`, pRes);
 };
 
 exports.newResponse = function () {
@@ -93,12 +90,12 @@ exports.update_status = function (req, res, databaseModel) {
   let _response = new exports.newResponse();
   let { action } = req.body;
   if (!action) {
-    return exports.returnError(`Bad data`, res);
+    return exports.returnBadData(res);
   } else {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: {
@@ -112,13 +109,10 @@ exports.update_status = function (req, res, databaseModel) {
       )
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `Record updated`;
+          exports.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `Record not updated`;
+          exports.returnNotUpdated(res);
         }
-
-        return exports.returnSuccess(_response, res);
       })
       .catch((err) => {
         return exports.returnError(`Can't count`, res);
@@ -130,21 +124,18 @@ exports.delete_record = function (req, res, databaseModel) {
   let _response = new exports.newResponse();
 
   if (!req.params.id) {
-    return exports.returnError(`Bad data`, res);
+    return exports.returnBadData(res);
   } else {
     databaseModel
       .deleteOne({
-        _id: ObjectID(req.params.id),
+        _id: new ObjectId(req.params.id),
       })
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `Record updated`;
+          exports.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `Record not updated`;
+          exports.returnNotUpdated(res);
         }
-
-        return exports.returnSuccess(_response, res);
       })
       .catch((err) => {
         res.send(err);

@@ -1,7 +1,7 @@
 "use strict";
 require("../models/bank-accounts");
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 var databaseModel = mongoose.model("bankAccount");
 var Utils = require("../utils/utils.js");
 
@@ -137,7 +137,7 @@ exports.add_record = (req, res) => {
   var new_record = new databaseModel(req.body);
 
   if (!new_record.accountNumber || !(new_record.accountDescription + "")) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     let _response = new Utils.newResponse();
     databaseModel
@@ -173,12 +173,12 @@ exports.update_record = (req, res) => {
     delete newRecord._id;
   }
   if (!newRecord.accountNumber || !(newRecord.accountDescription + "")) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: newRecord,

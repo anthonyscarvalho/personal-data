@@ -50,5 +50,11 @@ module.exports = mongoose.model(modelName,
 		csvType: {
 			type: String
 		},
+		currency: {
+			type: String
+		},
+		symbol: {
+			type: String
+		},
 	}),
 	tableName);

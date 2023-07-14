@@ -1,7 +1,7 @@
 "use strict";
 require("../models/journals");
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 var databaseModel = mongoose.model("journal");
 var Utils = require("../utils/utils.js");
 
@@ -148,7 +148,7 @@ exports.add_record = (req, res) => {
   var new_record = new databaseModel(req.body);
 
   if (!newRecord.accountName || !newRecord.status || !newRecord.accountNumber) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     let _response = new Utils.newResponse();
     databaseModel
@@ -163,9 +163,7 @@ exports.add_record = (req, res) => {
           new_record
             .save()
             .then((pResults) => {
-              _response.message = `Record updated`;
-              _response.data = pResults;
-              Utils.returnSuccess(_response, res);
+              Utils.returnUpdated(res);
             })
             .catch((err) => {
               Utils.returnError(err, res);
@@ -190,12 +188,12 @@ exports.update_record = (req, res) => {
     delete newRecord._id;
   }
   if (!newRecord.accountNumber || !(newRecord.accountDescription + "")) {
-    Utils.returnError(`bad data`, res);
+    Utils.returnBadData(res);
   } else {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: newRecord,
@@ -206,13 +204,10 @@ exports.update_record = (req, res) => {
       )
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `Record updated`;
+          Utils.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `Record not updated`;
+          Utils.returnNotUpdated(res);
         }
-
-        Utils.returnSuccess(_response, res);
       })
       .catch((err) => {
         Utils.returnError(err, res);

@@ -18,6 +18,7 @@
 			<table class="table-component__table">
 				<colgroup>
 					<col width="170px">
+					<col width="170px">
 					<col width="35px">
 					<col>
 					<col width="100px">
@@ -32,6 +33,7 @@
 				<thead class="table-component__table--head">
 					<tr class="table-component__table--head-row">
 						<th>ID</th>
+						<th>Hash</th>
 						<th>Order</th>
 						<th>Description</th>
 						<th>Date 1</th>
@@ -48,6 +50,7 @@
 				<tbody class="table-component__table--body" *ngIf="tableBody">
 					<tr *ngFor="let row of tableBody; let i = index" class="table-component__table--body-row">
 						<td>{{ row._id }}</td>
+						<td><span *ngIf="row.hash">true</span></td>
 						<!-- <td>{{ row.order }}</td> -->
 						<td>
 							<input type="number" [(ngModel)]="row.order" (blur)="updateRecord(row)" style="width: 60px;">
@@ -62,8 +65,8 @@
 						<td>
 							<input type="text" [(ngModel)]="row.date2" (blur)="updateRecord(row)" style="width: 90px;">
 						</td>
-						<td>{{ row.credit | currency : 'R ' }}</td>
-						<td>{{ row.debit | currency : 'R ' }}</td>
+						<td>{{ row.credit }}</td>
+						<td>{{ row.debit }}</td>
 						<td>
 							<input type="number" [(ngModel)]="row.balance" (blur)="updateRecord(row)">
 						</td>

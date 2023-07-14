@@ -1,7 +1,7 @@
 "use strict";
 require("../models/bank-accounts-records");
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 var databaseModel = mongoose.model("bankAccountRecord");
 var Utils = require("../utils/utils.js");
 
@@ -370,26 +370,8 @@ exports.add_record = (req, res) => {
   let query = {
     $and: [
       {
-        accountsId: new_record.accountsId,
-      },
-      {
-        date1: new_record.date1,
-      },
-      {
-        date2: new_record.date2,
-      },
-      {
-        credit: new_record.credit,
-      },
-      {
-        debit: new_record.debit,
-      },
-      {
-        balance: new_record.balance,
-      },
-      {
-        description: new_record.description,
-      },
+        hash: new_record.hash,
+      }
     ],
   };
 
@@ -406,9 +388,7 @@ exports.add_record = (req, res) => {
             new_record
               .save()
               .then((pResults) => {
-                _response.message = `record updated`;
-                _response.data = pResults;
-                Utils.returnSuccess(_response, res);
+                Utils.returnUpdated(res);
               })
               .catch((err) => {
                 Utils.returnError(err, res);
@@ -419,7 +399,7 @@ exports.add_record = (req, res) => {
             Utils.returnDuplicate(res);
           }
         } else {
-          Utils.returnError(`find results error`, res);
+          Utils.returnFindError(res);
         }
       })
       .catch((err) => {
@@ -441,7 +421,7 @@ exports.update_record = (req, res) => {
     databaseModel
       .updateOne(
         {
-          _id: ObjectID(req.params.id),
+          _id: new ObjectId(req.params.id),
         },
         {
           $set: newRecord,
@@ -576,7 +556,6 @@ exports.budget_search = (req, res) => {
 };
 
 exports.add_to_budget = (req, res) => {
-  let _response = new Utils.newResponse();
   let body = req.body;
   let records = body.records;
   let budgetId = body.budgetId;
@@ -602,13 +581,10 @@ exports.add_to_budget = (req, res) => {
       )
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `record updated`;
+          Utils.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `record not updated`;
+          Utils.returnNotUpdated(res);
         }
-
-        return Utils.returnSuccess(_response, res);
       })
       .catch((err) => {
         Utils.returnCountError(res);
@@ -617,7 +593,6 @@ exports.add_to_budget = (req, res) => {
 };
 
 exports.remove_from_budget = (req, res) => {
-  let _response = new Utils.newResponse();
   const body = req.body;
   const recordId = body.recordId;
 
@@ -640,13 +615,10 @@ exports.remove_from_budget = (req, res) => {
       )
       .then((pResults) => {
         if (pResults.acknowledged) {
-          _response.message = `record updated`;
+          Utils.returnUpdated(res);
         } else {
-          _response.status = `01`;
-          _response.message = `record not updated`;
+          Utils.returnNotUpdated(res);
         }
-
-        return Utils.returnSuccess(_response, res);
       })
       .catch((err) => {
         Utils.returnCountError(res);

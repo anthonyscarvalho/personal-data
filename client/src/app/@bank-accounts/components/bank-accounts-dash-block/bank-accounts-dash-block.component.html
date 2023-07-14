@@ -2,8 +2,8 @@
 	<div class="block__title">{{accountDetails.accountDescription}}</div>
 	<div class="block__status" [ngClass]="accountDetails.status == 'open' ? 'block__status--open' : 'block__status--closed'"></div>
 	<div class="block__currency">
-		<div class="block__currency--credit"><span class="block__currency--fw">Credits</span>: R {{formatNumbers(accountDetails.totalCredit)}}</div>
-		<div class="block__currency--debit"><span class="block__currency--fw">Debits</span>: R {{formatNumbers(accountDetails.totalDebit)}}</div>
-		<div class="block__currency--balance"><span class="block__currency--fw">Balance</span>: R {{formatNumbers(accountDetails.balance)}}</div>
+		<div class="block__currency--credit"><span class="block__currency--fw">Credits</span>: {{accountDetails.symbol + ' ' + formatNumbers(accountDetails.totalCredit)}}</div>
+		<div class="block__currency--debit"><span class="block__currency--fw">Debits</span>: {{accountDetails.symbol + ' ' + formatNumbers(accountDetails.totalDebit)}}</div>
+		<div class="block__currency--balance"><span class="block__currency--fw">Balance</span>: {{accountDetails.symbol + ' ' + formatNumbers(accountDetails.balance)}}</div>
 	</div>
 </div>
