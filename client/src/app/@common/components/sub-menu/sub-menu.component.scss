@@ -2,8 +2,6 @@
 
 .sub-menu {
 	background-color: #efefef;
-	padding-top: 5px;
-	padding-bottom: 5px;
 
 	&__nav {
 		display: block;
@@ -15,18 +13,19 @@
 		&--item {
 			display: inline-block;
 			padding: 0;
-			margin: 0 15px 0px 0;
+			margin: 0 10px 0px 0;
 
 			&:last-child {
 				margin-right: 0;
 			}
 
 			&-link {
-				padding: 10px;
+				padding: 5px 10px;
 				background-color: $greyMedium;
 				text-decoration: none;
 				color: $greyDark;
 				display: block;
+				font-size: 0.9em;
 
 				&-active {
 					background-color: $greyDark !important;

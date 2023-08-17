@@ -41,7 +41,6 @@ const logger = config => {
         //         statusMessage
         //     }
         // };
-
         db.logs.save(newRecord, function (err, pResults) {
             if (err) {
                 res.send(err);

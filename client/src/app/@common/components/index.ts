@@ -9,3 +9,4 @@ export * from './side-menu/side-menu.component';
 export * from './sub-menu/sub-menu.component';
 export * from './table-pagination/table-pagination.component';
 export * from './table/table.component';
+export * from './uploader/uploader.component';

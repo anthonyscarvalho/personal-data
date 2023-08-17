@@ -8,6 +8,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { FileUploadModule } from "ng2-file-upload";
 import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -31,7 +32,8 @@ import {
 	SideMenuComponent,
 	SubMenuComponent,
 	TableComponent,
-	TablePaginationComponent
+	TablePaginationComponent,
+	UploaderComponent
 } from '@common/components';
 
 const allComponents = [
@@ -46,6 +48,7 @@ const allComponents = [
 	SubMenuComponent,
 	TableComponent,
 	TablePaginationComponent,
+	UploaderComponent,
 ];
 
 const allDirectives = [
@@ -66,6 +69,7 @@ const allDirectives = [
 		BsDatepickerModule.forRoot(),
 		ButtonsModule.forRoot(),
 		CKEditorModule,
+		FileUploadModule,
 		FontAwesomeModule,
 		ModalModule.forRoot(),
 		PaginationModule.forRoot(),

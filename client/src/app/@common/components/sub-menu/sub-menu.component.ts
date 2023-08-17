@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 // Interfaces
-import { ISubMenu } from '@common/interfaces';
+import { ISubMenu, MegaMenuModel } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-sub-menu',
@@ -8,9 +8,34 @@ import { ISubMenu } from '@common/interfaces';
 	styleUrls: ['./sub-menu.component.scss']
 })
 export class SubMenuComponent implements OnInit {
-	@Input() menuItems: ISubMenu[];
+	@Input() menuItems: any;
+
+	megaMenu: ISubMenu[];
 
 	constructor() { }
 
-	ngOnInit(): void { }
+	ngOnInit(): void {
+		this.megaMenu = [
+			{
+				name: `Menu`,
+				url: `/menu`,
+			},
+
+		]
+		if (this.menuItems) {
+			this.menuItems.options.forEach(menuOption => {
+				this.megaMenu.push({
+					name: menuOption.name,
+					url: `/${menuOption.url}`,
+				});
+				menuOption.children.forEach(child => {
+					this.megaMenu.push({
+						name: `${menuOption.name} ${child.name}`,
+						url: `/${menuOption.url}/${child.url}`,
+					});
+				});
+			});
+			// this.megaMenu.push(this.menuItems);
+		}
+	}
 }

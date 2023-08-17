@@ -17,7 +17,7 @@ export class BankAccountModel {
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
 		this.accountNumber = (pModel ? (pModel.accountNumber ? pModel.accountNumber : ``) : ``);
-		this.accountNumbers = (pModel ? (pModel.accountNumbers ? pModel.accountNumbers : ``) : ``);
+		this.accountNumbers = (pModel ? (pModel.accountNumbers ? pModel.accountNumbers : []) : []);
 		this.accountDescription = (pModel ? (pModel.accountDescription ? pModel.accountDescription : ``) : ``);
 		this.status = (pModel ? (pModel.status ? pModel.status : ``) : ``);
 		this.canceled = (pModel ? (pModel.canceled ? pModel.canceled : `false`) : `false`);

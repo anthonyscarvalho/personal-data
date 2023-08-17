@@ -267,8 +267,6 @@ export class AccountRecordsImportComponent implements OnInit {
 
 			this.totalRecords = this.accountRecords.length;
 
-			this.totalRecords = this.accountRecords.length;
-
 		}
 
 		return records;

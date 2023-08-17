@@ -1,26 +1,79 @@
 <div class="header">
 	<div class="row no-gutters">
-		<div class="col-md-6"><a class="header__brand" [routerLink]="['/']">{{headerTitle}}</a></div>
+		<div class="col-md-6">
+			<a class="header__brand" [routerLink]="['/']">{{ headerTitle }}</a>
+		</div>
 		<div class="col-md-6">
 			<ul class="header__navigation">
 				<li class="header__navigation--item">
-					<a class="header__navigation--item-link" [routerLink]="['/', 'menu']">
-						<fa-icon [icon]="['fas', 'bars']" [fixedWidth]="true"></fa-icon>
+					<a
+						class="header__navigation--item-link"
+						[routerLink]="['/', 'menu']"
+					>
+						<fa-icon
+							[icon]="['fas', 'bars']"
+							[fixedWidth]="true"
+						></fa-icon>
 					</a>
 				</li>
 				<li class="header__navigation--item">
 					<a class="header__navigation--item-link">
-						<fa-icon [icon]="['fas', 'bell']" [fixedWidth]="true"></fa-icon>
+						<fa-icon
+							[icon]="['fas', 'bell']"
+							[fixedWidth]="true"
+						></fa-icon>
+					</a>
+				</li>
+				<li class="header__navigation--item">
+					<a class="header__navigation--item-link" (click)="showSettingsMenu()">
+						<fa-icon
+							[icon]="['fas', 'cog']"
+							[fixedWidth]="true"
+						></fa-icon>
+					</a>
+				</li>
+				<li class="header__navigation--item">
+					<a
+						class="header__navigation--item-link"
+						[routerLink]="['/log-out']"
+					>
+						<fa-icon
+							[icon]="['fas', 'power-off']"
+							[fixedWidth]="true"
+						></fa-icon>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="header__subNavigation">
+		<div #settingsMenu class="header__subNavigation--items header__subNavigation--hidden">
+			<ul class="header__navigation">
+				<li class="header__navigation--item">
+					<a class="header__navigation--item-link">
+						<fa-icon
+							[icon]="['fas', 'cogs']"
+							[fixedWidth]="true"
+						></fa-icon>
+						Settings
 					</a>
 				</li>
 				<li class="header__navigation--item">
 					<a class="header__navigation--item-link">
-						<fa-icon [icon]="['fas', 'cog']" [fixedWidth]="true"></fa-icon>
+						<fa-icon
+							[icon]="['fas', 'users']"
+							[fixedWidth]="true"
+						></fa-icon>
+						Users
 					</a>
 				</li>
 				<li class="header__navigation--item">
-					<a class="header__navigation--item-link" [routerLink]="['/log-out']">
-						<fa-icon [icon]="['fas', 'power-off']" [fixedWidth]="true"></fa-icon>
+					<a class="header__navigation--item-link">
+						<fa-icon
+							[icon]="['fas', 'user-secret']"
+							[fixedWidth]="true"
+						></fa-icon>
+						User Roles
 					</a>
 				</li>
 			</ul>

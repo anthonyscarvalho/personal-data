@@ -23,6 +23,7 @@ const routes: Routes = [
 	{ path: '', loadChildren: () => import('./@companies/companies.module').then(m => m.CompaniesModule), },
 	{ path: '', loadChildren: () => import('./@contacts/contacts.module').then(m => m.ContactsModule), },
 	{ path: '', loadChildren: () => import('./@dashboard/dashboard.module').then(m => m.DashboardModule), },
+	{ path: '', loadChildren: () => import('./@files/files.module').then(m => m.FilesModule), },
 	{ path: '', loadChildren: () => import('./@health/health.module').then(m => m.HealthModule), },
 	{ path: '', loadChildren: () => import('./@journal-records/journal-records.module').then(m => m.JournalRecordsModule), },
 	{ path: '', loadChildren: () => import('./@menu/menu.module').then(m => m.MenuModule), },

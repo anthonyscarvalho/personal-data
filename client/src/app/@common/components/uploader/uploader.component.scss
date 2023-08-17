@@ -1,0 +1,100 @@
+.uploader {
+	&__fileSelector {
+		&--actions {
+			margin-bottom: 5px;
+			font-size: 12px;
+			text-align: center;
+
+			& button {
+				margin-right: 5px;
+
+				&:last-child {
+					margin-right: 0 !important;
+				}
+			}
+		}
+
+		&--hidden {
+			display: none !important;
+		}
+	}
+
+	&__dropZone {
+		display: block;
+		border: dotted 3px lightgray;
+		padding: 50px;
+		text-align: center;
+		margin-bottom: 1rem;
+
+		&:hover {
+			cursor: pointer;
+			border: dotted 3px green;
+		}
+
+		&--hover {
+			border: dotted 3px green;
+		}
+	}
+
+	&__fileUploads {
+		&--files {
+			&-item {
+				width: 220px;
+				display: inline-block;
+				margin-right: 10px;
+				border: 1px solid #efefef;
+				padding: 10px;
+
+				&_image {
+					margin-bottom: 5px;
+					font-size: 12px;
+					height: 150px;
+					overflow: hidden;
+
+					& img {
+						width: 100%;
+					}
+				}
+
+				&_name {
+					margin-bottom: 5px;
+					font-size: 12px;
+				}
+
+				&_size {
+					margin-bottom: 5px;
+					font-size: 12px;
+				}
+
+				&_year {
+					margin-bottom: 5px;
+					font-size: 12px;
+				}
+
+				&_progress {
+					margin-bottom: 5px;
+					font-size: 12px;
+				}
+
+				&_actions {
+					margin-bottom: 5px;
+					font-size: 12px;
+					text-align: center;
+
+					& button {
+						margin-right: 5px;
+
+						&:last-child {
+							margin-right: 0 !important;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&__uploadResponse {
+		display: block;
+		width: 100%;
+	}
+}

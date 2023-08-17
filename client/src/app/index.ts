@@ -8,6 +8,7 @@ export * from './@common';
 export * from './@companies';
 export * from './@contacts';
 export * from './@dashboard';
+export * from './@files';
 export * from './@health';
 export * from './@journal-records';
 export * from './@journal';

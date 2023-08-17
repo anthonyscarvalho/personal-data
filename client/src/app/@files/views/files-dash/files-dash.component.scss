@@ -1,0 +1,14 @@
+.dash {
+	padding: 50px 10px;
+
+	&__row {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__column {
+		display: block;
+		width: 250px;
+		margin: 10px;
+	}
+}

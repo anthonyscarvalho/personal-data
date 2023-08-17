@@ -53,6 +53,6 @@ export class SideMenuComponent implements OnInit {
 		if (this.menuItems) {
 			this.megaMenu.push(this.menuItems);
 		}
-		this.megaMenu.push(this.adminMenu);
+		// this.megaMenu.push(this.adminMenu);
 	}
 }

@@ -1,0 +1,9 @@
+<acc-page [megaMenu]="megaMenu">
+	<div class="dash">
+		<div class="dash__row" *ngIf="accounts">
+			<div class="dash__column" *ngFor="let account of accounts">
+				<!-- <acc-bank-accounts-dash-block [account]="account"></acc-bank-accounts-dash-block> -->
+			</div>
+		</div>
+	</div>
+</acc-page>

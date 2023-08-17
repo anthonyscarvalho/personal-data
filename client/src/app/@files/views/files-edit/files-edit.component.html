@@ -1,0 +1,89 @@
+<acc-page [megaMenu]="megaMenu">
+	<div class="assets-edit">
+		<!-- <form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+			<div class="row">
+				<div class="col-sm-6">
+					<acc-inputs [inputLabel]="'Name'">
+						<input type="text" [(ngModel)]="resultRecord.name" class="input" name="name" [disabled]="submitted" />
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Asset Type'">
+						<select name="assetType" class="input" [(ngModel)]="resultRecord.type" [disabled]="submitted">
+							<option [ngValue]="null">Please Select</option>
+							<option [ngValue]="assetType.id" *ngFor="let assetType of AssetTypeConst">
+								{{assetType.name}}
+							</option>
+						</select>
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Asset Status'">
+						<select name="status" class="input" [(ngModel)]="resultRecord.status" [disabled]="submitted">
+							<option [ngValue]="null">Please Select</option>
+							<option [ngValue]="assetStatus.id" *ngFor="let assetStatus of AssetStatusConst">
+								{{assetStatus.name}}
+							</option>
+						</select>
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Description'">
+						<textarea rows="4" [(ngModel)]="resultRecord.description" class="input" name="description"></textarea>
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Created'">
+						<input type="text" [(ngModel)]="resultRecord.created" disabled class="input" name="created" />
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Make'">
+						<input type="text" [(ngModel)]="resultRecord.make" class="input" name="make" [disabled]="submitted" />
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Model'">
+						<input type="text" [(ngModel)]="resultRecord.model" class="input" name="model" />
+					</acc-inputs>
+					<ng-container *ngIf="resultRecord.type == AssetsEnum.phone">
+						<acc-inputs [inputLabel]="'IMEI'">
+							<input type="text" [(ngModel)]="resultRecord.imei" class="input" name="imei" />
+						</acc-inputs>
+					</ng-container>
+					<acc-inputs [inputLabel]="'Date Bought'">
+						<input [(ngModel)]="resultRecord.dateBought" name="bought" [disabled]="submitted" bsDatepicker />
+					</acc-inputs>
+					<acc-inputs [inputLabel]="'Date Sold'">
+						<input [(ngModel)]="resultRecord.dateSold" name="sold" [disabled]="submitted" bsDatepicker />
+					</acc-inputs>
+				</div>
+				<div class="col-sm-6">
+
+				</div>
+			</div>
+		</form> -->
+
+		<acc-uploader
+			[upload]="'single'"
+			[entityId]="'gfvdsahn'"
+			(updater)="uploadComplete($event)"
+		></acc-uploader>
+	</div>
+	<div class="footer-actions">
+		<a
+			class="footer-actions__btn btn btn-secondary"
+			[routerLink]="['/assets', 'view']"
+		>
+			<fa-icon
+				[icon]="['fas', 'chevron-left']"
+				[fixedWidth]="true"
+			></fa-icon>
+			Back
+		</a>
+		<button
+			type="button"
+			class="footer-actions__btn btn btn-success"
+			(click)="submit()"
+			*ngIf="!submitted"
+		>
+			<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+			Save
+		</button>
+		<span class="footer-actions__btn btn btn-info" *ngIf="submitted">
+			<fa-icon
+				[icon]="['fas', 'spinner']"
+				[fixedWidth]="true"
+				[spin]="true"
+			></fa-icon>
+		</span>
+	</div>
+</acc-page>

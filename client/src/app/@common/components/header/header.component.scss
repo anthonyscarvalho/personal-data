@@ -1,8 +1,9 @@
-@import 'config.scss';
+@import "config.scss";
 
 .header {
 	color: $white;
 	background-color: $greyDark;
+	position: inherit;
 
 	&__brand {
 		font-size: 20px;
@@ -42,6 +43,23 @@
 					color: $greyDark;
 				}
 			}
+		}
+	}
+
+	&__subNavigation {
+		display: inline-block;
+		max-width: 300px;
+		position: absolute;
+		right: 0;
+		background-color: $greyDark;
+
+		& .header__navigation--item {
+			display: block;
+			text-align: left;
+		}
+
+		&--hidden {
+			display: none;
 		}
 	}
 }
