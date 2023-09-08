@@ -32,6 +32,9 @@ module.exports = mongoose.model(modelName,
 		accountDescription: {
 			type: String
 		},
+		bank: {
+			type: String
+		},
 		status: {
 			type: String
 		},

@@ -36,7 +36,7 @@
 				<acc-inputs [showLabel]="false">
 					<select name="filterBoxOptions.bankAccount" (change)="updateBankAccount()" [(ngModel)]="filterBoxOptions.bankAccount">
 						<option value="">Please Select</option>
-						<option *ngFor="let _option of bankAccounts" [value]="_option._id" [selected]="filterBoxOptions.bankAccount === _option._id">{{_option.accountDescription}}</option>
+						<option *ngFor="let _option of bankAccounts" [value]="_option._id" [selected]="filterBoxOptions.bankAccount === _option._id">{{_option.bank + ' ' + _option.accountDescription}}</option>
 					</select>
 				</acc-inputs>
 			</div>

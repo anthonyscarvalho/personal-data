@@ -31,6 +31,7 @@ export class BankAccountsDashBlockComponent implements OnInit {
 			if (pRes.status === '00') {
 				this.accountDetails = new BankAccountDashboardModel(pRes.data);
 				this.accountDetails.accountDescription = this.account.accountDescription;
+				this.accountDetails.bank = this.account.bank;
 				this.accountDetails.accountNumber = this.account.accountNumber;
 				this.accountDetails.status = this.account.status;
 				this.accountDetails.symbol = this.account.symbol || '';

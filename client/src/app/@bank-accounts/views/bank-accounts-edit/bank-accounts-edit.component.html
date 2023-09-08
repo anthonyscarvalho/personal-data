@@ -9,10 +9,19 @@
 						<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()" *ngIf="resultRecord">
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
-									<acc-inputs [inputValue]="resultRecord.accountNumber" (updater)="updateValue($event, 'accountNumber')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Account Number'"></acc-inputs>
+									<acc-inputs [inputLabel]="'Bank'">
+										<input [(ngModel)]="resultRecord.bank" name="bank" [disabled]="submitted" type="text" />
+									</acc-inputs>
 								</div>
 								<div class="col-md-6 col-sm-12">
-									<acc-inputs [inputValue]="resultRecord.accountDescription" (updater)="updateValue($event, 'accountDescription')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Account Description'"></acc-inputs>
+									<acc-inputs [inputLabel]="'Account Description'">
+										<input [(ngModel)]="resultRecord.accountDescription" name="accountDescription" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<acc-inputs [inputLabel]="'Account Number'">
+										<input [(ngModel)]="resultRecord.accountNumber" name="accountNumber" [disabled]="submitted" type="text" />
+									</acc-inputs>
 								</div>
 								<div class="col-md-6 col-sm-12">
 									<acc-inputs [inputLabel]="'Currency'">
@@ -115,10 +124,14 @@
 										<acc-inputs [inputValue]="recordBreakdown.comment" (updater)="updateBreakdownValue($event, 'comment')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'comment'"></acc-inputs>
 									</div>
 									<div class="col-md-4 col-sm-12">
-										<acc-inputs [inputValue]="recordBreakdown.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+										<acc-inputs [inputLabel]="'Date Created'">
+											<input [(ngModel)]="recordBreakdown.created" name="dateOpened" [disabled]="submitted" bsDatepicker />
+										</acc-inputs>
 									</div>
 									<div class="col-md-4 col-sm-12">
-										<acc-inputs [inputValue]="recordBreakdown.closed" (updater)="updateBreakdownValue($event, 'closed')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Closed'"></acc-inputs>
+										<acc-inputs [inputLabel]="'Date Closed'">
+											<input [(ngModel)]="recordBreakdown.closed" name="dateOpened" [disabled]="submitted" bsDatepicker />
+										</acc-inputs>
 									</div>
 									<div class="col-md-4 col-sm-12">
 										<acc-inputs [inputValue]="recordBreakdown.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>

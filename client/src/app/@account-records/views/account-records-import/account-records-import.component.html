@@ -4,7 +4,7 @@
 			<form name="bankAccountsRecordsForm" id="bankAccountsRecordsForm" (ngSubmit)="submit()">
 				<div class="row">
 					<div class="col-md-2">
-						<acc-inputs [inputValue]="account" (updater)="updateAccount($event)" [inputType]="'select'" [submitted]="submitted" [inputLabel]="accounts.label" [selectOptions]="accounts.options"></acc-inputs>
+						<acc-inputs [inputValue]="account" (updater)="updateAccount($event)" [inputType]="'selectCustom'" [submitted]="submitted" [inputLabel]="'Accounts'" [selectOptions]="accounts.options2"></acc-inputs>
 						<div class="form-group">
 							<acc-inputs #uploader (updater)="lastOrder($event)" [inputType]="'files'" [selectMultiple]="true" [showLabel]="false" [accepts]="'.ofc,.csv'"></acc-inputs>
 							<div class="AccountRecordsImport__Button">

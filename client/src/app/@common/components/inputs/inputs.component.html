@@ -25,6 +25,26 @@
 				<option *ngFor="let _option of selectOptions" [value]="_option.value" [selected]="inputValue == _option.value">{{_option.label}}</option>
 			</select>
 		</ng-container>
+		<!-- custom select -->
+		<ng-container *ngSwitchCase="'selectCustom'">
+			<div class="inputs__dropdown">
+				<div class="inputs__dropdown--toggle" (click)="toggleDropdown()">
+					{{selectedAccount.label ? selectedAccount.bank + ' ' + selectedAccount.label : 'Please select'}}
+					<span class="inputs__dropdown--toggleIcon">
+						<fa-icon [icon]="['fas', 'chevron-down']" [fixedWidth]="true" *ngIf="!showDropdown"></fa-icon>
+						<fa-icon [icon]="['fas', 'chevron-up']" [fixedWidth]="true" *ngIf="showDropdown"></fa-icon>
+					</span>
+				</div>
+				<div class="inputs__dropdown--content" [class.inputs__dropdown--hidden]="!showDropdown">
+					<ng-container *ngFor="let _option of selectOptions">
+						<div class="inputs__dropdown--parent">{{_option.bank}}</div>
+						<ul *ngIf="_option.accounts.length > 0" class="inputs__dropdown--child">
+							<li *ngFor="let _account of _option.accounts" id="{{_account.value}}" [ngClass]="_account.value == selectedAccount.value ? 'inputs__dropdown--active' : ''" (click)="selectAccount(_account, _option.bank)" class="inputs__dropdown--option">{{_account.label}}</li>
+						</ul>
+					</ng-container>
+				</div>
+			</div>
+		</ng-container>
 		<!-- text area -->
 		<textarea [value]="inputValue" name="{{inputLabel}}" (blur)="pushChanges($event.target.value)" class="inputs__common inputs__textArea" rows="{{textAreaRows}}" *ngSwitchCase="'textArea'"></textarea>
 		<!-- file selector -->

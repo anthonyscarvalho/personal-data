@@ -1,4 +1,4 @@
-@import './config.scss';
+@import "./config.scss";
 
 .inputs {
 	padding: 5px;
@@ -8,7 +8,8 @@
 
 	& input,
 	select,
-	textarea {
+	textarea,
+	&__dropdown--toggle {
 		width: 100%;
 		display: block;
 		border-radius: 0;
@@ -70,5 +71,61 @@
 		display: block;
 		cursor: pointer;
 		margin-bottom: 0;
+	}
+
+	&__dropdown {
+		display: block;
+		position: relative;
+
+		&--content {
+			position: absolute;
+			border: 1px solid $greyMedium;
+			border-radius: 5px;
+			width: 290px;
+			margin-left: -5px;
+			background-color: #fff;
+			margin-top: 10px;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+			max-height: 200px;
+			overflow: auto;
+		}
+
+		&--parent {
+			padding-left: 1rem;
+			line-height: 1.5rem;
+		}
+
+		&--child {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+
+			& li {
+				line-height: 1.5rem;
+			}
+		}
+
+		&--option {
+			padding-left: 2rem;
+			cursor: pointer;
+		}
+
+		&--toggle {
+			display: block;
+			cursor: pointer;
+		}
+
+		&--toggleIcon {
+			float: right;
+		}
+
+		&--hidden {
+			display: none;
+		}
+
+		&--active {
+			background-color: #efefef;
+		}
 	}
 }

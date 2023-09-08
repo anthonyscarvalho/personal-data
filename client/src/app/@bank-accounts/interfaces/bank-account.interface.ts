@@ -5,6 +5,7 @@ export class BankAccountModel {
 	accountNumber: string;
 	accountNumbers: BankAccountNumberModel[];
 	accountDescription: string;
+	bank: string;
 	status: string;
 	canceled: string;
 	canceledDate: string;
@@ -19,6 +20,7 @@ export class BankAccountModel {
 		this.accountNumber = (pModel ? (pModel.accountNumber ? pModel.accountNumber : ``) : ``);
 		this.accountNumbers = (pModel ? (pModel.accountNumbers ? pModel.accountNumbers : []) : []);
 		this.accountDescription = (pModel ? (pModel.accountDescription ? pModel.accountDescription : ``) : ``);
+		this.bank = (pModel ? (pModel.bank ? pModel.bank : ``) : ``);
 		this.status = (pModel ? (pModel.status ? pModel.status : ``) : ``);
 		this.canceled = (pModel ? (pModel.canceled ? pModel.canceled : `false`) : `false`);
 		this.canceledDate = (pModel ? (pModel.canceledDate ? pModel.canceledDate : ``) : ``);

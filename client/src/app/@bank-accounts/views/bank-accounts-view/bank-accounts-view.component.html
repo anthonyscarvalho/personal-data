@@ -9,6 +9,7 @@
 				<thead class="table-component__table--head">
 					<tr class="table-component__table--head-row">
 						<th width="170px">ID</th>
+						<th width="170px">Bank</th>
 						<th width="170px">Account Number</th>
 						<th>Description</th>
 						<th width="170px">Currency</th>
@@ -26,6 +27,7 @@
 				<tbody class="table-component__table--body" *ngIf="tableBody">
 					<tr *ngFor="let row of tableBody" class="table-component__table--body-row">
 						<td>{{ row._id }}</td>
+						<td>{{ row.bank }}</td>
 						<td>{{ row.accountNumber }}</td>
 						<td>{{ row.accountDescription }}</td>
 						<td>{{ row.currency }}</td>

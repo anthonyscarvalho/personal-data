@@ -169,6 +169,7 @@ exports.add_record = (req, res) => {
 exports.update_record = (req, res) => {
   let _response = new Utils.newResponse();
   let newRecord = req.body;
+  
   if (newRecord._id) {
     delete newRecord._id;
   }

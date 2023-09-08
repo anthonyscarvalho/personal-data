@@ -54,6 +54,8 @@ export class InputsComponent implements OnInit {
 		startView: `year`,
 		minMode: `year`
 	};
+	selectedAccount: any = {};
+	showDropdown: boolean = false;
 
 	constructor() { }
 
@@ -101,6 +103,18 @@ export class InputsComponent implements OnInit {
 			default:
 				return 'inputs__standard';
 		}
+	}
+
+	toggleDropdown() {
+		this.showDropdown = !this.showDropdown;
+	}
+
+
+
+	selectAccount(pEvent, pBank) {
+		this.showDropdown = !this.showDropdown;
+		this.selectedAccount = { ...pEvent, bank: pBank };
+		this._updater.emit(this.selectedAccount);
 	}
 
 	public onCKEChange({ editor }: ChangeEvent) {

@@ -42,6 +42,8 @@ export class AccountRecordsImportComponent implements OnInit {
 	removedRecords = 0;
 	duplicateRecords = 0;
 	csvTextData: string;
+	selectedAccount: any = {};
+	showDropdown: boolean = false;
 
 	// paginator
 	totalRecords: number;
@@ -64,7 +66,8 @@ export class AccountRecordsImportComponent implements OnInit {
 			options: [{
 				label: `Please select`,
 				value: ``
-			}]
+			}],
+			options2: []
 		};
 		this.loadAccounts();
 	}
@@ -73,11 +76,29 @@ export class AccountRecordsImportComponent implements OnInit {
 		this._httpService.post(`bank-accounts/viewAll`, {}).then((results: any) => {
 			if (results.status === `00`) {
 				this.bankAccounts = results.data;
-				results.data.map(account => {
+				results.data.map(pAccount => {
 					this.accounts.options.push({
-						label: account.accountDescription,
-						value: account._id
+						label: pAccount.accountDescription,
+						value: pAccount._id
 					});
+					const accountIndex = this.accounts.options2?.find((account) => pAccount.bank === account.bank);
+					if (!accountIndex) {
+						this.accounts.options2.push({
+							bank: pAccount.bank,
+							accounts: [
+								{
+									label: pAccount.accountDescription,
+									value: pAccount._id
+								}
+							]
+						})
+					}
+					else {
+						accountIndex.accounts.push({
+							label: pAccount.accountDescription,
+							value: pAccount._id
+						});
+					}
 				});
 			}
 		});
@@ -101,8 +122,8 @@ export class AccountRecordsImportComponent implements OnInit {
 	}
 
 	updateAccount(pEvent) {
-		if (pEvent) {
-			const account = this.bankAccounts.find(_account => _account._id === pEvent);
+		if (pEvent && pEvent.value) {
+			const account = this.bankAccounts.find(_account => _account._id === pEvent.value);
 			if (account) {
 				this.account = account;
 			}
