@@ -74,7 +74,7 @@ export class FilesViewComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('files/view', this.filterBoxOptions).then((results: any) => {
+		this._httpService.post('utilities/files', this.filterBoxOptions).then((results: any) => {
 			if (results.status === `00`) {
 				// this.results = results.data;
 				this.tableBody = results.data;

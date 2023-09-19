@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import CryptoJS from 'crypto-js';
 import xml2js from 'xml2js';
 
 // common
@@ -274,7 +273,7 @@ export class AccountRecordsImportComponent implements OnInit {
 						comments: ``,
 						processed: false,
 						originalRecord: ``,
-						hash: this.hashKeyWebSafe(pRecord),
+						hash: this._generalService.hashKeyWebSafe(pRecord),
 					};
 
 					if ((_tmp.date1 && !_tmp.date1.includes(`Date`)) && (_tmp.description && !_tmp.description.includes(`Description`)) && (_tmp.balance.toString() !== ``)) {
@@ -329,7 +328,7 @@ export class AccountRecordsImportComponent implements OnInit {
 					comments: ``,
 					processed: false,
 					originalRecord: ``,
-					hash: this.hashKeyWebSafe(record),
+					hash: this._generalService.hashKeyWebSafe(record),
 				};
 
 				if ((_tmp.date1 && !_tmp.date1.includes(`Date`)) && (_tmp.description && !_tmp.description.includes(`Description`)) && (_tmp.balance.toString() !== ``)) {
@@ -415,12 +414,6 @@ export class AccountRecordsImportComponent implements OnInit {
 		return this.accountRecords.sort((a, b) => {
 			return (new Date(b.date1) as any) - (new Date(a.date1) as any);
 		});
-	}
-
-	hashKeyWebSafe(str: string) {
-		return CryptoJS.enc.Base64.stringify(CryptoJS.SHA256(str))
-			.replace(/\//g, '_')
-			.replace(/\+/g, '-');
 	}
 
 	updatePage(pEvent) { }

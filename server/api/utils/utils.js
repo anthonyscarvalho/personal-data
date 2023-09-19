@@ -142,3 +142,11 @@ exports.delete_record = function (req, res, databaseModel) {
       });
   }
 };
+
+exports.cleanFileName = function (string) {
+  string = string.replace(/[&\/\\#,+()$~%'":*?<>{}]/g, ""); // Removes special chars.
+  string = string.trim();
+  string = string.replace(/\s+/g, "-"); // Replaces all spaces with hyphens.
+
+  return string.replace(/-+/, "-");
+};

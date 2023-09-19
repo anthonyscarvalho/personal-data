@@ -71,25 +71,11 @@ app.use(
     limit: "50mb",
   })
 );
-app.use(
-  multer({
-    dest: config.fileRoot,
-    rename: function (fieldname, filename) {
-      return filename + Date.now();
-    },
-    onFileUploadStart: function (file) {
-      console.log(file.originalname + " is starting ...");
-    },
-    onFileUploadComplete: function (file) {
-      console.log(file.fieldname + " uploaded to  " + file.path);
-    },
-  }).single("documentProcessor")
-);
+
 // app.use(bodyParser({
 //     limit: '50mb'
 // }));
 
-// app.use("/", require("./api/utils/documentProcessor"));
 // controllers
 require("./api/routes/assets")(app, require("./api/controllers/assets"));
 require("./api/routes/bank-accounts-records")(

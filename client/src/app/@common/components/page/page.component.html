@@ -1,10 +1,10 @@
-<acc-sub-menu  [menuItems]="megaMenu"></acc-sub-menu>
+<acc-sub-menu  [menuItems]="megaMenu" *ngIf="megaMenu"></acc-sub-menu>
 
 <div class="page">
 	<!-- <div class="page__left">
 		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
 	</div> -->
-	<div class="page__container">
+	<div class="page__container" [ngClass]="{'page__container-menu': footer === true}">
 		<div class="container-fluid">
 			<ng-content></ng-content>
 		</div>

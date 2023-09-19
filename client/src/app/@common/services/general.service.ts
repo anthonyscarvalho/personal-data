@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import CryptoJS from 'crypto-js';
+import sha256 from 'crypto-js/sha256';
+import hmacSHA512 from 'crypto-js/hmac-sha512';
+import Base64 from 'crypto-js/enc-base64';
 // service
 import { HttpService, NotificationsService } from '@common/services';
 
@@ -266,5 +270,15 @@ export class GeneralService {
 				return false;
 			}
 		});
+	}
+
+	hashKeyWebSafe(str: any) {
+		return CryptoJS.enc.Base64.stringify(CryptoJS.SHA256(str))
+			.replace(/\//g, '_')
+			.replace(/\+/g, '-');
+	}
+
+	hashFile(str: any) {
+		return CryptoJS.SHA256(str);
 	}
 }

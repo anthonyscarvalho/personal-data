@@ -1,4 +1,4 @@
-<acc-page [megaMenu]="megaMenu">
+<acc-page [megaMenu]="megaMenu" [footer]="true">
 	<div class="assets-edit">
 		<!-- <form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
 			<div class="row">
@@ -54,7 +54,6 @@
 
 		<acc-uploader
 			[upload]="'single'"
-			[entityId]="'gfvdsahn'"
 			(updater)="uploadComplete($event)"
 		></acc-uploader>
 	</div>

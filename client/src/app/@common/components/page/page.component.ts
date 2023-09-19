@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PageComponent implements OnInit {
 	@Input() megaMenu;
+	@Input() footer = false;
 
 	constructor() { }
 

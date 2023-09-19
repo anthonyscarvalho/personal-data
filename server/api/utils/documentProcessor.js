@@ -3,7 +3,7 @@ var router = express.Router();
 var mongojs = require("mongojs");
 var config = require("../../config");
 var fs = require("fs");
-const sharp = require("sharp");
+var sharp = require("sharp");
 var multer = require("multer");
 var crypto = require("crypto");
 var ExifImage = require("exif").ExifImage;
@@ -12,52 +12,16 @@ var got = require("got");
 
 var db = mongojs(config.database.host, ["media"]);
 
-var _response = {
-  status: "00",
-  totalRecords: null,
-  data: null,
-  errors: null,
-  message: null,
-};
-
-var cleanFileName = null;
-var _errors = null;
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const body = req.body;
-    const _url =
-      config.fileRoot + `/` + body.moduleType + `/` + body.entityId + `/`;
-
-    if (!fs.existsSync(_url)) {
-      fs.mkdirSync(_url);
-    }
-
-    cb(null, _url);
-  },
-  filename: (req, file, cb) => {
-    const body = req.body;
-    cleanFileName = Clean_File_Name(body.name);
-    cb(null, cleanFileName);
-  },
-});
-
-var upload = multer({
-  storage: storage,
-  preservePath: true,
-});
-
 var algorithm = "sha1";
 
 router.post(
   `/documentProcessor/upload`,
   upload.single("documentProcessor"),
   (req, res, next) => {
-
-    console.log('test');
+    console.log("test");
     _errors = null;
     var shasum = crypto.createHash(algorithm);
-    const filename = req.file;
+    var filename = req.file;
     if (!filename) {
       _response.status = `01`;
       Update_Error_Log("Please select a document to upload");
@@ -75,33 +39,34 @@ router.post(
       _response.status = `01`;
       Update_Error_Log(`Bad data`);
     } else {
-      var fileName = newRecord.name;
-      var filePath = `${config.fileRoot}/${newRecord.entityId}/`;
 
-      var fullFilePath = filePath + fileName;
+      console.log(filename);
+      var fileName = newRecord.name;
+
+      var fullFilePath = _filePath + fileName;
       // var largeFile = filePath + 'lg_' + fileName;
       // var mediumFile = filePath + 'md_' + fileName;
       // var smallFile = filePath + 'sm_' + fileName;
 
       var s = fs.ReadStream(fullFilePath);
 
-      s.on("data", (data) => {
-        shasum.update(data);
-      });
-      // making digest
-      s.on("end", () => {
-        var hash = shasum.digest("hex");
-        newRecord.fileHash = hash;
-        // const smThumb = (createThumb) ? createSmallThumb(fullFilePath, smallFile) : false;
-        // const mdThumb = (createThumb) ? createMediumThumb(fullFilePath, mediumFile) : false;
-        // const lgThumb = (createThumb) ? createLargeThumb(fullFilePath, largeFile) : false;
+      // s.on("data", (data) => {
+      //   shasum.update(data);
+      // });
+      // // making digest
+      // s.on("end", () => {
+      //   var hash = shasum.digest("hex");
+      //   newRecord.fileHash = hash;
+      //   // var smThumb = (createThumb) ? createSmallThumb(fullFilePath, smallFile) : false;
+      //   // var mdThumb = (createThumb) ? createMediumThumb(fullFilePath, mediumFile) : false;
+      //   // var lgThumb = (createThumb) ? createLargeThumb(fullFilePath, largeFile) : false;
 
-        // newRecord.nameSm = (smThumb == true) ? smallFile : null;
-        // newRecord.nameMd = (mdThumb == true) ? mediumFile : null;
-        // newRecord.nameLg = (lgThumb == true) ? largeFile : null;
+      //   // newRecord.nameSm = (smThumb == true) ? smallFile : null;
+      //   // newRecord.nameMd = (mdThumb == true) ? mediumFile : null;
+      //   // newRecord.nameLg = (lgThumb == true) ? largeFile : null;
 
-        Save_Record(newRecord, req, res, next);
-      });
+      //   Save_Record(newRecord, req, res, next);
+      // });
 
       // fs.unlinkSync(req.file.path)
     }
@@ -231,7 +196,7 @@ function Get_All_Media(req, res) {
       moduleType: moduleType,
       entityId: entityId,
     };
-    const sort = {
+    var sort = {
       year: 1,
     };
 
@@ -298,7 +263,7 @@ function createLargeThumb(originalFile, newFile) {
 }
 
 function saveFile(size1, size2, originalFile, newFile) {
-  const result = sharp(originalFile)
+  var result = sharp(originalFile)
     .resize(size1, size2)
     .toBuffer()
     .then((data) => {

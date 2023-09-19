@@ -39,6 +39,7 @@
 		"ngx-bootstrap": "^9.0.0",
 		"ngx-toastr": "^15.0.0",
 		"pdf-lib": "^1.17.1",
+		"pdfjs-dist": "^3.10.111",
 		"rxjs": "~7.5.6",
 		"rxjs-compat": "^6.6.7",
 		"sass": "^1.54.5",

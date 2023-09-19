@@ -1,37 +1,40 @@
-<div class="container menu">
-	<section *ngIf="menuItems.length > 0">
-		<legend>Management</legend>
-		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of menuItems">
-				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+<acc-page>
+	<div class="container menu">
+		<section *ngIf="menuItems.length > 0">
+			<legend>Management</legend>
+			<div class="row">
+				<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of menuItems">
+					<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+				</div>
 			</div>
-		</div>
-	</section>
-	<section *ngIf="adminMenu.length > 0">
-		<legend>Admin</legend>
-		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of adminMenu">
-				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+		</section>
+		<section *ngIf="adminMenu.length > 0">
+			<legend>Admin</legend>
+			<div class="row">
+				<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of adminMenu">
+					<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+				</div>
 			</div>
-		</div>
-	</section>
-	<section *ngIf="reportMenuItems.length > 0">
-		<legend>Reports</legend>
-		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of reportMenuItems">
-				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+		</section>
+		<section *ngIf="reportMenuItems.length > 0">
+			<legend>Reports</legend>
+			<div class="row">
+				<div class="col-md-3 col-sm-3 col-xs-6" *ngFor="let menu of reportMenuItems">
+					<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:menu, level:1}"></ng-container>
+				</div>
 			</div>
-		</div>
-	</section>
-	<section>
-		<legend>Expenditure</legend>
-		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-6">
-				<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:{ name: 'Expenditure', url: '/expenditure', order: 1, icon: 'chart-bar' }, level:1}"></ng-container>
+		</section>
+		<section>
+			<legend>Expenditure</legend>
+			<div class="row">
+				<div class="col-md-3 col-sm-3 col-xs-6">
+					<ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{$implicit:{ name: 'Expenditure', url: '/expenditure', order: 1, icon: 'chart-bar' }, level:1}"></ng-container>
+				</div>
 			</div>
-		</div>
-	</section>
-</div>
+		</section>
+	</div>
+</acc-page>
+
 <ng-template #menuItem let-menu>
 	<div class="card">
 		<a class="btn btn-custom btn-block" routerLink="{{menu.url}}">

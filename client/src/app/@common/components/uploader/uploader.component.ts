@@ -5,9 +5,10 @@ import { environment } from '../../../../environments/environment';
 import exifr from 'exifr' // => exifr/dist/full.umd.cjs
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FileUploader } from 'ng2-file-upload'
+// import * as PDFJS from 'pdfjs-dist';
 
 import { eDocumentType } from '@common/enums';
-import { GeneralService, HttpService, } from '@common/services';
+import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
 	selector: `acc-uploader`,
@@ -31,13 +32,14 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 	uploader: FileUploader = new FileUploader({ url: environment.baseUrl + `/utilities/documentUpload`, itemAlias: `documentProcessor` });
 	hasBaseDropZoneOver: boolean;
 	response: string;
+	submitted:false;
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
 	constructor(
 		private datePipe: DatePipe,
 		private _generalService: GeneralService,
-		private _httpService: HttpService,
+		private _notificationsService: NotificationsService,
 	) {
 		this.bsConfig.containerClass = `theme-dark-blue`;
 		this.bsConfig.dateInputFormat = `YYYY-MM-DD`; // Or format like you want
@@ -53,7 +55,17 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		// this.uploader.response.subscribe(res => { this.response = res; this._updater.emit(JSON.parse(res)); });
+		this.uploader.response.subscribe(pResult => {
+			const _valid = this._generalService.validateResponse(pResult);
+			if (_valid === `valid`) {
+				this._notificationsService.success(pResult.message);
+			} else {
+				this._notificationsService.warn(pResult.message);
+			}
+			setTimeout(() => {
+				this.submitted = false;
+			}, 500);
+		});
 	}
 
 	ngAfterViewInit() {
@@ -62,26 +74,37 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 			const fileReader = new FileReader();
 			fileReader.addEventListener(`load`, (fileReaderEvent) => {
 
-				let fileExt = pFileItem._file.name.split(`.`).pop();
+				const fileExt = pFileItem._file.name.split(`.`).pop();
+				const date = pFileItem._file.name.split(` _ `).shift();
 
 				if (this.imageExtensions.includes(fileExt)) {
 					exifr.parse(fileReader.result)
 						.then(output => {
 							if (output) {
-								pFileItem.formData.imageMeta = output;
+								pFileItem.formData.fileMeta = output;
 								if (output.DateTimeOriginal) {
 									const date = this.datePipe.transform(output.DateTimeOriginal, `yyyy-MM-dd`);
 									pFileItem.formData.year = date;
 								}
 							} else {
-								pFileItem.formData.imageMeta = null;
+								pFileItem.formData.fileMeta = null;
 							}
 						});
 				} else if (fileExt === 'pdf') {
-					pFileItem.formData.fileMeta = pFileItem.file.rawFile;
+					try {
+						const _date = new Date(date);
+						pFileItem.formData.fileMeta = {
+							createdDate: date,
+							lastModifiedDate: pFileItem._file.lastModified
+						};
+					}
+					catch (err) { }
 				}
+				const fileHash = this._generalService.hashFile(fileReader.result);
+				pFileItem.formData.fileHash = fileHash.toString();
+				console.log(pFileItem.formData.fileHash);
 			});
-			fileReader.readAsArrayBuffer(pFileItem._file);
+			fileReader.readAsBinaryString(pFileItem._file);
 		});
 		this.uploader.onBuildItemForm = (pFileItem: any, pForm: any) => {
 			// pForm.append(`name`, pFileItem._file.name);
@@ -89,18 +112,18 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 
 			let fileExt = pFileItem._file.name.split(`.`).pop();
 			fileExt = fileExt.toLowerCase();
-			let _documentType = this.documentTypes.none;
+			let _documentType = this.documentTypes[this.documentTypes.none];
 
 			if (this.imageExtensions.includes(fileExt)) {
-				_documentType = this.documentTypes.image;
+				_documentType = this.documentTypes[this.documentTypes.image];
 			} else if (this.documentExtensions.includes(fileExt)) {
-				_documentType = this.documentTypes.doc;
+				_documentType = this.documentTypes[this.documentTypes.doc];
 			} else if (this.movieExtensions.includes(fileExt)) {
-				_documentType = this.documentTypes.video;
+				_documentType = this.documentTypes[this.documentTypes.video];
 			} else if (fileExt === 'pdf') {
-				_documentType = this.documentTypes.pdf;
+				_documentType = this.documentTypes[this.documentTypes.pdf];
 			} else if (fileExt === 'webm') {
-				_documentType = this.documentTypes.webm;
+				_documentType = this.documentTypes[this.documentTypes.webm];
 			}
 
 			let _date: any;
@@ -118,20 +141,16 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 				}
 			}
 
-			let _fileMeta: any = null;
-			if (pFileItem.formData?.imageMeta) {
-				_fileMeta = pFileItem.formData.imageMeta;
-			} else if (pFileItem.formData?.fileMeta) {
-				_fileMeta = pFileItem.formData.fileMeta;
-			}
-
-			pForm.append(`fileMeta`, _fileMeta);
+			pForm.append(`fileMeta`, JSON.stringify(pFileItem.formData.fileMeta));
+			pForm.append(`fileHash`, pFileItem.formData.fileHash);
 			pForm.append(`contentType`, pFileItem._file.type);
 			pForm.append(`date`, this.datePipe.transform(new Date(), `yyyy-MM-dd`));
 			pForm.append(`documentType`, _documentType);
 			pForm.append(`entityId`, this.entityId);
 			pForm.append(`fileSize`, pFileItem._file.size);
-			pForm.append(`name`, (pFileItem._file.name).toLowerCase());
+			pForm.append(`fileName`, pFileItem._file.name);
+			pForm.append(`canceled`, 'false');
+			pForm.append(`canceledDate`, '');
 			pForm.append(`year`, (_date) ? this.datePipe.transform(new Date(_date), `yyyy-MM-dd`) : ``);
 			return { pFileItem, pForm };
 		};
