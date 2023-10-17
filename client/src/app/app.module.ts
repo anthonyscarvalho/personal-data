@@ -34,7 +34,6 @@ const routes: Routes = [
 
 const config: ExtraOptions = {
 	useHash: false,
-	relativeLinkResolution: 'corrected',
 };
 
 @NgModule({

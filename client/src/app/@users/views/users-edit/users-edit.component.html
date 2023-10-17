@@ -1,28 +1,32 @@
 <acc-page [megaMenu]="megaMenu">
-	<div class="UsersEdit">
-		<div class="card">
-			<div class="card-body" *ngIf="resultRecord">
-				<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
-					<acc-inputs [inputValue]="resultRecord.name" (updater)="updateValue($event, 'name')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'name'"></acc-inputs>
-					<acc-inputs [inputValue]="resultRecord.surname" (updater)="updateValue($event, 'surname')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'surname'"></acc-inputs>
-					<acc-inputs [inputValue]="resultRecord.username" (updater)="updateValue($event, 'username')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'username'"></acc-inputs>
-					<acc-inputs [inputValue]="" (updater)="updateValue($event, 'password')" [inputType]="'password'" [submitted]="submitted" [inputLabel]="'password'"></acc-inputs>
-					<acc-inputs [inputValue]="resultRecord.emailAddress" (updater)="updateValue($event, 'emailAddress')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'email address'"></acc-inputs>
-				</form>
-				<div class="text-center">
-					<div class="row">
-						<div class="col-md-6">
-							<a class="btn btn-secondary" [routerLink]="['/users','view']">
-								<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
-							</a>
-						</div>
-						<div class="col-md-6">
-							<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
-								<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
-							</button>
-							<span class="btn btn-info" *ngIf="submitted">
-								<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
-							</span>
+	<div class="users-edit">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-body" *ngIf="resultRecord">
+						<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+							<acc-inputs [inputValue]="resultRecord.name" (updater)="updateValue($event, 'name')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'name'"></acc-inputs>
+							<acc-inputs [inputValue]="resultRecord.surname" (updater)="updateValue($event, 'surname')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'surname'"></acc-inputs>
+							<acc-inputs [inputValue]="resultRecord.username" (updater)="updateValue($event, 'username')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'username'"></acc-inputs>
+							<acc-inputs [inputValue]="" (updater)="updateValue($event, 'password')" [inputType]="'password'" [submitted]="submitted" [inputLabel]="'password'"></acc-inputs>
+							<acc-inputs [inputValue]="resultRecord.emailAddress" (updater)="updateValue($event, 'emailAddress')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'email address'"></acc-inputs>
+						</form>
+						<div class="text-center">
+							<div class="row">
+								<div class="col-md-6">
+									<a class="btn btn-secondary" [routerLink]="['/users','view']">
+										<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+										<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+									</button>
+									<span class="btn btn-info" *ngIf="submitted">
+										<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

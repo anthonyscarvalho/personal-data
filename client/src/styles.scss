@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.min.css";
-@import "~font-awesome/css/font-awesome.css";
-@import "~ngx-toastr/toastr.css";
-@import "~ngx-bootstrap/datepicker/bs-datepicker.css";
-@import '~@riapacheco/yutes/main.scss';
-@import '~@riapacheco/yutes/seasonal.scss';
+// @import "bootstrap/dist/css/bootstrap.min.css";
+// @import "font-awesome/css/font-awesome.css";
+// @import "ngx-toastr/toastr.css";
+// @import "ngx-bootstrap/datepicker/bs-datepicker.css";
+// @import "@riapacheco/yutes/main.scss";
+// @import "@riapacheco/yutes/seasonal.scss";
 
-@import './app/scss/config.scss';
+@import "./app/scss/config.scss";
 @import "./app/scss/global.scss";
 @import "./app/scss/buttons.scss";
 @import "./app/scss/footer.scss";

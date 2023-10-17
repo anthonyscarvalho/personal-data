@@ -1,0 +1,15 @@
+<div class="file-block">
+	<div class="file-block__id">ID: {{_file._id}}</div>
+	<div class="file-block__file">File Name:</div>
+	<div class="file-block__fileName">{{_file.fileName}}</div>
+	<div class="file-block__date">Date: {{_file.date}}</div>
+	<div class="file-block__type">Type: {{_file.contentType}}</div>
+	<div class="file-block__actions">
+		<a class="table-component__table--body-row-button edit" [routerLink]="['/files', 'edit', _file._id]">
+			<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+		</a>
+		<button type="button" class="table-component__table--body-row-button delete" (click)="deleteFile()">
+			<fa-icon [icon]="['fas', 'minus-circle']" [fixedWidth]="true"></fa-icon>
+		</button>
+	</div>
+</div>

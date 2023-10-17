@@ -10,6 +10,7 @@ import {
 	FilesEditComponent,
 	FilesViewComponent,
 } from '@files/views';
+import { FileBlockComponent } from './components/file-block/file-block.component';
 
 const megaMenu = {
 	label: `Management`,
@@ -55,6 +56,7 @@ const routes: Routes = [
 		FilesDashComponent,
 		FilesEditComponent,
 		FilesViewComponent,
+  FileBlockComponent,
 	],
 	imports: [
 		CommonModule,

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 // external
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 @Component({
@@ -118,6 +118,6 @@ export class InputsComponent implements OnInit {
 	}
 
 	public onCKEChange({ editor }: ChangeEvent) {
-		this._updater.emit(editor.getData());
+		this._updater.emit(editor.data.get());
 	}
 }

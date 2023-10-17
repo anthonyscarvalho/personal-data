@@ -1,0 +1,33 @@
+.file-block {
+	display: inline-grid;
+	width: 350px;
+	border: 1px solid #efefef;
+	border-radius: 10px;
+	margin: 10px;
+
+	&__id {
+		padding: 10px;
+		border-bottom: 1px solid #efefef;
+	}
+	&__file {
+		padding: 0 10px;
+	}
+	&__fileName {
+		height: 60px;
+		overflow: hidden;
+		border-bottom: 1px solid #efefef;
+		padding: 0 10px 10px 10px;
+	}
+	&__date {
+		padding: 10px;
+		border-bottom: 1px solid #efefef;
+	}
+	&__type {
+		padding: 10px;
+		border-bottom: 1px solid #efefef;
+	}
+	&__actions {
+		padding: 10px;
+		text-align: center;
+	}
+}

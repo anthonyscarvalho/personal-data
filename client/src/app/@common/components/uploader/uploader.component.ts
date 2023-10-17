@@ -17,8 +17,8 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 })
 export class UploaderComponent implements OnInit, AfterViewInit {
 	@Input() upload;
-	@Input() entityId;
-	@Input() dateOverride;
+	@Input() entityId = '';
+	@Input() dateOverride = null;
 	@Output(`updater`) _updater = new EventEmitter<any>();
 
 	@ViewChild(`filePicker`) _file: ElementRef;
@@ -32,7 +32,7 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 	uploader: FileUploader = new FileUploader({ url: environment.baseUrl + `/utilities/documentUpload`, itemAlias: `documentProcessor` });
 	hasBaseDropZoneOver: boolean;
 	response: string;
-	submitted:false;
+	submitted: false;
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 

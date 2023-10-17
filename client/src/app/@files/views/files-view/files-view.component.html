@@ -1,20 +1,20 @@
 <acc-page [megaMenu]="megaMenu">
 	<div class="row">
 		<div class="col-2">
-			<acc-filter-box (updater)="filterUpdater($event)" [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig"></acc-filter-box>
+			<!-- <acc-filter-box (updater)="filterUpdater($event)" [filterBoxOptions]="filterBoxOptions" [filterBoxConfig]="filterBoxConfig"></acc-filter-box> -->
 		</div>
 		<div class="col-10">
 			<acc-table-pagination [filterBoxOptions]="filterBoxOptions" (updater)="filterUpdater($event)"></acc-table-pagination>
-			<table class="table-component__table">
+			<div class="files-view__files">
+				<acc-file-block *ngFor="let file of tableBody" [file]="file" (updater)="filterUpdater($event)"></acc-file-block>
+			</div>
+			<!-- <table class="table-component__table">
 				<thead class="table-component__table--head">
 					<tr class="table-component__table--head-row">
 						<th width="170px">ID</th>
 						<th>File Name</th>
 						<th width="100px">Date</th>
-						<th width="70px">Canceled</th>
-						<th width="100px">Date Canceled</th>
 						<th width="50px">Type</th>
-						<th style="width: 35px;"></th>
 						<th style="width: 35px;"></th>
 						<th style="width: 35px;"></th>
 					</tr>
@@ -24,40 +24,26 @@
 						<td>{{ row._id }}</td>
 						<td>{{ row.fileName }}</td>
 						<td>{{ row.date }}</td>
-						<td>{{ row.canceled }}</td>
-						<td>{{ row.canceledDate | date: 'yyyy-mm-dd' }}</td>
 						<td class="table-component__table--body-columnIcon">
 							<ng-container *ngIf="row.contentType == 'application/pdf'">
 								<fa-icon [icon]="['far', 'file-pdf']"></fa-icon>
 							</ng-container>
 						</td>
 						<td class="table-component__controls">
-							<span ng-if="userRoles.edit == 'true'">
+
 								<a class="table-component__table--body-row-button edit" [routerLink]="['/files', 'edit', row._id]">
 									<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
 								</a>
-							</span>
 						</td>
 						<td>
-							<span ng-if="userRoles.status == 'true'">
-								<button type="button" class="table-component__table--body-row-button btn__disabled" (click)="filterUpdater( {action:'enable', record: row._id} )" *ngIf="row.canceled == 'true'">
-									<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
-								</button>
-								<button type="button" class="table-component__table--body-row-button btn__enabled" (click)="filterUpdater( {action:'cancel', record: row._id} )" *ngIf="row.canceled == 'false'">
-									<fa-icon [icon]="['fas', 'square']" [fixedWidth]="true"></fa-icon>
-								</button>
-							</span>
-						</td>
-						<td>
-							<span ng-if="userRoles.delete == 'true'">
+
 								<button type="button" class="table-component__table--body-row-button delete" (click)="filterUpdater( {action:'delete', record: row._id} )">
 									<fa-icon [icon]="['fas', 'minus-circle']" [fixedWidth]="true"></fa-icon>
 								</button>
-							</span>
 						</td>
 					</tr>
 				</tbody>
-			</table>
+			</table> -->
 		</div>
 	</div>
 </acc-page>

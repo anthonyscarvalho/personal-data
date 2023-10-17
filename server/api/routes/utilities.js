@@ -14,9 +14,13 @@ module.exports = function (app, controller) {
       _filePath = `${config.fileRoot}/${body.documentType}`;
 
       if (!fs.existsSync(_filePath)) {
-        fs.mkdirSync(_filePath);
+        console.log("path " + _filePath + " doesn't exist");
+        try {
+          fs.mkdirSync(_filePath);
+        } catch (error) {
+          console.log(error);
+        }
       }
-
       cb(null, _filePath);
     },
     filename: (req, file, cb) => {
