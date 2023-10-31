@@ -1,33 +1,30 @@
+import { IGeneric } from '@common/interfaces';
 import { BreakDownModel } from '@budget/interfaces';
 
-export class BudgetModel {
+export class BudgetModel extends IGeneric {
 	_id: string;
-	description: string;
-	status: string;
-	budget: number;
 	actual: number;
-	difference: number;
-	essential: boolean;
-	category: number;
-	keywords: string;
-	canceled: string;
-	canceledDate: string;
-	created: string;
 	breakdown?: BreakDownModel[]
+	budget: number;
+	category: number;
+	description: string;
+	essential: boolean;
+	history?: any[]
+	keywords: string;
+	status: string;
 
-	constructor(pModel = null) {
-		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
-		this.description = (pModel ? (pModel.description ? pModel.description : ``) : ``);
-		this.status = (pModel ? (pModel.status ? pModel.status : ``) : ``);
-		this.budget = (pModel ? (pModel.budget ? pModel.budget : null) : null);
-		this.actual = (pModel ? (pModel.actual ? pModel.actual : null) : null);
-		this.difference = (pModel ? (pModel.difference ? pModel.difference : null) : null);
-		this.essential = (pModel ? (pModel.essential ? pModel.essential : false) : false);
-		this.category = (pModel ? (pModel.category ? pModel.category : null) : null);
-		this.keywords = (pModel ? (pModel.keywords ? pModel.keywords : ``) : ``);
-		this.canceled = (pModel ? (pModel.canceled ? pModel.canceled : `false`) : `false`);
-		this.canceledDate = (pModel ? (pModel.canceledDate ? pModel.canceledDate : ``) : ``);
-		this.created = (pModel ? (pModel.created ? pModel.created : null) : null);
-		this.breakdown = (pModel ? (pModel.breakdown ? pModel.breakdown : null) : null);
+	constructor(pModel: BudgetModel | null = null) {
+		super(pModel);
+
+		this._id = pModel?.hasOwnProperty('_id') ? pModel._id : null;
+		this.actual = pModel?.hasOwnProperty('actual') ? pModel.actual : null;
+		this.breakdown = pModel?.hasOwnProperty('breakdown') ? pModel.breakdown : null;
+		this.budget = pModel?.hasOwnProperty('budget') ? pModel.budget : null;
+		this.category = pModel?.hasOwnProperty('category') ? pModel.category : null;
+		this.description = pModel?.hasOwnProperty('description') ? pModel.description : null;
+		this.essential = pModel?.hasOwnProperty('essential') ? pModel.essential : false;
+		this.history = pModel?.hasOwnProperty('history') ? pModel.history : null;
+		this.keywords = pModel?.hasOwnProperty('keywords') ? pModel.keywords : '';
+		this.status = pModel?.hasOwnProperty('status') ? pModel.status : '';
 	}
 }

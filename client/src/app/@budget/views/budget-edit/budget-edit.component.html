@@ -7,17 +7,30 @@
 						<div class="card">
 							<div class="card-body">
 								<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
-									<acc-inputs [inputValue]="resultRecord._id" (updater)="updateValue($event, '_id')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'ID'"></acc-inputs>
-									<acc-inputs [inputValue]="resultRecord.description" (updater)="updateValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
-									<acc-inputs [inputValue]="resultRecord.budget" (updater)="updateValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
-									<acc-inputs [inputValue]="resultRecord.actual" (updater)="updateValue($event, 'actual')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Actual'"></acc-inputs>
-									<acc-inputs [inputValue]="resultRecord.difference" (updater)="updateValue($event, 'difference')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Difference'"></acc-inputs>
+									<acc-inputs [inputLabel]="'ID'">
+										<input [(ngModel)]="resultRecord._id" name="id" [disabled]="submitted" type="text" />
+									</acc-inputs>
+									<acc-inputs [inputLabel]="'Description'">
+										<input [(ngModel)]="resultRecord.description" name="description" [disabled]="submitted" type="text" />
+									</acc-inputs>
+									<acc-inputs [inputLabel]="'Budget'">
+										<input [(ngModel)]="resultRecord.budget" name="budget" [disabled]="submitted" type="text" />
+									</acc-inputs>
+									<acc-inputs [inputLabel]="'Actual'">
+										<input [(ngModel)]="resultRecord.actual" name="actual" [disabled]="submitted" type="text" />
+									</acc-inputs>
 									<div class="row">
 										<div class="col-md-6 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.essential" (updater)="updateValue($event, 'essential')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Essential'"></acc-inputs>
+											<acc-inputs [inputLabel]="'Essential Budget Item'">
+												<div class="inputs__checkboxWrapper">
+													<input [(ngModel)]="resultRecord.essential" name="essential" class="inputs__common inputs__checkbox" [disabled]="submitted" type="checkbox" />
+												</div>
+											</acc-inputs>
 										</div>
 										<div class="col-md-6 col-sm-12">
-											<acc-inputs [inputValue]="resultRecord.created" (updater)="updateValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+											<acc-inputs [inputLabel]="'Created Date'">
+												<input [(ngModel)]="resultRecord.created" name="created" [disabled]="submitted" bsDatepicker />
+											</acc-inputs>
 										</div>
 									</div>
 									<acc-inputs [inputValue]="resultRecord.category" (updater)="updateValue($event, 'category')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="categories.label" [selectOptions]="categories.options"></acc-inputs>
@@ -56,13 +69,19 @@
 									<form name="recordBreakdownAdd" id="recordBreakdownAdd">
 										<div class="row">
 											<div class="col-md-12">
-												<acc-inputs [inputValue]="recordBreakdown.description" (updater)="updateBreakdownValue($event, 'description')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Description'"></acc-inputs>
+												<acc-inputs [inputLabel]="'Description'">
+													<input [(ngModel)]="recordBreakdown.description" name="recordBreakdown_description" [disabled]="submitted" type="text" />
+												</acc-inputs>
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordBreakdown.budget" (updater)="updateBreakdownValue($event, 'budget')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Budget'"></acc-inputs>
+												<acc-inputs [inputLabel]="'Budget'">
+													<input [(ngModel)]="recordBreakdown.budget" name="recordBreakdown_budget" [disabled]="submitted" type="text" />
+												</acc-inputs>
 											</div>
 											<div class="col-md-4 col-sm-12">
-												<acc-inputs [inputValue]="recordBreakdown.created" (updater)="updateBreakdownValue($event, 'created')" [inputType]="'date'" [submitted]="submitted" [inputLabel]="'Date Created'"></acc-inputs>
+												<acc-inputs [inputLabel]="'Date Created'">
+													<input [(ngModel)]="recordBreakdown.created" name="recordBreakdown_created" [disabled]="submitted" type="text" bsDatepicker />
+												</acc-inputs>
 											</div>
 											<div class="col-md-4 col-sm-12">
 												<acc-inputs [inputValue]="recordBreakdown.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
