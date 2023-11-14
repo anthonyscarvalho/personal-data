@@ -1,9 +1,9 @@
-"use strict";
-require("../models/budget");
-var mongoose = require("mongoose");
-const { ObjectId } = require("mongodb");
-var databaseModel = mongoose.model("budget");
-var Utils = require("../utils/utils.js");
+'use strict';
+require('../models/budget');
+var mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
+var databaseModel = mongoose.model('budget');
+var Utils = require('../utils/utils.js');
 
 exports.view_filtered = (req, res) => {
   let _response = new Utils.newResponse();
@@ -31,7 +31,7 @@ exports.view_filtered = (req, res) => {
   }
 
   if (body.state != `all`) {
-    query["canceled"] = body.state;
+    query['canceled'] = body.state;
   }
 
   databaseModel
@@ -65,8 +65,9 @@ exports.view_dash = (req, res) => {
     description: 1,
   };
   let query = {
-    canceled: "false",
+    canceled: 'false',
   };
+  const months = ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02'];
 
   databaseModel
     .countDocuments(query)
@@ -76,6 +77,23 @@ exports.view_dash = (req, res) => {
         .find(query)
         .sort(filter)
         .then((pResults) => {
+          pResults.map((budget) => {
+            let budgetData = [];
+            
+            months.forEach((month) => {
+              let year = body.year;
+              if (month == '01' || month == '02') {
+                year = body.year + 1;
+              }
+              budgetData.push({
+                date: `${year}-${month}-01`,
+                budget: budget.budget,
+                actual: budget.actual,
+                payment: budget.actual,
+              })
+            });
+            budget.budgetData = budgetData;
+          });
           _response.data = pResults;
           Utils.returnSuccess(_response, res);
         })

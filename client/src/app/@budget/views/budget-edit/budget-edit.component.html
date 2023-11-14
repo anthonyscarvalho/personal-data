@@ -8,7 +8,7 @@
 							<div class="card-body">
 								<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
 									<acc-inputs [inputLabel]="'ID'">
-										<input [(ngModel)]="resultRecord._id" name="id" [disabled]="submitted" type="text" />
+										<input [(ngModel)]="resultRecord._id" name="id" [disabled]="true" type="text" />
 									</acc-inputs>
 									<acc-inputs [inputLabel]="'Description'">
 										<input [(ngModel)]="resultRecord.description" name="description" [disabled]="submitted" type="text" />

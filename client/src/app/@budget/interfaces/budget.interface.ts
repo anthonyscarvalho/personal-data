@@ -1,5 +1,5 @@
 import { IGeneric } from '@common/interfaces';
-import { BreakDownModel } from '@budget/interfaces';
+import { BreakDownModel,BudgetDataModel } from '@budget/interfaces';
 
 export class BudgetModel extends IGeneric {
 	_id: string;
@@ -12,6 +12,7 @@ export class BudgetModel extends IGeneric {
 	history?: any[]
 	keywords: string;
 	status: string;
+	budgetData?: BudgetDataModel[]
 
 	constructor(pModel: BudgetModel | null = null) {
 		super(pModel);
@@ -26,5 +27,6 @@ export class BudgetModel extends IGeneric {
 		this.history = pModel?.hasOwnProperty('history') ? pModel.history : null;
 		this.keywords = pModel?.hasOwnProperty('keywords') ? pModel.keywords : '';
 		this.status = pModel?.hasOwnProperty('status') ? pModel.status : '';
+		this.budgetData = pModel?.hasOwnProperty('budgetData') ? pModel.budgetData : [];
 	}
 }

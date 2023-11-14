@@ -1,55 +1,35 @@
-"use strict";
-var mongoose = require("mongoose");
+'use strict';
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var modelName = "budget";
-var tableName = "budgets";
+var modelName = 'budget';
+var tableName = 'budgets';
 
 var tableSchema = {
-  description: {
-    type: String,
-  },
-  status: {
-    type: String,
-  },
-  budget: {
-    type: Number,
-  },
-  actual: {
-    type: Number,
-  },
-  essential: {
-    type: Boolean,
-  },
-  category: {
-    type: Number,
-  },
-  keywords: {
-    type: String,
-  },
-  canceled: {
-    type: String,
-  },
-  canceledDate: {
-    type: String,
-  },
-  created: {
-    type: String,
-  },
+  description: { type: String },
+  status: { type: String },
+  budget: { type: Number },
+  actual: { type: Number },
+  essential: { type: Boolean },
+  category: { type: Number },
+  keywords: { type: String },
+  canceled: { type: String },
+  canceledDate: { type: String },
+  created: { type: String },
+  budgetData: [
+    {
+      date: { type: String },
+      budget: { type: Number },
+      actual: { type: Number },
+      payment: { type: Number },
+    },
+  ],
   breakdown: [
     {
-      description: {
-        type: String,
-      },
-      budget: {
-        type: String,
-      },
-      status: {
-        type: String,
-      },
-      created: {
-        type: String,
-      },
+      description: { type: String },
+      budget: { type: String },
+      status: { type: String },
+      created: { type: String },
     },
   ],
   history: [],

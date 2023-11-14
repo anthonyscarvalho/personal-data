@@ -44,7 +44,7 @@ export class BudgetDashComponent implements OnInit {
 
 	load() {
 		this.resultRecord = [];
-		this._httpService.post(`budget/dash`, {}).then((pResults: any) => {
+		this._httpService.post(`budget/dash`, { year: this.year }).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
 				if (!this.resultRecord) {
@@ -78,7 +78,7 @@ export class BudgetDashComponent implements OnInit {
 		this.load();
 	}
 
-	updateYear(){
+	updateYear() {
 		this.date = new Date(this.year);
 		this.load();
 	}

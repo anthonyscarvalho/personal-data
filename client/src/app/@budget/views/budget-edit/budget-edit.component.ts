@@ -139,11 +139,13 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 	}
 
 	addBreakdown() {
+		this.recordBreakdown.created = this._generalService.formatDate(this.recordBreakdown.created);
 		if (this.breakdownIndex === undefined) {
 			if (!this.resultRecord.breakdown) {
 				this.resultRecord.breakdown = [];
 			}
 			if (this.recordBreakdown.description !== ``) {
+				this.recordBreakdown.created = this._generalService.formatDate(this.recordBreakdown.created);
 				this.resultRecord.breakdown.push(this.recordBreakdown);
 				this.recordBreakdown = new BreakDownModel();
 				this.breakdownAdd = false;
