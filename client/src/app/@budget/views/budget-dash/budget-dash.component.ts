@@ -18,6 +18,7 @@ export class BudgetDashComponent implements OnInit {
 	@ViewChild('barChart') chartContainer: ElementRef;
 	megaMenu: any;
 	resultRecord: BudgetModel[];
+	actualBudget = 0;
 	totalBudget = 0;
 	totalEssential = 0
 	totalNonEssential = 0;
@@ -54,7 +55,8 @@ export class BudgetDashComponent implements OnInit {
 					this.resultRecord.push(new BudgetModel(record))
 					if (record.status === 'open') {
 						const amount = record.actual;
-						this.totalBudget += amount;
+						this.actualBudget += amount;
+						this.totalBudget += record.budget;
 						if (record.essential) {
 							this.totalEssential += amount;
 						} else if (!record.essential) {

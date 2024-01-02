@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     volumes:
-      - Z:/PersonalData/media:/usr/src/app/media
+      - /mnt/z/PersonalData/media:/usr/src/app/media
     environment:
       NODE_ENV: production
       PORT: 3080
