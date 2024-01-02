@@ -1,13 +1,7 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import * as d3 from "d3"
+import { AfterViewInit, Component, Input, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-// import { ChartDataset } from 'chart.js';
 
-import { d3ChartData, ChartData } from '@common/interfaces';
-import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { BudgetModel } from '@budget/interfaces';
-
-// import { ChartOptionsModel } from '@budget/interfaces';
 
 @Component({
 	selector: 'acc-budget-dash-bar',
@@ -18,24 +12,14 @@ export class BudgetDashBarComponent implements AfterViewInit, OnInit {
 	@Input() budgetItem: BudgetModel;
 	@Input() year;
 
-	public line1: d3ChartData[] = [];
-	private line2: d3ChartData[] = [];
-	private line3: d3ChartData[] = [];
-	private labels = [`Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`, `Jan`, `Feb`];
+	private labels = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
 
 	public chart: any;
 	constructor(
-		public chartElem: ElementRef,
-		private _generalService: GeneralService,
-		private _httpService: HttpService,
+		private cdr: ChangeDetectorRef
 	) { }
 
 	ngOnInit(): void { }
-
-	ngAfterViewInit(): void {
-		const elem = this.chartElem.nativeElement as HTMLElement;
-		this.loadBudgetData();
-	}
 
 	createChart() {
 		this.chart = new Chart(this.budgetItem._id, {
@@ -73,29 +57,8 @@ export class BudgetDashBarComponent implements AfterViewInit, OnInit {
 		});
 	}
 
-	loadBudgetData() {
-		this.budgetItem.budgetData?.forEach((item) => {
-			this.line1.push({
-				value: item.budget,
-				date: item.date
-			});
-			this.line2.push({
-				value: item.actual,
-				date: item.date
-			});
-			this.line3.push({
-				value: item.payment,
-				date: item.date
-			});
-		});
-		// this._httpService.post(`bank-account-records/budget-dash-item`, { budgetId: this.budgetItem._id, year: this.year }).then((pResults: any) => {
-		// 	const _valid = this._generalService.validateResponse(pResults);
-		// 	if (_valid === `valid`) {
-
-		//
-		// 		});
+	ngAfterViewInit(): void {
 		this.createChart();
-		// 	}
-		// })
+		this.cdr.detectChanges();
 	}
 }

@@ -67,7 +67,7 @@ exports.view_dash = (req, res) => {
   let query = {
     canceled: 'false',
   };
-  const months = ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02'];
+  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
   databaseModel
     .countDocuments(query)
@@ -79,18 +79,18 @@ exports.view_dash = (req, res) => {
         .then((pResults) => {
           pResults.map((budget) => {
             let budgetData = [];
-            
+
             months.forEach((month) => {
               let year = body.year;
-              if (month == '01' || month == '02') {
-                year = body.year + 1;
-              }
+              // if (month == '01' || month == '02') {
+              //   year = body.year + 1;
+              // }
               budgetData.push({
                 date: `${year}-${month}-01`,
                 budget: budget.budget,
                 actual: budget.actual,
                 payment: budget.actual,
-              })
+              });
             });
             budget.budgetData = budgetData;
           });

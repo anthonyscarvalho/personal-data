@@ -5,6 +5,8 @@ export class AccountRecordModel {
 	order: number;
 	accountsId: string;
 	date1: string;
+	year?: string;
+	month?: string;
 	date2?: string;
 	description: string;
 	credit: number;
@@ -16,7 +18,7 @@ export class AccountRecordModel {
 	processed: boolean;
 	originalRecord: string;
 	checked?: boolean;
-	hash:string;
+	hash: string;
 
 	constructor(pModel = null) {
 		this._id = (pModel ? (pModel._id ? pModel._id : null) : null);
@@ -25,6 +27,8 @@ export class AccountRecordModel {
 		this.order = (pModel ? (pModel.order ? pModel.order : null) : null);
 		this.accountsId = (pModel ? (pModel.accountsId ? pModel.accountsId : ``) : ``);
 		this.date1 = (pModel ? (pModel.date1 ? pModel.date1 : ``) : ``);
+		this.year = (pModel ? (pModel.year ? pModel.year : ``) : ``);
+		this.month = (pModel ? (pModel.month ? pModel.month : ``) : ``);
 		this.date2 = (pModel ? (pModel.date2 ? pModel.date2 : ``) : ``);
 		this.description = (pModel ? (pModel.description ? pModel.description : ``) : ``);
 		this.credit = (pModel ? (pModel.credit ? pModel.credit : 0.00) : 0.00);

@@ -257,12 +257,17 @@ export class AccountRecordsImportComponent implements OnInit {
 							break;
 					}
 
+					const _date = new Date(_tmpDate1);
+					let _month = this._generalService.getMonth(_date);
+
 					const _tmp: AccountRecordModel = {
 						statementId: (statementId ? statementId : null),
 						accountsId: this.account._id,
 						transactionId: _transactionId,
 						order: this.recordOrder,
 						date1: _tmpDate1,
+						year: _date.getFullYear().toString(),
+						month: _month,
 						date2: _tmpDate2,
 						description: _tmpDescription,
 						credit: _tmpCredit > 0 ? _tmpCredit : null,
@@ -320,6 +325,8 @@ export class AccountRecordsImportComponent implements OnInit {
 					transactionId: this.cleanString(transactionId._),
 					order: this.recordOrder,
 					date1: this.convertDate(`${y}/${m}/${d}`),
+					year: y,
+					month: this._generalService.getMonth(datePosted),
 					description: this.replaceText(this.cleanString(Description)),
 					credit: transactionAmount >= 0 ? transactionAmount : null,
 					debit: transactionAmount < 0 ? transactionAmount : null,

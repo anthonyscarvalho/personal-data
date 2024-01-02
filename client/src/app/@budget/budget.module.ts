@@ -14,6 +14,7 @@ import {
 import {
 	BudgetRecordsComponent,
 	BudgetDashBarComponent,
+	BudgetDashIncomeComponent,
 } from '@budget/components';
 
 const megaMenu = {
@@ -60,6 +61,7 @@ const routes: Routes = [
 		BudgetDashComponent,
 		BudgetViewComponent,
 		BudgetDashBarComponent,
+		BudgetDashIncomeComponent,
 		BudgetRecordsComponent,
 	],
 	imports: [

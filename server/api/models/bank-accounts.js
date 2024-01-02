@@ -56,6 +56,9 @@ module.exports = mongoose.model(modelName,
 		currency: {
 			type: String
 		},
+		defaultAccount: {
+			type: String
+		},
 		symbol: {
 			type: String
 		},

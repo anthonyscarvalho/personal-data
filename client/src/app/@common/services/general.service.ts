@@ -203,7 +203,6 @@ export class GeneralService {
 		this.modalShowName.next(pNewStatus);
 	}
 
-
 	// redirect to page
 	redirect(pUrl) {
 		if (pUrl) {
@@ -247,8 +246,20 @@ export class GeneralService {
 		}
 	}
 
+	subtractMonths(date, months) {
+		date.setMonth(date.getMonth() - months);
+
+		return date;
+	}
+
 	formatDate(pDate, pFormat: string = 'yyyy-MM-dd') {
 		return this._datePipe.transform(pDate, pFormat);
+	}
+
+	getMonth(pDate) {
+		const _tmpDate = new Date(pDate);
+		const _month = _tmpDate.getMonth() + 1;
+		return ((_month < 10) ? `0` + _month : _month).toString();
 	}
 
 	changeStatus(pModule, pId, pAction) {

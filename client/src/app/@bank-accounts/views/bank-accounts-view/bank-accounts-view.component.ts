@@ -70,11 +70,12 @@ export class BankAccountsViewComponent implements OnInit {
 	}
 
 	load() {
-		this._httpService.post('bank-accounts/view', this.filterBoxOptions).then((results: any) => {
-			if (results.status === `00`) {
-				// this.results = results.data;
-				this.tableBody = results.data;
-				this.filterBoxOptions.totalRecords = results.totalRecords;
+		this._httpService.post('bank-accounts/view', this.filterBoxOptions).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+				// this.results = pResults.data;
+				this.tableBody = pResults.data;
+				this.filterBoxOptions.totalRecords = pResults.totalRecords;
 			}
 		});
 	}

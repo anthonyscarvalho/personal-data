@@ -36,7 +36,7 @@
 						<td>{{ row.dateClosed }}</td>
 						<td>{{ row.status }}</td>
 						<td>{{ row.canceled }}</td>
-						<td>{{ row.canceledDate | date: 'yyyy-mm-dd' }}</td>
+						<td>{{ row.canceledDate | date: 'yyyy-MM-dd' }}</td>
 						<td class="table-component__controls">
 							<span ng-if="userRoles.edit == 'true'">
 								<a class="table-component__table--body-row-button edit" [routerLink]="['/bank-accounts', 'edit', row._id]">

@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
-import * as d3 from 'd3';
 // common
-import { GeneralService, HttpService, NotificationsService } from '@common/services';
+import { GeneralService, HttpService } from '@common/services';
 // modules
-import { CATEGORIES } from '@budget/constants';
-import { BudgetModel, BreakDownModel } from '@budget/interfaces';
+import { BudgetModel } from '@budget/interfaces';
 
 
 @Component({
@@ -22,12 +19,14 @@ export class BudgetDashComponent implements OnInit {
 	totalBudget = 0;
 	totalEssential = 0
 	totalNonEssential = 0;
+	monthlyIncome = 0;
 	submitted = false;
 	date = new Date();
 	year: number;
 	dateEnd: string;
 
 	margin = { top: 20, right: 20, bottom: 30, left: 40 };
+	private defaultAccount;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -41,6 +40,7 @@ export class BudgetDashComponent implements OnInit {
 		this.year = this.date.getFullYear();
 		this._generalService.setTitle('Budgets Dash');
 		this.load();
+		this.getDefaultAccount();
 	}
 
 	load() {
@@ -68,20 +68,50 @@ export class BudgetDashComponent implements OnInit {
 		});
 	}
 
+	updateYearMonth() {
+		this._httpService.post(`bank-account-records/add-year-month`, {}).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) { }
+		});
+	}
+
+	getDefaultAccount() {
+		this.defaultAccount = {};
+		this._httpService.post(`bank-accounts/get-default`, { year: this.year }).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+				this.defaultAccount = pResults.data;
+				this.getIncome();
+			}
+		});
+	}
+
+	async getIncome() {
+		await this._httpService.post(`bank-account-records/get-income/${this.defaultAccount._id}`, { year: this.year }).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+				this.monthlyIncome = pResults.data;
+			}
+		});
+	}
+
 	nextYear() {
 		this.date.setFullYear(this.date.getFullYear() + 1);
 		this.year = this.date.getFullYear();
 		this.load();
+		this.getIncome();
 	}
 
 	previousYear() {
 		this.date.setFullYear(this.date.getFullYear() - 1);
 		this.year = this.date.getFullYear();
 		this.load();
+		this.getIncome();
 	}
 
 	updateYear() {
 		this.date = new Date(this.year);
 		this.load();
+		this.getIncome();
 	}
 }

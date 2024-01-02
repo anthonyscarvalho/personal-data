@@ -1,9 +1,9 @@
-"use strict";
-require("../models/bank-accounts-records");
-var mongoose = require("mongoose");
-const { ObjectId } = require("mongodb");
-var databaseModel = mongoose.model("bankAccountRecord");
-var Utils = require("../utils/utils.js");
+'use strict';
+require('../models/bank-accounts-records');
+var mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
+var databaseModel = mongoose.model('bankAccountRecord');
+var Utils = require('../utils/utils.js');
 
 exports.view_record = (req, res) => {
   let _response = new Utils.newResponse();
@@ -26,14 +26,14 @@ exports.view_record = (req, res) => {
       $or: [
         {
           description: {
-            $regex: new RegExp(searchPhrase, "i"),
+            $regex: new RegExp(searchPhrase, 'i'),
           },
         },
       ],
     };
   }
-  if (body.bankAccount && body.bankAccount != "") {
-    query["accountsId"] = body.bankAccount;
+  if (body.bankAccount && body.bankAccount != '') {
+    query['accountsId'] = body.bankAccount;
   }
 
   databaseModel
@@ -78,15 +78,15 @@ exports.fix_order = (req, res) => {
       $or: [
         {
           description: {
-            $regex: new RegExp(searchPhrase, "i"),
+            $regex: new RegExp(searchPhrase, 'i'),
           },
         },
       ],
     };
   }
 
-  if (body.bankAccount && body.bankAccount != "") {
-    query["accountsId"] = body.bankAccount;
+  if (body.bankAccount && body.bankAccount != '') {
+    query['accountsId'] = body.bankAccount;
   }
 
   databaseModel
@@ -102,19 +102,10 @@ exports.fix_order = (req, res) => {
           if (pResult.debit || pResult.credit) {
             const previousBalance = exports.round(pResults[pIndex - 1].balance);
 
-            const balance = exports.round(
-              previousBalance + (pResult.debit ? pResult.debit : pResult.credit)
-            );
+            const balance = exports.round(previousBalance + (pResult.debit ? pResult.debit : pResult.credit));
 
             if (balance !== exports.round(pResult.balance)) {
-              console.log(
-                "Order: " + pResult.order,
-                "Balance: " + pResult.balance,
-                "Prev: " + previousBalance,
-                "Cal: " + balance,
-                "Debit: " + pResult.debit,
-                "Credit: " + pResult.credit
-              );
+              console.log('Order: ' + pResult.order, 'Balance: ' + pResult.balance, 'Prev: ' + previousBalance, 'Cal: ' + balance, 'Debit: ' + pResult.debit, 'Credit: ' + pResult.credit);
             }
             if (pResult.balance === 0) {
               updateRecord.balance = balance;
@@ -168,17 +159,17 @@ exports.sum_records = (req, res) => {
               $group: {
                 _id: null,
                 totalCredit: {
-                  $sum: "$credit",
+                  $sum: '$credit',
                 },
                 totalDebit: {
-                  $sum: "$debit",
+                  $sum: '$debit',
                 },
               },
             },
             {
               $addFields: {
                 balance: {
-                  $sum: ["$totalCredit", "$totalDebit"],
+                  $sum: ['$totalCredit', '$totalDebit'],
                 },
               },
             },
@@ -186,13 +177,13 @@ exports.sum_records = (req, res) => {
               $project: {
                 _id: 0,
                 totalCredit: {
-                  $round: ["$totalCredit", 2],
+                  $round: ['$totalCredit', 2],
                 },
                 totalDebit: {
-                  $round: ["$totalDebit", 2],
+                  $round: ['$totalDebit', 2],
                 },
                 balance: {
-                  $round: ["$balance", 2],
+                  $round: ['$balance', 2],
                 },
               },
             },
@@ -213,6 +204,109 @@ exports.sum_records = (req, res) => {
         Utils.returnCountError(res);
       });
   }
+};
+
+exports.get_income = (req, res) => {
+  let _response = new Utils.newResponse();
+
+  if (!req.params.id) {
+    Utils.returnBadData(res);
+  } else if (req.params.id) {
+    const query = {
+      $match: {
+        $and: [
+          {
+            accountsId: req.params.id,
+          },
+          {
+            year: req.body.year.toString(),
+          },
+        ],
+      },
+    };
+
+    databaseModel
+      .aggregate([
+        query,
+        {
+          $group: {
+            _id: { month: '$month' },
+            totalIncome: {
+              $sum: '$credit',
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            month: '$_id.month',
+            totalIncome: {
+              $round: ['$totalIncome', 2],
+            },
+          },
+        },
+      ])
+      .then((pResults) => {
+        _response.data = pResults.sort((a, b) => {
+          console.log(a, b);
+          if (Number(a.month) < Number(b.month)) {
+            return -1;
+          }
+          if (Number(a.month) > Number(b.month)) {
+            return 1;
+          }
+        });
+        Utils.returnSuccess(_response, res);
+      })
+      .catch((err) => {
+        Utils.returnError(err, res);
+      });
+  }
+};
+
+exports.add_year_month = (req, res) => {
+  let _response = new Utils.newResponse();
+
+  let query = {
+    year: { $exists: 0 },
+  };
+
+  databaseModel
+    .find(query)
+    .then((pResults) => {
+      if (pResults.length >= 1) {
+        pResults.map((record) => {
+          const date = new Date(record.date1);
+          let month = date.getMonth() + 1;
+          record.year = date.getFullYear();
+
+          record.month = (month < 10 ? `0` + month : month).toString();
+
+          databaseModel
+            .updateOne(
+              {
+                _id: new ObjectId(record._id),
+              },
+              {
+                $set: record,
+              },
+              {
+                new: true,
+              }
+            )
+            .then((pResults) => {
+              console.log(JSON.stringify(pResults));
+            })
+            .catch((err) => {
+              Utils.returnError(err, res);
+            });
+        });
+      }
+      Utils.returnSuccess(_response, res);
+    })
+    .catch((err) => {
+      Utils.returnError(err, res);
+    });
 };
 
 exports.last_record = (req, res) => {
@@ -255,12 +349,12 @@ exports.view_dash = (req, res) => {
       $or: [
         {
           accountDescription: {
-            $regex: new RegExp(searchPhrase, "i"),
+            $regex: new RegExp(searchPhrase, 'i'),
           },
         },
         {
           accountNumber: {
-            $regex: new RegExp(searchPhrase, "i"),
+            $regex: new RegExp(searchPhrase, 'i'),
           },
         },
       ],
@@ -268,7 +362,7 @@ exports.view_dash = (req, res) => {
   }
 
   if (body.state != `all`) {
-    query["canceled"] = body.state;
+    query['canceled'] = body.state;
   }
 
   if (orderBy) {
@@ -371,7 +465,7 @@ exports.add_record = (req, res) => {
     $and: [
       {
         hash: new_record.hash,
-      }
+      },
     ],
   };
 
@@ -505,14 +599,14 @@ exports.budget_search = (req, res) => {
   if (!keywords) {
     Utils.returnBadData(res);
   } else {
-    let keywordsArray = keywords.split(",");
+    let keywordsArray = keywords.split(',');
     if (keywordsArray.length > 0) {
       let orQuery = [];
 
       keywordsArray.forEach((keyword) => {
         const item = {
           description: {
-            $regex: new RegExp(keyword, "i"),
+            $regex: new RegExp(keyword, 'i'),
           },
         };
 
@@ -637,12 +731,12 @@ exports.view_dashItem = (req, res) => {
           $and: [
             {
               date1: {
-                $gte: body.year + "-01-01",
+                $gte: body.year + '-01-01',
               },
             },
             {
               date1: {
-                $lt: body.year + 1 + "-01-01",
+                $lt: body.year + 1 + '-01-01',
               },
             },
             {
@@ -655,7 +749,7 @@ exports.view_dashItem = (req, res) => {
         $project: {
           _id: 0,
           debit: {
-            $round: ["$debit", 2],
+            $round: ['$debit', 2],
           },
           date1: 1,
         },

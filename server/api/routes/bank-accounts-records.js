@@ -5,8 +5,10 @@ module.exports = function (app, controller) {
 	app.route(baseUrl + `/view/:id?`).post(controller.view_record);
 	app.route(baseUrl + `/filter`).post(controller.filter_record);
 	app.route(baseUrl + `/sum/:id?`).post(controller.sum_records);
+	app.route(baseUrl + `/get-income/:id?`).post(controller.get_income);
 	app.route(baseUrl + `/edit/:id?`).post(controller.edit_record);
 	app.route(baseUrl + `/add`).post(controller.add_record);
+	app.route(baseUrl + `/add-year-month`).post(controller.add_year_month);
 	app.route(baseUrl + `/update/:id`).put(controller.update_record);
 	// app.route(baseUrl+`/updateDate`).put(controller.update_date_record);
 	app.route(baseUrl + `/delete/:id`).delete(controller.delete_record);

@@ -20,21 +20,27 @@
 			</div>
 		</div>
 		<div class="card text-center BudgetDash__Summary--Item">
-			<div class="card-body"> Actual Budget:<br>{{actualBudget| currency:'R '}} </div>
+			<div class="card-body"> Actual Budget:<br>{{actualBudget| currency: 'R '}} </div>
 		</div>
 		<div class="card text-center BudgetDash__Summary--Item">
-			<div class="card-body"> Total Budget:<br>{{totalBudget| currency:'R '}} </div>
+			<div class="card-body"> Total Budget:<br>{{totalBudget| currency: 'R '}} </div>
 		</div>
 		<div class="card text-center BudgetDash__Summary--Item">
-			<div class="card-body"> Total Essential:<br>{{totalEssential| currency:'R '}} </div>
+			<div class="card-body"> Total Essential:<br>{{totalEssential| currency: 'R '}} </div>
 		</div>
 		<div class="card text-center BudgetDash__Summary--Item">
-			<div class="card-body"> Total Non Essential:<br>{{totalNonEssential| currency:'R '}} </div>
+			<div class="card-body"> Total Non Essential:<br>{{totalNonEssential | currency: 'R '}} </div>
 		</div>
+		<!-- <div class="card text-center BudgetDash__Summary--Item">
+			<button (click)="updateYearMonth()">Update Year Month</button>
+		</div> -->
 	</div>
 	<div class="clearfix">&nbsp;</div>
 	<div class="BudgetDash__Row">
 		<ng-container *ngIf="resultRecord.length > 0">
+			<div class="BudgetDash__Row--Column" *ngIf="monthlyIncome">
+				<acc-budget-dash-income [monthlyIncome]="monthlyIncome" [actualBudget]="actualBudget" [totalBudget]="totalBudget" [year]="year"></acc-budget-dash-income>
+			</div>
 			<div class="BudgetDash__Row--Column" *ngFor="let column of resultRecord">
 				<acc-budget-dash-bar [budgetItem]="column" [year]="year"></acc-budget-dash-bar>
 			</div>

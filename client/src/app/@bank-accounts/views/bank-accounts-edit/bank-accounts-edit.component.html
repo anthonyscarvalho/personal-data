@@ -49,6 +49,9 @@
 								<div class="col-md-6 col-sm-12">
 									<acc-inputs [inputValue]="resultRecord.status" (updater)="updateValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
 								</div>
+								<div class="col-md-6 col-sm-12">
+									<acc-inputs [inputValue]="resultRecord.defaultAccount" (updater)="updateValue($event, 'defaultAccount')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Default Account'"></acc-inputs>
+								</div>
 							</div>
 						</form>
 						<div class="text-center">
