@@ -3,13 +3,13 @@ FROM node:19.7.0-alpine AS build
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm i -g @angular/cli
+# RUN npm i -g @angular/cli
 
 # Install app dependencies:
 RUN npm i
 
 COPY . .
-RUN ng build
+RUN npm run build -- --configuration production
 
 ### STAGE 2: Run ###
 FROM nginx:alpine

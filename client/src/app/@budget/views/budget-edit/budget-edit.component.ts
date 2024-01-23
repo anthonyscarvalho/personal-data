@@ -67,23 +67,11 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 				this.sortBreakDown();
 
 				const historyDate = this._generalService.formatDate(new Date());
-				const historySource = new BudgetModel(pResults.data);
-				delete (historySource._id)
-				delete (historySource.history)
+				const historySource = JSON.parse(JSON.stringify(pResults.data));
+				delete (historySource._id);
+				delete (historySource.history);
 
-				if (!this.resultRecord.history) {
-					this.resultRecord.history = [{ ...historySource, date: historyDate, _id: this._generalService.generateUuid() }];
-					return;
-				}
-
-				const historyRecord = this.resultRecord.history?.findIndex(record => record.date === historyDate);
-
-				if (historyRecord > -1) {
-					this.resultRecord.history[historyRecord] = { ...historySource, date: historyDate };
-				}
-				else {
-					this.resultRecord.history.push({ ...historySource, date: historyDate, _id: this._generalService.generateUuid() });
-				}
+				this.resultRecord.history.push({ ...historySource, date: historyDate, _id: this._generalService.generateUuid() });
 			}
 		});
 	}

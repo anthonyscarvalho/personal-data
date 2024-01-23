@@ -19,7 +19,7 @@ export class BudgetDashComponent implements OnInit {
 	totalBudget = 0;
 	totalEssential = 0
 	totalNonEssential = 0;
-	monthlyIncome = 0;
+	monthlyIncome = [];
 	submitted = false;
 	date = new Date();
 	year: number;
@@ -45,6 +45,10 @@ export class BudgetDashComponent implements OnInit {
 
 	load() {
 		this.resultRecord = [];
+		this.actualBudget = 0;
+		this.totalBudget = 0;
+		this.totalEssential = 0;
+		this.totalNonEssential = 0;
 		this._httpService.post(`budget/dash`, { year: this.year }).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
@@ -87,6 +91,7 @@ export class BudgetDashComponent implements OnInit {
 	}
 
 	async getIncome() {
+		this.monthlyIncome = null;
 		await this._httpService.post(`bank-account-records/get-income/${this.defaultAccount._id}`, { year: this.year }).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
