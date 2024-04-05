@@ -3,6 +3,7 @@ require('../models/budget');
 var mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 var databaseModel = mongoose.model('budget');
+var databaseAccountsRecordsModel = mongoose.model('bankAccountRecord');
 var Utils = require('../utils/utils.js');
 
 exports.view_filtered = (req, res) => {
@@ -58,7 +59,7 @@ exports.view_filtered = (req, res) => {
     });
 };
 
-exports.view_dash = (req, res) => {
+exports.view_dash = async (req, res) => {
   let _response = new Utils.newResponse();
   let body = req.body;
   let filter = {
@@ -68,42 +69,84 @@ exports.view_dash = (req, res) => {
     canceled: 'false',
   };
   const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-
-  databaseModel
+  const totalRecords = await databaseModel
     .countDocuments(query)
     .then((pCount) => {
-      _response.totalRecords = pCount;
-      databaseModel
-        .find(query)
-        .sort(filter)
-        .then((pResults) => {
-          pResults.map((budget) => {
-            let budgetData = [];
-
-            months.forEach((month) => {
-              let year = body.year;
-              // if (month == '01' || month == '02') {
-              //   year = body.year + 1;
-              // }
-              budgetData.push({
-                date: `${year}-${month}-01`,
-                budget: budget.budget,
-                actual: budget.actual,
-                payment: budget.actual,
-              });
-            });
-            budget.budgetData = budgetData;
-          });
-          _response.data = pResults;
-          Utils.returnSuccess(_response, res);
-        })
-        .catch((err) => {
-          Utils.returnError(err, res);
-        });
+      return pCount;
     })
     .catch((err) => {
       Utils.returnCountError(res);
     });
+
+  _response.totalRecords = totalRecords;
+
+  const budgetItems = await databaseModel
+    .find(query)
+    .sort(filter)
+    .then((pResults) => {
+      return pResults;
+    })
+    .catch((err) => {
+      Utils.returnError(err, res);
+    });
+
+  let responseBudget = [];
+
+  for (let indexA = 0; indexA < budgetItems.length; indexA++) {
+    /** start month loop */
+    let budgetData = [];
+    for (let indexB = 0; indexB < months.length; indexB++) {
+      let year = body.year;
+      let resPayment = 0;
+      let resBudget = budgetItems[indexA].budget;
+      let resActual = budgetItems[indexA].actual;
+
+      const payments = await databaseAccountsRecordsModel
+        .find({
+          year: year,
+          month: months[indexB],
+          budgetId: budgetItems[indexA]._id,
+        })
+        .then((pRecordRes) => {
+          let payments;
+          if (pRecordRes && pRecordRes.length) {
+            payments = pRecordRes[0];
+          }
+          return payments;
+        });
+      if (payments) {
+        resPayment = Math.abs(payments.debit);
+      }
+
+      // if (budget.history && budget.history.length) {
+      //   budget.history.forEach((history) => {
+      //     const date = new Date(history.date);
+      //     if (date.getFullYear() <= year && date.getMonth() + 1 <= Number(months[indexB])) {
+      //       // console.log(date.getMonth() === Number(month), date, date.getMonth() + 1, Number(month));
+      //       // resBudget = history.budget;
+      //       // resActual = history.actual;
+      //       // console.log(history);
+      //     }
+      //   });
+      // }
+
+      const returnData = {
+        date: `${year}-${months[indexB]}-01`,
+        budget: resBudget,
+        actual: resActual,
+        payment: resPayment,
+      };
+      budgetData.push(returnData);
+    }
+
+    // console.log(budgetData);
+    /** end month loop */
+    budgetItems[indexA].budgetData = budgetData;
+    responseBudget.push(budgetItems[indexA]);
+  }
+
+  _response.data = responseBudget;
+  Utils.returnSuccess(_response, res);
 };
 
 exports.view_all = (req, res) => {

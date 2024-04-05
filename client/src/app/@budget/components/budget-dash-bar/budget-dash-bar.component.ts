@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit,ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 
 import { BudgetModel } from '@budget/interfaces';

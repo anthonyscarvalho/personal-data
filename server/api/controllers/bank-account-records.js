@@ -248,7 +248,7 @@ exports.get_income = (req, res) => {
       ])
       .then((pResults) => {
         _response.data = pResults.sort((a, b) => {
-          console.log(a, b);
+          // console.log(a, b);
           if (Number(a.month) < Number(b.month)) {
             return -1;
           }
@@ -295,7 +295,7 @@ exports.add_year_month = (req, res) => {
               }
             )
             .then((pResults) => {
-              console.log(JSON.stringify(pResults));
+              // console.log(JSON.stringify(pResults));
             })
             .catch((err) => {
               Utils.returnError(err, res);
@@ -388,6 +388,65 @@ exports.view_dash = (req, res) => {
     .catch((err) => {
       Utils.returnCountError(res);
     });
+};
+
+exports.account_records = async (req, res) => {
+  var _response = new Utils.newResponse();
+  var body = req.body;
+  var monthsToShow = body.months;
+
+  var filter = {
+    date1: -1,
+    order: -1,
+  };
+  var date = new Date();
+  console.log(date);
+  var count = 0;
+  var queryYears = [];
+  var queryMonths = [];
+
+  while (count < monthsToShow) {
+    if (!queryYears.includes('' + date.getFullYear())) {
+      queryYears.push('' + date.getFullYear());
+    }
+
+    var dateMonth = date.getMonth() + 1;
+    if (!queryMonths.includes(dateMonth)) {
+      queryMonths.push(dateMonth < 10 ? '0' + dateMonth : '' + dateMonth);
+    }
+
+    date.setMonth(date.getMonth() - 1);
+    count++;
+  }
+
+  var query = {
+    accountsId: req.params.id,
+    year: { $in: queryYears },
+    month: { $in: queryMonths },
+  };
+
+  var accountRecordsCount = await databaseModel
+    .countDocuments(query)
+    .then((pCount) => {
+      return pCount;
+    })
+    .catch((err) => {
+      Utils.returnCountError(res);
+    });
+
+  var accountRecords = await databaseModel
+    .find(query)
+    .sort(filter)
+    .then((pResults) => {
+      return pResults;
+    })
+    .catch((err) => {
+      Utils.returnError(err, res);
+    });
+
+  _response.totalRecords = accountRecordsCount;
+  _response.data = accountRecords;
+  Utils.returnSuccess(_response, res);
 };
 
 exports.filter_record = (req, res) => {

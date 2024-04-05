@@ -1,8 +1,9 @@
-import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 // external
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Chart } from 'chart.js/auto';
 // common
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
@@ -22,6 +23,7 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 	resultRecord: BankAccountModel;
 	addRecordEventEmitter = false;
 	accountDetails: BankAccountDashboardModel;
+	accountRecords = [];
 
 	accountNumber: number;
 	csvType: number;
@@ -36,8 +38,14 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 	breakdownIndex: number;
 	breakdownAdd = false;
 
+	private labels = [];
+	private chartExpense = [];
+	private chartCredit = [];
+	private chartBalance = [];
+
 	public filterBoxOptions: IFilterBoxOptions;
 	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig();
+	public chart: any;
 
 	// select values
 	csvTypes;
@@ -45,6 +53,7 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 
 	constructor(
 		private route: ActivatedRoute,
+		private cdr: ChangeDetectorRef,
 		private datePipe: DatePipe,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
@@ -68,13 +77,12 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 	ngOnInit() {
 		if (this.parentId) {
 			this.load();
+			this.loadRecords();
 		} else {
 			this.resultRecord = new BankAccountModel();
 			this._generalService.setTitle(`Bank Accounts: Add`);
 		}
 	}
-
-	ngAfterViewInit() { }
 
 	submit() {
 		this.submitted = true;
@@ -173,6 +181,22 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 		});
 	}
 
+	loadRecords() {
+		this._httpService.post(`bank-account-records/account-records/` + this.parentId, { year: 2024, months: 3 }).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+				pResults.data.forEach(record => {
+					this.labels.push(record.date1);
+					this.chartExpense.push(Math.abs(record.debit));
+					this.chartCredit.push(record.credit);
+					this.chartBalance.push(record.balance);
+				});
+
+				this.createChart();
+			}
+		});
+	}
+
 	convertDate(pDate) {
 		const _tmpDate = new Date(pDate);
 		return _tmpDate.getFullYear() + `-` + (_tmpDate.getMonth() + 1) + `-` + _tmpDate.getDate();
@@ -191,6 +215,48 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 
 	addTransactions() {
 		this._generalService.setModalShowName("addRecordTransaction");
+	}
+
+	createChart() {
+		this.chart = new Chart('account', {
+			type: 'line',
+			data: {
+				labels: this.labels,
+				datasets: [
+					{
+						label: "Expense",
+						data: this.chartExpense,
+						backgroundColor: 'blue'
+					},
+					{
+						label: "Credit",
+						data: this.chartCredit,
+						backgroundColor: 'orange'
+					},
+					{
+						label: "Balance",
+						data: this.chartBalance,
+						backgroundColor: 'limegreen'
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				interaction: {
+					// Overrides the global setting
+					mode: 'index',
+					intersect: false
+				}
+			}
+
+		});
+		this.chart.canvas.parentNode.style.height = '300px';
+		this.chart.canvas.parentNode.style.width = '100%';
+	}
+
+	ngAfterViewInit() {
+		this.cdr.detectChanges();
 	}
 
 	ngOnDestroy() {

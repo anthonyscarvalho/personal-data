@@ -9,7 +9,7 @@ COPY package-lock.json ./
 RUN npm i
 
 COPY . .
-RUN npm run build -- --configuration production
+RUN npm run 'build:prod'
 
 ### STAGE 2: Run ###
 FROM nginx:alpine
