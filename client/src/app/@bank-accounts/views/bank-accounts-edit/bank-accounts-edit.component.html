@@ -1,4 +1,4 @@
-<acc-page [megaMenu]="megaMenu">
+<acc-page [megaMenu]="megaMenu" [pageClass]="'page__edit'">
 	<div class="bank-accounts-edit">
 		<div class="row">
 			<div class="col-md-6 col-sm-12">
@@ -8,85 +8,63 @@
 						<div class="clearfix">&nbsp;</div>
 						<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()" *ngIf="resultRecord">
 							<div class="row">
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Bank'">
 										<input [(ngModel)]="resultRecord.bank" name="bank" [disabled]="submitted" type="text" />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Account Description'">
 										<input [(ngModel)]="resultRecord.accountDescription" name="accountDescription" [disabled]="submitted" type="text" />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Account Number'">
 										<input [(ngModel)]="resultRecord.accountNumber" name="accountNumber" [disabled]="submitted" type="text" />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Currency'">
 										<input [(ngModel)]="resultRecord.currency" name="currency" [disabled]="submitted" type="text" />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Currency Symbol'">
 										<input [(ngModel)]="resultRecord.symbol" name="symbol" [disabled]="submitted" type="text" />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Date Opened'">
 										<input [(ngModel)]="resultRecord.dateOpened" name="dateOpened" [disabled]="submitted" bsDatepicker />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputLabel]="'Date Closed'">
 										<input [(ngModel)]="resultRecord.dateClosed" name="dateClosed" [disabled]="submitted" bsDatepicker />
 									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
-									<acc-inputs [inputValue]="resultRecord.csvType" (updater)="updateValue($event, 'csvType')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="csvTypes.label" [selectOptions]="csvTypes.options"></acc-inputs>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="csvTypes.label">
+										<select name="csvType" [disabled]="submitted" [(ngModel)]="resultRecord.csvType">
+											<option *ngFor="let _option of csvTypes.options" [value]="_option.value">{{_option.label}}</option>
+										</select>
+									</acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputValue]="resultRecord.status" (updater)="updateValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<acc-inputs [inputValue]="resultRecord.defaultAccount" (updater)="updateValue($event, 'defaultAccount')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Default Account'"></acc-inputs>
 								</div>
 							</div>
 						</form>
-						<div class="text-center">
-							<div class="row">
-								<div class="col-md-3">
-									<a class="btn btn-secondary" [routerLink]="['/bank-accounts','view']">
-										<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
-									</a>
-								</div>
-								<div class="col-md-3">
-									<button type="button" class="btn btn-info" (click)="addTransactions()" *ngIf="!add">
-										<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon> Trans
-									</button>
-								</div>
-								<div class="col-md-3">
-									<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
-										<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
-									</button>
-									<span class="btn btn-info" *ngIf="submitted">
-										<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
-									</span>
-								</div>
-								<div class="col-md-3">
-									<button type="button" class="btn btn-danger" (click)="loadSum()" *ngIf="!submitted">
-										<fa-icon [icon]="['fas', 'sync']" [fixedWidth]="true"></fa-icon>
-									</button>
-									<span class="btn btn-info" *ngIf="submitted">
-										<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
-									</span>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
-				<div class="clearfix">&nbsp;</div>
+			</div>
+			<!-- <div class="col-md-8 col-sm-12" *ngIf="!add">
+					 <app-bar-view-account accountId="{{parentId}}" accountNumber="{{accountNumber}}" csvType="{{csvType}}" (updater)="loadSum()"></app-bar-view-account>
+				</div> -->
+			<div class="col-md-6 col-sm-12">
 				<div class="card" *ngIf="accountDetails">
 					<div class="card-body">
 						<div class="row text-center">
@@ -105,11 +83,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- <div class="col-md-8 col-sm-12" *ngIf="!add">
-					 <app-bar-view-account accountId="{{parentId}}" accountNumber="{{accountNumber}}" csvType="{{csvType}}" (updater)="loadSum()"></app-bar-view-account>
-				</div> -->
-			<div class="col-md-6 col-sm-12">
+				<div class="clearfix">&nbsp;</div>
 				<div class="card">
 					<div class="card-body">
 						<legend>Account Numbers - <button class="btn btn-sm btn-primary" (click)="breakdownAdd = !breakdownAdd">
@@ -189,12 +163,38 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="bank-accounts-edit__chart-container" style="position: relative; height:40vh; width:100%">
-					<canvas id="account" height="400px" width="100%">{{ chart }}</canvas>
-				</div>
-			</div>
+		<div class="clearfix">&nbsp;</div>
+		<div class="bank-accounts-edit__chart-container" style="position: relative; height:40vh; width:100%">
+			<canvas id="account" height="400px" width="100%">{{ chart }}</canvas>
 		</div>
+	</div>
+
+	<div class="footer footer__center page__footer">
+		<span class="footer__action">
+			<a class="btn btn-secondary" [routerLink]="['/bank-accounts','view']">
+				<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
+			</a>
+		</span>
+		<span class="footer__action" *ngIf="!add">
+			<button type="button" class="btn btn-info" (click)="addTransactions()">
+				<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon> Trans
+			</button>
+		</span>
+		<span class="footer__action">
+			<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+				<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+			</button>
+			<span class="btn btn-info" *ngIf="submitted">
+				<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+			</span>
+		</span>
+		<span class="footer__action">
+			<button type="button" class="btn btn-danger" (click)="loadSum()" *ngIf="!submitted">
+				<fa-icon [icon]="['fas', 'sync']" [fixedWidth]="true"></fa-icon>
+			</button>
+			<span class="btn btn-info" *ngIf="submitted">
+				<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+			</span>
+		</span>
 	</div>
 </acc-page>

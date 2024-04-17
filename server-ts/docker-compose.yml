@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  media-collection-server:
+    platform: linux/amd64
+    image: media-collection-server
+    container_name: media-collection-server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - Z:\MediaCollection\MediaCollection:/usr/src/app/MediaCollection
+    environment:
+      NODE_ENV: production
+      PORT: 3090
+      DB: mongodb
+    restart: unless-stopped
+    ports:
+      - 3090:3090
+    networks:
+      - mongodb
+
+networks:
+  mongodb:
+    external: true

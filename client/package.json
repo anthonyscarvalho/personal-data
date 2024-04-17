@@ -30,6 +30,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.1.2",
 		"@riapacheco/yutes": "^4.1.7",
 		"angular2-datetimepicker": "^1.1.1",
+		"axios": "^1.6.8",
 		"bootstrap": "^5.2.0",
 		"chart.js": "^4.4.0",
 		"crypto-js": "^4.1.1",

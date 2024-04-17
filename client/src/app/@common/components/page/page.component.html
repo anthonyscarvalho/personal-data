@@ -1,6 +1,6 @@
-<acc-sub-menu  [menuItems]="megaMenu" *ngIf="megaMenu"></acc-sub-menu>
+<acc-sub-menu [menuItems]="megaMenu" *ngIf="megaMenu"></acc-sub-menu>
 
-<div class="page">
+<div class="page" [class]="pageClass">
 	<!-- <div class="page__left">
 		<acc-side-menu [menuItems]="megaMenu"></acc-side-menu>
 	</div> -->
@@ -10,4 +10,4 @@
 		</div>
 	</div>
 </div>
-<ng-content select=".footer-actions"></ng-content>
+<ng-content select=".page__footer"></ng-content>

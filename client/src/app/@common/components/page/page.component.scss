@@ -1,8 +1,12 @@
 .page {
-	height: calc(100% - 76px);
+	height: calc(100% - 47px);
 	display: flex;
 	align-items: stretch;
-	flex-direction: row;
+	overflow: auto;
+
+	&__edit {
+	  height: calc(100% - 124px);
+	}
 
 	&__left {
 		max-height: calc(100% - 60px);

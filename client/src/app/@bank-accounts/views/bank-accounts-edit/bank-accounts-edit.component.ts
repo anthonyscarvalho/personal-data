@@ -219,7 +219,7 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 
 	createChart() {
 		this.chart = new Chart('account', {
-			type: 'line',
+			type: 'bar',
 			data: {
 				labels: this.labels,
 				datasets: [

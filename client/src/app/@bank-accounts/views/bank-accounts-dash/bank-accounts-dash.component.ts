@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 // common
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
@@ -15,6 +15,7 @@ export class BankAccountsDashComponent implements OnInit {
 
 	constructor(
 		private route: ActivatedRoute,
+		private router: Router,
 		private _generalService: GeneralService,
 		private _httpService: HttpService,
 	) {
@@ -40,4 +41,8 @@ export class BankAccountsDashComponent implements OnInit {
 	}
 
 	loadAccountInformation() { }
+
+	editAccountRouter(pId) {
+		this.router.navigate(['/bank-accounts/edit/' + pId], { relativeTo: this.route });
+	}
 }
