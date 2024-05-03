@@ -31,6 +31,9 @@
 		<div class="card text-center BudgetDash__Summary--Item">
 			<div class="card-body"> Total Non Essential:<br>{{totalNonEssential | currency: 'R '}} </div>
 		</div>
+		<div class="card text-center BudgetDash__Summary--Item">
+			<button (click)="load()">Reload</button>
+		</div>
 		<!-- <div class="card text-center BudgetDash__Summary--Item">
 			<button (click)="updateYearMonth()">Update Year Month</button>
 		</div> -->

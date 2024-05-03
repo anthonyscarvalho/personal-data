@@ -18,25 +18,25 @@ export class HttpService {
 	constructor() { }
 
 	async post(pUrl, pData, version = 'v1') {
-		const url = environment.baseUrl + '/' + version + '/' + pUrl;
+		const url = environment.baseUrl + '/' + pUrl;
 		const res = await axios.post<{ data: any }>(url, pData, this.config);
 		return res.data;
 	}
 
 	async get(pUrl, version = 'v1') {
-		const url = environment.baseUrl + '/' + version + '/' + pUrl;
+		const url = environment.baseUrl + '/' + pUrl;
 		const res = await axios.get<{ data: any }>(url, this.config);
 		return res.data;
 	}
 
 	async delete(pUrl, pData, version = 'v1') {
-		const url = environment.baseUrl + '/' + version + '/' + pUrl + '/' + pData;
+		const url = environment.baseUrl + '/' + pUrl + '/' + pData;
 		const res = await axios.delete<{ data: any }>(url);
 		return res.data;
 	}
 
 	async update(pUrl, pId, pData, version = 'v1') {
-		const url = environment.baseUrl + '/' + version + '/' + pUrl + '/' + pId;
+		const url = environment.baseUrl + '/' + pUrl + '/' + pId;
 		const res = await axios.put<{ data: any }>(url, pData, this.config);
 		return res.data;
 	}

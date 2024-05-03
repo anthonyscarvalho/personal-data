@@ -97,41 +97,30 @@ exports.view_dash = async (req, res) => {
     let budgetData = [];
     for (let indexB = 0; indexB < months.length; indexB++) {
       let year = body.year;
+      let month = months[indexB];
+
       let resPayment = 0;
       let resBudget = budgetItems[indexA].budget;
       let resActual = budgetItems[indexA].actual;
 
-      const payments = await databaseAccountsRecordsModel
-        .find({
-          year: year,
-          month: months[indexB],
-          budgetId: budgetItems[indexA]._id,
-        })
-        .then((pRecordRes) => {
-          let payments;
-          if (pRecordRes && pRecordRes.length) {
-            payments = pRecordRes[0];
-          }
-          return payments;
-        });
-      if (payments) {
-        resPayment = Math.abs(payments.debit);
-      }
+      let find = {
+        budgetYear: year.toString(),
+        budgetMonth: month,
+        budgetId: budgetItems[indexA]._id,
+      };
 
-      // if (budget.history && budget.history.length) {
-      //   budget.history.forEach((history) => {
-      //     const date = new Date(history.date);
-      //     if (date.getFullYear() <= year && date.getMonth() + 1 <= Number(months[indexB])) {
-      //       // console.log(date.getMonth() === Number(month), date, date.getMonth() + 1, Number(month));
-      //       // resBudget = history.budget;
-      //       // resActual = history.actual;
-      //       // console.log(history);
-      //     }
-      //   });
-      // }
+      resPayment = await databaseAccountsRecordsModel.find(find).then((pRecordRes) => {
+        let payments = 0;
+        if (pRecordRes && pRecordRes.length) {
+          for (let index = 0; index < pRecordRes.length; index++) {
+            payments += Math.abs(pRecordRes[index]['debit']);
+          }
+        }
+        return payments;
+      });
 
       const returnData = {
-        date: `${year}-${months[indexB]}-01`,
+        date: `${year}-${month}-01`,
         budget: resBudget,
         actual: resActual,
         payment: resPayment,

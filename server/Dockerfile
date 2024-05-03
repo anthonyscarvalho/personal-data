@@ -1,8 +1,8 @@
 FROM node:19.7.0-alpine AS build
-ENV NODE_ENV=production
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install --production --silent && mv node_modules ../
+RUN npm install --platform=linux --arch=x64 sharp
 COPY . .
 EXPOSE 3080
 RUN chown -R node:node /usr/src/app

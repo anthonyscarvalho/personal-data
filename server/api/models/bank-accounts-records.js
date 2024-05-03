@@ -29,6 +29,9 @@ module.exports = mongoose.model(
     month: {
       type: String,
     },
+    day: {
+      type: Number,
+    },
     date2: {
       type: String,
     },
@@ -51,6 +54,12 @@ module.exports = mongoose.model(
       type: String,
     },
     budgetId: {
+      type: String,
+    },
+    budgetYear: {
+      type: String,
+    },
+    budgetMonth: {
       type: String,
     },
     comments: {

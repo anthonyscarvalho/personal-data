@@ -12,7 +12,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3080
-      DB: mongodb
+      DB: 192.168.0.224
     restart: unless-stopped
     ports:
       - 3080:3080

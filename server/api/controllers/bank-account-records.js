@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 var databaseModel = mongoose.model('bankAccountRecord');
 var Utils = require('../utils/utils.js');
+var moment = require('moment');
 
 exports.view_record = (req, res) => {
   let _response = new Utils.newResponse();
@@ -265,10 +266,10 @@ exports.get_income = (req, res) => {
 };
 
 exports.add_year_month = (req, res) => {
-  let _response = new Utils.newResponse();
+  var _response = new Utils.newResponse();
 
-  let query = {
-    year: { $exists: 0 },
+  var query = {
+    // day: 1,
   };
 
   databaseModel
@@ -276,11 +277,30 @@ exports.add_year_month = (req, res) => {
     .then((pResults) => {
       if (pResults.length >= 1) {
         pResults.map((record) => {
-          const date = new Date(record.date1);
-          let month = date.getMonth() + 1;
-          record.year = date.getFullYear();
+          var day = moment(record.date1, 'YYYY/MM/DD').date();
+          var month = 1 + moment(record.date1, 'YYYY/MM/DD').month();
+          var year = moment(record.date1, 'YYYY/MM/DD').year();
 
-          record.month = (month < 10 ? `0` + month : month).toString();
+          // record.year = date.year();
+          // record.month = (month < 10 ? `0` + month : month).toString();
+          // record.day = day;
+
+          record.budgetYear = year;
+          switch (true) {
+            case day >= 25:
+              if (month == 12) {
+                record.budgetYear = year++;
+                record.budgetMonth = '01';
+              } else {
+                const _month = month + 1;
+                record.budgetMonth = (_month < 10 ? `0` + _month : _month).toString();
+              }
+              break;
+
+            default:
+              record.budgetMonth = (month < 10 ? `0` + month : month).toString();
+              break;
+          }
 
           databaseModel
             .updateOne(

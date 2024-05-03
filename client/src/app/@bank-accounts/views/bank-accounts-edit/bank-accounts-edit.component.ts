@@ -226,17 +226,17 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 					{
 						label: "Expense",
 						data: this.chartExpense,
-						backgroundColor: 'blue'
+						backgroundColor: 'red'
 					},
 					{
 						label: "Credit",
 						data: this.chartCredit,
-						backgroundColor: 'orange'
+						backgroundColor: 'limegreen'
 					},
 					{
 						label: "Balance",
 						data: this.chartBalance,
-						backgroundColor: 'limegreen'
+						backgroundColor: 'blue'
 					}
 				]
 			},

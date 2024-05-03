@@ -7,6 +7,7 @@ export class AccountRecordModel {
 	date1: string;
 	year?: string;
 	month?: string;
+	day?: number;
 	date2?: string;
 	description: string;
 	credit: number;
@@ -29,6 +30,7 @@ export class AccountRecordModel {
 		this.date1 = (pModel ? (pModel.date1 ? pModel.date1 : ``) : ``);
 		this.year = (pModel ? (pModel.year ? pModel.year : ``) : ``);
 		this.month = (pModel ? (pModel.month ? pModel.month : ``) : ``);
+		this.day = (pModel ? (pModel.day ? pModel.day : null) : null);
 		this.date2 = (pModel ? (pModel.date2 ? pModel.date2 : ``) : ``);
 		this.description = (pModel ? (pModel.description ? pModel.description : ``) : ``);
 		this.credit = (pModel ? (pModel.credit ? pModel.credit : 0.00) : 0.00);

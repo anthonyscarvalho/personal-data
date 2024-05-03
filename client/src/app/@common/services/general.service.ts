@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
+import moment from 'moment';
 // service
 import { HttpService, NotificationsService } from '@common/services';
 
@@ -260,6 +261,27 @@ export class GeneralService {
 		const _tmpDate = new Date(pDate);
 		const _month = _tmpDate.getMonth() + 1;
 		return ((_month < 10) ? `0` + _month : _month).toString();
+	}
+
+	getMonthNumber(pDate) {
+		return 1 + moment(pDate, 'YYYY/MM/DD').month();
+	}
+
+	getMonthString(pDate) {
+		const _month = 1 + moment(pDate, 'YYYY/MM/DD').month();
+		return ((_month < 10) ? `0` + _month : _month).toString();
+	}
+
+	getYearNumber(pDate) {
+		return moment(pDate, 'YYYY/MM/DD').year();
+	}
+
+	getYearString(pDate) {
+		return moment(pDate, 'YYYY/MM/DD').year().toString();
+	}
+
+	getDayNumber(pDate) {
+		return moment(pDate, 'YYYY/MM/DD').date();
 	}
 
 	changeStatus(pModule, pId, pAction) {
