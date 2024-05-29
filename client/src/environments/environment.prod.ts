@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-	baseUrl: 'http://anthony.work:3080',
+	baseUrl: 'http://alpha.local:3080',
 	apiUrl: 'api',
 	key: 'f6e90919532c10fe2f7d547f098fab1f'
 };

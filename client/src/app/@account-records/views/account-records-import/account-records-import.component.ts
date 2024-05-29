@@ -262,7 +262,7 @@ export class AccountRecordsImportComponent implements OnInit {
 						accountsId: this.account._id,
 						transactionId: _transactionId,
 						order: this.recordOrder,
-						date1: this._generalService.getMonthString(_tmpDate1),
+						date1: _tmpDate1,
 						year:  this._generalService.getYearString(_tmpDate1),
 						month: this._generalService.getMonthString(_tmpDate1),
 						day: this._generalService.getDayNumber(_tmpDate1),
