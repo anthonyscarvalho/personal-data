@@ -5,6 +5,7 @@ module.exports = function (app, controller) {
 	app.route(baseUrl + `/view`).post(controller.view_filtered);
 	app.route(baseUrl + `/viewAll`).post(controller.view_all);
 	app.route(baseUrl + `/dash`).post(controller.view_dash);
+	app.route(baseUrl + `/budget_data`).post(controller.budget_data);
 	app.route(baseUrl + `/edit/:id?`).post(controller.edit_record);
 	app.route(baseUrl + `/add`).post(controller.add_record);
 	app.route(baseUrl + `/update/:id`).put(controller.update_record);

@@ -4,7 +4,6 @@ export class BudgetDataModel {
 	actual: number;
 	payment: number;
 
-
 	constructor(pModel: BudgetDataModel | null = null) {
 		this.date = pModel?.hasOwnProperty('date') ? pModel.date : null;
 		this.budget = pModel?.hasOwnProperty('budget') ? pModel.budget : null;

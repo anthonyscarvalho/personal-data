@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"ng": "ng",
-		"start": "ng serve --port 4201",
+		"start": "ng serve --host 0.0.0.0 --port 4201",
 		"build": "ng build",
 		"build:prod": "npm run build -- --configuration production",
 		"test": "ng test",
@@ -73,7 +73,7 @@
 		"@types/karma-jasmine-html-reporter": "^1.7.0",
 		"@types/node": "^18.7.13",
 		"@types/xml2js": "^0.4.11",
-		"codelyzer": "^6.0.0",
+		"codelyzer": "^0.0.28",
 		"jasmine-core": "~4.3.0",
 		"jasmine-spec-reporter": "~7.0.0",
 		"karma": "^6.4.0",
@@ -81,10 +81,14 @@
 		"karma-coverage-istanbul-reporter": "~3.0.3",
 		"karma-jasmine": "~5.1.0",
 		"karma-jasmine-html-reporter": "^2.0.0",
-		"protractor": "^7.0.0",
 		"ts-node": "~10.9.1",
 		"tslint": "~6.1.1",
 		"typescript": "~5.0",
 		"uuid": "^9.0.1"
+	},
+	"overrides": {
+		"codelyzer": {
+			"tslint": "~6.1.1"
+		}
 	}
 }

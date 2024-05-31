@@ -1,5 +1,3 @@
-version: "3.4"
-
 services:
   personal-data-server:
     image: personal-data-server

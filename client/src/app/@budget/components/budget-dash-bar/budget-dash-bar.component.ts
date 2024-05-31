@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+// common
+import { GeneralService, HttpService } from '@common/services';
 
-import { BudgetModel } from '@budget/interfaces';
+import { BudgetModel, BudgetDataModel } from '@budget/interfaces';
 
 @Component({
 	selector: 'acc-budget-dash-bar',
@@ -13,13 +15,29 @@ export class BudgetDashBarComponent implements AfterViewInit, OnInit {
 	@Input() year;
 
 	private labels = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
-
+	private resultRecord: BudgetDataModel[];
 	public chart: any;
+
 	constructor(
-		private cdr: ChangeDetectorRef
+		private cdr: ChangeDetectorRef,
+		private _generalService: GeneralService,
+		private _httpService: HttpService,
 	) { }
 
 	ngOnInit(): void { }
+
+	loadData() {
+		this.resultRecord = [];
+		this._httpService.post(`budget/budget_data`, { year: this.year, budgetItem: this.budgetItem }).then((pResults: any) => {
+			const _valid = this._generalService.validateResponse(pResults);
+			if (_valid === `valid`) {
+				this.resultRecord = pResults.data;
+
+				this.createChart();
+				this.cdr.detectChanges();
+			}
+		});
+	}
 
 	createChart() {
 		this.chart = new Chart(this.budgetItem._id, {
@@ -30,17 +48,17 @@ export class BudgetDashBarComponent implements AfterViewInit, OnInit {
 				datasets: [
 					{
 						label: "Budget",
-						data: this.budgetItem.budgetData.map((budget) => budget.budget),
+						data: this.resultRecord.map((budget) => budget.budget),
 						backgroundColor: 'blue'
 					},
 					{
 						label: "Actual",
-						data: this.budgetItem.budgetData.map((budget) => budget.actual),
+						data: this.resultRecord.map((budget) => budget.actual),
 						backgroundColor: 'limegreen'
 					},
 					{
 						label: "Payment",
-						data: this.budgetItem.budgetData.map((budget) => budget.payment),
+						data: this.resultRecord.map((budget) => budget.payment),
 						backgroundColor: 'yellow'
 					}
 				]
@@ -58,7 +76,6 @@ export class BudgetDashBarComponent implements AfterViewInit, OnInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.createChart();
-		this.cdr.detectChanges();
+		this.loadData();
 	}
 }

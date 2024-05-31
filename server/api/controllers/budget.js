@@ -68,7 +68,6 @@ exports.view_dash = async (req, res) => {
   let query = {
     canceled: 'false',
   };
-  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   const totalRecords = await databaseModel
     .countDocuments(query)
     .then((pCount) => {
@@ -90,53 +89,140 @@ exports.view_dash = async (req, res) => {
       Utils.returnError(err, res);
     });
 
-  let responseBudget = [];
-
-  for (let indexA = 0; indexA < budgetItems.length; indexA++) {
-    /** start month loop */
-    let budgetData = [];
-    for (let indexB = 0; indexB < months.length; indexB++) {
-      let year = body.year;
-      let month = months[indexB];
-
-      let resPayment = 0;
-      let resBudget = budgetItems[indexA].budget;
-      let resActual = budgetItems[indexA].actual;
-
-      let find = {
-        budgetYear: year.toString(),
-        budgetMonth: month,
-        budgetId: budgetItems[indexA]._id,
-      };
-
-      resPayment = await databaseAccountsRecordsModel.find(find).then((pRecordRes) => {
-        let payments = 0;
-        if (pRecordRes && pRecordRes.length) {
-          for (let index = 0; index < pRecordRes.length; index++) {
-            payments += Math.abs(pRecordRes[index]['debit']);
-          }
-        }
-        return payments;
-      });
-
-      const returnData = {
-        date: `${year}-${month}-01`,
-        budget: resBudget,
-        actual: resActual,
-        payment: resPayment,
-      };
-      budgetData.push(returnData);
-    }
-
-    // console.log(budgetData);
-    /** end month loop */
-    budgetItems[indexA].budgetData = budgetData;
-    responseBudget.push(budgetItems[indexA]);
-  }
+  let responseBudget = budgetItems;
 
   _response.data = responseBudget;
   Utils.returnSuccess(_response, res);
 };
+
+exports.budget_data = async (req, res) => {
+  let _response = new Utils.newResponse();
+  let body = req.body;
+  let filter = {
+    description: 1,
+  };
+  let query = {
+    canceled: 'false',
+  };
+  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
+  let budgetData = [];
+  let year = body.year;
+  let budgetItem = body.budgetItem;
+  for (let indexB = 0; indexB < months.length; indexB++) {
+    let month = months[indexB];
+
+    let resPayment = 0;
+    let resBudget = budgetItem.budget;
+    let resActual = budgetItem.actual;
+
+    let find = {
+      budgetYear: year.toString(),
+      budgetMonth: month,
+      budgetId: budgetItem._id,
+    };
+
+    resPayment = await databaseAccountsRecordsModel.find(find).then((pRecordRes) => {
+      let payments = 0;
+      if (pRecordRes && pRecordRes.length) {
+        for (let index = 0; index < pRecordRes.length; index++) {
+          payments += Math.abs(pRecordRes[index]['debit']);
+        }
+      }
+      return payments;
+    });
+
+    const returnData = {
+      date: `${year}-${month}-01`,
+      budget: resBudget,
+      actual: resActual,
+      payment: resPayment,
+    };
+    budgetData.push(returnData);
+  }
+
+  _response.data = budgetData;
+  Utils.returnSuccess(_response, res);
+};
+
+// exports.view_dash = async (req, res) => {
+//   let _response = new Utils.newResponse();
+//   let body = req.body;
+//   let filter = {
+//     description: 1,
+//   };
+//   let query = {
+//     canceled: 'false',
+//   };
+//   const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+//   const totalRecords = await databaseModel
+//     .countDocuments(query)
+//     .then((pCount) => {
+//       return pCount;
+//     })
+//     .catch((err) => {
+//       Utils.returnCountError(res);
+//     });
+
+//   _response.totalRecords = totalRecords;
+
+//   const budgetItems = await databaseModel
+//     .find(query)
+//     .sort(filter)
+//     .then((pResults) => {
+//       return pResults;
+//     })
+//     .catch((err) => {
+//       Utils.returnError(err, res);
+//     });
+
+//   let responseBudget = [];
+
+//   for (let indexA = 0; indexA < budgetItems.length; indexA++) {
+//     /** start month loop */
+//     let budgetData = [];
+//     for (let indexB = 0; indexB < months.length; indexB++) {
+//       let year = body.year;
+//       let month = months[indexB];
+
+//       let resPayment = 0;
+//       let resBudget = budgetItems[indexA].budget;
+//       let resActual = budgetItems[indexA].actual;
+
+//       let find = {
+//         budgetYear: year.toString(),
+//         budgetMonth: month,
+//         budgetId: budgetItems[indexA]._id,
+//       };
+
+//       resPayment = await databaseAccountsRecordsModel.find(find).then((pRecordRes) => {
+//         let payments = 0;
+//         if (pRecordRes && pRecordRes.length) {
+//           for (let index = 0; index < pRecordRes.length; index++) {
+//             payments += Math.abs(pRecordRes[index]['debit']);
+//           }
+//         }
+//         return payments;
+//       });
+
+//       const returnData = {
+//         date: `${year}-${month}-01`,
+//         budget: resBudget,
+//         actual: resActual,
+//         payment: resPayment,
+//       };
+//       budgetData.push(returnData);
+//     }
+
+//     // console.log(budgetData);
+//     /** end month loop */
+//     budgetItems[indexA].budgetData = budgetData;
+//     responseBudget.push(budgetItems[indexA]);
+//   }
+
+//   _response.data = responseBudget;
+//   Utils.returnSuccess(_response, res);
+// };
 
 exports.view_all = (req, res) => {
   let _response = new Utils.newResponse();
