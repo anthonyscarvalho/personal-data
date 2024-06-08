@@ -17,19 +17,20 @@
 			<acc-table-pagination [filterBoxOptions]="filterBoxOptions" (updater)="filterUpdater($event)"></acc-table-pagination>
 			<table class="table-component__table">
 				<colgroup>
-					<col width="170px">
-					<col width="170px">
-					<col width="35px">
-					<col>
-					<col width="100px">
-					<col width="100px">
-					<col width="100px">
-					<col width="100px">
-					<col width="100px">
-					<col width="100px">
-					<col width="100px">
-					<col width="35px">
-					<col width="35px">
+					<col width="170px"> <!-- id -->
+					<col width="50px"> <!-- hash -->
+					<col width="35px"> <!-- order -->
+					<col> <!-- description -->
+					<col width="100px"> <!-- date 1 -->
+					<col width="100px"> <!-- budget year -->
+					<col width="100px"> <!-- budget month -->
+					<col width="100px"> <!-- budget -->
+					<col width="100px"> <!-- credit -->
+					<col width="100px"> <!-- debit -->
+					<col width="100px"> <!-- balance -->
+					<col width="100px"> <!-- cal balance -->
+					<col width="35px"> <!-- service fee -->
+					<col width="35px"> <!-- actions -->
 				</colgroup>
 				<thead class="table-component__table--head">
 					<tr class="table-component__table--head-row">
@@ -40,6 +41,7 @@
 						<th>Date 1</th>
 						<th>Budget Year</th>
 						<th>Budget Month</th>
+						<th>Budget</th>
 						<th>Credit</th>
 						<th>Debit</th>
 						<th>Balance</th>
@@ -69,6 +71,12 @@
 						</td>
 						<td>
 							<input type="text" [(ngModel)]="row.budgetMonth" (blur)="updateRecord(row)" style="width: 90px;">
+						</td>
+						<td>
+							<select name="budget" id="budget" [(ngModel)]="row.budgetId" (change)="updateRecord(row)" style="width: 90px;">
+								<option value=""></option>
+								<option *ngFor="let item of budgetItems" value="{{item._id}}">{{item.description}}</option>
+							</select>
 						</td>
 						<td>{{ row.credit }}</td>
 						<td>{{ row.debit }}</td>

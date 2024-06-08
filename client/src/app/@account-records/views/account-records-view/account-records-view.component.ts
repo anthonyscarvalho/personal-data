@@ -7,6 +7,7 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 // modules
 import { AccountRecordModel } from '@accountRecords/interfaces';
+import { BudgetModel } from '@budget/interfaces';
 
 @Component({
 	selector: 'acc-account-records-view',
@@ -20,6 +21,7 @@ export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 	apiUrl: string;
 	tableHead: any[];
 	tableBody: AccountRecordModel[];
+	budgetItems: BudgetModel[];
 	submitted: boolean = false;
 
 	public filterBoxOptions: IFilterBoxOptions = new IFilterBoxOptions({
@@ -48,6 +50,7 @@ export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 
 	ngOnInit() {
 		this.load();
+		this.loadBudgets();
 	}
 
 	filterUpdater(pEvent: any) {
@@ -154,6 +157,14 @@ export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 				this._notificationService.success(results.message);
 			} else {
 				this._notificationService.warn(results.message);
+			}
+		});
+	}
+
+	loadBudgets() {
+		this._httpService.post('budget/viewAll', { }).then((results: any) => {
+			if (results.status === `00`) {
+				this.budgetItems = results.data.sort((a, b) => a.description.toLocaleLowerCase() < b.description.toLowerCase() ? -1 : 1);
 			}
 		});
 	}
