@@ -5,7 +5,7 @@ RUN npm install --production --silent && mv node_modules ../
 RUN npm install --platform=linux --arch=x64 sharp
 COPY . .
 EXPOSE 3080
-RUN chown -R node:node /usr/src/app
+# RUN chown -R node:node /usr/src/app
 RUN chmod -R 777 /usr/src/app/media
 USER node
 CMD ["node", "server.js"]
