@@ -5,9 +5,9 @@ export class AccountRecordModel {
 	order: number;
 	accountsId: string;
 	date1: string;
-	year?: string;
-	month?: string;
-	day?: number;
+	budgetYear?: string;
+	budgetMonth?: string;
+	budgetDay?: number;
 	date2?: string;
 	description: string;
 	credit: number;
@@ -28,9 +28,9 @@ export class AccountRecordModel {
 		this.order = (pModel ? (pModel.order ? pModel.order : null) : null);
 		this.accountsId = (pModel ? (pModel.accountsId ? pModel.accountsId : ``) : ``);
 		this.date1 = (pModel ? (pModel.date1 ? pModel.date1 : ``) : ``);
-		this.year = (pModel ? (pModel.year ? pModel.year : ``) : ``);
-		this.month = (pModel ? (pModel.month ? pModel.month : ``) : ``);
-		this.day = (pModel ? (pModel.day ? pModel.day : null) : null);
+		this.budgetYear = (pModel ? (pModel.budgetYear ? pModel.budgetYear : ``) : ``);
+		this.budgetMonth = (pModel ? (pModel.budgetMonth ? pModel.budgetMonth : ``) : ``);
+		this.budgetDay = (pModel ? (pModel.budgetDay ? pModel.budgetDay : null) : null);
 		this.date2 = (pModel ? (pModel.date2 ? pModel.date2 : ``) : ``);
 		this.description = (pModel ? (pModel.description ? pModel.description : ``) : ``);
 		this.credit = (pModel ? (pModel.credit ? pModel.credit : 0.00) : 0.00);

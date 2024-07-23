@@ -23,14 +23,14 @@ module.exports = mongoose.model(
     date1: {
       type: String,
     },
-    year: {
+    budgetYear: {
       type: String,
     },
-    month: {
+    budgetMonth: {
       type: String,
     },
-    day: {
-      type: Number,
+    budgetDay: {
+      type: String,
     },
     date2: {
       type: String,
