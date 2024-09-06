@@ -55,6 +55,7 @@
 						<th style="width: 110px;">Credit</th>
 						<th style="width: 110px;">Debit</th>
 						<th style="width: 160px;">Balance</th>
+						<th style="width: 100px;">Original</th>
 						<th style="width: 40px;"></th>
 					</tr>
 				</thead>
@@ -72,6 +73,9 @@
 						<td>{{item.credit | currency:'R '}}</td>
 						<td>{{item.debit | currency:'R '}}</td>
 						<td>{{item.balance | currency:'R '}}</td>
+						<td>
+							<input type="text" [(ngModel)]="item.originalRecord" style="width: 90px;">
+						</td>
 						<td>
 							<span class="badge badge-warning" *ngIf="item.processed == 'false'">&nbsp;</span>
 							<span class="badge badge-success" *ngIf="item.processed == 'true'">&nbsp;</span>
