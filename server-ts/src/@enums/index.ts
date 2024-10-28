@@ -1,2 +1,3 @@
-export { EnumsModule } from './enums.module';
-export * from './enums.controller';
+export { EnumsModule } from "./module";
+
+export * from "./controller";

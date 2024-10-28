@@ -1,12 +1,7 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { BaseService } from "./base.service";
-
+import { Injectable } from "@nestjs/common";
 import mongojs from 'mongojs';
-
 import Mongoose from 'mongoose';
-
 import { v4 as uuidv4 } from 'uuid';
-
 import winston from "winston";
 
 @Injectable()

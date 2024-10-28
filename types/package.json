@@ -1,0 +1,32 @@
+{
+    "name": "@mediaColelction/types",
+    "version": "1.0.47",
+    "description": "Model types for api and services",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 0",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://git.littledeveloper.co.za/anthony/media-collection.git"
+    },
+    "files": [
+        "lib/**/*"
+    ],
+    "author": "Anthony Carvalho",
+    "homepage": "https://git.littledeveloper.co.za/anthony/media-collection.git",
+    "devDependencies": {
+        "@nestjs/mongoose": "^10.0.10",
+        "@types/node": "^22.7.5",
+        "mongoose": "^8.7.1",
+        "prettier": "^3.3.3",
+        "tslint": "^6.1.3",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^5.6.3"
+    },
+    "dependencies": {
+        "moment": "^2.30.1"
+    }
+}

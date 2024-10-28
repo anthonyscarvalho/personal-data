@@ -1,17 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
+import { Injectable } from "@nestjs/common";
 import { LoggingService } from "./log.service";
 
 @Injectable()
 export class BaseService {
   constructor(
-    private readonly i18n: I18nService,
     readonly log: LoggingService
   ) { }
-
-  protected getLocalization(module: string, identifier: string) {
-    return this.i18n.t(`${module}.${identifier}`);
-  }
 
   generateSlug(pInput) {
     let _slug = pInput.name;

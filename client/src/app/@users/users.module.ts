@@ -9,7 +9,7 @@ import {
 	UsersDashboardComponent,
 	UsersEditComponent,
 	UsersViewComponent,
-} from '@users/views';
+} from '@users/components';
 
 const megaMenu = {
 	label: `Management`,

@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { BaseService, LoggingService } from '@common';
-import { I18nService } from 'nestjs-i18n';
+import { Injectable } from "@nestjs/common";
+
+import { RESPONSE_MESSAGES } from "@sharedTypes/enums";
 
 @Injectable()
 export class CommonService {
@@ -24,73 +24,28 @@ export class CommonService {
     return _slug;
   };
 
-  returnError(pMessage) {
-    const response = this.newResponse();
-    response.status = '01';
-    response.message = pMessage;
-    return response;
+  returnSuccess(pData, pTotalRecords = null, message = null) {
+    return this.newResponse('00', pTotalRecords, pData, message);
   };
 
-  returnSuccess(pData, pTotalRecords = null) {
-    const response = this.newResponse();
-    response.totalRecords = pTotalRecords;
-    response.data = pData;
-
-    return response;
+  returnError(pMessage = RESPONSE_MESSAGES.genericError) {
+    return this.newResponse('01', null, null, pMessage);
   };
 
-  returnUpdated(message) {
-    const response = this.newResponse();
-    response.message = message;
-
-    return response;
+  returnRecordExist() {
+    return this.newResponse('02', null, null, RESPONSE_MESSAGES.recordExists);
   };
 
-  returnOrderUpdated(pRes) {
-    let _response = this.newResponse();
-    _response.message = "order updated";
-    exports.returnSuccess(_response, pRes);
+  returnDuplicate(pData = null) {
+    return this.newResponse('03', null, pData, RESPONSE_MESSAGES.duplicateEntries);
   };
 
-  returnNotUpdated(pRes) {
-    let _response = this.newResponse();
-    _response.message = "record not updated";
-    _response.status = "01";
-    exports.returnSuccess(_response, pRes);
-  };
-
-  returnRecordExist(pRes) {
-    let _response = this.newResponse();
-    _response.message = "record exists";
-    _response.status = "02";
-    exports.returnSuccess(_response, pRes);
-  };
-
-  returnDuplicate(pRes) {
-    let _response = this.newResponse();
-    _response.message = "duplicate entries for record";
-    _response.status = "03";
-    exports.returnSuccess(_response, pRes);
-  };
-
-  returnCountError(pRes) {
-    exports.returnError(`can't count`, pRes);
-  };
-
-  returnBadData(pRes) {
-    exports.returnError(`bad data`, pRes);
-  };
-
-  returnFindError(pRes) {
-    exports.returnError(`find results error`, pRes);
-  };
-
-  newResponse() {
+  newResponse(status = '00', totalRecords = null, data = null, message = null) {
     return {
-      status: `00`,
-      totalRecords: null,
-      data: null,
-      message: null,
+      status: status,
+      totalRecords: totalRecords,
+      data: data,
+      message: message,
     };
   };
 
@@ -102,48 +57,53 @@ export class CommonService {
     return string.replace(/-+/, "-");
   };
 
+  replaceText(pInput) {
+    const characters = /[&\/\\#,+\-()$~%.'":*?<>{}]/g;
+    const doubleSpace = /  +/g;
+    const lineBreak = /[\r\n]+/g;
+    const space = / +/g;
+
+    // use of String replace() Method
+    pInput = pInput.replace(characters, ' ');
+    pInput = pInput.replace(doubleSpace, ' ');
+    pInput = pInput.replace(lineBreak, '');
+    pInput = pInput.replace(space, '-');
+    return pInput.trim();
+  };
+
   async saveRecord(newRecord, databaseModel) {
     const response = await databaseModel.findByIdAndUpdate(newRecord._id, newRecord, { new: true });
     if (response) {
-      return this.returnSuccess('Record updated');
+      return this.returnSuccess(null, null, RESPONSE_MESSAGES.updated);
     }
     else {
-      return this.returnError('Error saving record');
+      return this.returnError(RESPONSE_MESSAGES.notSaved);
     }
-    // if (!pAction) {
-    //   return exports.returnBadData(res);
-    // } else {
-    //   databaseModel
-    //     .updateOne(
-    //       pId,
-    //       {
-    //         $set: {
-    //           canceled: pAction,
-    //           canceledDate: pAction === "true" ? new Date() : null,
-    //         },
-    //       },
-    //       {
-    //         new: true,
-    //       }
-    //     )
-    //     .then((pResults) => {
-    //       if (pResults.acknowledged) {
-    //         exports.returnUpdated(res);
-    //       } else {
-    //         exports.returnNotUpdated(res);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       return exports.returnError(`Can't count`, res);
-    //     });
-    // }
+  };
+
+  async createRecord(newRecord, databaseModel) {
+    const response = await databaseModel.create(newRecord);
+    // console.log(response);
+    if (response) {
+      const modelResponse = await databaseModel
+        .findOne({ itemSlug: newRecord.itemSlug })
+        .then((pResults) => pResults)
+        .catch((err) => {
+          console.log('create record error', JSON.stringify(err));
+          return null;
+        });
+      return this.returnSuccess(modelResponse, null, RESPONSE_MESSAGES.updated);
+    }
+    else {
+      return this.returnError(RESPONSE_MESSAGES.notSaved);
+    }
   };
 
   async update_status(pId, pAction, res, databaseModel) {
     if (!pAction) {
-      return exports.returnBadData(res);
+      return this.returnError(RESPONSE_MESSAGES.badData);
     } else {
-      databaseModel
+      const modelResponse = await databaseModel
         .updateOne(
           pId,
           {
@@ -156,35 +116,31 @@ export class CommonService {
             new: true,
           }
         )
-        .then((pResults) => {
-          if (pResults.acknowledged) {
-            exports.returnUpdated(res);
-          } else {
-            exports.returnNotUpdated(res);
-          }
-        })
+        .then((pResults) => pResults)
         .catch((err) => {
-          return exports.returnError(`Can't count`, res);
+          console.log(err);
+          return null;
         });
+
+      if (modelResponse.acknowledged) {
+        this.returnSuccess(null, null, RESPONSE_MESSAGES.updated);
+      } else {
+        this.returnError(RESPONSE_MESSAGES.notUpdated);
+      }
     }
   };
 
-  async delete_record(pId, res, databaseModel) {
+  async delete_record(pId, databaseModel) {
     if (!pId) {
-      return exports.returnBadData(res);
+      return this.returnError(RESPONSE_MESSAGES.badData);
     } else {
-      databaseModel
-        .deleteOne(pId)
-        .then((pResults) => {
-          if (pResults.acknowledged) {
-            exports.returnUpdated(res);
-          } else {
-            exports.returnNotUpdated(res);
-          }
-        })
-        .catch((err) => {
-          res.send(err);
-        });
+      const response = await databaseModel.deleteOne({ _id: pId }).then((pResults) => pResults);
+      console.log('delete', JSON.stringify(response));
+      if (response.acknowledged && response.deletedCount > 0) {
+        return this.returnSuccess(RESPONSE_MESSAGES.updated);
+      } else {
+        return this.returnError(RESPONSE_MESSAGES.saveError);
+      }
     }
   };
 

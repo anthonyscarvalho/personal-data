@@ -1,5 +1,4 @@
-export { GalleryModule } from "./galleries.module";
+export { GalleryModule } from "./module";
 
-export * from './galleries.controller';
-export * from './galleries.service';
-export * from './schema';
+export * from "./controller";
+export * from "./service";

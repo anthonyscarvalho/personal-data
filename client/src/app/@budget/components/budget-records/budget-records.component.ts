@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-// common
+
+import { cAccountRecord } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
-import { AccountRecordModel } from '@accountRecords/interfaces';
 
 @Component({
 	selector: 'acc-budget-records',
@@ -16,8 +15,8 @@ export class BudgetRecordsComponent implements OnInit {
 
 	public syncBudgetRecords = false;
 	public allChecked = false;
-	public budgetRecords: AccountRecordModel[];
-	public syncRecords: AccountRecordModel[];
+	public budgetRecords: cAccountRecord[];
+	public syncRecords: cAccountRecord[];
 	public recordFilterBoxOptions: IFilterBoxOptions = new IFilterBoxOptions({
 		bankAccount: this._generalService.getBankAccount(),
 		searchPhrase: this._generalService.getSearchPhrase(),

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
+import { cProduct } from '@sharedTypes/classes';
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES, RENEWABLE } from '@common/constants';
 import { CompanyInterface } from '@companies/interfaces';
-import { ProductModel } from '@products/interfaces';
 
 import { ClientModel, ClientProductModel } from '@clients/interfaces';
 
@@ -25,7 +26,7 @@ export class ClientsEditComponent implements OnInit {
 	resultRecord: ClientModel;
 	recordProduct: ClientProductModel;
 	productAdd = true;
-	products: ProductModel[] = [];
+	products: cProduct[] = [];
 
 	// select values
 	categories: any[];
@@ -117,7 +118,7 @@ export class ClientsEditComponent implements OnInit {
 	}
 
 	selectOption(event) {
-		const product: ProductModel = this.products.find((product) => product._id === event);
+		const product: cProduct = this.products.find((product) => product._id === event);
 
 		if (product) {
 			const date = new Date();

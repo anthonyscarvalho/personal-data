@@ -3,15 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
-// common
 import { CommonComponentsModule } from '@common/common.module';
-// module
-import {
-	AccountRecordsEditComponent,
-	AccountRecordsReportComponent,
-	AccountRecordsViewComponent,
-	AccountRecordsImportComponent,
-} from '@accountRecords/views';
+
+import { AccountRecordsEditComponent, AccountRecordsReportComponent, AccountRecordsViewComponent, AccountRecordsImportComponent } from '@accountRecords/components';
 
 const megaMenu = {
 	label: `Management`,

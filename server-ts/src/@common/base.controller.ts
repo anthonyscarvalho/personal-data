@@ -1,11 +1,5 @@
-import { I18nService } from 'nestjs-i18n';
-
 export class BaseController {
-  constructor(private readonly i18n: I18nService) { }
-
-  protected getLocalization(module: string, identifier: string) {
-    return this.i18n.t(`${module}.${identifier}`);
-  }
+  constructor() { }
 
   returnError(pMessage) {
     const response = this.newResponse();

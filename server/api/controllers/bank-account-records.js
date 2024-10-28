@@ -231,7 +231,7 @@ exports.get_income = (req, res) => {
                 query,
                 {
                     $group: {
-                        _id: { month: '$month' },
+                        _id: { budgetMonth: '$budgetMonth' },
                         totalIncome: {
                             $sum: '$credit'
                         }
@@ -240,7 +240,7 @@ exports.get_income = (req, res) => {
                 {
                     $project: {
                         _id: 0,
-                        month: '$_id.month',
+                        month: '$_id.budgetMonth',
                         totalIncome: {
                             $round: ['$totalIncome', 2]
                         }
