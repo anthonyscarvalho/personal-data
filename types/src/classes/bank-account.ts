@@ -1,7 +1,7 @@
-import { CommonProperties } from "./common";
+import { cCommonProperties } from "./common-properties";
 import type { tBankAccount, tBankAccountNumber, tBankAccountDashboard } from "../interfaces";
 
-export class cBankAccount extends CommonProperties implements tBankAccount {
+export class cBankAccount extends cCommonProperties implements tBankAccount {
 	_id?: any;
 	accountNumber: string;
 	accountNumbers: cBankAccountNumber[];

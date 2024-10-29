@@ -1,7 +1,7 @@
-import { CommonProperties } from "./common";
+import { cCommonProperties } from "./common-properties";
 import type { tProduct } from "../interfaces";
 
-export class cProduct extends CommonProperties implements tProduct {
+export class cProduct extends cCommonProperties implements tProduct {
 	_id: any;
 	description: string;
 	price: number;

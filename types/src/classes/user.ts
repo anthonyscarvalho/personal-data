@@ -1,7 +1,7 @@
-import { CommonProperties } from "./common";
+import { cCommonProperties } from "./common-properties";
 import type { tUser } from "../interfaces/user";
 
-export class cUser extends CommonProperties implements tUser {
+export class cUser extends cCommonProperties implements tUser {
 	_id: any;
 	username: string;
 	password: string;

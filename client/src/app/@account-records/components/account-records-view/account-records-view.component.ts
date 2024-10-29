@@ -3,11 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { cAccountRecord } from '@sharedTypes/classes';
+import { cAccountRecord, cBudget } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-
-import { BudgetModel } from '@budget/interfaces';
 
 @Component({
 	selector: 'acc-account-records-view',
@@ -21,7 +19,7 @@ export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 	apiUrl: string;
 	tableHead: any[];
 	tableBody: cAccountRecord[];
-	budgetItems: BudgetModel[];
+	budgetItems: cBudget[];
 	submitted: boolean = false;
 
 	public filterBoxOptions: IFilterBoxOptions = new IFilterBoxOptions({

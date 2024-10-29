@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cBudget } from "@sharedTypes/classes";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
-import { BudgetModel } from '@budget/interfaces';
 
 @Component({
 	selector: 'acc-budget-view',
@@ -19,7 +18,7 @@ export class BudgetViewComponent implements OnInit {
 	bsModalRef: BsModalRef;
 	apiUrl: string;
 	tableHead: any[];
-	tableBody: BudgetModel[];
+	tableBody: cBudget[];
 	public filterBoxOptions: IFilterBoxOptions;
 	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;

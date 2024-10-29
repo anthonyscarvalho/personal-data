@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// common
+
+import { cBudget } from "@sharedTypes/classes";
 import { GeneralService, HttpService } from '@common/services';
-// modules
-import { BudgetModel } from '@budget/interfaces';
+
 
 
 @Component({
@@ -14,7 +14,7 @@ import { BudgetModel } from '@budget/interfaces';
 export class BudgetDashComponent implements OnInit {
 	@ViewChild('barChart') chartContainer: ElementRef;
 	megaMenu: any;
-	resultRecord: BudgetModel[];
+	resultRecord: cBudget[];
 	actualBudget = 0;
 	totalBudget = 0;
 	totalEssential = 0
@@ -55,8 +55,8 @@ export class BudgetDashComponent implements OnInit {
 				if (!this.resultRecord) {
 					this.resultRecord = [];
 				}
-				pResults.data.map((record: BudgetModel) => {
-					this.resultRecord.push(new BudgetModel(record))
+				pResults.data.map((record: cBudget) => {
+					this.resultRecord.push(new cBudget(record))
 					if (record.status === 'open') {
 						const amount = record.actual;
 						this.actualBudget += amount;

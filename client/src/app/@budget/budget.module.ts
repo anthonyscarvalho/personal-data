@@ -10,8 +10,6 @@ import {
 	BudgetEditComponent,
 	BudgetDashComponent,
 	BudgetViewComponent,
-} from '@budget/views';
-import {
 	BudgetRecordsComponent,
 	BudgetDashBarComponent,
 	BudgetDashIncomeComponent,

@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-// common
-import { GeneralService, HttpService } from '@common/services';
 
-import { BudgetModel, BudgetDataModel } from '@budget/interfaces';
+import { cBudget, cBudgetData } from "@sharedTypes/classes";
+import { GeneralService, HttpService } from '@common/services';
 
 @Component({
 	selector: 'acc-budget-dash-bar',
@@ -11,11 +10,11 @@ import { BudgetModel, BudgetDataModel } from '@budget/interfaces';
 	styleUrls: ['./budget-dash-bar.component.scss']
 })
 export class BudgetDashBarComponent implements AfterViewInit, OnInit {
-	@Input() budgetItem: BudgetModel;
+	@Input() budgetItem: cBudget;
 	@Input() year;
 
 	private labels = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
-	private resultRecord: BudgetDataModel[];
+	private resultRecord: cBudgetData[];
 	public chart: any;
 
 	constructor(

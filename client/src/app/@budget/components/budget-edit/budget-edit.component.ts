@@ -1,12 +1,11 @@
 import { Component, OnInit, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+
+import { cBudget, cBreakDown, cBudgetHistory } from "@sharedTypes/classes";
+import { CATEGORIES } from "@sharedTypes/constants";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES } from '@common/constants';
-// modules
-import { CATEGORIES } from '@budget/constants';
-import { BreakDownModel, BudgetModel, BudgetHistoryModel } from '@budget/interfaces';
 
 @Component({
 	selector: 'acc-budget-edit',
@@ -21,8 +20,8 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 	parentId: string;
 	breakdownIndex: number;
 
-	resultRecord: BudgetModel;
-	recordBreakdown: BreakDownModel;
+	resultRecord: cBudget;
+	recordBreakdown: cBreakDown;
 	breakdownAdd = false;
 
 	// select values
@@ -39,12 +38,12 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 	) {
 		this.megaMenu = this.route.snapshot.data.menu;
 		this.add = this.route.snapshot.data.add;
-		this.recordBreakdown = new BreakDownModel();
+		this.recordBreakdown = new cBreakDown();
 		if (this.route.snapshot.paramMap.get(`id`)) {
 			this.parentId = this.route.snapshot.paramMap.get(`id`);
 		} else {
 			this.parentId = null;
-			this.resultRecord = new BudgetModel();
+			this.resultRecord = new cBudget();
 		}
 		this.categories = CATEGORIES;
 		this.recordStatuses = RECORD_STATUSES;
@@ -62,7 +61,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 		this._httpService.post(`budget/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
-				this.resultRecord = new BudgetModel(pResults.data);
+				this.resultRecord = new cBudget(pResults.data);
 				this._generalService.setTitle(`Budget: Edit - ` + pResults.data.description);
 				this.sortBreakDown();
 
@@ -105,7 +104,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
-					this.resultRecord = new BudgetModel();
+					this.resultRecord = new cBudget();
 				} else {
 					this._notificationsService.warn(pResult.message);
 				}
@@ -135,12 +134,12 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 			if (this.recordBreakdown.description !== ``) {
 				this.recordBreakdown.created = this._generalService.formatDate(this.recordBreakdown.created);
 				this.resultRecord.breakdown.push(this.recordBreakdown);
-				this.recordBreakdown = new BreakDownModel();
+				this.recordBreakdown = new cBreakDown();
 				this.breakdownAdd = false;
 			}
 		} else {
 			this.resultRecord.breakdown[this.breakdownIndex] = this.recordBreakdown;
-			this.recordBreakdown = new BreakDownModel();
+			this.recordBreakdown = new cBreakDown();
 			this.breakdownIndex = undefined;
 			this.breakdownAdd = false;
 		}
@@ -159,7 +158,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 	}
 
 	editBreakdown(pIndex) {
-		this.recordBreakdown = new BreakDownModel(this.resultRecord.breakdown[pIndex]);
+		this.recordBreakdown = new cBreakDown(this.resultRecord.breakdown[pIndex]);
 		this.breakdownAdd = true;
 		this.breakdownIndex = pIndex;
 		this.sortBreakDown();
