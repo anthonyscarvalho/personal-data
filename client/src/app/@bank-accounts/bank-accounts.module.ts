@@ -6,13 +6,11 @@ import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 // module
 import { CommonComponentsModule } from '@common/common.module';
 import {
-	BankAccountsDashBlockComponent,
-} from '@bankAccounts/components';
-import {
 	BankAccountsDashComponent,
 	BankAccountsEditComponent,
 	BankAccountsViewComponent,
-} from '@bankAccounts/views';
+	BankAccountsDashBlockComponent,
+} from '@bankAccounts/components';
 
 const megaMenu = {
 	label: `Management`,

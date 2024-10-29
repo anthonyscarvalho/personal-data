@@ -1,0 +1,200 @@
+<acc-page [megaMenu]="megaMenu" [pageClass]="'page__edit'">
+	<div class="bank-accounts-edit">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<h1>Account Information</h1>
+						<div class="clearfix">&nbsp;</div>
+						<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()" *ngIf="resultRecord">
+							<div class="row">
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Bank'">
+										<input [(ngModel)]="resultRecord.bank" name="bank" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Account Description'">
+										<input [(ngModel)]="resultRecord.accountDescription" name="accountDescription" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Account Number'">
+										<input [(ngModel)]="resultRecord.accountNumber" name="accountNumber" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Currency'">
+										<input [(ngModel)]="resultRecord.currency" name="currency" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Currency Symbol'">
+										<input [(ngModel)]="resultRecord.symbol" name="symbol" [disabled]="submitted" type="text" />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Date Opened'">
+										<input [(ngModel)]="resultRecord.dateOpened" name="dateOpened" [disabled]="submitted" bsDatepicker />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="'Date Closed'">
+										<input [(ngModel)]="resultRecord.dateClosed" name="dateClosed" [disabled]="submitted" bsDatepicker />
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputLabel]="csvTypes.label">
+										<select name="csvType" [disabled]="submitted" [(ngModel)]="resultRecord.csvType">
+											<option *ngFor="let _option of csvTypes.options" [value]="_option.value">{{_option.label}}</option>
+										</select>
+									</acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputValue]="resultRecord.status" (updater)="updateValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+								</div>
+								<div class="col-md-3 col-sm-12">
+									<acc-inputs [inputValue]="resultRecord.defaultAccount" (updater)="updateValue($event, 'defaultAccount')" [inputType]="'checkbox'" [submitted]="submitted" [inputLabel]="'Default Account'"></acc-inputs>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-md-8 col-sm-12" *ngIf="!add">
+					 <app-bar-view-account accountId="{{parentId}}" accountNumber="{{accountNumber}}" csvType="{{csvType}}" (updater)="loadSum()"></app-bar-view-account>
+				</div> -->
+			<div class="col-md-6 col-sm-12">
+				<div class="card" *ngIf="accountDetails">
+					<div class="card-body">
+						<div class="row text-center">
+							<div class="col-md-4">
+								<div>Credits</div>
+								<div>R {{formatNumbers(accountDetails.totalCredit)}}</div>
+							</div>
+							<div class="col-md-4">
+								<div>Debits</div>
+								<div>R {{formatNumbers(accountDetails.totalDebit)}}</div>
+							</div>
+							<div class="col-md-4">
+								<div>Balance</div>
+								<div>R {{formatNumbers(accountDetails.balance)}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">&nbsp;</div>
+				<div class="card">
+					<div class="card-body">
+						<legend>Account Numbers - <button class="btn btn-sm btn-primary" (click)="breakdownAdd = !breakdownAdd">
+								<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true" *ngIf="!breakdownAdd"></fa-icon>
+								<fa-icon [icon]="['fas', 'minus']" [fixedWidth]="true" *ngIf="breakdownAdd"></fa-icon>
+							</button>
+						</legend>
+						<ng-container *ngIf="breakdownAdd; else viewBreakdown">
+							<form name="recordBreakdownAdd" id="recordBreakdownAdd">
+								<div class="row">
+									<div class="col-md-12">
+										<acc-inputs [inputValue]="recordBreakdown.number" (updater)="updateBreakdownValue($event, 'number')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'Number'"></acc-inputs>
+									</div>
+									<div class="col-md-12">
+										<acc-inputs [inputValue]="recordBreakdown.comment" (updater)="updateBreakdownValue($event, 'comment')" [inputType]="'text'" [submitted]="submitted" [inputLabel]="'comment'"></acc-inputs>
+									</div>
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputLabel]="'Date Created'">
+											<input [(ngModel)]="recordBreakdown.created" name="dateOpened" [disabled]="submitted" bsDatepicker />
+										</acc-inputs>
+									</div>
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputLabel]="'Date Closed'">
+											<input [(ngModel)]="recordBreakdown.closed" name="dateOpened" [disabled]="submitted" bsDatepicker />
+										</acc-inputs>
+									</div>
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputValue]="recordBreakdown.status" (updater)="updateBreakdownValue($event, 'status')" [inputType]="'select'" [submitted]="submitted" [inputLabel]="recordStatuses.label" [selectOptions]="recordStatuses.options"></acc-inputs>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<button type="button" class="btn btn-success" (click)="addBreakdown()" *ngIf="!submitted">
+											<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+										</button>
+									</div>
+								</div>
+							</form>
+						</ng-container>
+						<ng-template #viewBreakdown>
+							<table class="table table-sm">
+								<colgroup>
+									<col>
+									<col style="width: 100px;">
+									<col style="width: 100px;">
+									<col style="width: 60px;">
+									<col style="width: 60px;">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>Account Number</th>
+										<th>Created</th>
+										<th>closed</th>
+										<th>Status</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody *ngIf="resultRecord.accountNumbers">
+									<tr *ngFor="let row of resultRecord.accountNumbers; let i = index;">
+										<td>{{row.number}}</td>
+										<td>{{row.created}}</td>
+										<td>{{row.closed}}</td>
+										<td>{{row.status}}</td>
+										<td>
+											<button class="btn btn-sm btn__color-info" (click)="editBreakdown(i)">
+												<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+											</button>
+											<button class="btn btn-sm btn__color-danger" (click)="removeBreakdown(i)">
+												<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">&nbsp;</div>
+		<div class="bank-accounts-edit__chart-container" style="position: relative; height:40vh; width:100%">
+			<canvas id="account" height="400px" width="100%">{{ chart }}</canvas>
+		</div>
+	</div>
+
+	<div class="footer footer__center page__footer">
+		<span class="footer__action">
+			<a class="btn btn-secondary" [routerLink]="['/bank-accounts','view']">
+				<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
+			</a>
+		</span>
+		<span class="footer__action" *ngIf="!add">
+			<button type="button" class="btn btn-info" (click)="addTransactions()">
+				<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true"></fa-icon> Trans
+			</button>
+		</span>
+		<span class="footer__action">
+			<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+				<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+			</button>
+			<span class="btn btn-info" *ngIf="submitted">
+				<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+			</span>
+		</span>
+		<span class="footer__action">
+			<button type="button" class="btn btn-danger" (click)="loadSum()" *ngIf="!submitted">
+				<fa-icon [icon]="['fas', 'sync']" [fixedWidth]="true"></fa-icon>
+			</button>
+			<span class="btn btn-info" *ngIf="submitted">
+				<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+			</span>
+		</span>
+	</div>
+</acc-page>

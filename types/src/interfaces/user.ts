@@ -1,3 +1,5 @@
+import type { tCommonProperties } from "./common-properties";
+
 export type tUser = {
 	_id?: any;
 	username: string;
@@ -9,7 +11,4 @@ export type tUser = {
 	roles: string;
 	accessList: string;
 	access: string;
-	created: string;
-	canceled: string;
-	canceledDate: string;
-}
+} & tCommonProperties;

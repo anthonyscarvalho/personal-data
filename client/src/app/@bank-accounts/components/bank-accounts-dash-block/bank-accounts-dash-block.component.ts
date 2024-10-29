@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-// common
+import { cBankAccountDashboard } from "@sharedTypes/classes";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-// modules
-import { BankAccountDashboardModel } from '@bankAccounts/interfaces';
 
 @Component({
 	selector: 'acc-bank-accounts-dash-block',
@@ -13,7 +11,7 @@ import { BankAccountDashboardModel } from '@bankAccounts/interfaces';
 export class BankAccountsDashBlockComponent implements OnInit {
 	@Input() account;
 
-	accountDetails: BankAccountDashboardModel;
+	accountDetails: cBankAccountDashboard;
 
 	constructor(
 		private _generalService: GeneralService,
@@ -29,7 +27,7 @@ export class BankAccountsDashBlockComponent implements OnInit {
 	load() {
 		this._httpService.post('bank-account-records/sum/' + this.account._id, {}).then((pRes: any) => {
 			if (pRes.status === '00') {
-				this.accountDetails = new BankAccountDashboardModel(pRes.data);
+				this.accountDetails = new cBankAccountDashboard(pRes.data);
 				this.accountDetails.accountDescription = this.account.accountDescription;
 				this.accountDetails.bank = this.account.bank;
 				this.accountDetails.accountNumber = this.account.accountNumber;

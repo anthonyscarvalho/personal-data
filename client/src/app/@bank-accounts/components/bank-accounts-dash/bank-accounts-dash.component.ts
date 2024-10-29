@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-// common
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-// common
+
+
+import { cBankAccount } from "@sharedTypes/classes";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
-import { BankAccountModel } from '@bankAccounts/interfaces';
 
 @Component({
 	selector: 'acc-filter-box',
@@ -19,7 +19,7 @@ export class FilterBoxComponent implements OnInit {
 
 	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 	submitted = false;
-	bankAccounts: BankAccountModel[];
+	bankAccounts: cBankAccount[];
 
 	constructor(
 		private _generalService: GeneralService,

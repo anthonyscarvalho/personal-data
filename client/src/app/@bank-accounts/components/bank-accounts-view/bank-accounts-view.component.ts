@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cBankAccount, cBankAccountNumber, cBankAccountDashboard } from "@sharedTypes/classes";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
-import { BankAccountModel, BankAccountNumberModel } from '@bankAccounts/interfaces';
 
 @Component({
 	selector: 'acc-bank-accounts-view',

@@ -3,13 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import xml2js from 'xml2js';
 
-import { cAccountRecord } from '@sharedTypes/classes';
+import { cAccountRecord, cBankAccount } from '@sharedTypes/classes';
 import { ACCOUNT_TYPES } from '@sharedTypes/enums';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { DropDownOptionsModel } from '@common/interfaces';
-// modules
-
-import { BankAccountModel } from '@bankAccounts/interfaces';
 
 @Component({
 	selector: `acc-account-records-import`,
@@ -29,9 +26,9 @@ export class AccountRecordsImportComponent implements OnInit {
 	csvType: number;
 	parentId: string;
 	accountRecords = [];
-	bankAccounts: BankAccountModel[];
+	bankAccounts: cBankAccount[];
 	accounts: DropDownOptionsModel;
-	account: BankAccountModel;
+	account: cBankAccount;
 
 	dataRows = 0;
 	totalCount = 0;

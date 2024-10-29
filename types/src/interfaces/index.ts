@@ -7,3 +7,5 @@ export * from "./type.request.api";
 export * from "./type.request.consumer";
 export * from "./user";
 export * from "./product";
+export * from "./bank-account";
+export * from "./common-properties";
