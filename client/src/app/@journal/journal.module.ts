@@ -8,7 +8,7 @@ import { CommonComponentsModule } from '@common/common.module';
 // module
 import {
 	JournalViewComponent,
-} from '@journal/views';
+} from '@journal/components';
 
 const routes: Routes = [
 	{
