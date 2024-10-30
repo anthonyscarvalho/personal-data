@@ -7,6 +7,7 @@ export * from "./type.enums";
 export * from "./type.request.api";
 export * from "./type.request.consumer";
 export * from "./user";
+export * from "./category";
 export * from "./product";
 export * from "./bank-account";
 export * from "./common-properties";

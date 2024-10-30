@@ -4,6 +4,7 @@ export * from "./account-record";
 export * from "./asset";
 export * from "./bank-account";
 export * from "./budget";
+export * from "./category";
 export * from "./common-properties";
 export * from "./dashboard";
 export * from "./enum-type";

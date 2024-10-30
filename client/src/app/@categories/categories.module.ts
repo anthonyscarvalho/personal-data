@@ -9,7 +9,7 @@ import {
 	CategoriesDashboardComponent,
 	CategoriesEditComponent,
 	CategoriesViewComponent,
-} from '@categories/views';
+} from '@categories/components';
 
 const megaMenu = {
 	label: `Management`,

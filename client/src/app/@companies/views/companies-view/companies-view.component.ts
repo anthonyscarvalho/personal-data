@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cCategory } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
+
 import { CategoriesService } from '@categories/services';
-import { CategoryModel } from '@categories/interfaces';
 
 @Component({
 	selector: 'acc-companies-view',
@@ -20,7 +20,7 @@ export class CompaniesViewComponent implements OnInit {
 	bsModalRef: BsModalRef;
 	apiUrl: string;
 	tableHead: any[];
-	tableBody: CategoryModel[];
+	tableBody: cCategory[];
 	public filterBoxOptions: IFilterBoxOptions;
 	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;

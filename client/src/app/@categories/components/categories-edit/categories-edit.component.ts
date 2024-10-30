@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES, RENEWABLE } from '@common/constants';
 import { CompanyInterface } from '@companies/interfaces';
-// modules
+
 import { ClientModel, ClientProductModel } from '@clients/interfaces';
 
 @Component({
