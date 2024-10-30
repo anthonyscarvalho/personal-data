@@ -6,7 +6,7 @@ import xml2js from 'xml2js';
 import { cAccountRecord, cBankAccount } from '@sharedTypes/classes';
 import { ACCOUNT_TYPES } from '@sharedTypes/enums';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { DropDownOptionsModel } from '@common/interfaces';
+import { tDropDownOption } from '@sharedTypes/interfaces';
 
 @Component({
 	selector: `acc-account-records-import`,
@@ -27,7 +27,7 @@ export class AccountRecordsImportComponent implements OnInit {
 	parentId: string;
 	accountRecords = [];
 	bankAccounts: cBankAccount[];
-	accounts: DropDownOptionsModel;
+	accounts: tDropDownOption;
 	account: cBankAccount;
 
 	dataRows = 0;

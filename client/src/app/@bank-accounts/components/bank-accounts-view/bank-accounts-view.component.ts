@@ -3,9 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { cBankAccount, cBankAccountNumber, cBankAccountDashboard } from "@sharedTypes/classes";
+import { cBankAccount, cBankAccountNumber, cBankAccountDashboard, cCategory, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-bank-accounts-view',
@@ -20,7 +19,7 @@ export class BankAccountsViewComponent implements OnInit {
 	tableHead: any[];
 	tableBody: any[];
 	// results: IBankAccount[];
-	public filterBoxOptions: IFilterBoxOptions = new IFilterBoxOptions({
+	public filterBoxOptions: cFilterBoxOption = new cFilterBoxOption({
 		state: this._generalService.getActiveFilter(),
 		searchPhrase: this._generalService.getSearchPhrase(),
 		column: this._generalService.getSortColumn(),
@@ -28,7 +27,7 @@ export class BankAccountsViewComponent implements OnInit {
 		page: this._generalService.getPage(),
 		pagerRecords: this._generalService.getRecords(),
 	});
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig({ showBankAccounts: false });
 
 	constructor(
 		private route: ActivatedRoute,

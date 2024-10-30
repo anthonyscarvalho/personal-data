@@ -3,10 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { cAsset } from "@sharedTypes/classes";
+import { cAsset, cCategory, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { ASSET_TYPE_CONST } from "@sharedTypes/constants";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 import { AssetsService } from '@assets/services';
 
@@ -20,8 +19,8 @@ export class AssetsViewComponent implements OnInit {
 	module: any;
 	tableHead: any[];
 	tableBody: cAsset[];
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;
 	private readonly AssetTypeConst = ASSET_TYPE_CONST;
 
@@ -39,7 +38,7 @@ export class AssetsViewComponent implements OnInit {
 	ngOnInit(): void {
 		this.megaMenu = this.route.snapshot.data.menu;
 
-		this.filterBoxOptions = new IFilterBoxOptions();
+		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

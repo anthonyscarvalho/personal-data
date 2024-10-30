@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
-
-import { cBankAccount } from "@sharedTypes/classes";
+import { cBankAccount, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-filter-box',
@@ -12,8 +10,8 @@ import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 	styleUrls: ['./filter-box.component.scss']
 })
 export class FilterBoxComponent implements OnInit {
-	@Input() filterBoxConfig: IFilterBoxConfig;
-	@Input() filterBoxOptions: IFilterBoxOptions;
+	@Input() filterBoxConfig: cFilterBoxConfig;
+	@Input() filterBoxOptions: cFilterBoxOption;
 
 	@Output() updater = new EventEmitter<any>();
 

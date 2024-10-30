@@ -7,7 +7,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FileUploader } from 'ng2-file-upload'
 // import * as PDFJS from 'pdfjs-dist';
 
-import { eDocumentType } from '@common/enums';
+import { DOCUMENT_TYPE } from '@sharedTypes/enums';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
@@ -23,7 +23,7 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 
 	@ViewChild(`filePicker`) _file: ElementRef;
 
-	documentTypes = eDocumentType;
+	documentTypes = DOCUMENT_TYPE;
 
 	imageExtensions: string[] = [`jpg`, `jpeg`, `png`, `gif`, `svg`, `webp`];
 	documentExtensions: string[] = [`doc`, `docx`];
@@ -112,18 +112,18 @@ export class UploaderComponent implements OnInit, AfterViewInit {
 
 			let fileExt = pFileItem._file.name.split(`.`).pop();
 			fileExt = fileExt.toLowerCase();
-			let _documentType = this.documentTypes[this.documentTypes.none];
+			let _documentType = this.documentTypes[this.documentTypes.NONE];
 
 			if (this.imageExtensions.includes(fileExt)) {
-				_documentType = this.documentTypes[this.documentTypes.image];
+				_documentType = this.documentTypes[this.documentTypes.IMAGE];
 			} else if (this.documentExtensions.includes(fileExt)) {
-				_documentType = this.documentTypes[this.documentTypes.doc];
+				_documentType = this.documentTypes[this.documentTypes.DOC];
 			} else if (this.movieExtensions.includes(fileExt)) {
-				_documentType = this.documentTypes[this.documentTypes.video];
+				_documentType = this.documentTypes[this.documentTypes.VIDEO];
 			} else if (fileExt === 'pdf') {
-				_documentType = this.documentTypes[this.documentTypes.pdf];
+				_documentType = this.documentTypes[this.documentTypes.PDF];
 			} else if (fileExt === 'webm') {
-				_documentType = this.documentTypes[this.documentTypes.webm];
+				_documentType = this.documentTypes[this.documentTypes.WEBM];
 			}
 
 			let _date: any;

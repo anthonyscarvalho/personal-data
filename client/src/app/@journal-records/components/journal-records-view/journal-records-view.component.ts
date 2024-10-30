@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { cJournalRecord } from '@sharedTypes/classes';
+import { cJournalRecord, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-journal-records-view',
@@ -33,8 +32,8 @@ export class JournalRecordsViewComponent implements OnInit {
 	];
 	tableBody: cJournalRecord[];
 	results: cJournalRecord[];
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig;
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig;
 	totalRecords: string;
 
 	constructor(
@@ -44,12 +43,12 @@ export class JournalRecordsViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle('Journal Records: View All');
-		this.filterBoxConfig = new IFilterBoxConfig();
+		this.filterBoxConfig = new cFilterBoxConfig();
 	}
 
 	ngOnInit() {
 		localStorage.setItem('activeMenu', 'journal-records');
-		this.filterBoxOptions = new IFilterBoxOptions();
+		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

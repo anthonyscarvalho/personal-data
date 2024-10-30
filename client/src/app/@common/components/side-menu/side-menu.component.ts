@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 // common
-import { MegaMenuModel } from '@common/interfaces';
+import type { tMegaMenu } from '@sharedTypes/interfaces';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
@@ -12,7 +12,7 @@ import { GeneralService, HttpService, NotificationsService } from '@common/servi
 export class SideMenuComponent implements OnInit {
 	@Input() menuItems: any;
 	parentId: string;
-	megaMenu: MegaMenuModel[];
+	megaMenu: tMegaMenu[];
 	adminMenu = {
 		label: `Admin`,
 		options: [

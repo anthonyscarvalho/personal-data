@@ -3,25 +3,27 @@ export class cFilterBoxOption {
 	date: Date;
 	invoiceFilter: string;
 	displayType: string;
-	user: number;
 	searchPhrase: string;
 	column: string;
+	bankAccount: string;
 	dir: string;
+	user: string;
 	page: number;
 	pagerRecords: string;
 	totalRecords: number;
 
 	constructor(pModel = null) {
-		this.state = pModel ? pModel.state : 'false';
-		this.date = pModel ? pModel.date : new Date();
-		this.invoiceFilter = pModel ? pModel.invoiceFilter : '';
-		this.displayType = pModel ? pModel.displayType : 'grid';
-		this.user = pModel ? pModel.user : 0;
-		this.searchPhrase = pModel ? pModel.searchPhrase : '';
-		this.column = pModel ? pModel.column : '';
-		this.dir = pModel ? pModel.dir : '';
-		this.page = pModel ? pModel.page : 1;
-		this.pagerRecords = pModel ? pModel.pagerRecords : '24';
-		this.totalRecords = pModel ? pModel.totalRecords : 0;
+		this.state = pModel?.state || 'false';
+		this.date = pModel?.date || new Date();
+		this.invoiceFilter = pModel?.invoiceFilter || '';
+		this.displayType = pModel?.displayType || 'grid';
+		this.searchPhrase = pModel?.searchPhrase || '';
+		this.column = pModel?.column || '';
+		this.bankAccount = pModel?.bankAccount || '';
+		this.user = pModel?.user || '';
+		this.dir = pModel?.dir || '';
+		this.page = pModel?.page || 1;
+		this.pagerRecords = pModel?.pagerRecords || '24';
+		this.totalRecords = pModel?.totalRecords || 0;
 	}
 }

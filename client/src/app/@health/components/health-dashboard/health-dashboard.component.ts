@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
 
 @Component({
 	selector: 'acc-health-dashboard',
@@ -16,8 +15,8 @@ export class HealthDashboardComponent implements OnInit {
 	megaMenu: any;
 	module: any;
 
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig({ showBankAccounts: false });
 
 	constructor(
 		private route: ActivatedRoute,
@@ -33,7 +32,7 @@ export class HealthDashboardComponent implements OnInit {
 	ngOnInit(): void {
 		this.megaMenu = this.route.snapshot.data.menu;
 
-		this.filterBoxOptions = new IFilterBoxOptions();
+		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

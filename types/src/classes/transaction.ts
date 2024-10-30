@@ -1,4 +1,4 @@
-export class ITransactions {
+export class cTransaction {
 	statementId: string;
 	accountDescription: string;
 	account: string;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-products-view',
@@ -15,8 +15,8 @@ export class ProductsViewComponent implements OnInit {
 	megaMenu: any;
 	bsModalRef: BsModalRef;
 	tableBody: any[];
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig;
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -26,13 +26,13 @@ export class ProductsViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle(`Products: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
+		this.filterBoxConfig = new cFilterBoxConfig({ showBankAccounts: false });
 	}
 
 	ngOnInit() {
 		this.megaMenu = this.route.snapshot.data.menu;
 
-		this.filterBoxOptions = new IFilterBoxOptions();
+		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

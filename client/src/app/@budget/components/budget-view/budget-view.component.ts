@@ -3,9 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { cBudget } from "@sharedTypes/classes";
+import { cBudget, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-budget-view',
@@ -19,8 +18,8 @@ export class BudgetViewComponent implements OnInit {
 	apiUrl: string;
 	tableHead: any[];
 	tableBody: cBudget[];
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;
 
 	constructor(
@@ -36,7 +35,7 @@ export class BudgetViewComponent implements OnInit {
 	ngOnInit() {
 		this.megaMenu = this.route.snapshot.data.menu;
 
-		this.filterBoxOptions = new IFilterBoxOptions();
+		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

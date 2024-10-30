@@ -5,10 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Chart } from 'chart.js/auto';
 
-import { cBankAccount, cBankAccountNumber, cBankAccountDashboard } from "@sharedTypes/classes";
+import { cBankAccount, cBankAccountNumber, cBankAccountDashboard, cCategory, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { CSV_TYPE_CONST, RECORD_STATUSES_CONST } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: `acc-bank-accounts-edit`,
@@ -42,8 +41,8 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 	private chartCredit = [];
 	private chartBalance = [];
 
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig();
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig();
 	public chart: any;
 
 	// select values

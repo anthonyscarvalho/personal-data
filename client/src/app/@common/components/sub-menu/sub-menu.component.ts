@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 // Interfaces
-import { ISubMenu, MegaMenuModel } from '@common/interfaces';
+import { cSubMenu } from '@sharedTypes/classes';
 
 @Component({
 	selector: 'acc-sub-menu',
@@ -10,7 +10,7 @@ import { ISubMenu, MegaMenuModel } from '@common/interfaces';
 export class SubMenuComponent implements OnInit {
 	@Input() menuItems: any;
 
-	megaMenu: ISubMenu[];
+	megaMenu: cSubMenu[];
 
 	constructor() { }
 

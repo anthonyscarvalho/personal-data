@@ -3,9 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { cAccountRecord, cBudget } from '@sharedTypes/classes';
+import { cAccountRecord, cBudget, cCategory, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-account-records-view',
@@ -22,7 +21,7 @@ export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 	budgetItems: cBudget[];
 	submitted: boolean = false;
 
-	public filterBoxOptions: IFilterBoxOptions = new IFilterBoxOptions({
+	public filterBoxOptions: cFilterBoxOption = new cFilterBoxOption({
 		bankAccount: this._generalService.getBankAccount(),
 		searchPhrase: this._generalService.getSearchPhrase(),
 		column: this._generalService.getSortColumn(),
@@ -30,7 +29,7 @@ export class AccountRecordsViewComponent implements AfterViewInit, OnInit {
 		page: this._generalService.getPage(),
 		pagerRecords: this._generalService.getRecords(),
 	});
-	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig({
 		showStatusFilter: false
 	});
 

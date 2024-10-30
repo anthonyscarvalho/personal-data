@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-users-view',
@@ -18,8 +18,8 @@ export class UsersViewComponent implements OnInit {
 	apiUrl: string;
 	tableHead: any[];
 	tableBody: any[];
-	public filterBoxOptions: IFilterBoxOptions;
-	public filterBoxConfig: IFilterBoxConfig;
+	public filterBoxOptions: cFilterBoxOption;
+	public filterBoxConfig: cFilterBoxConfig;
 	totalRecords: string;
 
 	constructor(
@@ -30,13 +30,13 @@ export class UsersViewComponent implements OnInit {
 		private _notificationService: NotificationsService
 	) {
 		this._generalService.setTitle(`Users: View All`);
-		this.filterBoxConfig = new IFilterBoxConfig();
+		this.filterBoxConfig = new cFilterBoxConfig();
 	}
 
 	ngOnInit() {
 		this.megaMenu = this.route.snapshot.data.menu;
 
-		this.filterBoxOptions = new IFilterBoxOptions();
+		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
 		this.filterBoxOptions.column = this._generalService.getSortColumn();

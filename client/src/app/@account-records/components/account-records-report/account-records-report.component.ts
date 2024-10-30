@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { tDropDownOption } from '@sharedTypes/interfaces';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { DropDownOptionsModel } from '@common/interfaces';
 
 @Component({
 	selector: 'acc-account-records-report',
@@ -12,7 +12,7 @@ import { DropDownOptionsModel } from '@common/interfaces';
 export class AccountRecordsReportComponent implements OnInit {
 	megaMenu: any;
 	account = '';
-	accounts: DropDownOptionsModel;
+	accounts: tDropDownOption;
 	submitted = false;
 	dateToday = new Date();
 	dateStart: string;

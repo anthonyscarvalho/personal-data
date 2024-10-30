@@ -1,6 +1,6 @@
-import { IGeneric } from './generic.interface';
+import { cCommonProperties } from './common-properties';
 
-export class IMedia extends IGeneric {
+export class cMedia extends cCommonProperties {
 	contentType: string;
 	date: string;
 	description: string;
@@ -15,7 +15,7 @@ export class IMedia extends IGeneric {
 	name: string;
 	year: number | null;
 
-	constructor(pModel: IMedia | null = null) {
+	constructor(pModel = null) {
 		super(pModel);
 
 		this.contentType = pModel?.hasOwnProperty('contentType') ? pModel.contentType : '';
