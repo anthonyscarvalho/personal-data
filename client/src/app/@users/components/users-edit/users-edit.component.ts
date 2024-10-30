@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+
 import { cUser } from '@sharedTypes/classes';
+import { RECORD_STATUSES_CONST } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { RECORD_STATUSES } from '@common/constants';
-// modules
 
 @Component({
 	selector: 'acc-users-edit',

@@ -3,9 +3,9 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { cBudget, cBreakDown, cBudgetHistory } from "@sharedTypes/classes";
+import { RECORD_STATUSES_CONST } from '@sharedTypes/constants';
 import { CATEGORY_CONST } from "@sharedTypes/constants";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { RECORD_STATUSES } from '@common/constants';
 
 @Component({
 	selector: 'acc-budget-edit',
@@ -46,7 +46,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 			this.resultRecord = new cBudget();
 		}
 		this.categories = CATEGORY_CONST;
-		this.recordStatuses = RECORD_STATUSES;
+		this.recordStatuses = RECORD_STATUSES_CONST;
 	}
 
 	ngOnInit(): void {

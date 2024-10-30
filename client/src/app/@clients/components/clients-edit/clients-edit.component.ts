@@ -3,9 +3,9 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { cProduct, cClient, cClientProduct, cCompany } from '@sharedTypes/classes';
+import { RECORD_STATUSES_CONST, RENEWABLE_CONST } from '@sharedTypes/constants';
 
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { RECORD_STATUSES, RENEWABLE } from '@common/constants';
 
 @Component({
 	selector: 'acc-clients-edit',
@@ -28,8 +28,8 @@ export class ClientsEditComponent implements OnInit {
 	// select values
 	categories: any[];
 	companies: cCompany[];
-	recordStatuses = RECORD_STATUSES;
-	renewableTypes = RENEWABLE;
+	recordStatuses = RECORD_STATUSES_CONST;
+	renewableTypes = RENEWABLE_CONST;
 
 	constructor(
 		private route: ActivatedRoute,

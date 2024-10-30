@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { cCompany } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { RECORD_STATUSES } from '@common/constants';
+import { RECORD_STATUSES_CONST } from '@sharedTypes/constants';
 
 @Component({
 	selector: 'acc-companies-edit',

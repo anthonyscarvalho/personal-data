@@ -6,9 +6,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Chart } from 'chart.js/auto';
 
 import { cBankAccount, cBankAccountNumber, cBankAccountDashboard } from "@sharedTypes/classes";
+import { CSV_TYPE_CONST, RECORD_STATUSES_CONST } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-import { CSV_TYPE, RECORD_STATUSES } from '@common/constants';
 
 @Component({
 	selector: `acc-bank-accounts-edit`,
@@ -67,8 +67,8 @@ export class BankAccountsEditComponent implements OnInit, AfterViewInit, OnDestr
 		this.route.data.subscribe(data => {
 			this.add = data.add;
 		});
-		this.csvTypes = CSV_TYPE;
-		this.recordStatuses = RECORD_STATUSES;
+		this.csvTypes = CSV_TYPE_CONST;
+		this.recordStatuses = RECORD_STATUSES_CONST;
 		this.resultRecord = new cBankAccount(null);
 		this.recordBreakdown = new cBankAccountNumber();
 	}
