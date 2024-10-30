@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { cProduct, cClient, cClientProduct } from '@sharedTypes/classes';
+import { cProduct, cClient, cClientProduct, cCompany } from '@sharedTypes/classes';
 
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES, RENEWABLE } from '@common/constants';
-import { CompanyInterface } from '@companies/interfaces';
 
 @Component({
 	selector: 'acc-clients-edit',
@@ -28,7 +27,7 @@ export class ClientsEditComponent implements OnInit {
 
 	// select values
 	categories: any[];
-	companies: CompanyInterface[];
+	companies: cCompany[];
 	recordStatuses = RECORD_STATUSES;
 	renewableTypes = RENEWABLE;
 

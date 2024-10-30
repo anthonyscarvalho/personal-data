@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+import { cCompany } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES } from '@common/constants';
-// modules
-import { CompanyInterface } from '@companies/interfaces';
 
 @Component({
 	selector: 'acc-companies-edit',
@@ -20,7 +18,7 @@ export class CompaniesEditComponent implements OnInit {
 	parentId: string;
 	breakdownIndex: number;
 
-	resultRecord: CompanyInterface;
+	resultRecord: cCompany;
 	breakdownAdd = false;
 
 	// select values
@@ -47,7 +45,7 @@ export class CompaniesEditComponent implements OnInit {
 		if (this.parentId) {
 			this.load();
 		} else {
-			this.resultRecord = new CompanyInterface();
+			this.resultRecord = new cCompany();
 			this._generalService.setTitle(`Product: Add`);
 		}
 	}
@@ -56,7 +54,7 @@ export class CompaniesEditComponent implements OnInit {
 		this._httpService.post(`companies/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
-				this.resultRecord = new CompanyInterface(pResults.data);
+				this.resultRecord = new cCompany(pResults.data);
 				this._generalService.setTitle(`Budget: Edit - ` + this.resultRecord.company);
 			}
 		});
@@ -84,7 +82,7 @@ export class CompaniesEditComponent implements OnInit {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
-					this.resultRecord = new CompanyInterface();
+					this.resultRecord = new cCompany();
 				} else {
 					this._notificationsService.warn(pResult.message);
 				}
