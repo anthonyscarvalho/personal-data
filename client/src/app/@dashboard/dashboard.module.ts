@@ -7,7 +7,7 @@ import { CommonComponentsModule } from '@common/common.module';
 // module
 import {
 	DashboardComponent,
-} from '@dashboard/views';
+} from '@dashboard/components';
 
 const routes: Routes = [
 	{

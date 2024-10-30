@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+
+import { cFile } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-// modules
-import { FileModel } from '@files/interfaces';
 
 @Component({
 	selector: 'acc-files-edit',
@@ -19,7 +18,7 @@ export class FilesEditComponent implements OnInit {
 	parentId: string;
 	breakdownIndex: number;
 
-	resultRecord: FileModel;
+	resultRecord: cFile;
 	breakdownAdd = false;
 
 	constructor(
@@ -42,7 +41,7 @@ export class FilesEditComponent implements OnInit {
 		if (this.parentId) {
 			this.load();
 		} else {
-			this.resultRecord = new FileModel();
+			this.resultRecord = new cFile();
 			this._generalService.setTitle(`Files: Add`);
 		}
 	}
@@ -55,7 +54,7 @@ export class FilesEditComponent implements OnInit {
 		this._httpService.post(`assets/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
-				this.resultRecord = new FileModel(pResults.data);
+				this.resultRecord = new cFile(pResults.data);
 				this._generalService.setTitle(`Asset: Edit - ` + this.resultRecord.name);
 			}
 		});
@@ -83,7 +82,7 @@ export class FilesEditComponent implements OnInit {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
-					this.resultRecord = new FileModel();
+					this.resultRecord = new cFile();
 				} else {
 					this._notificationsService.warn(pResult.message);
 				}

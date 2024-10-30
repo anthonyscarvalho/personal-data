@@ -3,14 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
-// module
 import { CommonComponentsModule } from '@common/common.module';
-import {
-	FilesDashComponent,
-	FilesEditComponent,
-	FilesViewComponent,
-} from '@files/views';
-import { FileBlockComponent } from './components/file-block/file-block.component';
+
+import { FileBlockComponent, FilesDashComponent, FilesEditComponent, FilesViewComponent } from './components';
 
 const megaMenu = {
 	label: `Management`,
@@ -56,7 +51,7 @@ const routes: Routes = [
 		FilesDashComponent,
 		FilesEditComponent,
 		FilesViewComponent,
-  FileBlockComponent,
+		FileBlockComponent,
 	],
 	imports: [
 		CommonModule,
