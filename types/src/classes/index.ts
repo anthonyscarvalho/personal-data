@@ -17,3 +17,4 @@ export * from "./company";
 export * from "./file";
 export * from "./journal";
 export * from "./journal-record";
+export * from "./menu";

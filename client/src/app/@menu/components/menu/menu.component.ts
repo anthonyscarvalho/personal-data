@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// common
+
+import { cMenu } from "@sharedTypes/classes";
 import { GeneralService } from '@common/services';
-// modules
-import { MenuModel } from '@menu/interfaces';
 
 @Component({
 	selector: 'acc-menu',
@@ -11,7 +10,7 @@ import { MenuModel } from '@menu/interfaces';
 })
 export class MenuComponent implements OnInit {
 
-	menuItems: MenuModel[] = [
+	menuItems: cMenu[] = [
 		{ name: `Bank Accounts`, url: `/bank-accounts`, order: 1, icon: `piggy-bank` },
 		{ name: `Account Records`, url: `/account-records`, order: 2, icon: `dollar-sign` },
 		{ name: `Budget`, url: `/budget`, order: 3, icon: `chart-area` },
@@ -31,7 +30,7 @@ export class MenuComponent implements OnInit {
 		{ name: `Assets`, url: `/assets`, order: 12, icon: `folder` },
 		{ name: `Files`, url: `/files`, order: 13, icon: `folder` },
 	];
-	adminMenu: MenuModel[] = [
+	adminMenu: cMenu[] = [
 		// import from legacy
 		{ name: `Categories`, url: `/categories`, order: 1, icon: `check-square` },
 		{ name: `Companies`, url: `/companies`, order: 2, icon: `building` },
@@ -45,7 +44,7 @@ export class MenuComponent implements OnInit {
 		// { name: `Bank Accounts`, url: `/bank-accounts/accounts`, order: 3, icon: `building` },
 	];
 
-	reportMenuItems: MenuModel[] = [
+	reportMenuItems: cMenu[] = [
 		{ name: `Income`, url: `/reports/income`, order: 1, icon: `dollar-sign` },
 		{ name: `Expenses`, url: `/reports/expenses`, order: 2, icon: `list` },
 	];

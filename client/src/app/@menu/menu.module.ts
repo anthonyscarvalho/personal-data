@@ -2,12 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-// common
 import { CommonComponentsModule } from '@common/common.module';
-// module
-import {
-	MenuComponent,
-} from '@menu/views';
+
+import { MenuComponent } from '@menu/components';
 
 const routes: Routes = [
 	{

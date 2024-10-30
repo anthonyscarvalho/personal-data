@@ -1,6 +1,6 @@
-import { MenuModel } from '@menu/interfaces';
+import { cMenu } from '@sharedTypes/classes';
 
 export interface MegaMenuModel {
 	label: string;
-	options: MenuModel[];
+	options: cMenu[];
 }
