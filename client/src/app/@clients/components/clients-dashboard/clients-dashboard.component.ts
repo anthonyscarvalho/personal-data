@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// common
+
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({

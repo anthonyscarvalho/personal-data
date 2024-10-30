@@ -2,14 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-// common
+
 import { CommonComponentsModule } from '@common/common.module';
-// module
-import {
-	ClientsDashboardComponent,
-	ClientsEditComponent,
-	ClientsViewComponent,
-} from '@clients/views';
+
+import { ClientsDashboardComponent, ClientsEditComponent, ClientsViewComponent } from '@clients/components';
 
 const megaMenu = {
 	label: `Management`,

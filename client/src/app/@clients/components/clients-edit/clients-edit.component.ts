@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { cProduct } from '@sharedTypes/classes';
+import { cProduct, cClient, cClientProduct } from '@sharedTypes/classes';
 
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES, RENEWABLE } from '@common/constants';
 import { CompanyInterface } from '@companies/interfaces';
-
-import { ClientModel, ClientProductModel } from '@clients/interfaces';
 
 @Component({
 	selector: 'acc-clients-edit',
@@ -23,8 +21,8 @@ export class ClientsEditComponent implements OnInit {
 	parentId: string;
 	selectedIndex: number;
 
-	resultRecord: ClientModel;
-	recordProduct: ClientProductModel;
+	resultRecord: cClient;
+	recordProduct: cClientProduct;
 	productAdd = true;
 	products: cProduct[] = [];
 
@@ -43,12 +41,12 @@ export class ClientsEditComponent implements OnInit {
 	) {
 		this.megaMenu = this.route.snapshot.data.menu;
 		this.add = this.route.snapshot.data.add;
-		this.recordProduct = new ClientProductModel();
+		this.recordProduct = new cClientProduct();
 		if (this.route.snapshot.paramMap.get(`id`)) {
 			this.parentId = this.route.snapshot.paramMap.get(`id`);
 		} else {
 			this.parentId = null;
-			this.resultRecord = new ClientModel();
+			this.resultRecord = new cClient();
 		}
 	}
 
@@ -65,7 +63,7 @@ export class ClientsEditComponent implements OnInit {
 		this._httpService.post(`clients/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
-				this.resultRecord = new ClientModel(pResults.data);
+				this.resultRecord = new cClient(pResults.data);
 				this._generalService.setTitle(`Budget: Edit - ` + pResults.data.business);
 			}
 		});
@@ -104,7 +102,7 @@ export class ClientsEditComponent implements OnInit {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
-					this.resultRecord = new ClientModel();
+					this.resultRecord = new cClient();
 				} else {
 					this._notificationsService.warn(pResult.message);
 				}
@@ -122,7 +120,7 @@ export class ClientsEditComponent implements OnInit {
 
 		if (product) {
 			const date = new Date();
-			const option = new ClientProductModel();
+			const option = new cClientProduct();
 			option.price = product.price;
 			option.description = product.description;
 			option.created = this._generalService.formatDate(date);
@@ -149,19 +147,19 @@ export class ClientsEditComponent implements OnInit {
 			}
 			if (this.recordProduct.description !== ``) {
 				this.resultRecord.products.push(this.recordProduct);
-				this.recordProduct = new ClientProductModel();
+				this.recordProduct = new cClientProduct();
 				this.productAdd = false;
 			}
 		} else {
 			this.resultRecord.products[this.selectedIndex] = this.recordProduct;
-			this.recordProduct = new ClientProductModel();
+			this.recordProduct = new cClientProduct();
 			this.selectedIndex = undefined;
 			this.productAdd = false;
 		}
 	}
 
 	editBreakdown(pIndex) {
-		this.recordProduct = new ClientProductModel(this.resultRecord.products[pIndex]);
+		this.recordProduct = new cClientProduct(this.resultRecord.products[pIndex]);
 		this.productAdd = true;
 		this.selectedIndex = pIndex;
 	}

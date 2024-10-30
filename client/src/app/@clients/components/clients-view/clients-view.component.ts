@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cClient } from '@sharedTypes/classes';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
-import { ClientModel } from '@clients/interfaces';
+
 import { ClientsService } from '@clients/services';
 
 @Component({
@@ -20,7 +20,7 @@ export class ClientsViewComponent implements OnInit {
 	bsModalRef: BsModalRef;
 	apiUrl: string;
 	tableHead: any[];
-	tableBody: ClientModel[];
+	tableBody: cClient[];
 	public filterBoxOptions: IFilterBoxOptions;
 	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;

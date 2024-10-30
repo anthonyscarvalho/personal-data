@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// common
+
 import { HttpService } from '@common/services';
 
 @Injectable({
