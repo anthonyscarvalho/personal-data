@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 // common
 import { CommonComponentsModule } from '@common/common.module';
 // module
-import { AssetsDashComponent, AssetsEditComponent, AssetsViewComponent } from '@assets/views';
+import { AssetsDashComponent, AssetsEditComponent, AssetsViewComponent } from '@assets/components';
 
 const megaMenu = {
 	label: `Management`,

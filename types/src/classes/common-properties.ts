@@ -5,7 +5,7 @@ export class cCommonProperties {
 	user?: string;
 
 	constructor(pModel: any = null) {
-		this.created = pModel?.created || '';
+		this.created = pModel?.created || new Date().toISOString();
 		this.canceled = pModel?.canceled || 'false';
 		this.canceledDate = pModel?.canceledDate || null;
 		if (pModel?.user) {

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-// common
+
+import { cAsset } from "@sharedTypes/classes";
+import { ASSET_TYPE_CONST, ASSET_STATUS_CONST } from "@sharedTypes/constants";
+import { ASSET_TYPE } from "@sharedTypes/enums";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
-import { RECORD_STATUSES } from '@common/constants';
-// modules
-import { AssetStatusConst, AssetTypeConst } from '@assets/constants';
-import { AssetsEnum } from '@assets/enums';
-import { AssetsModel } from '@assets/interfaces';
+
 
 @Component({
 	selector: 'acc-assets-edit',
@@ -22,12 +21,12 @@ export class AssetsEditComponent implements OnInit {
 	parentId: string;
 	breakdownIndex: number;
 
-	resultRecord: AssetsModel;
+	resultRecord: cAsset;
 	breakdownAdd = false;
 
-	public readonly AssetsEnum = AssetsEnum;
-	public readonly AssetStatusConst = AssetStatusConst;
-	public readonly AssetTypeConst = AssetTypeConst;
+	public readonly AssetsEnum = ASSET_TYPE;
+	public readonly AssetStatusConst = ASSET_STATUS_CONST;
+	public readonly AssetTypeConst = ASSET_TYPE_CONST;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -49,7 +48,7 @@ export class AssetsEditComponent implements OnInit {
 		if (this.parentId) {
 			this.load();
 		} else {
-			this.resultRecord = new AssetsModel();
+			this.resultRecord = new cAsset();
 			this._generalService.setTitle(`Asset: Add`);
 		}
 	}
@@ -58,7 +57,7 @@ export class AssetsEditComponent implements OnInit {
 		this._httpService.post(`assets/edit/` + this.parentId, {}).then((pResults: any) => {
 			const _valid = this._generalService.validateResponse(pResults);
 			if (_valid === `valid`) {
-				this.resultRecord = new AssetsModel(pResults.data);
+				this.resultRecord = new cAsset(pResults.data);
 				this._generalService.setTitle(`Asset: Edit - ` + this.resultRecord.name);
 			}
 		});
@@ -86,7 +85,7 @@ export class AssetsEditComponent implements OnInit {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
 					this._notificationsService.success(pResult.message);
-					this.resultRecord = new AssetsModel();
+					this.resultRecord = new cAsset();
 				} else {
 					this._notificationsService.warn(pResult.message);
 				}

@@ -1,4 +1,4 @@
-export const CATEGORIES = {
+export const CATEGORY_CONST = {
 	label: `Categories`,
 	options: [
 		{

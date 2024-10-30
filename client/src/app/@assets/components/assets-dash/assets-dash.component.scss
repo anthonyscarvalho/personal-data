@@ -1,0 +1,46 @@
+.assets-dash {
+	&__summary {
+		&--item {
+			width: 200px;
+			display: inline-block;
+			margin-right: 20px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		&--year {
+			width: 200px;
+			top: -12px;
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
+	}
+
+	&__year {
+		display: flex;
+
+		&--control {}
+
+		&--input {
+			& input {
+				width: 70px;
+				font-size: 14px;
+				text-align: center;
+			}
+		}
+	}
+
+	&__row {
+		display: flex;
+		flex-wrap: wrap;
+
+		&--column {
+			max-width: 405px;
+			margin: 5px;
+			display: block;
+			width: 100%;
+		}
+	}
+}

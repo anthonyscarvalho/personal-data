@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { cBudget, cBreakDown, cBudgetHistory } from "@sharedTypes/classes";
-import { CATEGORIES } from "@sharedTypes/constants";
+import { CATEGORY_CONST } from "@sharedTypes/constants";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { RECORD_STATUSES } from '@common/constants';
 
@@ -45,7 +45,7 @@ export class BudgetEditComponent implements OnInit, AfterContentChecked {
 			this.parentId = null;
 			this.resultRecord = new cBudget();
 		}
-		this.categories = CATEGORIES;
+		this.categories = CATEGORY_CONST;
 		this.recordStatuses = RECORD_STATUSES;
 	}
 

@@ -1,4 +1,5 @@
 // export * from "";
+export * from "./asset";
 export * from "./account-record";
 export * from "./type.any-object";
 export * from "./type.consumer";

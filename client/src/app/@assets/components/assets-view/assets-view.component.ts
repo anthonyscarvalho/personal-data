@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// external
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-// common
+
+import { cAsset } from "@sharedTypes/classes";
+import { ASSET_TYPE_CONST } from "@sharedTypes/constants";
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 import { IFilterBoxConfig, IFilterBoxOptions } from '@common/interfaces';
-// modules
-import { AssetTypeConst } from '@assets/constants';
-import { AssetsModel } from '@assets/interfaces';
+
 import { AssetsService } from '@assets/services';
 
 @Component({
@@ -19,11 +19,11 @@ export class AssetsViewComponent implements OnInit {
 	megaMenu: any;
 	module: any;
 	tableHead: any[];
-	tableBody: AssetsModel[];
+	tableBody: cAsset[];
 	public filterBoxOptions: IFilterBoxOptions;
 	public filterBoxConfig: IFilterBoxConfig = new IFilterBoxConfig({ showBankAccounts: false });
 	totalRecords: string;
-	private readonly AssetTypeConst = AssetTypeConst;
+	private readonly AssetTypeConst = ASSET_TYPE_CONST;
 
 	constructor(
 		private route: ActivatedRoute,
