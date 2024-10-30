@@ -2,15 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-// common
+
 import { CommonComponentsModule } from '@common/common.module';
-// module
-import {
-	HealthDashboardComponent,
-	HealthEditComponent,
-	HealthImportComponent,
-	HealthViewComponent,
-} from '@health/views';
+
+import { HealthDashboardComponent, HealthEditComponent, HealthImportComponent, HealthViewComponent } from '@health/components';
 
 const megaMenu = {
 	label: `Management`,
