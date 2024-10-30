@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // modules
 import { CommonComponentsModule } from '@common/common.module';
 // components
-import { JournalRecordsViewComponent } from './views/journal-records-view/journal-records-view.component';
+import { JournalRecordsViewComponent } from './components/journal-records-view/journal-records-view.component';
 
 const routes: Routes = [
 	{
