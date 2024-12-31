@@ -33,6 +33,7 @@
             "@health/*": ["src/app/@health/*"],
             "@journal/*": ["src/app/@journal/*"],
             "@journalRecords/*": ["src/app/@journal-records/*"],
+            "@lotto/*": ["src/app/@lotto/*"],
             "@menu/*": ["src/app/@menu/*"],
             "@products/*": ["src/app/@products/*"],
             "@users/*": ["src/app/@users/*"],

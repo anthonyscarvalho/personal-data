@@ -10,17 +10,15 @@ import { MongodbConfigService } from '@common';
 import { ConsumerModule } from '@consumer';
 import { DashboardModule } from '@dashboard';
 import { EnumsModule } from '@enums';
-import { GalleryModule } from '@galleries';
+import { GalleryModule } from '@budget';
+
+import * as config from './config/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `.env`,
-      isGlobal: true,
-    }),
     ServeStaticModule.forRoot({
       rootPath: pathJoin(__dirname, '..'),
-      renderPath: process.env.FILE_ROOT,
+      renderPath: config.config.global.FILE_ROOT,
     }),
     // JwtModule.register({ secret: process.env.JWT_SECRET }),
     MongooseModule.forRootAsync({

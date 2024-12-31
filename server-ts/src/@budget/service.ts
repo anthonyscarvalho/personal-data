@@ -3,13 +3,14 @@ import { InjectModel } from "@nestjs/mongoose";
 import mongoose, { Model } from "mongoose";
 
 import { RESPONSE_MESSAGES } from "@sharedTypes/enums";
-import { Gallery } from "@sharedTypes/interfaces";
+import { BudgetSchema } from "@sharedTypes/dto";
+import { cBudget } from "@sharedTypes/classes";
 import { CommonService } from "@common";
 
 @Injectable()
-export class GalleryService extends CommonService {
+export class BudgetService extends CommonService {
   constructor(
-    @InjectModel(Gallery.name) private databaseModel: Model<Gallery>
+    @InjectModel(cBudget.name) private databaseModel: Model<cBudget>
   ) {
     super();
   }
@@ -31,7 +32,7 @@ export class GalleryService extends CommonService {
     return this.returnSuccess(modelResponse, totalDocs);
   }
 
-  async getGalleryCount(type, id) {
+  async getBudgetCount(type, id) {
     if (!type || !id) {
       return null;
     }
@@ -102,12 +103,12 @@ export class GalleryService extends CommonService {
     let query = {
       $and: [
         {
-          itemSlug: newRecord.itemSlug,
+          itemSlug: newRecord.description,
         },
       ],
     };
 
-    if (!newRecord.name) {
+    if (!newRecord.description) {
       return this.returnError(RESPONSE_MESSAGES.badData);
     } else {
       const modelResponse = await this.databaseModel
@@ -119,7 +120,7 @@ export class GalleryService extends CommonService {
         });
 
       if (modelResponse.length) {
-        newRecord.itemSlug = this.replaceText(newRecord.itemSlug + ' ' + new Date());
+        newRecord.description = this.replaceText(newRecord.description + ' ' + new Date());
       };
 
       return this.createRecord(newRecord, this.databaseModel);

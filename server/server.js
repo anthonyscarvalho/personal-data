@@ -83,6 +83,7 @@ require('./api/routes/companies')(app, require('./api/controllers/companies'));
 require('./api/routes/contacts')(app, require('./api/controllers/contacts'));
 require('./api/routes/journal-records')(app, require('./api/controllers/journal-records'));
 require('./api/routes/journals')(app, require('./api/controllers/journals'));
+require('./api/routes/lotto')(app, require('./api/controllers/lotto'));
 require('./api/routes/products')(app, require('./api/controllers/products'));
 require('./api/routes/users')(app, require('./api/controllers/users'));
 require('./api/routes/utilities')(app, require('./api/controllers/utilities'));

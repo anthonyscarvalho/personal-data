@@ -12,6 +12,7 @@ export * from './@files';
 export * from './@health';
 export * from './@journal-records';
 export * from './@journal';
+export * from './@lotto';
 export * from './@menu';
 export * from './@products';
 export * from './@users';

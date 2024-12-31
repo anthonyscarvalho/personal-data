@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit {
 		{ name: `Health`, url: `/health`, order: 11, icon: `heartbeat` },
 		{ name: `Assets`, url: `/assets`, order: 12, icon: `folder` },
 		{ name: `Files`, url: `/files`, order: 13, icon: `folder` },
+		{ name: `Lotto`, url: `/lotto`, order: 13, icon: `dollar` },
 	];
 	adminMenu: cMenu[] = [
 		// import from legacy

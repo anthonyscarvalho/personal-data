@@ -1,0 +1,251 @@
+<acc-page [megaMenu]="megaMenu" [pageClass]="'page__edit'">
+	<div class="lotto-edit" *ngIf="resultRecord">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<form name="resultRecord" id="resultRecord" (ngSubmit)="submit()">
+							<acc-inputs [inputLabel]="'ID'">
+								<input [(ngModel)]="resultRecord._id" name="id" [disabled]="true" type="text" />
+							</acc-inputs>
+							<acc-inputs [inputLabel]="'Draw number'">
+								<input [(ngModel)]="resultRecord.drawNumber" name="drawNumber" [disabled]="submitted" type="text" />
+							</acc-inputs>
+							<acc-inputs [inputLabel]="'Draw date'">
+								<input [(ngModel)]="resultRecord.drawDate" name="drawDate" [disabled]="submitted" bsDatepicker />
+							</acc-inputs>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<legend>Lotto Results - <button class="btn btn-sm btn-primary" (click)="addResults = !addResults">
+								<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true" *ngIf="!addResults"></fa-icon>
+								<fa-icon [icon]="['fas', 'minus']" [fixedWidth]="true" *ngIf="addResults"></fa-icon>
+							</button>
+						</legend>
+						<ng-container *ngIf="addResults; else viewLottoResults">
+							<form name="recordResultsAdd" id="recordResultsAdd">
+								<div class="row">
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputLabel]="'Lotto type'">
+											<select [(ngModel)]="lottoResults.lottoType"  name="lottoType">
+												<option value="">Please select</option>
+												<option value="1">Lotto</option>
+												<option value="2">Lotto Plus</option>
+												<option value="3">Lotto Plus 2</option>
+											</select>
+										</acc-inputs>
+									</div>
+								</div>
+								<div class="row lotto__lottoResults--balls">
+									<div class="col">
+										<acc-inputs [inputLabel]="'1'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[0].number" name="ballsDrawn[0]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'2'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[1].number" name="ballsDrawn[1]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'3'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[2].number" name="ballsDrawn[2]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'4'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[3].number" name="ballsDrawn[3]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'5'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[4].number" name="ballsDrawn[4]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'6'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[5].number" name="ballsDrawn[5]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'7'">
+											<input [(ngModel)]="lottoResults.ballsDrawn[6].number" name="ballsDrawn[6]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<button type="button" class="btn btn-success" (click)="addResultsBreakdown()" *ngIf="!submitted">
+											<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+										</button>
+									</div>
+								</div>
+							</form>
+						</ng-container>
+						<ng-template #viewLottoResults>
+							<table class="table table-sm">
+								<colgroup>
+									<col style="width: 100px;">
+									<col>
+									<col style="width: 100px;">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>Lotto type</th>
+										<th>Balls drawn</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody *ngIf="resultRecord.results">
+									<tr *ngFor="let row of resultRecord.results; let i = index;">
+										<td>{{row.lottoType}}</td>
+										<td [innerHtml]="renderResultsBallsDrawn(row.ballsDrawn)"></td>
+										<td>
+											<button class="btn btn-sm btn__color-info" (click)="editResultsBreakdown(i)">
+												<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+											</button>
+											<button class="btn btn-sm btn__color-danger" (click)="removeResultsBreakdown(i)">
+												<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</ng-template>
+					</div>
+				</div>
+				<div class="clearfix">&nbsp;</div>
+				<div class="card">
+					<div class="card-body">
+						<legend>Boards Played - <button class="btn btn-sm btn-primary" (click)="addBoard = !addBoard">
+								<fa-icon [icon]="['fas', 'plus']" [fixedWidth]="true" *ngIf="!addBoard"></fa-icon>
+								<fa-icon [icon]="['fas', 'minus']" [fixedWidth]="true" *ngIf="addBoard"></fa-icon>
+							</button>
+						</legend>
+						<ng-container *ngIf="addBoard; else viewBoardsPlayed">
+							<form name="recordBreakdownAdd" id="recordBreakdownAdd">
+								<div class="row">
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputLabel]="'Date played'">
+											<input [(ngModel)]="boardsPlayed.datePlayed" name="recordBreakdown_datePlayed" [disabled]="submitted" type="text" bsDatepicker />
+										</acc-inputs>
+									</div>
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputLabel]="'Lotto Plus'">
+											<div class="inputs__checkboxWrapper">
+												<input [(ngModel)]="boardsPlayed.lottoPlus" name="recordBreakdown_lottoPlus" class="inputs__common inputs__checkbox" [disabled]="submitted" type="checkbox" />
+											</div>
+										</acc-inputs>
+									</div>
+									<div class="col-md-4 col-sm-12">
+										<acc-inputs [inputLabel]="'Lotto Plus 2'">
+											<div class="inputs__checkboxWrapper">
+												<input [(ngModel)]="boardsPlayed.lottoPlus2" name="recordBreakdown_lottoPlus2" class="inputs__common inputs__checkbox" [disabled]="submitted" type="checkbox" />
+											</div>
+										</acc-inputs>
+									</div>
+								</div>
+								<div class="row lotto__boardsPlayed--balls">
+									<div class="col">
+										<acc-inputs [inputLabel]="'1'">
+											<input [(ngModel)]="boardsPlayed.ballNumber[0]" name="ballNumber[0]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'2'">
+											<input [(ngModel)]="boardsPlayed.ballNumber[1]" name="ballNumber[1]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'3'">
+											<input [(ngModel)]="boardsPlayed.ballNumber[2]" name="ballNumber[2]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'4'">
+											<input [(ngModel)]="boardsPlayed.ballNumber[3]" name="ballNumber[3]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'5'">
+											<input [(ngModel)]="boardsPlayed.ballNumber[4]" name="ballNumber[4]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+									<div class="col">
+										<acc-inputs [inputLabel]="'6'">
+											<input [(ngModel)]="boardsPlayed.ballNumber[5]" name="ballNumber[5]" [disabled]="submitted" type="number" />
+										</acc-inputs>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<button type="button" class="btn btn-success" (click)="addBreakdown()" *ngIf="!submitted">
+											<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+										</button>
+									</div>
+								</div>
+							</form>
+						</ng-container>
+						<ng-template #viewBoardsPlayed>
+							<table class="table table-sm">
+								<colgroup>
+									<col style="width: 100px;">
+									<col style="width: 100px;">
+									<col style="width: 100px;">
+									<col>
+									<col style="width: 100px;">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>Date played</th>
+										<th>Lotto Plus</th>
+										<th>Lotto Plus2</th>
+										<th>Numbers</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody *ngIf="resultRecord.boardsPlayed">
+									<tr *ngFor="let row of resultRecord.boardsPlayed; let i = index;">
+										<td>{{row.datePlayed | date:'yyyy-MM-dd'}}</td>
+										<td>{{row.lottoPlus}}</td>
+										<td>{{row.lottoPlus2}}</td>
+										<td [innerHTML]="renderBallsDrawn(row.ballNumber)"></td>
+										<td>
+											<button class="btn btn-sm btn__color-info" (click)="editBreakdown(i)">
+												<fa-icon [icon]="['fas', 'pencil-alt']" [fixedWidth]="true"></fa-icon>
+											</button>
+											<button class="btn btn-sm btn__color-danger" (click)="removeBreakdown(i)">
+												<fa-icon [icon]="['fas', 'trash']" [fixedWidth]="true"></fa-icon>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="footer footer__center page__footer">
+		<span class="footer__action">
+			<a class="btn btn-secondary" [routerLink]="['/lotto','view']">
+				<fa-icon [icon]="['fas', 'backward']" [fixedWidth]="true"></fa-icon>
+			</a>
+		</span>
+		<span class="footer__action">
+			<button type="button" class="btn btn-success" (click)="submit()" *ngIf="!submitted">
+				<fa-icon [icon]="['fas', 'save']" [fixedWidth]="true"></fa-icon>
+			</button>
+			<span class="btn btn-info" *ngIf="submitted">
+				<fa-icon [icon]="['fas', 'spinner']" [fixedWidth]="true" [spin]="true"></fa-icon>
+			</span>
+		</span>
+	</div>
+</acc-page>

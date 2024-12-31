@@ -4,7 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 
 import { Gallery, GallerySchema, Profile, ProfileSchema, Media, MediaSchema, ConsumerLogs, ConsumerLogsSchema } from "@sharedTypes/interfaces";
 import { AuthMiddleware } from "@common";
-import { GalleryService } from "@galleries";
+import { GalleryService } from "@budget";
 
 import { ConsumerV1Controller } from "./controller";
 import { ConsumerService } from "./service";

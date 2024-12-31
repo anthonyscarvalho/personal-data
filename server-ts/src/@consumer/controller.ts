@@ -9,7 +9,7 @@ import { MODULE_TYPES } from "@sharedTypes/enums";
 import { ConsumerRequest, Gallery, Media } from "@sharedTypes/interfaces";
 import { DATE_HELPER } from "@sharedTypes/utils";
 import { BaseController } from "@common";
-import { GalleryService } from "@galleries";
+import { GalleryService } from "@budget";
 
 import { ConsumerService } from "./service";
 import { MyGateway } from "./gateway";
