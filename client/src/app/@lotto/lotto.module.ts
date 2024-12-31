@@ -40,7 +40,7 @@ const routes: Routes = [
 			{ path: 'add', component: LottoEditComponent, data: { add: true } },
 			{ path: 'edit/:id', component: LottoEditComponent, data: { add: false } },
 		],
-		data: { menu: megaMenu, module: `files` }
+		data: { menu: megaMenu, module: `lotto` }
 	},
 ];
 

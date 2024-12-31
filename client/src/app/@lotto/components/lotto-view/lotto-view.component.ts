@@ -38,8 +38,8 @@ export class LottoViewComponent implements OnInit {
 		this.filterBoxOptions = new cFilterBoxOption();
 		this.filterBoxOptions.state = this._generalService.getActiveFilter();
 		this.filterBoxOptions.searchPhrase = this._generalService.getSearchPhrase();
-		this.filterBoxOptions.column = this._generalService.getSortColumn();
-		this.filterBoxOptions.dir = this._generalService.getSortDir();
+		this.filterBoxOptions.column = 'drawDate';
+		this.filterBoxOptions.dir = 'DESC';
 		this.filterBoxOptions.page = this._generalService.getPage();
 		this.filterBoxOptions.pagerRecords = this._generalService.getRecords();
 		this.load();
