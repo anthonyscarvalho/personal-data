@@ -103,6 +103,6 @@ export class LottoViewComponent implements OnInit {
 	}
 
 	formatDate(pDate) {
-		return this._generalService.formatDate(pDate);
+		return this._generalService.formatDate2(pDate);
 	}
 }
