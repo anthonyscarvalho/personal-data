@@ -12,7 +12,7 @@
 								<input [(ngModel)]="resultRecord.drawNumber" name="drawNumber" [disabled]="submitted" type="text" />
 							</acc-inputs>
 							<acc-inputs [inputLabel]="'Draw date'">
-								<input [(ngModel)]="resultRecord.drawDate" name="drawDate" [disabled]="submitted" bsDatepicker />
+								<input [(ngModel)]="resultRecord.drawDate" name="drawDate" [disabled]="submitted"  #dp="bsDatepicker" bsDatepicker />
 							</acc-inputs>
 						</form>
 					</div>

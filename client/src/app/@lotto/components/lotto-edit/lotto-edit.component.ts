@@ -1,10 +1,12 @@
 import { Component, OnInit, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 
 import { cLotto, cLottoBoardsPlayed, cLottoResults, cLottoBalls } from "@sharedTypes/classes";
 import { RECORD_STATUSES_CONST, CATEGORY_CONST } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
+
 
 @Component({
 	selector: 'acc-lotto-edit',
@@ -30,6 +32,8 @@ export class LottoEditComponent implements OnInit {
 	categories: any;
 	recordStatuses;
 
+	public bsConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+
 	constructor(
 		private route: ActivatedRoute,
 		private datePipe: DatePipe,
@@ -50,6 +54,7 @@ export class LottoEditComponent implements OnInit {
 		this.categories = CATEGORY_CONST;
 		this.recordStatuses = RECORD_STATUSES_CONST;
 		this.boardsPlayed = new cLottoBoardsPlayed();
+
 		this.createLottoResultsBlank();
 	}
 
