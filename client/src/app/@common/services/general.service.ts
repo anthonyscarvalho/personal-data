@@ -256,9 +256,9 @@ export class GeneralService {
 	formatDate(pDate, pFormat: string = 'yyyy-MM-dd') {
 		return this._datePipe.transform(pDate, pFormat);
 	}
-	
+
 	formatDate2(pDate, pFormat: string = 'YYYY-MM-DD') {
-		return moment(pDate, pFormat);
+		return moment(pDate).format(pFormat);
 	}
 
 	getMonth(pDate) {
