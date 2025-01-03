@@ -253,8 +253,11 @@ export class GeneralService {
 		return date;
 	}
 
-	formatDate(pDate, pFormat: string = 'yyyy-MM-dd') {
-		return this._datePipe.transform(pDate, pFormat);
+	// formatDate(pDate, pFormat: string = 'yyyy-MM-dd') {
+	// 	return this._datePipe.transform(pDate, pFormat);
+	// }
+	formatDate(pDate, pFormat: string = 'YYYY-MM-DD') {
+		return moment(pDate, pFormat);
 	}
 
 	getMonth(pDate) {
@@ -264,24 +267,24 @@ export class GeneralService {
 	}
 
 	getMonthNumber(pDate) {
-		return 1 + moment(pDate, 'YYYY/MM/DD').month();
+		return 1 + moment(pDate, 'YYYY-MM-DD').month();
 	}
 
 	getMonthString(pDate) {
-		const _month = 1 + moment(pDate, 'YYYY/MM/DD').month();
+		const _month = 1 + moment(pDate, 'YYYY-MM-DD').month();
 		return ((_month < 10) ? `0` + _month : _month).toString();
 	}
 
 	getYearNumber(pDate) {
-		return moment(pDate, 'YYYY/MM/DD').year();
+		return moment(pDate, 'YYYY-MM-DD').year();
 	}
 
 	getYearString(pDate) {
-		return moment(pDate, 'YYYY/MM/DD').year().toString();
+		return moment(pDate, 'YYYY-MM-DD').year().toString();
 	}
 
 	getDayNumber(pDate) {
-		return moment(pDate, 'YYYY/MM/DD').date();
+		return moment(pDate, 'YYYY-MM-DD').date();
 	}
 
 	changeStatus(pModule, pId, pAction) {
