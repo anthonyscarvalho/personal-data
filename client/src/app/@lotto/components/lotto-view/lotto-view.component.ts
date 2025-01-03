@@ -101,4 +101,8 @@ export class LottoViewComponent implements OnInit {
 			this.load();
 		}, 30);
 	}
+
+	formatDate(pDate) {
+		return this._generalService.getYearString(pDate);
+	}
 }

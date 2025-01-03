@@ -3,8 +3,7 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { cLotto, cLottoBoardsPlayed, cLottoResults, cLottoBalls } from "@sharedTypes/classes";
-import { RECORD_STATUSES_CONST } from '@sharedTypes/constants';
-import { CATEGORY_CONST } from "@sharedTypes/constants";
+import { RECORD_STATUSES_CONST, CATEGORY_CONST } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
@@ -167,7 +166,7 @@ export class LottoEditComponent implements OnInit {
 	}
 
 	renderBallsDrawn(pBalls) {
-		return pBalls.map((result) => '<span class="lotto-edit__ball">'+(result < 10 ? `0${result}` : result)+'</span>').join('');
+		return pBalls.map((result) => '<span class="lotto-edit__ball">' + (result < 10 ? `0${result}` : result) + '</span>').join('');
 	}
 
 	renderResultsBallsDrawn(pBalls) {
