@@ -12,7 +12,7 @@
 								<input [(ngModel)]="resultRecord.drawNumber" name="drawNumber" [disabled]="submitted" type="text" />
 							</acc-inputs>
 							<acc-inputs [inputLabel]="'Draw date'">
-								<input [(ngModel)]="resultRecord.drawDate" name="drawDate" [disabled]="submitted"  #dp="bsDatepicker" bsDatepicker />
+								<input [(ngModel)]="resultRecord.drawDate" name="drawDate" [disabled]="submitted" #dp="bsDatepicker" bsDatepicker />
 							</acc-inputs>
 						</form>
 					</div>
@@ -131,7 +131,7 @@
 								<div class="row">
 									<div class="col-md-4 col-sm-12">
 										<acc-inputs [inputLabel]="'Date played'">
-											<input [(ngModel)]="boardsPlayed.datePlayed" name="recordBreakdown_datePlayed" [disabled]="submitted" type="text" bsDatepicker />
+											<input [(ngModel)]="boardsPlayed.datePlayed" name="recordBreakdown_datePlayed" [disabled]="submitted" type="text" #dp="bsDatepicker" bsDatepicker />
 										</acc-inputs>
 									</div>
 									<div class="col-md-4 col-sm-12">
