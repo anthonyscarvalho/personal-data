@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 
 import { cLotto, cLottoBoardsPlayed, cLottoResults, cLottoBalls } from "@sharedTypes/classes";
-import { RECORD_STATUSES_CONST, CATEGORY_CONST } from '@sharedTypes/constants';
+import { RECORD_STATUSES_CONST, CATEGORY_CONST, LOTTO_TYPES } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 
@@ -21,6 +21,8 @@ export class LottoEditComponent implements OnInit {
 	parentId: string;
 	breakdownIndex: number;
 	resultsIndex: number;
+
+	lottoTypes = LOTTO_TYPES;
 
 	resultRecord: cLotto;
 	boardsPlayed: cLottoBoardsPlayed;
@@ -79,25 +81,31 @@ export class LottoEditComponent implements OnInit {
 			if (_valid === `valid`) {
 				this.resultRecord = new cLotto(pResults.data);
 				this._generalService.setTitle(`Lotto: Edit - ` + pResults.data.description);
-				this.sortBreakDown();
-
-				const historyDate = this._generalService.formatDate(new Date());
-				const historySource = JSON.parse(JSON.stringify(pResults.data));
-				delete (historySource._id);
-				delete (historySource.history);
+				this.sortResults();
+				this.sortBoards();
 			}
 		});
 	}
 
-	sortBreakDown() {
-		// this.resultRecord.breakdown.sort((a, b) => a.description.toLocaleLowerCase() < b.description.toLowerCase() ? -1 : 1);
+	sortResults() {
+		this.resultRecord.results?.sort((a, b) => a.lottoType < b.lottoType ? -1 : 1)
+		this.resultRecord.results?.forEach((result) => {
+			result.ballsDrawn.sort((a, b) => {
+				if(a.position < 7) return a.number < b.number ? -1 : 1
+			});
+		});
+	}
+
+	sortBoards() {
+		this.resultRecord.boardsPlayed?.sort((a, b) => new Date(a.datePlayed) < new Date(b.datePlayed) ? -1 : 1)
 	}
 
 	submit() {
 		this.submitted = true;
 		this.error = false;
-		const _dateOp = new Date(this.resultRecord.created);
-		this.resultRecord.created = this.datePipe.transform(_dateOp, `yyyy-MM-dd`);
+
+		this.resultRecord.created = this.datePipe.transform(new Date(this.resultRecord.created), `yyyy-MM-dd`);
+		this.resultRecord.drawDate = this.datePipe.transform(new Date(this.resultRecord.drawDate), `yyyy-MM-dd`);
 
 		if (!this.add) {
 			this._httpService.update(`lotto/update`, this.resultRecord._id, this.resultRecord).then((pResult: any) => {
@@ -114,6 +122,7 @@ export class LottoEditComponent implements OnInit {
 				this.submitted = false;
 			});
 		} else {
+
 			this._httpService.post('lotto/add', this.resultRecord).then((pResult: any) => {
 				const _valid = this._generalService.validateResponse(pResult);
 				if (_valid === 'valid') {
@@ -165,7 +174,7 @@ export class LottoEditComponent implements OnInit {
 		} else {
 			this.resultRecord.results[this.resultsIndex] = this.lottoResults;
 			this.resultsIndex = undefined;
-			this.addBoard = false;
+			this.addResults = false;
 		}
 		this.createLottoResultsBlank();
 	}
@@ -200,5 +209,9 @@ export class LottoEditComponent implements OnInit {
 
 	ngAfterContentChecked() {
 		this.changeDetectionRef.detectChanges();
+	}
+
+	getLottoType(pType) {
+		return LOTTO_TYPES.find((type) => type.id === parseInt(pType))['name'];
 	}
 }

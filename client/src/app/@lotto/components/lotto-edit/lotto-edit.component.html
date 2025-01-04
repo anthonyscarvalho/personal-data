@@ -31,11 +31,9 @@
 								<div class="row">
 									<div class="col-md-4 col-sm-12">
 										<acc-inputs [inputLabel]="'Lotto type'">
-											<select [(ngModel)]="lottoResults.lottoType"  name="lottoType">
+											<select [(ngModel)]="lottoResults.lottoType" name="lottoType">
 												<option value="">Please select</option>
-												<option value="1">Lotto</option>
-												<option value="2">Lotto Plus</option>
-												<option value="3">Lotto Plus 2</option>
+												<option value="{{type.id}}" *ngFor="let type of lottoTypes">{{type.name}}</option>
 											</select>
 										</acc-inputs>
 									</div>
@@ -102,7 +100,7 @@
 								</thead>
 								<tbody *ngIf="resultRecord.results">
 									<tr *ngFor="let row of resultRecord.results; let i = index;">
-										<td>{{row.lottoType}}</td>
+										<td>{{getLottoType(row.lottoType)}}</td>
 										<td [innerHtml]="renderResultsBallsDrawn(row.ballsDrawn)"></td>
 										<td>
 											<button class="btn btn-sm btn__color-info" (click)="editResultsBreakdown(i)">

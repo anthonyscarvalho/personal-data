@@ -10,6 +10,7 @@
 					<col width="170px">
 					<col>
 					<col width="100px">
+					<col>
 					<col width="35px">
 					<col width="35px">
 					<col width="35px">
@@ -28,7 +29,7 @@
 					<tr *ngFor="let row of tableBody" class="table-component__table--body-row">
 						<td>{{ row._id }}</td>
 						<td>{{ row.drawNumber }}</td>
-						<td>{{ formatDate(row.drawDate) }}</td>
+						<td>{{ row.drawDate }}</td>
 						<td class="table-component__controls">
 							<span ng-if="userRoles.edit == 'true'">
 								<a class="table-component__table--body-row-button edit" [routerLink]="['/lotto', 'edit', row._id]">

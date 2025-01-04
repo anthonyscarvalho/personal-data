@@ -258,7 +258,7 @@ export class GeneralService {
 	}
 
 	formatDate2(pDate, pFormat: string = 'YYYY-MM-DD') {
-		return moment(pDate).format(pFormat);
+		return moment(pDate).utc().format(pFormat);
 	}
 
 	getMonth(pDate) {
