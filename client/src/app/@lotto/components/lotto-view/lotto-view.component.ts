@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { cClient, cFilterBoxConfig, cFilterBoxOption } from '@sharedTypes/classes';
+import { PAYMENT_TYPES } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 @Component({
@@ -104,5 +105,9 @@ export class LottoViewComponent implements OnInit {
 
 	formatDate(pDate) {
 		return this._generalService.formatDate2(pDate);
+	}
+
+	getPaymentType(pType) {
+		return PAYMENT_TYPES.find((type) => type.id === parseInt(pType))['name'];
 	}
 }

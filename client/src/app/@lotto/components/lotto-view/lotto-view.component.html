@@ -20,6 +20,8 @@
 						<th>ID</th>
 						<th>Draw number</th>
 						<th>Draw date</th>
+						<th>Boards cost</th>
+						<th>Payment method</th>
 						<th></th>
 						<th></th>
 						<th></th>
@@ -30,6 +32,8 @@
 						<td>{{ row._id }}</td>
 						<td>{{ row.drawNumber }}</td>
 						<td>{{ row.drawDate }}</td>
+						<td>{{ row.cost }}</td>
+						<td>{{ getPaymentType(row.paidWith) }}</td>
 						<td class="table-component__controls">
 							<span ng-if="userRoles.edit == 'true'">
 								<a class="table-component__table--body-row-button edit" [routerLink]="['/lotto', 'edit', row._id]">
