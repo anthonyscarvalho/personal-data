@@ -18,7 +18,7 @@
 								<input [(ngModel)]="resultRecord.cost" name="cost" [disabled]="submitted" type="number" />
 							</acc-inputs>
 							<acc-inputs [inputLabel]="'Paid with'">
-								<select [(ngModel)]="lottoResults.paidWith" name="paidWith">
+								<select [(ngModel)]="resultRecord.paidWith" name="paidWith">
 									<option value="">Please select</option>
 									<option value="{{type.id}}" *ngFor="let type of paymentTypes">{{type.name}}</option>
 								</select>
