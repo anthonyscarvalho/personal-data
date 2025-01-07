@@ -6,6 +6,7 @@ export * from "./create-response";
 export * from "./csv-type";
 export * from "./general";
 export * from "./lotto-types";
+export * from "./payment-type";
 export * from "./record-status";
 export * from "./renewable";
 export * from "./service-type";

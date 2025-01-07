@@ -29,9 +29,13 @@ module.exports = mongoose.model(
                 ballNumber: [{ type: Number }]
             }
         ],
+        cost: { type: Number },
+        paidWith: { type: Number },
+        description: { type: String },
         created: { type: String },
         canceled: { type: String },
-        canceledDate: { type: Date }
+        canceledDate: { type: Date },
+        user: { type: String }
     }),
     tableName
 );

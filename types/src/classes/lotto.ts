@@ -7,6 +7,9 @@ export class cLotto extends cCommonProperties {
 	drawNumber: number;
 	results: cLottoResults[];
 	boardsPlayed: cLottoBoardsPlayed[];
+	cost: number;
+	paidWith: number;
+	description: string;
 
 	constructor(pModel = null) {
 		super(pModel);
@@ -17,6 +20,9 @@ export class cLotto extends cCommonProperties {
 		this.drawNumber = pModel?.drawNumber || null;
 		this.results = pModel?.results || null;
 		this.boardsPlayed = pModel?.boardsPlayed || null;
+		this.cost = pModel?.cost || null;
+		this.paidWith = pModel?.paidWith || null;
+		this.description = pModel?.description || '';
 	}
 }
 

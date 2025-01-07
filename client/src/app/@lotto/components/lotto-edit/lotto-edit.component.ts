@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 
 import { cLotto, cLottoBoardsPlayed, cLottoResults, cLottoBalls } from "@sharedTypes/classes";
-import { RECORD_STATUSES_CONST, CATEGORY_CONST, LOTTO_TYPES } from '@sharedTypes/constants';
+import { RECORD_STATUSES_CONST, CATEGORY_CONST, LOTTO_TYPES, PAYMENT_TYPES } from '@sharedTypes/constants';
 import { GeneralService, HttpService, NotificationsService } from '@common/services';
 
 
@@ -23,6 +23,7 @@ export class LottoEditComponent implements OnInit {
 	resultsIndex: number;
 
 	lottoTypes = LOTTO_TYPES;
+	paymentTypes = PAYMENT_TYPES;
 
 	resultRecord: cLotto;
 	boardsPlayed: cLottoBoardsPlayed;
@@ -91,7 +92,7 @@ export class LottoEditComponent implements OnInit {
 		this.resultRecord.results?.sort((a, b) => a.lottoType < b.lottoType ? -1 : 1)
 		this.resultRecord.results?.forEach((result) => {
 			result.ballsDrawn.sort((a, b) => {
-				if(a.position < 7) return a.number < b.number ? -1 : 1
+				if (a.position < 7) return a.number < b.number ? -1 : 1
 			});
 		});
 	}

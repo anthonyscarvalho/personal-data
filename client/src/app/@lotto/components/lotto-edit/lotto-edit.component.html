@@ -14,6 +14,18 @@
 							<acc-inputs [inputLabel]="'Draw date'">
 								<input [(ngModel)]="resultRecord.drawDate" name="drawDate" [disabled]="submitted" #dp="bsDatepicker" bsDatepicker />
 							</acc-inputs>
+							<acc-inputs [inputLabel]="'Cost'">
+								<input [(ngModel)]="resultRecord.cost" name="cost" [disabled]="submitted" type="number" />
+							</acc-inputs>
+							<acc-inputs [inputLabel]="'Paid with'">
+								<select [(ngModel)]="lottoResults.paidWith" name="paidWith">
+									<option value="">Please select</option>
+									<option value="{{type.id}}" *ngFor="let type of paymentTypes">{{type.name}}</option>
+								</select>
+							</acc-inputs>
+							<acc-inputs [inputLabel]="'Description'">
+								<textarea [(ngModel)]="resultRecord.description" name="description" id="description" [disabled]="submitted"></textarea>
+							</acc-inputs>
 						</form>
 					</div>
 				</div>
