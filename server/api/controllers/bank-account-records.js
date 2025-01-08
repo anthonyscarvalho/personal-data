@@ -421,18 +421,13 @@ exports.account_records = async (req, res) => {
     };
     var date = new Date();
     var count = 0;
-    var queryYears = [];
-    var queryMonths = [];
+    var orQuery = [];
 
     while (count < monthsToShow) {
-        if (!queryYears.includes('' + date.getFullYear())) {
-            queryYears.push('' + date.getFullYear());
-        }
-
-        var dateMonth = date.getMonth() + 1;
-        if (!queryMonths.includes(dateMonth)) {
-            queryMonths.push(dateMonth < 10 ? '0' + dateMonth : '' + dateMonth);
-        }
+        orQuery.push({
+            year: date.getFullYear(),
+            month: date.getMonth() + 1
+        });
 
         date.setMonth(date.getMonth() - 1);
         count++;
@@ -440,8 +435,7 @@ exports.account_records = async (req, res) => {
 
     var query = {
         accountsId: req.params.id,
-        year: { $in: queryYears },
-        month: { $in: queryMonths }
+        $or: orQuery
     };
 
     var accountRecordsCount = await databaseModel
