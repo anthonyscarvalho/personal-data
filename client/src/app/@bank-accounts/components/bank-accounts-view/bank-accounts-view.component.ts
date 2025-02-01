@@ -27,7 +27,7 @@ export class BankAccountsViewComponent implements OnInit {
 		page: this._generalService.getPage(),
 		pagerRecords: this._generalService.getRecords(),
 	});
-	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig({ showBankAccounts: false });
+	public filterBoxConfig: cFilterBoxConfig = new cFilterBoxConfig();
 
 	constructor(
 		private route: ActivatedRoute,
@@ -38,6 +38,7 @@ export class BankAccountsViewComponent implements OnInit {
 	) {
 		this._generalService.setTitle(`Bank Accounts: View All`);
 		this.megaMenu = this.route.snapshot.data.menu;
+		this.filterBoxConfig.showBankAccounts = false;
 	}
 
 	ngOnInit() {

@@ -4,7 +4,8 @@ import { Model } from "mongoose";
 import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
 
 import { RESPONSE_MESSAGES } from "@sharedTypes/enums";
-import { ConsumerRequest, Gallery, Media, ConsumerLogs } from "@sharedTypes/interfaces";
+import { ConsumerRequest } from "@sharedTypes/interfaces";
+import { ConsumerLogs } from "@sharedTypes/schemas";
 import { CommonService } from "@common";
 
 @Injectable()
@@ -12,8 +13,8 @@ export class ConsumerService extends CommonService {
   private client: ClientProxy;
 
   constructor(
-    @InjectModel(Media.name) private databaseModel: Model<Media>,
-    @InjectModel(Gallery.name) private galleryModel: Model<Gallery>,
+    // @InjectModel(Media.name) private databaseModel: Model<Media>,
+    // @InjectModel(Gallery.name) private galleryModel: Model<Gallery>,
     @InjectModel('ConsumerLogs') private consumerLogs: Model<ConsumerLogs>,
   ) {
     super();

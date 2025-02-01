@@ -5,7 +5,7 @@ import { MongooseModuleOptions, MongooseOptionsFactory } from "@nestjs/mongoose"
 @Injectable()
 export class MongodbConfigService implements MongooseOptionsFactory {
   constructor(private readonly configService: ConfigService) { }
-  //You can retrun promise as well
+  //You can return promise as well
   public createMongooseOptions(): MongooseModuleOptions {
     return {
       //MONGODB_URL is in .env file

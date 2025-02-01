@@ -1,4 +1,4 @@
-export enum MODULE_TYPE {
+export enum MODULE_TYPES {
   gallery = 'galleries',
   studio = 'studios',
   profile = 'profiles',

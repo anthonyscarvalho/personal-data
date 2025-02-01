@@ -1,12 +1,16 @@
 export type getRequest = {
+  bankAccount?: string;
+  column?: string;
+  date?: string;
+  dir?: string;
+  displayType?: string;
+  invoiceFilter?: string;
   page?: number;
   pagerRecords?: string;
-  column?: string;
-  dir?: string;
   searchPhrase?: string;
   state?: string;
-  url?: string;
-  multi?: boolean;
+  totalRecords?: string;
+  user?: string;
 }
 
 export type postRequest = {

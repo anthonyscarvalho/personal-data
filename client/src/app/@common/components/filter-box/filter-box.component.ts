@@ -28,6 +28,7 @@ export class FilterBoxComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		console.log(this.filterBoxConfig);
 		if (this.filterBoxConfig.showBankAccounts) {
 			this.loadBankAccounts();
 		}

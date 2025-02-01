@@ -1,7 +1,7 @@
-import { MODULE_TYPE } from "../enums";
+import { MODULE_TYPES } from "../enums";
 
 export interface ConsumerRequest {
   actionType?: string;
-  moduleType: MODULE_TYPE;
+  moduleType: MODULE_TYPES;
   entityId: string;
 }

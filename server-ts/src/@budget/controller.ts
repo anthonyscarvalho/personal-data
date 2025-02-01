@@ -57,7 +57,7 @@ export class BudgetV1Controller extends BaseController {
       filter[orderBy] = orderDir;
     }
 
-    const modelRecords = await this._moduleService.fetchAll(query, filter, page, records);
+    const modelRecords = await this._moduleService.fetchAllPagination(query, filter, page, records);
 
     return modelRecords;
   }
@@ -77,7 +77,7 @@ export class BudgetV1Controller extends BaseController {
     };
     let query = {};
 
-    const modelRecords = await this._moduleService.fetchAll(query, filter, page, records);
+    const modelRecords = await this._moduleService.fetchAllPagination(query, filter, page, records);
 
     return modelRecords;
   }
@@ -99,7 +99,7 @@ export class BudgetV1Controller extends BaseController {
       canceled: 'false',
     };
 
-    const modelRecords = await this._moduleService.fetchAll(query, filter, page, records);
+    const modelRecords = await this._moduleService.fetchAllPagination(query, filter, page, records);
 
     return modelRecords;
   }
@@ -107,55 +107,55 @@ export class BudgetV1Controller extends BaseController {
   @Post('/budget_data')
   async postBudgetData(@Body() pRequest: getRequest) {
 
-    // const auth = headers['authorization'];
-    // const decodedJwtAccessToken: JwtPayload = this.jwtService.decode(auth);
-    const page = pRequest.page ? pRequest.page : 1;
-    let filter = {
-      description: 1,
-    };
-    let query = {
-      canceled: 'false',
-    };
-    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+  //   // const auth = headers['authorization'];
+  //   // const decodedJwtAccessToken: JwtPayload = this.jwtService.decode(auth);
+  //   const page = pRequest.page ? pRequest.page : 1;
+  //   let filter = {
+  //     description: 1,
+  //   };
+  //   let query = {
+  //     canceled: 'false',
+  //   };
+  //   const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
-    let budgetData = [];
-    let year = pRequest.year;
-    let budgetItem = pRequest.budgetItem;
+  //   let budgetData = [];
+  //   let year = pRequest.year;
+  //   let budgetItem = pRequest.budgetItem;
 
 
-  for (let indexB = 0; indexB < months.length; indexB++) {
-    let month = months[indexB];
+  // for (let indexB = 0; indexB < months.length; indexB++) {
+  //   let month = months[indexB];
 
-    let resPayment = 0;
-    let resBudget = budgetItem.budget;
-    let resActual = budgetItem.actual;
+  //   let resPayment = 0;
+  //   let resBudget = budgetItem.budget;
+  //   let resActual = budgetItem.actual;
 
-    let find = {
-      budgetYear: year.toString(),
-      budgetMonth: month,
-      budgetId: budgetItem._id,
-    };
+  //   let find = {
+  //     budgetYear: year.toString(),
+  //     budgetMonth: month,
+  //     budgetId: budgetItem._id,
+  //   };
 
-    resPayment = await databaseAccountsRecordsModel.find(find).then((pRecordRes) => {
-      let payments = 0;
-      if (pRecordRes && pRecordRes.length) {
-        for (let index = 0; index < pRecordRes.length; index++) {
-          payments += Math.abs(pRecordRes[index]['debit']);
-        }
-      }
-      return payments;
-    });
+  //   resPayment = await databaseAccountsRecordsModel.find(find).then((pRecordRes) => {
+  //     let payments = 0;
+  //     if (pRecordRes && pRecordRes.length) {
+  //       for (let index = 0; index < pRecordRes.length; index++) {
+  //         payments += Math.abs(pRecordRes[index]['debit']);
+  //       }
+  //     }
+  //     return payments;
+  //   });
 
-    const returnData = {
-      date: `${year}-${month}-01`,
-      budget: resBudget,
-      actual: resActual,
-      payment: resPayment,
-    };
-    budgetData.push(returnData);
-  }
+  //   const returnData = {
+  //     date: `${year}-${month}-01`,
+  //     budget: resBudget,
+  //     actual: resActual,
+  //     payment: resPayment,
+  //   };
+  //   budgetData.push(returnData);
+  // }
 
-    return modelRecords;
+  //   return modelRecords;
   }
 
   @Post('/edit/:id')

@@ -2,25 +2,25 @@ import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { JwtService } from "@nestjs/jwt";
 
-import { Gallery, GallerySchema } from "@sharedTypes/interfaces";
+import { Budget, BudgetSchema } from "@sharedTypes/schemas";
 import { AuthMiddleware, LoggingService } from "@common";
 
-import { GalleryV1Controller } from "./controller";
-import { GalleryService } from "./service";
+import { BudgetV1Controller } from "./controller";
+import { BudgetService } from "./service";
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Gallery.name, schema: GallerySchema }]),
+    MongooseModule.forFeature([{ name: Budget.name, schema: BudgetSchema }]),
   ],
-  controllers: [GalleryV1Controller],
+  controllers: [BudgetV1Controller],
   providers: [
     JwtService,
-    GalleryService,
+    BudgetService,
     AuthMiddleware,
     LoggingService
   ],
   exports: [
-    GalleryService
+    BudgetService
   ]
 })
-export class GalleryModule { }
+export class BudgetModule { }

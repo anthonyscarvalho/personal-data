@@ -8,6 +8,7 @@ import type { tBankAccount, tBankAccountNumber } from "../interfaces";
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'bankAccounts'
 })
 export class BankAccount extends cBankAccount implements tBankAccount {
   _id: ObjectId;

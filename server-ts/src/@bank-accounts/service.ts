@@ -3,14 +3,14 @@ import { InjectModel } from "@nestjs/mongoose";
 import mongoose, { Model } from "mongoose";
 
 import { RESPONSE_MESSAGES } from "@sharedTypes/enums";
-import { Budget } from "@sharedTypes/schemas";
+import { BankAccount, BankAccountSchema } from "@sharedTypes/schemas";
 import { cBudget } from "@sharedTypes/classes";
 import { CommonService } from "@common";
 
 @Injectable()
-export class BudgetService extends CommonService {
+export class BankAccountsService extends CommonService {
   constructor(
-    @InjectModel(Budget.name) private databaseModel: Model<Budget>
+    @InjectModel(BankAccount.name) private databaseModel: Model<BankAccount>
   ) {
     super();
   }
@@ -38,6 +38,20 @@ export class BudgetService extends CommonService {
     const modelResponse = await this.databaseModel
       .find(query)
       .sort(sortBy)
+      .then((pResults) => pResults)
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+
+    return this.returnSuccess(modelResponse, totalDocs);
+  }
+
+  async findOne(query) {
+    const totalDocs = await this.countDocs(query, this.databaseModel);
+
+    const modelResponse = await this.databaseModel
+      .findOne(query)
       .then((pResults) => pResults)
       .catch((err) => {
         console.log(err);
@@ -118,12 +132,12 @@ export class BudgetService extends CommonService {
     let query = {
       $and: [
         {
-          itemSlug: newRecord.description,
+          itemSlug: newRecord.accountDescription,
         },
       ],
     };
 
-    if (!newRecord.description) {
+    if (!newRecord.accountDescription) {
       return this.returnError(RESPONSE_MESSAGES.badData);
     } else {
       const modelResponse = await this.databaseModel
@@ -135,7 +149,7 @@ export class BudgetService extends CommonService {
         });
 
       if (modelResponse.length) {
-        newRecord.description = this.replaceText(newRecord.description + ' ' + new Date());
+        newRecord.accountDescription = this.replaceText(newRecord.accountDescription + ' ' + new Date());
       };
 
       return this.createRecord(newRecord, this.databaseModel);

@@ -1,3 +1,4 @@
+export * from "./bank-account";
 export * from "./budget";
 export * from "./consumer";
 export * from "./consumerLogs";

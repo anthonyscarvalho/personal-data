@@ -1,4 +1,4 @@
-export { BudgetModule } from "./module";
+export { BankAccountModule } from "./module";
 
 export * from "./controller";
 export * from "./service";

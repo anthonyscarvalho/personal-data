@@ -8,17 +8,20 @@ import { join as pathJoin } from 'path';
 
 import { MongodbConfigService } from '@common';
 import { ConsumerModule } from '@consumer';
-import { DashboardModule } from '@dashboard';
-import { EnumsModule } from '@enums';
-import { GalleryModule } from '@budget';
 
-import * as config from './config/config';
+import { BankAccountModule } from '@bank-accounts';
+import { BudgetModule } from '@budget';
+import { DashboardModule } from '@dashboard';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: `.env`,
+      isGlobal: true,
+    }),
     ServeStaticModule.forRoot({
       rootPath: pathJoin(__dirname, '..'),
-      renderPath: config.config.global.FILE_ROOT,
+      renderPath: process.env.FILE_ROOT,
     }),
     // JwtModule.register({ secret: process.env.JWT_SECRET }),
     MongooseModule.forRootAsync({
@@ -33,9 +36,9 @@ import * as config from './config/config';
     }),
     // UserModule,
     ConsumerModule,
+    BankAccountModule,
+    BudgetModule,
     DashboardModule,
-    EnumsModule,
-    GalleryModule,
   ],
   controllers: [],
   providers: [],
