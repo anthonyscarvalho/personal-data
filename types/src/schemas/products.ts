@@ -8,6 +8,7 @@ import type { tProduct } from "../interfaces";
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'products',
 })
 export class Product extends cProduct implements tProduct {
   _id: ObjectId;

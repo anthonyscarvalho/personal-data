@@ -8,6 +8,7 @@ import type { tUser } from "../interfaces";
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'users',
 })
 export class User extends cUser implements tUser {
   _id: ObjectId;

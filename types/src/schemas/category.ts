@@ -8,6 +8,7 @@ import type { tCategory, tVehicleService } from "../interfaces";
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'categories',
 })
 export class Category extends cCategory implements tCategory {
   _id?: ObjectId;

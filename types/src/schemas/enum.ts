@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'enums',
 })
 export class Enums {
   @Prop({ type: String, default: '' })

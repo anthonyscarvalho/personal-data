@@ -8,6 +8,7 @@ import type { tBudget } from "../interfaces";
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'budgets',
 })
 export class Budget extends cBudget implements tBudget {
   _id?: ObjectId;

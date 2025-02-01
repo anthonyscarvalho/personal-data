@@ -8,6 +8,7 @@ import type { tAsset, tVehicleService } from "../interfaces";
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  collection: 'assets',
 })
 export class Asset extends cAsset implements tAsset {
   _id?: ObjectId;
